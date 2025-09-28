@@ -1,0 +1,19 @@
+# Plugin-specific gitignore for development
+/vendor/
+/node_modules/
+*.log
+.DS_Store
+*.backup
+*debug*
+*test*
+vendor.zip
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+Thumbs.db
+.DS_Store

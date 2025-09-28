@@ -1,13 +1,9 @@
 {
-  "name": "mosque-timetable/mosque-timetable",
+  "name": "mosque-timetable/mosque-timetable-dev",
   "version": "3.0.1",
   "type": "project",
-  "description": "WordPress site with Mosque Timetable plugin",
+  "description": "WordPress site with Mosque Timetable plugin - Development Environment",
   "license": "GPL-2.0-or-later",
-  "require": {
-    "php": ">=8.0",
-    "minishlink/web-push": "^8.0"
-  },
   "require-dev": {
     "php-parallel-lint/php-parallel-lint": "^1.4",
     "php-parallel-lint/php-console-highlighter": "^1.0",
@@ -25,31 +21,30 @@
   "scripts": {
     "dump": "composer dump-autoload -o",
   
-    "lint": "php vendor/bin/parallel-lint --exclude vendor --exclude public_html/wp-content/plugins/mosque-timetable/vendor public_html/wp-content/plugins/mosque-timetable/*.php public_html/wp-content/plugins/mosque-timetable/tools/ public_html/wp-content/plugins/mosque-timetable/assets/",
+    "lint": "php vendor/bin/parallel-lint --exclude vendor public_html/wp-content/plugins/mosque-timetable/",
 
     "lint:css": "npx stylelint 'public_html/wp-content/plugins/mosque-timetable/**/*.css'",
 
     "lint:js": "npx eslint public_html/wp-content/plugins/mosque-timetable/**/*.js",
 
-    "phpstan": "php vendor/bin/phpstan analyse public_html/wp-content/plugins/mosque-timetable/mosque-timetable.php --memory-limit=2G",
+    "phpstan": "php vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=2G",
+
+    "psalm": "php vendor/bin/psalm --show-info=true",
 
     "phpcs": "php -d memory_limit=2048M vendor/bin/phpcs -s -p",
     "phpcs:plugin": "php -d memory_limit=2048M vendor/bin/phpcs -s -p public_html/wp-content/plugins/mosque-timetable/",
     "phpcbf": "php -d memory_limit=2048M vendor/bin/phpcbf",
     "phpcbf:plugin": "php -d memory_limit=2048M vendor/bin/phpcbf public_html/wp-content/plugins/mosque-timetable/",
-    "test": [
+    "qa": [
       "@lint",
-      "@phpcs",
+      "@phpcs:plugin",
       "@phpstan"
     ],
-    "lint-all": [
-      "@lint",
-      "@lint:js",
-      "@lint:css"
+    "qa:fix": [
+      "@phpcbf:plugin"
     ],
-
-    "fix": [
-      "@phpcbf"
+    "test": [
+      "@qa"
     ]
   },
   "config": {

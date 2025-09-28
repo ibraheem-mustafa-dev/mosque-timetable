@@ -1,12 +1,12 @@
 includes:
-  - public_html/wp-content/plugins/mosque-timetable/vendor/szepeviktor/phpstan-wordpress/extension.neon
+  - vendor/szepeviktor/phpstan-wordpress/extension.neon
 
 parameters:
   level: 6
 
   # Where to analyse
   paths:
-    - public_html/wp-content/plugins/mosque-timetable/mosque-timetable.php
+    - public_html/wp-content/plugins/mosque-timetable
 
   # Only treat PHP files as code inside templates
   fileExtensions:
@@ -15,7 +15,7 @@ parameters:
 
   # Bootstrap so WP-ish constants exist on CLI
   bootstrapFiles:
-    - public_html/wp-content/plugins/mosque-timetable/vendor/autoload.php
+    - vendor/autoload.php
 
   # (Removed in v2) checkGenericClassInNonGenericObjectType, checkMissingIterableValueType
   # treatPhpDocTypesAsCertain was kept intentionally

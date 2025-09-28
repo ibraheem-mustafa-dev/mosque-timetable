@@ -1,0 +1,17 @@
+# Export-ignore patterns for clean plugin distribution
+/.gitignore          export-ignore
+/.gitattributes      export-ignore
+/tests/              export-ignore
+/.github/            export-ignore
+/.claude/            export-ignore
+/node_modules/       export-ignore
+/composer.lock       export-ignore
+/phpunit.xml         export-ignore
+/phpcs.xml           export-ignore
+/phpstan.neon        export-ignore
+/psalm.xml           export-ignore
+*.md                 export-ignore
+*.backup             export-ignore
+*debug*              export-ignore
+*test*               export-ignore
+vendor.zip           export-ignore
