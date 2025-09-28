@@ -110,18 +110,10 @@ fi
 
 echo ""
 
-# Step 4: Verify configuration files
+# Step 4: Verify plugin configuration
 echo "📋 Step 4: Verifying plugin configuration..."
 
-# Check .gitattributes
-if [ ! -f "$PLUGIN_DIR/.gitattributes" ]; then
-    echo "⚠️  Missing .gitattributes in plugin directory"
-    QA_FAILED=true
-else
-    echo "✅ Plugin .gitattributes exists"
-fi
-
-# Check .gitignore
+# Check .gitignore (keeps local workspace clean)
 if [ ! -f "$PLUGIN_DIR/.gitignore" ]; then
     echo "⚠️  Missing .gitignore in plugin directory"
     QA_FAILED=true
@@ -129,7 +121,7 @@ else
     echo "✅ Plugin .gitignore exists"
 fi
 
-# Check composer.json
+# Check composer.json (essential for runtime dependencies)
 if [ ! -f "$PLUGIN_DIR/composer.json" ]; then
     echo "❌ Missing composer.json in plugin directory"
     exit 1

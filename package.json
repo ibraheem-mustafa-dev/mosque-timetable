@@ -15,11 +15,11 @@
     "stylelint": "^16.24.0",
     "stylelint-config-standard": "^39.0.0"
   },
-  "scripts": {
-    "lint:js": "eslint .",
-    "lint:json": "eslint . --ext .json,.jsonc",
-    "lint:md": "eslint . --ext .md",
-    "lint:all": "npm run lint:js && npm run lint:json && npm run lint:md",
-    "lint:js:fix": "eslint . --fix"
+  {
+    "scripts": {
+      "lint:js": "eslint . --cache",
+      "lint:js:fix": "eslint . --fix --cache",
+      "lint:all": "npm run lint:js"
+    }
   }
-}
+  

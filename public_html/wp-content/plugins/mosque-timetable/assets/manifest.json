@@ -1,0 +1,144 @@
+{
+  "name": "Mosque Prayer Timetable",
+  "short_name": "Prayer Times",
+  "description": "Complete mosque prayer timetable with offline access and notifications",
+  "start_url": "/today",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  "lang": "en",
+  "scope": "/",
+  "categories": ["lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Today's Prayers",
+      "short_name": "Today",
+      "description": "View today's prayer times with countdown",
+      "url": "/today",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Full Timetable",
+      "short_name": "Timetable",
+      "description": "Complete monthly prayer schedule",
+      "url": "/",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Export Calendar",
+      "short_name": "Export",
+      "description": "Download or subscribe to prayer calendar",
+      "url": "/prayer-times/calendar.ics",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "widgets": [
+    {
+      "name": "Prayer Times Widget",
+      "short_name": "Prayers",
+      "description": "Shows today's prayer times and countdown to next prayer",
+      "tag": "prayer-times",
+      "template": "prayer-times-widget",
+      "ms_ac_template": "prayer-times-widget",
+      "data": "/wp-json/mosque/v1/widget/prayer-times",
+      "type": "application/json",
+      "screenshots": [
+        {
+          "src": "widget-screenshot.png",
+          "sizes": "300x200",
+          "label": "Prayer times widget showing today's prayers"
+        }
+      ],
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ],
+      "auth": false,
+      "update": 300000,
+      "multiple": true,
+      "resizable": true,
+      "properties": {
+        "backgroundColor": "#ffffff",
+        "textColor": "#333333",
+        "accentColor": "#667eea",
+        "borderRadius": "8px",
+        "showHijriDate": true,
+        "showCountdown": true,
+        "compactMode": false
+      }
+    },
+    {
+      "name": "Next Prayer Countdown",
+      "short_name": "Countdown",
+      "description": "Live countdown timer to the next prayer",
+      "tag": "prayer-countdown",
+      "template": "prayer-countdown-widget",
+      "data": "/wp-json/mosque/v1/widget/countdown",
+      "type": "application/json",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ],
+      "auth": false,
+      "update": 60000,
+      "multiple": true,
+      "resizable": true,
+      "properties": {
+        "backgroundColor": "#667eea",
+        "textColor": "#ffffff",
+        "size": "medium"
+      }
+    }
+  ],
+  "prefer_related_applications": false,
+  "protocol_handlers": [
+    {
+      "protocol": "web+prayer",
+      "url": "/?prayer=%s"
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}

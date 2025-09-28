@@ -1,0 +1,424 @@
+# Copyright (C) 2024 Mosque Timetable Plugin
+# This file is distributed under the same license as the Mosque Timetable Plugin package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Mosque Timetable Plugin 3.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: mosque-timetable.php:449
+msgid "Next Prayer"
+msgstr ""
+
+#: mosque-timetable.php:450
+msgid "Time Remaining"
+msgstr ""
+
+#: mosque-timetable.php:451
+msgid "Prayer Time"
+msgstr ""
+
+#: mosque-timetable.php:467
+msgid "Export Prayer Calendar"
+msgstr ""
+
+#: mosque-timetable.php:468
+msgid "Calendar downloaded successfully!"
+msgstr ""
+
+#: mosque-timetable.php:469
+msgid "Error downloading calendar. Please try again."
+msgstr ""
+
+#: mosque-timetable.php:470
+msgid "Opening Google Calendar..."
+msgstr ""
+
+#: mosque-timetable.php:471
+msgid "Please configure your export options."
+msgstr ""
+
+#: mosque-timetable.php:510
+msgid "Month timetable saved successfully!"
+msgstr ""
+
+#: mosque-timetable.php:511
+msgid "Error saving month timetable. Please try again."
+msgstr ""
+
+#: mosque-timetable.php:512
+msgid "You have unsaved changes. Are you sure you want to leave?"
+msgstr ""
+
+#: mosque-timetable.php:513
+msgid "You have unsaved changes. Are you sure you want to leave this tab?"
+msgstr ""
+
+#: mosque-timetable.php:514
+msgid "All dates generated successfully! Hijri dates calculated automatically."
+msgstr ""
+
+#: mosque-timetable.php:515
+msgid "Failed to generate dates"
+msgstr ""
+
+#: mosque-timetable.php:516
+msgid "Hijri dates recalculated successfully!"
+msgstr ""
+
+#: mosque-timetable.php:519
+msgid "Import completed successfully!"
+msgstr ""
+
+#: mosque-timetable.php:520
+msgid "Error importing file. Please check format and try again."
+msgstr ""
+
+#: mosque-timetable.php:521
+msgid "Please select a month."
+msgstr ""
+
+#: mosque-timetable.php:522
+msgid "Please select a file before importing."
+msgstr ""
+
+#: mosque-timetable.php:523
+msgid "Please paste your timetable data before importing."
+msgstr ""
+
+#: mosque-timetable.php:524
+msgid "Network error: Could not connect to server"
+msgstr ""
+
+#: mosque-timetable.php:525
+msgid "Permission denied: Please refresh the page"
+msgstr ""
+
+#: mosque-timetable.php:526
+msgid "Server error: Please try again later"
+msgstr ""
+
+#: mosque-timetable.php:527
+msgid "Error connecting to server: "
+msgstr ""
+
+#: mosque-timetable.php:528
+msgid "Failed to load month data"
+msgstr ""
+
+#: mosque-timetable.php:529
+msgid "Invalid time format. Please use HH:MM format."
+msgstr ""
+
+#: mosque-timetable.php:561
+msgid "Mosque Configuration"
+msgstr ""
+
+#: mosque-timetable.php:565
+msgid "Mosque Name"
+msgstr ""
+
+#: mosque-timetable.php:568
+msgid "Enter the name of your mosque"
+msgstr ""
+
+#: mosque-timetable.php:575
+msgid "Mosque Address"
+msgstr ""
+
+#: mosque-timetable.php:578
+msgid "Enter the complete address of your mosque (street, city, postcode, country)"
+msgstr ""
+
+#: mosque-timetable.php:586
+msgid "Default Year"
+msgstr ""
+
+#: mosque-timetable.php:589
+msgid "Set the default year for displaying timetables and auto-filling dates"
+msgstr ""
+
+#: mosque-timetable.php:598
+msgid "Available Months"
+msgstr ""
+
+#: mosque-timetable.php:601
+msgid "Select which months you have prayer times for. Only checked months will show tabs in the admin."
+msgstr ""
+
+#: mosque-timetable.php:604
+msgid "January"
+msgstr ""
+
+#: mosque-timetable.php:605
+msgid "February"
+msgstr ""
+
+#: mosque-timetable.php:606
+msgid "March"
+msgstr ""
+
+#: mosque-timetable.php:607
+msgid "April"
+msgstr ""
+
+#: mosque-timetable.php:608
+msgid "May"
+msgstr ""
+
+#: mosque-timetable.php:609
+msgid "June"
+msgstr ""
+
+#: mosque-timetable.php:610
+msgid "July"
+msgstr ""
+
+#: mosque-timetable.php:611
+msgid "August"
+msgstr ""
+
+#: mosque-timetable.php:612
+msgid "September"
+msgstr ""
+
+#: mosque-timetable.php:613
+msgid "October"
+msgstr ""
+
+#: mosque-timetable.php:614
+msgid "November"
+msgstr ""
+
+#: mosque-timetable.php:615
+msgid "December"
+msgstr ""
+
+#: mosque-timetable.php:622
+msgid "Custom Subscribe URL"
+msgstr ""
+
+#: mosque-timetable.php:625
+msgid "Optional: Override the auto-generated calendar subscription URL with a custom one"
+msgstr ""
+
+#: mosque-timetable.php:631
+msgid "Terminology Overrides"
+msgstr ""
+
+#: mosque-timetable.php:634
+msgid "Override specific terms shown to users (e.g., change 'Mosque' to 'Masjid')"
+msgstr ""
+
+#: mosque-timetable.php:641
+msgid "From"
+msgstr ""
+
+#: mosque-timetable.php:645
+msgid "Original term to replace"
+msgstr ""
+
+#: mosque-timetable.php:650
+msgid "To"
+msgstr ""
+
+#: mosque-timetable.php:654
+msgid "New term to use instead"
+msgstr ""
+
+#: mosque-timetable.php:659
+msgid "Enabled"
+msgstr ""
+
+#: mosque-timetable.php:674
+msgid "Web Push Notifications"
+msgstr ""
+
+#: mosque-timetable.php:686
+msgid "VAPID Public Key"
+msgstr ""
+
+#: mosque-timetable.php:689
+msgid "VAPID public key for web push notifications. Required for push notifications to work."
+msgstr ""
+
+#: mosque-timetable.php:696
+msgid "VAPID Private Key"
+msgstr ""
+
+#: mosque-timetable.php:699
+msgid "VAPID private key for web push notifications. Keep this secure and private."
+msgstr ""
+
+#: mosque-timetable.php:706
+msgid "Default Reminder Offsets"
+msgstr ""
+
+#: mosque-timetable.php:709
+msgid "Default reminder times available to users for push notifications (in minutes before prayer)"
+msgstr ""
+
+#: mosque-timetable.php:711
+msgid "5 minutes"
+msgstr ""
+
+#: mosque-timetable.php:712
+msgid "10 minutes"
+msgstr ""
+
+#: mosque-timetable.php:713
+msgid "15 minutes"
+msgstr ""
+
+#: mosque-timetable.php:714
+msgid "20 minutes"
+msgstr ""
+
+#: mosque-timetable.php:715
+msgid "30 minutes"
+msgstr ""
+
+#: mosque-timetable.php:723
+msgid "Enable Sunrise Warning"
+msgstr ""
+
+#: mosque-timetable.php:726
+msgid "Allow users to receive notifications before sunrise (end of Fajr time)"
+msgstr ""
+
+#: mosque-timetable.php:732
+msgid "Sunrise Warning Offset"
+msgstr ""
+
+#: mosque-timetable.php:735
+msgid "Default warning time before sunrise"
+msgstr ""
+
+#: mosque-timetable.php:737
+#: mosque-timetable.php:738
+msgid "15 minutes"
+msgstr ""
+
+#: mosque-timetable.php:738
+#: mosque-timetable.php:739
+msgid "30 minutes"
+msgstr ""
+
+#: mosque-timetable.php:740
+msgid "45 minutes"
+msgstr ""
+
+#: mosque-timetable.php:741
+msgid "1 hour"
+msgstr ""
+
+#: mosque-timetable.php:756
+msgid "Privacy Note Text"
+msgstr ""
+
+#: mosque-timetable.php:759
+msgid "Text shown to users about data privacy when subscribing to push notifications"
+msgstr ""
+
+#: mosque-timetable.php:760
+msgid "We will only send prayer reminder notifications. No personal data is stored beyond your subscription preferences. You can unsubscribe at any time."
+msgstr ""
+
+#: mosque-timetable.php:1988
+msgid "Security check failed"
+msgstr ""
+
+#: mosque-timetable.php:1991
+msgid "Insufficient permissions"
+msgstr ""
+
+#: mosque-timetable.php:1997
+msgid "Invalid month"
+msgstr ""
+
+#: mosque-timetable.php:3706
+msgid "Invalid month specified"
+msgstr ""
+
+#: mosque-timetable.php:6654
+msgid "No prayer data found for this month"
+msgstr ""
+
+#: mosque-timetable.php:6917
+msgid "No file uploaded"
+msgstr ""
+
+#: mosque-timetable.php:6925
+#, c-format
+msgid "File upload error: %d"
+msgstr ""
+
+#: mosque-timetable.php:6929
+msgid "Please upload CSV files only"
+msgstr ""
+
+#: mosque-timetable.php:6938
+msgid "Could not read uploaded file"
+msgstr ""
+
+#: mosque-timetable.php:7042
+msgid "No valid data found in the uploaded file"
+msgstr ""
+
+#: mosque-timetable.php:7057
+msgid "Failed to save imported data"
+msgstr ""
+
+#: mosque-timetable.php:8723
+msgid "Failed to generate month dates"
+msgstr ""
+
+#: mosque-timetable.php:8814
+msgid "Please upload Excel files (.xlsx or .xls) only."
+msgstr ""
+
+#: mosque-timetable.php:8821
+msgid "XLSX import requires SimpleXLSX library. Install composer deps or use CSV instead."
+msgstr ""
+
+#: mosque-timetable.php:8847
+#, c-format
+msgid "Could not parse XLSX file: %s"
+msgstr ""
+
+#: mosque-timetable.php:8919
+msgid "No valid data found in the uploaded file"
+msgstr ""
+
+#: mosque-timetable.php:8938
+#, c-format
+msgid "Error parsing XLSX file: %s"
+msgstr ""
+
+#: mosque-timetable.php:8959
+msgid "Invalid month or empty data"
+msgstr ""
+
+#: mosque-timetable.php:9042
+msgid "No valid rows found"
+msgstr ""
+
+#: mosque-timetable.php:9276
+msgid "Only PDF files are allowed"
+msgstr ""
+
+#: mosque-timetable.php:9302
+msgid "Failed to save PDF URL"
+msgstr ""
+
+#: mosque-timetable.php:9336
+msgid "Failed to remove PDF"
+msgstr ""

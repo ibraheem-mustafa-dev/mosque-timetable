@@ -1,0 +1,75 @@
+<?php
+/**
+ * Attributes File.
+ *
+ * @since 1.2.0
+ *
+ * @package spectra-pro
+ */
+$sort_border_attribute = UAGB_Block_Helper::uag_generate_border_attribute( 'sort' );
+
+return array_merge(
+	array(
+		'sortAlign'               => 'left',
+		'sortAlignTablet'         => '',
+		'sortAlignMobile'         => '',
+		'sortWidth'               => 50,
+		'sortWidthTablet'         => '',
+		'sortWidthMobile'         => '',
+		'sortWidthUnit'           => '%',
+		'sortWidthUnitTablet'     => '%',
+		'sortWidthUnitMobile'     => '%',
+		'sortBorderHColor'        => '',
+		'paddingSortTop'          => 8,
+		'paddingSortRight'        => 12,
+		'paddingSortBottom'       => 8,
+		'paddingSortLeft'         => 12,
+		'paddingSortTopTablet'    => '',
+		'paddingSortRightTablet'  => '',
+		'paddingSortBottomTablet' => '',
+		'paddingSortLeftTablet'   => '',
+		'paddingSortTopMobile'    => '',
+		'paddingSortRightMobile'  => '',
+		'paddingSortBottomMobile' => '',
+		'paddingSortLeftMobile'   => '',
+		'paddingSortUnit'         => 'px',
+		'paddingSortUnitMobile'   => 'px',
+		'paddingSortUnitTablet'   => 'px',
+		'sortTextColor'           => '',
+		'sortFieldColor'          => '',
+		'sortFontFamily'          => 'Default',
+		'sortFontWeight'          => '',
+		'sortFontSize'            => 15,
+		'sortFontSizeType'        => 'px',
+		'sortFontSizeTypeTablet'  => 'px',
+		'sortFontSizeTypeMobile'  => 'px',
+		'sortFontSizeTablet'      => 15,
+		'sortFontSizeMobile'      => 15,
+		'sortLineHeight'          => '',
+		'sortLineHeightType'      => 'em',
+		'sortLineHeightTablet'    => '',
+		'sortLineHeightMobile'    => '',
+		'sortloadGoogleFonts'     => false,
+		'sortLetterSpacing'       => '',
+		'sortLetterSpacingTablet' => '',
+		'sortLetterSpacingMobile' => '',
+		'sortLetterSpacingType'   => 'px',
+		'marginSortTop'           => 12,
+		'marginSortRight'         => 12,
+		'marginSortBottom'        => 12,
+		'marginSortLeft'          => 12,
+		'marginSortTopTablet'     => '',
+		'marginSortRightTablet'   => '',
+		'marginSortBottomTablet'  => '',
+		'marginSortLeftTablet'    => '',
+		'marginSortTopMobile'     => '',
+		'marginSortRightMobile'   => '',
+		'marginSortBottomMobile'  => '',
+		'marginSortLeftMobile'    => '',
+		'marginSortUnit'          => 'px',
+		'marginSortUnitMobile'    => 'px',
+		'marginSortUnitTablet'    => 'px',
+		'sortTransform'           => 'none',
+	),
+	$sort_border_attribute
+);

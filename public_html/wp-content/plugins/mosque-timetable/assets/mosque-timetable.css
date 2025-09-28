@@ -1,0 +1,1579 @@
+/**
+ * Mosque Timetable Frontend Styles
+ * Version: 3.0.0
+ */
+
+/* ==========================================================================
+   CSS Custom Properties - Centralized Color & Sizing System
+   ========================================================================== */
+
+:root {
+    /* Primary Theme Colors */
+    --mosque-primary: #667eea;
+    --mosque-primary-dark: #5a6fd8;
+    --mosque-primary-light: #7a8df0;
+    --mosque-secondary: #764ba2;
+    
+    /* Generated Color Variations */
+    --mosque-primary-rgb: 102, 126, 234;
+    --mosque-gradient: linear-gradient(135deg, var(--mosque-primary) 0%, var(--mosque-secondary) 100%);
+    --mosque-gradient-alt: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    
+    /* UI State Colors */
+    --mosque-success: #28a745;
+    --mosque-success-dark: #218838;
+    --mosque-warning: #ffc107;
+    --mosque-error: #dc3545;
+    --mosque-info: #17a2b8;
+    
+    /* Background Colors */
+    --mosque-bg-light: #f8f9fa;
+    --mosque-bg-white: #fff;
+    --mosque-bg-alt: #e9ecef;
+    --mosque-today-bg: #fff3cd;
+    --mosque-friday-bg: #f8d7da;
+    --mosque-next-prayer-bg: #d4edda;
+    
+    /* Text Colors */
+    --mosque-text-primary: #2c3e50;
+    --mosque-text-secondary: #6c757d;
+    --mosque-text-muted: #495057;
+    --mosque-text-white: #fff;
+    
+    /* Border Colors */
+    --mosque-border: #ddd;
+    --mosque-border-light: #e9ecef;
+    --mosque-border-dark: #495057;
+    
+    /* Widget Sizing */
+    --mosque-widget-padding: 20px;
+    --mosque-widget-margin: 15px;
+    --mosque-widget-border-radius: 8px;
+    --mosque-widget-shadow: 0 4px 15px rgb(var(--mosque-primary-rgb), 0.2);
+    --mosque-widget-shadow-hover: 0 6px 20px rgb(var(--mosque-primary-rgb), 0.3);
+    
+    /* Font Sizes */
+    --mosque-font-small: 12px;
+    --mosque-font-normal: 14px;
+    --mosque-font-medium: 16px;
+    --mosque-font-large: 18px;
+    --mosque-font-xl: 24px;
+    
+    /* Component Sizes */
+    --mosque-btn-padding: 10px 20px;
+    --mosque-btn-border-radius: 25px;
+    --mosque-input-padding: 8px 12px;
+    --mosque-input-border-radius: 4px;
+}
+
+/* ==========================================================================
+   PWA Download Button Styles
+   ========================================================================== */
+
+.mosque-pwa-cta {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 9999;
+    display: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.mosque-pwa-cta.show {
+    display: block;
+    opacity: 1;
+}
+
+.mosque-pwa-btn {
+    background: var(--mosque-gradient);
+    color: var(--mosque-text-white);
+    border: none;
+    padding: 12px 16px;
+    border-radius: var(--mosque-btn-border-radius);
+    font-size: var(--mosque-font-normal);
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgb(var(--mosque-primary-rgb), 0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    max-width: 250px;
+}
+
+.mosque-pwa-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgb(var(--mosque-primary-rgb), 0.6);
+    color: var(--mosque-text-white);
+    text-decoration: none;
+}
+
+.mosque-pwa-btn:active {
+    transform: translateY(0);
+}
+
+.mosque-pwa-btn .icon {
+    width: 20px;
+    height: 20px;
+    fill: currentcolor;
+}
+
+.mosque-pwa-btn .text {
+    flex: 1;
+}
+
+.mosque-pwa-close {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background: #ff4757;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
+}
+
+/* Desktop Header CTA */
+.mosque-header-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 3px 12px rgb(102 126 234 / 30%);
+    transition: all 0.3s ease;
+}
+
+.mosque-header-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 18px rgb(102 126 234 / 50%);
+    color: white;
+    text-decoration: none;
+}
+
+.mosque-header-cta .icon {
+    width: 18px;
+    height: 18px;
+    fill: currentcolor;
+}
+
+/* Mobile responsive adjustments */
+@media (width <= 768px) {
+    .mosque-pwa-cta {
+        right: 15px;
+        top: auto;
+        bottom: 20px;
+        transform: none;
+    }
+    
+    .mosque-pwa-btn {
+        padding: 14px 18px;
+        font-size: 16px;
+        border-radius: 12px;
+        max-width: calc(100vw - 30px);
+    }
+    
+    .mosque-header-cta {
+        padding: 12px 16px;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+    
+    .mosque-pwa-btn .text {
+        font-size: 16px;
+    }
+}
+
+@media (width <= 480px) {
+    .mosque-pwa-btn .text {
+        display: none;
+    }
+    
+    .mosque-pwa-btn {
+        width: 56px;
+        height: 56px;
+        padding: 0;
+        border-radius: 50%;
+        justify-content: center;
+    }
+    
+    .mosque-pwa-btn .icon {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+/* ==========================================================================
+   Main Timetable Styles
+   ========================================================================== */
+
+.mosque-timetable-container {
+    margin: 20px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.mosque-timetable-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.mosque-timetable-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.mosque-timetable-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.mosque-month-selector {
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    min-width: 140px;
+}
+
+.mosque-export-btn {
+    padding: 8px 16px;
+    background: var(--mosque-btn-bg, #0073aa);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.mosque-export-btn:hover {
+    background: var(--mosque-btn-hover, #005a87);
+    transform: translateY(-1px);
+}
+
+.mosque-subscribe-btn {
+    padding: 8px 16px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.mosque-subscribe-btn:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.mosque-print-btn {
+    padding: 8px 16px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mosque-print-btn:hover {
+    background: #545b62;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Prayer Timetable Table
+   ========================================================================== */
+
+.mosque-timetable {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 10%);
+    margin: 20px 0;
+}
+
+.mosque-timetable th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    border-bottom: 2px solid #5a6fd8;
+}
+
+.mosque-timetable td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 13px;
+    position: relative;
+}
+
+.mosque-timetable tr:nth-child(even) {
+    background-color: var(--mosque-row-alt-bg, #f8f9fa);
+}
+
+/* Special row highlighting */
+.mosque-timetable tr.today {
+    background-color: var(--mosque-today-color, #fff3cd) !important;
+    border-left: 4px solid #ffc107;
+}
+
+.mosque-timetable tr.friday {
+    background-color: var(--mosque-friday-color, #f8d7da) !important;
+}
+
+.mosque-timetable tr.next-prayer {
+    background-color: var(--mosque-next-prayer-bg, #d4edda) !important;
+}
+
+/* Prayer time cells */
+.prayer-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    min-height: 40px;
+    justify-content: center;
+}
+
+.prayer-start {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.prayer-jamaat {
+    font-size: 12px;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.prayer-single {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+/* Date columns */
+.date-gregorian {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.date-hijri {
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 2px;
+}
+
+.day-name {
+    font-weight: 600;
+    color: #495057;
+}
+
+.day-name.friday {
+    color: #dc3545;
+    font-weight: 700;
+}
+
+/* Jummah indicators */
+.jummah-times {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.jummah-1, .jummah-2 {
+    padding: 2px 6px;
+    background: #17a2b8;
+    color: white;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.jummah-2 {
+    background: #6610f2;
+}
+
+/* ==========================================================================
+   Today's Prayers Widget
+   ========================================================================== */
+
+.todays-prayers-widget {
+    background: var(--mosque-gradient);
+    color: var(--mosque-text-white);
+    border-radius: var(--mosque-widget-border-radius);
+    padding: var(--mosque-widget-padding);
+    margin: var(--mosque-widget-margin) 0;
+    text-align: center;
+    box-shadow: var(--mosque-widget-shadow);
+    transition: all 0.3s ease;
+}
+
+.todays-prayers-widget:hover {
+    box-shadow: var(--mosque-widget-shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Widget Size Variations */
+.todays-prayers-widget.size-small {
+    --mosque-widget-padding: 15px;
+    --mosque-font-large: 16px;
+    --mosque-font-medium: 14px;
+    --mosque-font-normal: 12px;
+}
+
+.todays-prayers-widget.size-large {
+    --mosque-widget-padding: 30px;
+    --mosque-font-large: 22px;
+    --mosque-font-medium: 18px;
+    --mosque-font-normal: 16px;
+}
+
+.todays-prayers-header {
+    margin-bottom: 20px;
+}
+
+.todays-prayers-date {
+    font-size: var(--mosque-font-large);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.todays-prayers-hijri {
+    font-size: var(--mosque-font-normal);
+    opacity: 0.9;
+}
+
+.todays-prayers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.prayer-item {
+    background: rgb(255 255 255 / 10%);
+    border-radius: 8px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.prayer-item:hover {
+    background: rgb(255 255 255 / 20%);
+    transform: translateY(-2px);
+}
+
+.prayer-item.next-prayer {
+    background: rgb(255 255 255 / 25%);
+    border: 2px solid rgb(255 255 255 / 50%);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.prayer-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.prayer-times {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.prayer-start-time {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.prayer-jamaat-time {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* ==========================================================================
+   Prayer Countdown Timer
+   ========================================================================== */
+
+.prayer-countdown-container {
+    background: var(--mosque-gradient-alt);
+    color: var(--mosque-text-white);
+    border-radius: var(--mosque-widget-border-radius);
+    padding: var(--mosque-widget-padding);
+    text-align: center;
+    margin: var(--mosque-widget-margin) 0;
+    box-shadow: var(--mosque-widget-shadow);
+    transition: all 0.3s ease;
+}
+
+.prayer-countdown-container:hover {
+    box-shadow: var(--mosque-widget-shadow-hover);
+    transform: translateY(-2px);
+}
+
+/* Countdown Size Variations */
+.prayer-countdown-container.size-small {
+    --mosque-widget-padding: 20px;
+    --mosque-font-xl: 20px;
+    --mosque-font-large: 16px;
+    --mosque-font-medium: 14px;
+}
+
+.prayer-countdown-container.size-large {
+    --mosque-widget-padding: 40px;
+    --mosque-font-xl: 32px;
+    --mosque-font-large: 24px;
+    --mosque-font-medium: 20px;
+}
+
+.countdown-header {
+    margin-bottom: 20px;
+}
+
+.countdown-title {
+    font-size: var(--mosque-font-large);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.countdown-next-prayer {
+    font-size: var(--mosque-font-medium);
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.countdown-next-time {
+    font-size: var(--mosque-font-xl);
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.countdown-unit {
+    background: rgb(255 255 255 / 10%);
+    border-radius: 8px;
+    padding: 15px;
+    min-width: 80px;
+    backdrop-filter: blur(10px);
+}
+
+.countdown-number {
+    font-size: 28px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.countdown-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+
+@media (width <= 768px) {
+    .mosque-timetable-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .mosque-timetable-controls {
+        justify-content: center;
+    }
+    
+    .mosque-timetable {
+        font-size: 12px;
+    }
+    
+    .mosque-timetable th,
+    .mosque-timetable td {
+        padding: 8px 4px;
+    }
+    
+    .prayer-time {
+        min-height: 35px;
+    }
+    
+    .prayer-start {
+        font-size: 13px;
+    }
+    
+    .prayer-jamaat {
+        font-size: 11px;
+    }
+    
+    .todays-prayers-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+    }
+    
+    .prayer-item {
+        padding: 12px;
+    }
+    
+    .countdown-timer {
+        gap: 10px;
+    }
+    
+    .countdown-unit {
+        min-width: 60px;
+        padding: 10px;
+    }
+    
+    .countdown-number {
+        font-size: 24px;
+    }
+}
+
+@media (width <= 480px) {
+    .mosque-timetable th,
+    .mosque-timetable td {
+        padding: 6px 2px;
+        font-size: 11px;
+    }
+    
+    .prayer-start {
+        font-size: 12px;
+    }
+    
+    .prayer-jamaat {
+        font-size: 10px;
+    }
+    
+    .todays-prayers-widget,
+    .prayer-countdown-container {
+        margin: 15px -10px;
+        border-radius: 0;
+    }
+    
+    .countdown-timer {
+        justify-content: space-around;
+    }
+    
+    .countdown-unit {
+        min-width: 50px;
+        padding: 8px;
+    }
+}
+
+/* ==========================================================================
+   Accessibility & Print Styles
+   ========================================================================== */
+
+@media print {
+    .mosque-timetable-controls,
+    .mosque-export-btn,
+    .mosque-subscribe-btn,
+    .mosque-print-btn,
+    .prayer-countdown-container {
+        display: none;
+    }
+    
+    .mosque-timetable {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    .mosque-timetable th {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+    .mosque-timetable {
+        border: 2px solid #000;
+    }
+    
+    .mosque-timetable th {
+        background: #000 !important;
+        color: #fff !important;
+    }
+    
+    .mosque-timetable td {
+        border-bottom: 1px solid #000;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .prayer-item,
+    .mosque-export-btn,
+    .mosque-subscribe-btn,
+    .mosque-print-btn {
+        transition: none;
+    }
+    
+    .prayer-item.next-prayer {
+        animation: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .mosque-timetable-container {
+        color: #e9ecef;
+    }
+    
+    .mosque-timetable {
+        background: #2c3e50;
+        color: #e9ecef;
+    }
+    
+    .mosque-timetable td {
+        border-bottom-color: #495057;
+    }
+    
+    .mosque-timetable tr:nth-child(even) {
+        background-color: rgb(255 255 255 / 5%);
+    }
+}
+
+/* ==========================================================================
+   Loading States & Animations
+   ========================================================================== */
+
+.mosque-timetable-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 16px;
+    color: #6c757d;
+}
+
+.mosque-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top-color: #0073aa;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Error states */
+.mosque-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #f5c6cb;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Success states */
+.mosque-success {
+    background: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #c3e6cb;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* ==========================================================================
+   Sticky Next Prayer Bar
+   ========================================================================== */
+
+.mosque-prayer-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--mosque-gradient);
+    color: white;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgb(102 126 234 / 20%);
+}
+
+.mosque-prayer-bar-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.mosque-prayer-bar-prayers {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 0;
+    scroll-behavior: smooth;
+
+    /* -webkit-overflow-scrolling: touch; */
+
+ /* Deprecated property, not needed for modern browsers */
+}
+
+.mosque-prayer-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 12px;
+    background: rgb(255 255 255 / 10%);
+    border-radius: 12px;
+    min-width: 70px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    /* Note: role and tabindex should be in HTML, not CSS */
+}
+
+.mosque-prayer-chip.active {
+    background: rgb(255 255 255 / 25%);
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+}
+
+.mosque-prayer-chip.next-prayer {
+    background: var(--mosque-warning);
+    color: #000;
+    font-weight: 600;
+}
+
+.mosque-prayer-chip-name {
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    opacity: 0.9;
+}
+
+.mosque-prayer-chip-time {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Desktop prayer bar styling */
+@media (width >= 769px) {
+    .mosque-prayer-bar-prayers {
+        justify-content: space-around;
+        overflow-x: visible;
+    }
+
+    .mosque-prayer-chip {
+        flex: 1;
+        max-width: 120px;
+    }
+}
+
+/* ==========================================================================
+   Mobile Pattern A Transform (≤ 480px)
+   ========================================================================== */
+
+@media (width <= 480px) {
+    .mosque-timetable-container {
+        margin: 15px -10px;
+    }
+
+    .mosque-timetable-header {
+        padding: 0 10px;
+        margin-bottom: 15px;
+    }
+
+    .mosque-timetable-title {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .mosque-timetable-controls {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .mosque-month-selector,
+    .mosque-export-btn,
+    .mosque-subscribe-btn,
+    .mosque-print-btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    /* Hide default table on mobile */
+    .mosque-timetable {
+        display: none;
+    }
+
+    /* Mobile card layout */
+    .mosque-timetable-mobile {
+        display: block;
+        padding: 0 10px;
+    }
+
+    .mosque-prayer-card {
+        background: white;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .mosque-prayer-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+    }
+
+    .mosque-prayer-card.today {
+        border-left: 4px solid var(--mosque-warning);
+        background: var(--mosque-today-bg);
+    }
+
+    .mosque-prayer-card.friday {
+        border-left: 4px solid var(--mosque-secondary);
+        background: var(--mosque-friday-bg);
+    }
+
+    .mosque-prayer-card.next-prayer {
+        border-left: 4px solid var(--mosque-success);
+        background: var(--mosque-next-prayer-bg);
+        box-shadow: 0 4px 16px rgb(40 167 69 / 20%);
+    }
+
+    .mosque-prayer-card-header {
+        background: var(--mosque-gradient);
+        color: white;
+        padding: 12px 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mosque-prayer-card-date {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .mosque-prayer-card-date-gregorian {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .mosque-prayer-card-date-hijri {
+        font-size: 12px;
+        opacity: 0.9;
+    }
+
+    .mosque-prayer-card-day {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .mosque-prayer-card-day.friday {
+        color: var(--mosque-warning);
+    }
+
+    .mosque-prayer-card-body {
+        padding: 15px;
+    }
+
+    .mosque-prayer-times-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .mosque-prayer-time-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        background: var(--mosque-bg-light);
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .mosque-prayer-time-item.jummah {
+        grid-column: 1 / -1;
+        background: linear-gradient(135deg, rgb(102 126 234 / 10%) 0%, rgb(118 75 162 / 10%) 100%);
+    }
+
+    .mosque-prayer-time-name {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--mosque-text-secondary);
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .mosque-prayer-time-start {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--mosque-text-primary);
+        margin-bottom: 2px;
+    }
+
+    .mosque-prayer-time-jamaat {
+        font-size: 13px;
+        color: var(--mosque-text-secondary);
+        font-weight: 500;
+    }
+
+    .mosque-prayer-time-jamaat::before {
+        content: "Jamāʿah: ";
+        opacity: 0.8;
+    }
+
+    /* Special styling for Jummah times */
+    .mosque-prayer-time-item.jummah .mosque-prayer-time-start {
+        font-size: 18px;
+        color: var(--mosque-primary);
+    }
+
+    /* Hide prayer bar date on mobile since it's in cards */
+    .mosque-prayer-bar-date {
+        display: none;
+    }
+
+    /* Adjust prayer bar for mobile */
+    .mosque-prayer-bar {
+        margin: 0 -10px 15px;
+        border-radius: 0;
+        position: sticky;
+        top: 0;
+    }
+
+    .mosque-prayer-chip {
+        min-width: 60px;
+        padding: 6px 8px;
+    }
+
+    .mosque-prayer-chip-name {
+        font-size: 10px;
+    }
+
+    .mosque-prayer-chip-time {
+        font-size: 12px;
+    }
+}
+
+/* ==========================================================================
+   Desktop (show table, hide mobile cards)
+   ========================================================================== */
+
+@media (width >= 481px) {
+    .mosque-timetable-mobile {
+        display: none;
+    }
+
+    .mosque-timetable {
+        display: table;
+    }
+}
+
+/* ==========================================================================
+   Push Notifications Styles
+   ========================================================================== */
+
+/* Push notification button */
+.mt-push-reminder-btn {
+    background: var(--mosque-primary);
+    color: var(--mosque-text-white);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mt-push-reminder-btn:hover {
+    background: var(--mosque-primary-dark);
+    transform: translateY(-1px);
+}
+
+.mt-push-reminder-btn.unsubscribe {
+    background: var(--mosque-warning);
+    color: var(--mosque-text-primary);
+}
+
+.mt-push-reminder-btn.unsubscribe:hover {
+    background: #e0a800;
+}
+
+/* Push container */
+.mt-push-container {
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--mosque-border-light);
+    margin-bottom: 15px;
+}
+
+/* Modal styles */
+.mt-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0 0 0 / 60%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999998;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.mt-modal-content {
+    background: var(--mosque-bg-white);
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgb(0 0 0 / 15%);
+}
+
+.mt-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px 0;
+    border-bottom: 1px solid var(--mosque-border-light);
+    margin-bottom: 20px;
+}
+
+.mt-modal-header h3 {
+    margin: 0;
+    color: var(--mosque-text-primary);
+    font-size: 18px;
+}
+
+.mt-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--mosque-text-secondary);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mt-modal-close:hover {
+    color: var(--mosque-text-primary);
+}
+
+.mt-modal-body {
+    padding: 0 24px 20px;
+}
+
+.mt-modal-body p {
+    margin: 0 0 20px;
+    color: var(--mosque-text-secondary);
+    line-height: 1.5;
+}
+
+.mt-reminder-options {
+    margin-bottom: 20px;
+}
+
+.mt-reminder-options h4 {
+    margin: 0 0 10px;
+    color: var(--mosque-text-primary);
+    font-size: 16px;
+}
+
+.mt-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mt-checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--mosque-text-secondary);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.mt-checkbox-group input[type="checkbox"] {
+    margin: 0;
+}
+
+.mt-sunrise-warning {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: var(--mosque-bg-light);
+    border-radius: 6px;
+    border-left: 4px solid var(--mosque-warning);
+}
+
+.mt-sunrise-warning label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--mosque-text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.mt-privacy-note {
+    padding: 15px;
+    background: var(--mosque-bg-light);
+    border-radius: 6px;
+    margin-bottom: 0;
+}
+
+.mt-privacy-note p {
+    margin: 0;
+    color: var(--mosque-text-muted);
+    font-size: 12px;
+}
+
+.mt-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 20px 24px;
+    border-top: 1px solid var(--mosque-border-light);
+}
+
+.mt-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mt-btn-primary {
+    background: var(--mosque-primary);
+    color: var(--mosque-text-white);
+}
+
+.mt-btn-primary:hover {
+    background: var(--mosque-primary-dark);
+}
+
+.mt-btn-secondary {
+    background: var(--mosque-bg-alt);
+    color: var(--mosque-text-primary);
+}
+
+.mt-btn-secondary:hover {
+    background: #dee2e6;
+}
+
+/* Mobile adjustments for modal */
+@media (width <= 480px) {
+    .mt-modal-overlay {
+        padding: 10px;
+    }
+
+    .mt-modal-content {
+        max-height: 95vh;
+    }
+
+    .mt-modal-header,
+    .mt-modal-body,
+    .mt-modal-footer {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .mt-modal-footer {
+        flex-direction: column;
+    }
+
+    .mt-btn {
+        width: 100%;
+        order: 1;
+    }
+
+    .mt-btn-primary {
+        order: 0;
+    }
+}
+
+/* ==========================================================================
+   RTL (Right-to-Left) Language Support
+   ========================================================================== */
+
+/* RTL Support for Arabic, Hebrew, Urdu, Persian, etc. */
+html[dir="rtl"] .mosque-timetable,
+html[dir="rtl"] .mosque-prayer-bar,
+html[dir="rtl"] .mosque-prayer-widget,
+html[dir="rtl"] .mosque-time-widget,
+html[dir="rtl"] .mosque-calendar {
+    direction: rtl;
+    text-align: right;
+}
+
+/* RTL Text alignment */
+html[dir="rtl"] .prayer-name,
+html[dir="rtl"] .mosque-name,
+html[dir="rtl"] .mosque-address,
+html[dir="rtl"] .mosque-prayer-bar-title,
+html[dir="rtl"] .mosque-title,
+html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3,
+html[dir="rtl"] h4, html[dir="rtl"] h5, html[dir="rtl"] h6 {
+    text-align: right;
+}
+
+/* RTL Table adjustments */
+html[dir="rtl"] .mosque-timetable table {
+    direction: rtl;
+}
+
+html[dir="rtl"] .mosque-timetable th,
+html[dir="rtl"] .mosque-timetable td {
+    text-align: right;
+}
+
+html[dir="rtl"] .mosque-timetable th:first-child,
+html[dir="rtl"] .mosque-timetable td:first-child {
+    text-align: right;
+}
+
+/* RTL Prayer bar layout */
+html[dir="rtl"] .mosque-prayer-bar-content {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .mosque-prayer-bar-time {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+html[dir="rtl"] .mosque-prayer-bar-prayer {
+    text-align: right;
+}
+
+/* RTL Button adjustments */
+html[dir="rtl"] .mosque-btn-group {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .mosque-btn {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+html[dir="rtl"] .mosque-btn:first-child {
+    margin-left: 0;
+}
+
+html[dir="rtl"] .mosque-btn:last-child {
+    margin-right: 10px;
+}
+
+/* RTL Modal content */
+html[dir="rtl"] .mt-modal-content {
+    text-align: right;
+}
+
+html[dir="rtl"] .mt-modal-header {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .mt-modal-close {
+    left: 20px;
+    right: auto;
+}
+
+html[dir="rtl"] .mt-modal-footer {
+    justify-content: flex-start;
+}
+
+/* RTL Prayer cards */
+html[dir="rtl"] .prayer-card {
+    text-align: right;
+}
+
+html[dir="rtl"] .prayer-time {
+    text-align: right;
+}
+
+/* RTL Calendar specific */
+html[dir="rtl"] .month-grid {
+    direction: rtl;
+}
+
+html[dir="rtl"] .day-card {
+    text-align: right;
+}
+
+html[dir="rtl"] .date-gregorian,
+html[dir="rtl"] .date-hijri {
+    text-align: right;
+}
+
+/* RTL Navigation tabs */
+html[dir="rtl"] .nav-tab-wrapper {
+    direction: rtl;
+}
+
+html[dir="rtl"] .nav-tab {
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+/* RTL Icons and symbols */
+html[dir="rtl"] .mosque-icon {
+    transform: scaleX(-1);
+}
+
+/* RTL Flexbox adjustments */
+html[dir="rtl"] .mosque-meta-row {
+    flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .mosque-date-info {
+    text-align: right;
+}
+
+/* RTL Prayer time widget */
+html[dir="rtl"] .mosque-time-widget .time-display {
+    text-align: right;
+}
+
+html[dir="rtl"] .mosque-time-widget .prayer-label {
+    text-align: right;
+}
+
+/* RTL Export options */
+html[dir="rtl"] .export-option {
+    text-align: right;
+}
+
+html[dir="rtl"] .export-format-group {
+    direction: rtl;
+}
+
+/* RTL Push notification modal */
+html[dir="rtl"] .push-notification-modal {
+    text-align: right;
+}
+
+html[dir="rtl"] .notification-options {
+    text-align: right;
+}
+
+html[dir="rtl"] .notification-option {
+    text-align: right;
+}
+
+/* RTL Responsive adjustments */
+@media (width <= 768px) {
+    html[dir="rtl"] .mosque-prayer-bar-content {
+        flex-direction: column;
+        text-align: right;
+    }
+
+    html[dir="rtl"] .mosque-btn-group {
+        flex-direction: column;
+    }
+
+    html[dir="rtl"] .mosque-btn {
+        margin: 5px 0;
+    }
+}
+
+/* RTL Font adjustments for Arabic/Persian */
+html[dir="rtl"][lang^="ar"] .mosque-timetable,
+html[dir="rtl"][lang^="fa"] .mosque-timetable,
+html[dir="rtl"][lang^="ur"] .mosque-timetable {
+    font-family: 'Noto Sans Arabic', Tahoma, 'Arial Unicode MS', sans-serif;
+}
+
+html[dir="rtl"][lang^="he"] .mosque-timetable {
+    font-family: 'Noto Sans Hebrew', David, 'Times New Roman', serif;
+}

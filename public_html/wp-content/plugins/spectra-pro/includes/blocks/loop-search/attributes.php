@@ -1,0 +1,77 @@
+<?php
+/**
+ * Attributes File.
+ *
+ * @since 1.2.0
+ *
+ * @package spectra-pro
+ */
+$search_border_attribute = UAGB_Block_Helper::uag_generate_border_attribute( 'search' );
+
+return array_merge(
+	array(
+		'searchAlign'               => 'left',
+		'searchAlignTablet'         => '',
+		'searchAlignMobile'         => '',
+		'searchWidth'               => 50,
+		'searchWidthTablet'         => '',
+		'searchWidthMobile'         => '',
+		'searchWidthUnit'           => '%',
+		'searchWidthUnitTablet'     => '%',
+		'searchWidthUnitMobile'     => '%',
+		'searchBorderHColor'        => '',
+		'paddingSearchTop'          => 8,
+		'paddingSearchRight'        => 12,
+		'paddingSearchBottom'       => 8,
+		'paddingSearchLeft'         => 12,
+		'paddingSearchTopTablet'    => '',
+		'paddingSearchRightTablet'  => '',
+		'paddingSearchBottomTablet' => '',
+		'paddingSearchLeftTablet'   => '',
+		'paddingSearchTopMobile'    => '',
+		'paddingSearchRightMobile'  => '',
+		'paddingSearchBottomMobile' => '',
+		'paddingSearchLeftMobile'   => '',
+		'paddingSearchUnit'         => 'px',
+		'paddingSearchUnitMobile'   => 'px',
+		'paddingSearchUnitTablet'   => 'px',
+		'placeholderColor'          => '',
+		'searchTextColor'           => '',
+		'searchFieldColor'          => '',
+		'searchFontFamily'          => 'Default',
+		'searchFontWeight'          => '',
+		'searchFontSize'            => 15,
+		'searchFontSizeType'        => 'px',
+		'searchFontSizeTypeTablet'  => 'px',
+		'searchFontSizeTypeMobile'  => 'px',
+		'searchFontSizeTablet'      => 15,
+		'searchFontSizeMobile'      => 15,
+		'searchLineHeight'          => '',
+		'searchLineHeightType'      => 'em',
+		'searchLineHeightTablet'    => '',
+		'searchLineHeightMobile'    => '',
+		'searchLoadGoogleFonts'     => false,
+		'searchLetterSpacing'       => '',
+		'searchLetterSpacingTablet' => '',
+		'searchLetterSpacingMobile' => '',
+		'searchLetterSpacingType'   => 'px',
+		'marginSearchTop'           => 12,
+		'marginSearchRight'         => 12,
+		'marginSearchBottom'        => 12,
+		'marginSearchLeft'          => 12,
+		'marginSearchTopTablet'     => '',
+		'marginSearchRightTablet'   => '',
+		'marginSearchBottomTablet'  => '',
+		'marginSearchLeftTablet'    => '',
+		'marginSearchTopMobile'     => '',
+		'marginSearchRightMobile'   => '',
+		'marginSearchBottomMobile'  => '',
+		'marginSearchLeftMobile'    => '',
+		'marginSearchUnit'          => 'px',
+		'marginSearchUnitMobile'    => 'px',
+		'marginSearchUnitTablet'    => 'px',
+		'searchTransform'           => 'none',
+		'searchDecoration'          => '',
+	),
+	$search_border_attribute
+);

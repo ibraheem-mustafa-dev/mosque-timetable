@@ -1,0 +1,457 @@
+# Translation of Plugins - Smash Balloon Social Photo Feed – Easy Social Feeds Plugin - Stable (latest release) in English (UK)
+# This file is distributed under the same license as the Plugins - Smash Balloon Social Photo Feed – Easy Social Feeds Plugin - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2023-06-04 18:34:16+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: en_GB\n"
+"Project-Id-Version: Plugins - Smash Balloon Social Photo Feed – Easy Social Feeds Plugin - Stable (latest release)\n"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1203
+msgid "Link Color"
+msgstr "Link Colour"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:757
+#: inc/Builder/Tabs/SBI_Settings_Tab.php:160
+msgid "Show your active stories from Instagram when your header avatar is clicked. Displays a colored ring around your avatar when a story is available."
+msgstr "Show your active stories from Instagram when your header avatar is clicked. Displays a coloured ring around your avatar when a story is available."
+
+#: inc/Builder/SBI_Feed_Builder.php:2017
+msgid "Colors that have been overridden from individual post element settings will not change. To change them, you will have to reset overrides."
+msgstr "Colours that have been overridden from individual post element settings will not change. To change them, you will have to reset overrides."
+
+#: inc/Builder/SBI_Feed_Builder.php:1983
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:37
+msgid "Color Scheme"
+msgstr "Colour Scheme"
+
+#: inc/Builder/SBI_Feed_Builder.php:1968
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:649
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:975
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1111
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1169
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1307
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1367
+msgid "Color"
+msgstr "Colour"
+
+#: inc/Builder/SBI_Feed_Builder.php:2054
+msgid "Change your feed layout, color scheme, or customize individual feed sections here."
+msgstr "Change your feed layout, colour scheme, or customise individual feed sections here."
+
+#: inc/Builder/SBI_Feed_Builder.php:1025
+msgid "This update only affects how new feeds are created and customized."
+msgstr "This update only affects how new feeds are created and customised."
+
+#: inc/Builder/SBI_Feed_Builder.php:999 inc/Builder/SBI_Feed_Builder.php:1014
+msgid "You can now create and customize feeds individually without using shortcode options."
+msgstr "You can now create and customise feeds individually without using shortcode options."
+
+#: inc/Builder/SBI_Feed_Builder.php:991
+msgid "You can now create and customize feeds individually. Click \"Add New\" to get started."
+msgstr "You can now create and customise feeds individually. Click \"Add New\" to get started."
+
+#: inc/Builder/SBI_Feed_Builder.php:1978 inc/Builder/SBI_Feed_Builder.php:2053
+#: inc/Builder/Tabs/SBI_Builder_Customizer_Tab.php:30
+msgid "Customize"
+msgstr "Customise"
+
+#: inc/Builder/SBI_Feed_Builder.php:825
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:734
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:849
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1019
+#: inc/Builder/Tabs/SBI_Settings_Tab.php:54
+#: inc/Builder/Tabs/SBI_Settings_Tab.php:112
+msgid "Advanced"
+msgstr "Advanced"
+
+#: inc/Builder/SBI_Feed_Builder.php:308
+msgid "Choose layouts, color schemes, styles and more"
+msgstr "Choose layouts, colour schemes, styles and more"
+
+#: inc/Builder/SBI_Feed_Builder.php:307
+msgid "Customize your feed type"
+msgstr "Customise your feed type"
+
+#: admin/SBI_oEmbeds.php:228 inc/Builder/SBI_Feed_Builder.php:1963
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:582
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:945
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1081
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1250
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1327
+#: inc/Builder/Tabs/SBI_Settings_Tab.php:127
+msgid "Enable"
+msgstr "Enable"
+
+#: inc/email.php:128
+msgid "%sLog in and disable these emails%s"
+msgstr "%sLog in and disable these emails%s"
+
+#: inc/email.php:124
+msgid "Sent from %s"
+msgstr "Sent from %s"
+
+#. translators: %s - link to a site.
+#: inc/email.php:116
+msgid "This is a courtesy email sent from the Smash Balloon Instagram Feed plugin on your website to alert you when there is an issue with one of your Instagram feeds."
+msgstr "This is a courtesy email sent from the Smash Balloon Instagram Feed plugin on your website to alert you when there is an issue with one of your Instagram feeds."
+
+#: admin/SBI_Admin_Notices.php:402 admin/SBI_Admin_Notices.php:475
+#: admin/SBI_Admin_Notices.php:565 admin/SBI_Global_Settings.php:973
+#: admin/SBI_Global_Settings.php:1083 admin/SBI_Global_Settings.php:1098
+#: admin/SBI_Support.php:183 inc/Builder/SBI_Feed_Builder.php:800
+#: inc/Builder/SBI_Tooltip_Wizard.php:126 inc/email.php:90
+msgid "Learn More"
+msgstr "Learn More"
+
+#: inc/class-sb-instagram-education.php:118
+msgid "Twitter testimonials are one of the best ways to add verifiable social proof to your website. They add credibility to your brand, product, or service by displaying reviews from real people to your site, helping to convert more visitors into customers. Our free Custom Twitter Feeds plugin makes displaying Tweets on your website a breeze."
+msgstr "Twitter testimonials are one of the best ways to add verifiable social proof to your website. They add credibility to your brand, product, or service by displaying reviews from real people to your site, helping to convert more visitors into customers. Our free Custom Twitter Feeds plugin makes displaying Tweets on your website a breeze."
+
+#: inc/class-sb-instagram-education.php:117
+msgid "Adding Social Proof with Twitter Feeds"
+msgstr "Adding Social Proof with Twitter feeds"
+
+#: inc/class-sb-instagram-education.php:112
+msgid "Have a Facebook Page or Group? Easily embed a feed of posts into your website, delivering fresh content automatically to your site from Facebook. Posts, Photos, Events, Videos, Albums, Reviews, and more!"
+msgstr "Have a Facebook Page or Group? Easily embed a feed of posts into your website, delivering fresh content automatically to your site from Facebook. Posts, Photos, Events, Videos, Albums, Reviews, and more!"
+
+#: inc/class-sb-instagram-education.php:111
+msgid "Display Facebook Pages and Groups"
+msgstr "Display Facebook Pages and Groups"
+
+#: inc/class-sb-instagram-education.php:106
+msgid "You can automatically feed live YouTube videos to your website using our Feeds For YouTube Pro plugin. It takes all the hassle out of publishing live videos to your site by automating the process."
+msgstr "You can automatically feed live YouTube videos to your website using our Feeds For YouTube Pro plugin. It takes all the hassle out of publishing live videos to your site by automating the process."
+
+#: inc/class-sb-instagram-education.php:105
+msgid "Automated YouTube Live Streaming"
+msgstr "Automated YouTube Live Streaming"
+
+#: inc/class-sb-instagram-education.php:97
+msgid "Control exactly which posts show up in your feed by using the Visual Moderation Mode feature to pick and choose what to display. Remove specific posts or create a whitelist of approved content using Instagram Feed Pro."
+msgstr "Control exactly which posts show up in your feed by using the Visual Moderation Mode feature to pick and choose what to display. Remove specific posts or create a whitelist of approved content using Instagram Feed Pro."
+
+#: inc/class-sb-instagram-education.php:96
+msgid "Moderate your Feed Content"
+msgstr "Moderate your feed content"
+
+#: inc/class-sb-instagram-education.php:91
+msgid "Feature specific Instagram posts in your feeds by using the Highlight layout to feature specific posts, either by using their ID or a hashtag in their caption. Also create rotating carousels of your photos and videos to best utilize the space on your site. These layouts and more are available in our Pro version."
+msgstr "Feature specific Instagram posts in your feeds by using the Highlight layout to feature specific posts, either by using their ID or a hashtag in their caption. Also create rotating carousels of your photos and videos to best utilise the space on your site. These layouts and more are available in our Pro version."
+
+#: inc/class-sb-instagram-education.php:85
+msgid "You've done the hard work of getting a visitor onto your site, now keep them there by displaying your Instagram content inside a pop-up lightbox, rather than sending your visitors away to Instagram.  Learn more about the Instagram Feed Pro lightbox feature."
+msgstr "You've done the hard work of getting a visitor onto your site, now keep them there by displaying your Instagram content inside a pop-up lightbox, rather than sending your visitors away to Instagram.  Learn more about the Instagram Feed Pro lightbox feature."
+
+#: inc/class-sb-instagram-education.php:79
+msgid "You can use hashtags on Instagram for so many things; targeted promotions, engaging with your audience, running contests, or just for categorizing posts. Learn more about how you can display Instagram hashtag feeds on your website using the Instagram Feed Pro plugin."
+msgstr "You can use hashtags on Instagram for so many things; targeted promotions, engaging with your audience, running contests, or just for categorising posts. Learn more about how you can display Instagram hashtag feeds on your website using the Instagram Feed Pro plugin."
+
+#: inc/admin/actions.php:231 inc/admin/actions.php:241
+#: inc/Builder/SBI_Source.php:152 inc/class-sb-instagram-posts-manager.php:340
+#: inc/class-sb-instagram-posts-manager.php:362
+#: inc/class-sb-instagram-posts-manager.php:366
+#: inc/class-sb-instagram-posts-manager.php:370
+#: inc/class-sb-instagram-posts-manager.php:374
+#: inc/class-sb-instagram-posts-manager.php:378
+#: inc/class-sb-instagram-posts-manager.php:1062
+#: inc/class-sb-instagram-posts-manager.php:1098
+msgid "Directions on how to resolve this issue"
+msgstr "Directions on how to resolve this issue"
+
+#: inc/if-functions.php:1616
+msgid "An Instagram feed on your website is currently unable to connect to Instagram to retrieve new posts. Don't worry, your feed is still being displayed using a cached version, but is no longer able to display new posts."
+msgstr "An Instagram feed on your website is currently unable to connect to Instagram to retrieve new posts. Don't worry, your feed is still being displayed using a cached version, but is no longer able to display new posts."
+
+#: inc/admin/addon-functions.php:182
+msgid "Plugin installed."
+msgstr "Plugin installed."
+
+#: inc/admin/addon-functions.php:174
+msgid "Addon installed & activated."
+msgstr "Add-on installed & activated."
+
+#: inc/admin/addon-functions.php:182
+msgid "Addon installed."
+msgstr "Add-on installed."
+
+#: admin/SBI_Upgrader.php:325 admin/SBI_Upgrader.php:381
+#: inc/admin/addon-functions.php:174
+msgid "Plugin installed & activated."
+msgstr "Plugin installed & activated."
+
+#: inc/admin/addon-functions.php:75
+msgid "Could not activate addon. Please activate from the Plugins page."
+msgstr "Could not activate Add-on. Please activate from the Plugins page."
+
+#: inc/admin/addon-functions.php:70
+msgid "Addon activated."
+msgstr "Add-on activated."
+
+#: inc/admin/addon-functions.php:68
+msgid "Plugin activated."
+msgstr "Plugin activated."
+
+#: inc/admin/addon-functions.php:38
+msgid "Could not deactivate the addon. Please deactivate from the Plugins page."
+msgstr "Could not deactivate the Add-on. Please deactivate from the Plugins page."
+
+#: inc/admin/addon-functions.php:34
+msgid "Addon deactivated."
+msgstr "Add-on deactivated."
+
+#: inc/admin/addon-functions.php:32
+msgid "Plugin deactivated."
+msgstr "Plugin deactivated."
+
+#: inc/class-sb-instagram-posts-manager.php:1059
+#: inc/class-sb-instagram-posts-manager.php:1096
+msgid "View Feed and Retry"
+msgstr "View feed and retry"
+
+#: inc/admin/actions.php:371
+msgid "Instagram Feed is encountering an error and your feeds may not be updating due to the following reasons:"
+msgstr "Instagram Feed is encountering an error and your feeds may not be updating due to the following reasons:"
+
+#: inc/admin/actions.php:191
+msgid "needs to be installed and activated to import its forms. Would you like us to install and activate it for you?"
+msgstr "needs to be installed and activated to import its forms. Would you like us to install and activate it for you?"
+
+#: inc/admin/class-sbi-sitehealth.php:69
+msgid "No critical errors have been detected."
+msgstr "No critical errors have been detected."
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:829
+msgid "Centered"
+msgstr "Centred"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:818
+msgid "Standard"
+msgstr "Standard"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:607
+msgid "Large"
+msgstr "Large"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:606
+msgid "Medium"
+msgstr "Medium"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:605
+msgid "Small"
+msgstr "Small"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:603
+msgid "Header Size"
+msgstr "Header Size"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:131
+msgid "Highlight"
+msgstr "Highlight"
+
+#: inc/Builder/SBI_Feed_Builder.php:1993
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:125
+msgid "Masonry"
+msgstr "Masonry"
+
+#: inc/Builder/SBI_Feed_Builder.php:1992
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:113
+msgid "Grid"
+msgstr "Grid"
+
+#: inc/Builder/SBI_Feed_Builder.php:791
+msgid "Remove"
+msgstr "Remove"
+
+#: inc/Builder/SBI_Feed_Builder.php:1155
+msgid "Connect an Instagram Account"
+msgstr "Connect an Instagram Account"
+
+#: inc/class-sb-instagram-posts-manager.php:337
+#: inc/class-sb-instagram-posts-manager.php:360
+msgid "Feed will not update."
+msgstr "Feed will not update."
+
+#: admin/SBI_Global_Settings.php:1053 inc/admin/class-sbi-new-user.php:274
+#: inc/admin/class-sbi-notifications.php:640
+msgid "No"
+msgstr "No"
+
+#: admin/SBI_Support.php:195
+msgid "Days"
+msgstr "Days"
+
+#. Author URI of the plugin
+#: instagram-feed.php
+msgid "https://smashballoon.com/"
+msgstr "https://smashballoon.com/"
+
+#. Author of the plugin
+#: instagram-feed.php inc/admin/SBI_Onboarding_wizard.php:70
+#: inc/Integrations/Elementor/SBI_Elementor_Base.php:149
+msgid "Smash Balloon"
+msgstr "Smash Balloon"
+
+#. Plugin URI of the plugin
+#: instagram-feed.php
+msgid "https://smashballoon.com/instagram-feed"
+msgstr "https://smashballoon.com/instagram-feed"
+
+#: inc/Builder/SBI_Feed_Builder.php:488
+msgid "Instagram Feed Pro"
+msgstr "Instagram Feed Pro"
+
+#: inc/admin/blocks/class-sbi-blocks.php:114
+msgid "Example"
+msgstr "Example"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1272
+msgid "Maximum Text Length"
+msgstr "Maximum Text Length"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:823
+msgid "Boxed"
+msgstr "Boxed"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:814
+msgid "Header Style"
+msgstr "Header Style"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:689
+msgid "Show Bio Text"
+msgstr "Show Bio Text"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:195
+msgid "Interval Time"
+msgstr "Interval Time"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:230
+msgid "Enable Autoplay"
+msgstr "Enable Autoplay"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:216
+msgid "Show Pagination"
+msgstr "Show Pagination"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:202
+msgid "Show Navigation Arrows"
+msgstr "Show Navigation Arrows"
+
+#: inc/Builder/SBI_Feed_Builder.php:1994
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:119
+msgid "Carousel"
+msgstr "Carousel"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:858
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1425
+msgid "Caption"
+msgstr "Caption"
+
+#: inc/Builder/SBI_Feed_Builder.php:801
+msgid "Location"
+msgstr "Location"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1417
+msgid "Date"
+msgstr "Date"
+
+#: admin/views/support/support-tools.php:161
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1413
+msgid "Username"
+msgstr "Username"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:1405
+msgid "Information to display"
+msgstr "Information to display"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:927
+msgid "Full size (640x640)"
+msgstr "Full size (640x640)"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:925
+msgid "Thumbnail (150x150)"
+msgstr "Thumbnail (150x150)"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:924
+msgid "Auto-detect (recommended)"
+msgstr "Auto-detect (recommended)"
+
+#: inc/Builder/Tabs/SBI_Settings_Tab.php:309
+msgid "Random"
+msgstr "Random"
+
+#: admin/SBI_Global_Settings.php:1072
+msgid "Custom CSS"
+msgstr "Custom CSS"
+
+#: inc/Builder/SBI_Feed_Builder.php:1486 inc/Builder/SBI_Feed_Builder.php:1665
+#: inc/Builder/SBI_Feed_Builder.php:1984
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:46
+#: inc/class-sb-instagram-feed-locator.php:462
+msgid "Header"
+msgstr "Header"
+
+#: inc/Builder/SBI_Feed_Builder.php:784
+#: inc/Builder/Tabs/SBI_Settings_Tab.php:204
+msgid "Photos"
+msgstr "Photos"
+
+#: inc/Builder/SBI_Feed_Builder.php:1990
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:107
+msgid "Layout"
+msgstr "Layout"
+
+#: inc/Builder/SBI_Feed_Builder.php:822
+msgid "General"
+msgstr "General"
+
+#: admin/SBI_Global_Settings.php:1052 inc/admin/class-sbi-new-user.php:268
+#: inc/admin/class-sbi-notifications.php:634
+msgid "Yes"
+msgstr "Yes"
+
+#: admin/SBI_Support.php:67 admin/SBI_Support.php:68 admin/SBI_Support.php:181
+#: inc/Builder/SBI_Feed_Builder.php:954
+msgid "Support"
+msgstr "Support"
+
+#: inc/class-sb-instagram-settings.php:790 inc/if-functions.php:1714
+msgid "Follow on Instagram"
+msgstr "Follow on Instagram"
+
+#: inc/if-functions.php:1698
+msgid "Load More..."
+msgstr "Load More&hellip;"
+
+#: admin/SBI_Global_Settings.php:838 inc/admin/actions.php:145
+#: inc/Builder/SBI_Feed_Builder.php:762 inc/Builder/SBI_Feed_Builder.php:775
+#: inc/Builder/SBI_Feed_Builder.php:950 inc/Builder/SBI_Feed_Builder.php:1979
+#: inc/Builder/SBI_Feed_Builder.php:2059
+#: inc/Builder/Tabs/SBI_Builder_Customizer_Tab.php:35
+msgid "Settings"
+msgstr "Settings"
+
+#: admin/SBI_About_Us.php:230 inc/admin/actions.php:30 inc/admin/actions.php:31
+#: inc/admin/class-sbi-sitehealth.php:66
+#: inc/Integrations/Divi/SBInstagramFeed.php:45
+#: inc/Integrations/Elementor/SBI_Elementor_Widget.php:46 widget.php:19
+msgid "Instagram Feed"
+msgstr "Instagram Feed"
+
+#. Description of the plugin
+#: instagram-feed.php
+msgid "Display beautifully clean, customizable, and responsive Instagram feeds."
+msgstr "Display beautifully clean, customisable, and responsive Instagram feeds"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:674
+msgid "Secondary Color"
+msgstr "Secondary Colour"
+
+#: inc/Builder/Tabs/SBI_Customize_Tab.php:660
+msgid "Primary Color"
+msgstr "Primary Colour"

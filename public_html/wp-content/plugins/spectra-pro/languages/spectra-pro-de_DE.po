@@ -1,0 +1,3292 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: gpt-po v1.1.1\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-03-20T12:52:25+00:00\n"
+"PO-Revision-Date: 2025-03-20T12:52:25+00:00\n"
+"Language: \n"
+
+#. Plugin Name of the plugin
+#: spectra-pro.php
+#: core/assets.php:62
+msgid "Spectra Pro"
+msgstr "Spectra Pro"
+
+#. Plugin URI of the plugin
+#: spectra-pro.php
+msgid "https://wpspectra.com/"
+msgstr "https://wpspectra.com/"
+
+#. Description of the plugin
+#: spectra-pro.php
+msgid "Enhance Spectra with new features and blocks, as well as extended functionality for existing blocks."
+msgstr "Erweitern Sie Spectra mit neuen Funktionen und Blöcken sowie erweiterten Funktionen für bestehende Blöcke."
+
+#. Author of the plugin
+#: spectra-pro.php
+msgid "Brainstorm Force"
+msgstr "Brainstorm Force"
+
+#. Author URI of the plugin
+#: spectra-pro.php
+msgid "https://www.brainstormforce.com"
+msgstr "https://www.brainstormforce.com"
+
+#: admin/license-handler.php:87
+msgid "License key not found."
+msgstr "Lizenzschlüssel nicht gefunden."
+
+#: admin/license-handler.php:113
+msgid "Plugin Successfully Activated"
+msgstr "Plugin erfolgreich aktiviert"
+
+#: admin/license-handler.php:149
+msgid "Plugin Successfully Deactivated"
+msgstr "Plugin erfolgreich deaktiviert"
+
+#: admin/license-handler.php:196
+msgid "Sorry, you are not allowed to do this operation."
+msgstr "Entschuldigung, Sie dürfen diese Operation nicht durchführen."
+
+#: admin/license-handler.php:197
+msgid "Nonce validation failed"
+msgstr "Nonce-Überprüfung fehlgeschlagen"
+
+#: admin/license-handler.php:198
+msgid "Sorry, something went wrong."
+msgstr "Entschuldigung, etwas ist schiefgelaufen."
+
+#: blocks-config/instagram-feed/block.php:172
+#: includes/blocks/instagram-feed/attributes.php:33
+#: dist/blocks.js:8
+msgid "No Caption"
+msgstr "Keine Beschriftung"
+
+#: blocks-config/instagram-feed/block.php:395
+#: includes/blocks/instagram-feed/attributes.php:93
+#: dist/blocks.js:8
+#: dist/blocks.js:10
+msgid "Load More"
+msgstr "Mehr laden"
+
+#: blocks-config/instagram-feed/block.php:1162
+#: dist/blocks.js:10
+msgid "Click to view post"
+msgstr "Klicken Sie, um den Beitrag anzusehen"
+
+#: blocks-config/instagram-feed/block.php:1169
+#: dist/blocks.js:10
+msgid "Contains Copyrighted Material"
+msgstr "Enthält urheberrechtlich geschütztes Material"
+
+#. translators: %1$s user name
+#: blocks-config/login/block.php:303
+#: blocks-config/register/block.php:243
+msgid "You are logged in as %1$s (%2$sLogout%3$s)"
+msgstr "Sie sind angemeldet als %1$s (%2$sAbmelden%3$s)"
+
+#: blocks-config/login/block.php:350
+#: dist/blocks.js:6
+msgid "Show Password"
+msgstr "Passwort anzeigen"
+
+#: blocks-config/login/block.php:476
+#: blocks-config/register/block.php:377
+msgid "Captcha is not matching, please try again."
+msgstr "Captcha stimmt nicht überein, bitte versuchen Sie es erneut."
+
+#: blocks-config/login/block.php:498
+msgid "You have successfully logged in. Redirecting..."
+msgstr "Sie haben sich erfolgreich eingeloggt. Weiterleitung..."
+
+#: blocks-config/login/block.php:528
+msgid "The username/password field is empty. Please add a valid username/email to reset your password."
+msgstr "Das Feld für Benutzername/Passwort ist leer. Bitte fügen Sie einen gültigen Benutzernamen/eine gültige E-Mail-Adresse hinzu, um Ihr Passwort zurückzusetzen."
+
+#: blocks-config/login/block.php:542
+msgid "No user found. Please add a registered username/email to reset your password, else create an account."
+msgstr "Kein Benutzer gefunden. Bitte fügen Sie einen registrierten Benutzernamen/eine registrierte E-Mail hinzu, um Ihr Passwort zurückzusetzen, oder erstellen Sie ein Konto."
+
+#: blocks-config/login/block.php:558
+msgid "Someone has requested a password reset for the following account:"
+msgstr "Jemand hat eine Passwortzurücksetzung für das folgende Konto angefordert:"
+
+#. translators: %s: Username.
+#: blocks-config/login/block.php:562
+msgid "Username: %s"
+msgstr "Benutzername: %s"
+
+#: blocks-config/login/block.php:565
+msgid "If this was a mistake, just ignore this email and nothing will happen."
+msgstr "Wenn dies ein Fehler war, ignorieren Sie einfach diese E-Mail und es wird nichts passieren."
+
+#: blocks-config/login/block.php:566
+msgid "To reset your password, visit the following address:"
+msgstr "Um Ihr Passwort zurückzusetzen, besuchen Sie die folgende Adresse:"
+
+#: blocks-config/login/block.php:571
+msgid "Unknown Site"
+msgstr "Unbekannte Seite"
+
+#. translators: %s: Password reset.
+#: blocks-config/login/block.php:578
+msgid "[%s] Password Reset"
+msgstr "[%s] Passwort zurücksetzen"
+
+#: blocks-config/login/block.php:586
+msgid "Please check your email for the password reset link."
+msgstr "Bitte überprüfen Sie Ihre E-Mails auf den Link zum Zurücksetzen des Passworts."
+
+#: blocks-config/login/block.php:588
+msgid "Email failed to send."
+msgstr "E-Mail konnte nicht gesendet werden."
+
+#: blocks-config/register/block.php:114
+msgid "You have used an invalid email"
+msgstr "Sie haben eine ungültige E-Mail-Adresse verwendet"
+
+#: blocks-config/register/block.php:118
+msgid "Email is missing or invalid"
+msgstr "E-Mail fehlt oder ist ungültig"
+
+#: blocks-config/register/block.php:122
+msgid "The provided email is already registered with another account. Please login or reset password or use another email."
+msgstr "Die angegebene E-Mail-Adresse ist bereits mit einem anderen Konto registriert. Bitte melden Sie sich an, setzen Sie das Passwort zurück oder verwenden Sie eine andere E-Mail-Adresse."
+
+#: blocks-config/register/block.php:127
+msgid "You have used an invalid username"
+msgstr "Sie haben einen ungültigen Benutzernamen verwendet"
+
+#: blocks-config/register/block.php:131
+msgid "Invalid username provided or the username is already registered."
+msgstr "Ungültiger Benutzername angegeben oder der Benutzername ist bereits registriert."
+
+#: blocks-config/register/block.php:136
+msgid "Your password is invalid."
+msgstr "Ihr Passwort ist ungültig."
+
+#: blocks-config/register/block.php:140
+msgid "Your passwords do not match."
+msgstr "Ihre Passwörter stimmen nicht überein."
+
+#: blocks-config/register/block.php:158
+msgid "Please accept the Terms and Conditions, and try again."
+msgstr "Bitte akzeptieren Sie die Allgemeinen Geschäftsbedingungen und versuchen Sie es erneut."
+
+#: blocks-config/register/block.php:162
+msgid "Something went wrong!"
+msgstr "Etwas ist schiefgelaufen!"
+
+#: blocks-config/register/block.php:167
+msgid "Registration completed successfully. Check your inbox for password if you did not provide it while registering."
+msgstr "Registrierung erfolgreich abgeschlossen. Überprüfen Sie Ihren Posteingang auf das Passwort, falls Sie es bei der Registrierung nicht angegeben haben."
+
+#: blocks-config/register/block.php:336
+msgid "Sorry, the site admin has disabled new user registration"
+msgstr "Entschuldigung, der Site-Administrator hat die Registrierung neuer Benutzer deaktiviert"
+
+#: blocks-config/register/block.php:350
+msgid "Not a valid post."
+msgstr "Kein gültiger Beitrag."
+
+#: blocks-config/register/block.php:387
+msgid "Password may not contain the character \"\\\""
+msgstr "Das Passwort darf das Zeichen \"\\\" nicht enthalten"
+
+#: blocks-config/register/block.php:392
+#: blocks-config/register/block.php:395
+msgid "This field is required."
+msgstr "Dieses Feld ist erforderlich."
+
+#: blocks-config/register/block.php:610
+msgid "– Select –"
+msgstr "– Wählen –"
+
+#: core/assets.php:42
+msgid "cannot be blank."
+msgstr "darf nicht leer sein."
+
+#: core/assets.php:43
+#: dist/blocks.js:8
+#: dist/blocks.js:19
+msgid "First Name"
+msgstr "Vorname"
+
+#: core/assets.php:44
+#: dist/blocks.js:8
+#: dist/blocks.js:19
+msgid "Last Name"
+msgstr "Nachname"
+
+#: core/assets.php:45
+msgid "This field"
+msgstr "Dieses Feld"
+
+#: includes/blocks/instagram-feed/block.php:16
+#: dist/blocks-placeholder.js:9
+#: dist/blocks.js:8
+#: dist/blocks.js:10
+#: dist/blocks.js:14
+msgid "Instagram Feed"
+msgstr "Instagram-Feed"
+
+#: includes/blocks/instagram-feed/block.php:17
+#: dist/blocks.js:14
+msgid "This block allows you to display Instagram Feeds on your website."
+msgstr "Mit diesem Block können Sie Instagram-Feeds auf Ihrer Website anzeigen."
+
+#: includes/blocks/login/attributes.php:285
+msgid "Username or Email Address"
+msgstr "Benutzername oder E-Mail-Adresse"
+
+#: includes/blocks/login/attributes.php:286
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Password"
+msgstr "Passwort"
+
+#: includes/blocks/login/block.php:16
+#: dist/blocks-placeholder.js:10
+#: dist/blocks.js:6
+msgid "Login Form"
+msgstr "Anmeldeformular"
+
+#: includes/blocks/login/block.php:17
+msgid "This block lets you add a user login form."
+msgstr "Mit diesem Block können Sie ein Benutzeranmeldeformular hinzufügen."
+
+#. translators: %s: Attribute User Name Label value or This Field.
+#. translators: %s: Attribute Password Label value or This Field.
+#: includes/blocks/login/frontend.js.php:24
+#: includes/blocks/login/frontend.js.php:29
+msgid "%s cannot be blank."
+msgstr "%s darf nicht leer sein."
+
+#: includes/blocks/login/frontend.js.php:25
+#: includes/blocks/login/frontend.js.php:30
+msgid "This Field"
+msgstr "Dieses Feld"
+
+#: includes/blocks/loop-builder/block.php:16
+#: dist/blocks-placeholder.js:13
+#: dist/blocks.js:15
+msgid "Loop Builder"
+msgstr "Schleifenbauer"
+
+#: includes/blocks/loop-builder/block.php:17
+msgid "This block allows you to generate custom loop from different posts."
+msgstr "Dieser Block ermöglicht es Ihnen, eine benutzerdefinierte Schleife aus verschiedenen Beiträgen zu erstellen."
+
+#: includes/blocks/loop-category/block.php:14
+#: dist/blocks-placeholder.js:11
+#: dist/blocks.js:15
+msgid "Category - Filter"
+msgstr "Kategorie - Filter"
+
+#: includes/blocks/loop-category/block.php:15
+#: dist/blocks.js:15
+msgid "Add category filters to your loop builder."
+msgstr "Fügen Sie Kategoriefilter zu Ihrem Loop-Builder hinzu."
+
+#: includes/blocks/loop-reset/block.php:14
+#: includes/extensions/query-loop.php:149
+#: dist/blocks-placeholder.js:14
+#: dist/blocks.js:15
+msgid "Reset - Filter"
+msgstr "Zurücksetzen - Filter"
+
+#: includes/blocks/loop-reset/block.php:15
+msgid "Reset filter allows user to reset the loop filter."
+msgstr "Mit dem Zurücksetzen des Filters kann der Benutzer den Schleifenfilter zurücksetzen."
+
+#: includes/blocks/loop-search/block.php:14
+#: includes/extensions/query-loop.php:121
+#: dist/blocks-placeholder.js:15
+#: dist/blocks.js:15
+msgid "Search - Filter"
+msgstr "Suche - Filter"
+
+#: includes/blocks/loop-search/block.php:15
+msgid "Search filter allows user to search posts in the loop."
+msgstr "Mit dem Suchfilter kann der Benutzer Beiträge in der Schleife durchsuchen."
+
+#: includes/blocks/loop-sort/block.php:14
+#: dist/blocks-placeholder.js:16
+#: dist/blocks.js:15
+msgid "Sorting - Filter"
+msgstr "Sortieren - Filter"
+
+#: includes/blocks/loop-sort/block.php:15
+msgid "Sorting filter allows user to sort posts in the loop."
+msgstr "Mit dem Sortierfilter kann der Benutzer Beiträge in der Schleife sortieren."
+
+#: includes/blocks/loop-wrapper/block.php:14
+#: includes/extensions/query-loop.php:107
+#: dist/blocks-placeholder.js:17
+#: dist/blocks.js:15
+msgid "Wrapper"
+msgstr "Umschlag"
+
+#: includes/blocks/loop-wrapper/block.php:15
+msgid "Loop Builder wrapper."
+msgstr "Loop Builder-Wrapper."
+
+#: includes/blocks/register/attributes.php:291
+msgid "You have used an invalid email."
+msgstr "Sie haben eine ungültige E-Mail-Adresse verwendet."
+
+#: includes/blocks/register/attributes.php:292
+msgid "Please enter a valid email address."
+msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+
+#: includes/blocks/register/attributes.php:293
+msgid "Email already in use. Please try to sign in."
+msgstr "E-Mail bereits in Verwendung. Bitte versuchen Sie, sich anzumelden."
+
+#: includes/blocks/register/attributes.php:294
+msgid "Invalid user name. Please try again."
+msgstr "Ungültiger Benutzername. Bitte versuchen Sie es erneut."
+
+#: includes/blocks/register/attributes.php:295
+msgid "Username is already taken."
+msgstr "Der Benutzername ist bereits vergeben."
+
+#: includes/blocks/register/attributes.php:296
+msgid "Password cannot be accepted. Please try something else."
+msgstr "Passwort kann nicht akzeptiert werden. Bitte versuchen Sie etwas anderes."
+
+#: includes/blocks/register/attributes.php:297
+msgid "Passwords do not match."
+msgstr "Passwörter stimmen nicht überein."
+
+#: includes/blocks/register/attributes.php:298
+msgid "Please try again after accepting terms & conditions."
+msgstr "Bitte versuchen Sie es erneut, nachdem Sie die Allgemeinen Geschäftsbedingungen akzeptiert haben."
+
+#: includes/blocks/register/attributes.php:299
+msgid "Something went wrong! Please try again."
+msgstr "Etwas ist schiefgelaufen! Bitte versuchen Sie es erneut."
+
+#: includes/blocks/register/attributes.php:300
+msgid "Registration successful. Please check your email inbox."
+msgstr "Registrierung erfolgreich. Bitte überprüfen Sie Ihren E-Mail-Posteingang."
+
+#: includes/blocks/register/block.php:16
+#: dist/blocks-placeholder.js:18
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Registration Form"
+msgstr "Anmeldeformular"
+
+#: includes/blocks/register/block.php:17
+msgid "This block lets you add a user register form."
+msgstr "Mit diesem Block können Sie ein Benutzerregistrierungsformular hinzufügen."
+
+#: includes/extensions/dynamic-content/dynamic-content.php:696
+msgid "Empty Fields"
+msgstr "Leere Felder"
+
+#. translators: %s: human readable time string.
+#: includes/extensions/dynamic-content/helper.php:74
+msgid "%s ago"
+msgstr "vor %s"
+
+#. translators: %s: Search term.
+#: includes/extensions/dynamic-content/helper.php:242
+msgid "Search Results for: %s"
+msgstr "Suchergebnisse für: %s"
+
+#. translators: %s is the page number.
+#: includes/extensions/dynamic-content/helper.php:246
+msgid "&nbsp;&ndash; Page %s"
+msgstr "&nbsp;&ndash; Seite %s"
+
+#. translators: Category archive title. 1: Category name
+#: includes/extensions/dynamic-content/helper.php:253
+msgid "Category: %s"
+msgstr "Kategorie: %s"
+
+#. translators: Tag archive title. 1: Tag name
+#: includes/extensions/dynamic-content/helper.php:259
+msgid "Tag: %s"
+msgstr "Tag: %s"
+
+#. translators: Author archive title. 1: Author name
+#: includes/extensions/dynamic-content/helper.php:266
+msgid "Author: %s"
+msgstr "Autor: %s"
+
+#. translators: Yearly archive title. 1: Year
+#: includes/extensions/dynamic-content/helper.php:273
+msgid "Year: %s"
+msgstr "Jahr: %s"
+
+#. translators: Monthly archive title. 1: Month name and year
+#: includes/extensions/dynamic-content/helper.php:280
+msgid "Month: %s"
+msgstr "Monat: %s"
+
+#. translators: Daily archive title. 1: Date
+#: includes/extensions/dynamic-content/helper.php:287
+msgid "Day: %s"
+msgstr "Tag: %s"
+
+#. translators: Post type archive title. 1: Post type name
+#: includes/extensions/dynamic-content/helper.php:314
+msgid "Archives: %s"
+msgstr "Archive: %s"
+
+#. translators: Taxonomy term archive title. 1: Taxonomy singular name, 2: Current taxonomy term
+#: includes/extensions/dynamic-content/helper.php:322
+msgid "%1$s: %2$s"
+msgstr "%1$s: %2$s"
+
+#: includes/extensions/dynamic-content/helper.php:325
+msgid "Archives"
+msgstr "Archive"
+
+#: includes/extensions/dynamic-content/helper.php:327
+msgid "Page Not Found"
+msgstr "Seite nicht gefunden"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:67
+msgid "404 Page"
+msgstr "404 Seite"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:68
+msgid "Search Page"
+msgstr "Suchseite"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:69
+msgid "Blog / Posts Page"
+msgstr "Blog / Beitragsseite"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:70
+msgid "Front Page"
+msgstr "Titelseite"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:71
+msgid "Date Archive"
+msgstr "Datum Archiv"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:72
+msgid "Author Archive"
+msgstr "Autorenarchiv"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:76
+msgid "WooCommerce Shop Page"
+msgstr "WooCommerce-Shop-Seite"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:81
+msgid "Basic"
+msgstr "Grundlegend"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:83
+msgid "All Singulars"
+msgstr "Alle Singulars"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:84
+msgid "All Archives"
+msgstr "Alle Archive"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:89
+msgid "Special Pages"
+msgstr "Spezialseiten"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:138
+msgid "Specific Target"
+msgstr "Spezifisches Ziel"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:140
+msgid "Specific Pages / Posts / CPTs"
+msgstr "Spezifische Seiten / Beiträge / CPTs"
+
+#. translators: %s post label
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:164
+msgid "All %s"
+msgstr "Alle %s"
+
+#. translators: %s post label
+#. translators: %s taxonomy label
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:169
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:178
+msgid "All %s Archive"
+msgstr "Alle %s Archiv"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:374
+msgid "Edit Info Bar"
+msgstr "Infoleiste bearbeiten"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:377
+msgid "Edit Popup"
+msgstr "Popup bearbeiten"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:380
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:427
+#: assets/js/spectra-pro-popup-builder-admin.js:125
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:417
+msgid "Display On:"
+msgstr "Anzeigen Ein:"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:419
+msgid "Do Not Display On:"
+msgstr "Nicht anzeigen auf:"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:424
+msgid "Status:"
+msgstr "Status:"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:424
+msgid "Created:"
+msgstr "Erstellt:"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:485
+msgid "Trigger"
+msgstr "Auslöser"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:487
+msgid "Quick View"
+msgstr "Schnellansicht"
+
+#. translators: %1$s break tag and opening emphasis tag, %2$s number of seconds, %3$s singular or plural form of second, %4%s closing emphasis tag
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:518
+msgid "On Load%1$sAfter %2$s %3$s%4$s"
+msgstr "Beim Laden%1$sNach %2$s %3$s%4$s"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:521
+msgid "Second"
+msgid_plural "Seconds"
+msgstr[0] "Zweite"
+msgstr[1] ""
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:525
+msgid "On Load"
+msgstr "Beim Laden"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:529
+#: dist/blocks.js:15
+#: dist/blocks.js:23
+msgid "Exit Intent"
+msgstr "Beendigungsabsicht"
+
+#: includes/extensions/popup-builder/spectra-pro-popup-builder.php:532
+msgid "Custom Element"
+msgstr "Benutzerdefiniertes Element"
+
+#: includes/extensions/query-loop.php:135
+msgid "Sort - Filter"
+msgstr "Sortieren - Filtern"
+
+#: includes/extensions/query-loop.php:163
+msgid "Loop Builder - Pagination"
+msgstr "Schleifen-Generator - Seitennummerierung"
+
+#: includes/extensions/query-loop.php:176
+msgid "Loop Builder - Category"
+msgstr "Schleifen-Builder - Kategorie"
+
+#: includes/extensions/query-loop.php:373
+#: dist/blocks.js:15
+msgid "Search"
+msgstr "Suchen"
+
+#: includes/extensions/query-loop.php:460
+#: includes/extensions/query-loop.php:516
+#: dist/blocks.js:15
+msgid "Sort by title (Z-A)"
+msgstr "Nach Titel sortieren (Z-A)"
+
+#: includes/extensions/query-loop.php:461
+#: includes/extensions/query-loop.php:517
+#: dist/blocks.js:15
+msgid "Sort by title (A-Z)"
+msgstr "Nach Titel sortieren (A-Z)"
+
+#: includes/extensions/query-loop.php:462
+#: includes/extensions/query-loop.php:518
+#: dist/blocks.js:15
+msgid "Sort by newest"
+msgstr "Nach Neueste sortieren"
+
+#: includes/extensions/query-loop.php:463
+#: includes/extensions/query-loop.php:519
+#: dist/blocks.js:15
+msgid "Sort by oldest"
+msgstr "Nach ältesten sortieren"
+
+#: includes/extensions/query-loop.php:464
+#: includes/extensions/query-loop.php:520
+#: dist/blocks.js:15
+msgid "Post ID descending"
+msgstr "Beitrags-ID absteigend"
+
+#: includes/extensions/query-loop.php:465
+#: includes/extensions/query-loop.php:521
+#: dist/blocks.js:15
+msgid "Post ID ascending"
+msgstr "Beitrags-ID aufsteigend"
+
+#: includes/extensions/query-loop.php:466
+#: includes/extensions/query-loop.php:522
+#: dist/blocks.js:15
+msgid "Modified last"
+msgstr "Zuletzt geändert"
+
+#: includes/extensions/query-loop.php:467
+#: includes/extensions/query-loop.php:523
+#: dist/blocks.js:15
+msgid "Modified recently"
+msgstr "Kürzlich geändert"
+
+#: includes/extensions/query-loop.php:468
+#: includes/extensions/query-loop.php:524
+#: dist/blocks.js:15
+msgid "Sort by author (Z-A)"
+msgstr "Sortieren nach Autor (Z-A)"
+
+#: includes/extensions/query-loop.php:469
+#: includes/extensions/query-loop.php:525
+#: dist/blocks.js:15
+msgid "Sort by author (A-Z)"
+msgstr "Nach Autor sortieren (A-Z)"
+
+#: includes/extensions/query-loop.php:571
+#: includes/extensions/query-loop.php:841
+#: dist/blocks.js:15
+msgid "Select"
+msgstr "Auswählen"
+
+#: includes/extensions/query-loop.php:1132
+msgid "Invalid nonce"
+msgstr "Ungültiger Nonce"
+
+#: includes/extensions/query-loop.php:1137
+#: includes/extensions/query-loop.php:1183
+msgid "Invalid post id"
+msgstr "Ungültige Beitrags-ID"
+
+#: includes/extensions/query-loop.php:1308
+msgid "Loop builder block not found."
+msgstr "Loop-Builder-Block nicht gefunden."
+
+#: includes/extensions/query-loop.php:1416
+msgid "No results found!"
+msgstr "Keine Ergebnisse gefunden!"
+
+#: includes/extensions/query-loop.php:1426
+msgid "Loop wrapper block not found."
+msgstr "Schleifen-Wrapper-Block nicht gefunden."
+
+#: plugin-loader.php:206
+msgid "Activate the Spectra Plugin"
+msgstr "Aktiviere das Spectra-Plugin"
+
+#: plugin-loader.php:207
+msgid "Before you can use all the features of Spectra Pro, you need to activate the Spectra plugin first."
+msgstr "Bevor Sie alle Funktionen von Spectra Pro nutzen können, müssen Sie zuerst das Spectra-Plugin aktivieren."
+
+#: plugin-loader.php:208
+msgid "Activate Now"
+msgstr "Jetzt aktivieren"
+
+#: plugin-loader.php:216
+msgid "Install and Activate the Spectra Plugin"
+msgstr "Installieren und aktivieren Sie das Spectra-Plugin"
+
+#: plugin-loader.php:217
+msgid "Before you can use all the features of Spectra Pro, you need to install and activate the Spectra plugin first."
+msgstr "Bevor Sie alle Funktionen von Spectra Pro nutzen können, müssen Sie zuerst das Spectra-Plugin installieren und aktivieren."
+
+#: plugin-loader.php:218
+msgid "Install Spectra"
+msgstr "Installieren Sie Spectra"
+
+#: plugin-loader.php:241
+msgid "Spectra Pro is not working because you are using an old version of Spectra."
+msgstr "Spectra Pro funktioniert nicht, weil Sie eine alte Version von Spectra verwenden."
+
+#: plugin-loader.php:242
+msgid "Update Spectra Now"
+msgstr "Aktualisieren Sie jetzt Spectra"
+
+#: blocks-config/spectra-pro-controls/proPreviewImage.js:3
+#: dist/blocks.js:6
+msgid "Please add a preview image."
+msgstr "Bitte fügen Sie ein Vorschaubild hinzu."
+
+#: dist/blocks-placeholder.js:12
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Pagination"
+msgstr "Paginierung"
+
+#. translators: abbreviation for units
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Preset 1"
+msgstr "Voreinstellung 1"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Preset 2"
+msgstr "Voreinstellung 2"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Preset 3"
+msgstr "Voreinstellung 3"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Preset 4"
+msgstr "Voreinstellung 4"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Preset 5"
+msgstr "Voreinstellung 5"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Preset 6"
+msgstr "Voreinstellung 6"
+
+#: dist/blocks.js:6
+msgid "Username Placeholder"
+msgstr "Benutzername Platzhalter"
+
+#: dist/blocks.js:6
+msgid "Enter username placeholder"
+msgstr "Benutzernamen-Platzhalter eingeben"
+
+#: dist/blocks.js:6
+msgid "Password Placeholder"
+msgstr "Passwort-Platzhalter"
+
+#: dist/blocks.js:6
+msgid "Enter password placeholder"
+msgstr "Passwort-Platzhalter eingeben"
+
+#: dist/blocks.js:6
+msgid "Forgot Password Label"
+msgstr "Passwort vergessen Beschriftung"
+
+#: dist/blocks.js:6
+msgid "Enter forgot password label"
+msgstr "Geben Sie das Label für Passwort vergessen ein"
+
+#: dist/blocks.js:6
+msgid "Hide Icon"
+msgstr "Symbol ausblenden"
+
+#: dist/blocks.js:6
+msgid "Show Register Information"
+msgstr "Registrierungsinformationen anzeigen"
+
+#: dist/blocks.js:6
+msgid "Register Link"
+msgstr "Registrierungslink"
+
+#: dist/blocks.js:6
+msgid "Overall Alignment"
+msgstr "Gesamtausrichtung"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Left"
+msgstr "Links"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Center"
+msgstr "Zentrum"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Right"
+msgstr "Richtig"
+
+#: dist/blocks.js:6
+msgid "Success/Error Message"
+msgstr "Erfolgs-/Fehlermeldung"
+
+#: dist/blocks.js:6
+msgid "View Success Message"
+msgstr "Erfolgsmeldung anzeigen"
+
+#: dist/blocks.js:6
+msgid "View Error Message"
+msgstr "Fehlermeldung anzeigen"
+
+#: dist/blocks.js:6
+msgid "Redirects"
+msgstr "Weiterleitungen"
+
+#: dist/blocks.js:6
+msgid "Logged in Message"
+msgstr "Angemeldete Nachricht"
+
+#: dist/blocks.js:6
+msgid "The \"Logged In Message\" will be shown instead of this block on the frontend when the user visiting this page is already Logged In."
+msgstr "Die \"Angemeldete Nachricht\" wird anstelle dieses Blocks im Frontend angezeigt, wenn der Benutzer, der diese Seite besucht, bereits angemeldet ist."
+
+#: dist/blocks.js:6
+msgid "Redirect After Login"
+msgstr "Weiterleitung nach dem Login"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:14
+msgid "Enter URL"
+msgstr "URL eingeben"
+
+#: dist/blocks.js:6
+msgid "Default Redirect URL is homepage"
+msgstr "Die Standard-Weiterleitungs-URL ist die Startseite"
+
+#: dist/blocks.js:6
+msgid "Redirect After Logout"
+msgstr "Weiterleitung nach dem Abmelden"
+
+#: dist/blocks.js:6
+msgid "Form Controls"
+msgstr "Formularsteuerungen"
+
+#: dist/blocks.js:6
+msgid "Form Width"
+msgstr "Formularbreite"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Pixel"
+msgstr "Pixel"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "%"
+msgstr "%"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+msgid "em"
+msgstr "em"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Padding"
+msgstr "Polsterung"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+msgid "Row Gap"
+msgstr "Zeilenabstand"
+
+#: dist/blocks.js:6
+msgid "Background"
+msgstr "Hintergrund"
+
+#: dist/blocks.js:6
+msgid "Field Labels"
+msgstr "Feldbeschriftungen"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Typography"
+msgstr "Typografie"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:14
+msgid "Normal"
+msgstr "Normal"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:14
+msgid "Hover"
+msgstr "Schweben"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:19
+msgid "Text"
+msgstr "Text"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+msgid "Margin"
+msgstr "Marge"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:19
+msgid "Link"
+msgstr "Link"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Color"
+msgstr "Farbe"
+
+#: dist/blocks.js:6
+msgid "Input Fields"
+msgstr "Eingabefelder"
+
+#: dist/blocks.js:6
+msgid "Active"
+msgstr "Aktiv"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Placeholder"
+msgstr "Platzhalter"
+
+#: dist/blocks.js:6
+msgid "Input Typography"
+msgstr "Eingabetypografie"
+
+#: dist/blocks.js:6
+msgid "Input Padding"
+msgstr "Eingabepolsterung"
+
+#: dist/blocks.js:6
+msgid "Checkbox Size"
+msgstr "Kontrollkästchengröße"
+
+#: dist/blocks.js:6
+msgid "Checkbox Background"
+msgstr "Hintergrund des Kontrollkästchens"
+
+#: dist/blocks.js:6
+msgid "Check Color"
+msgstr "Farbe prüfen"
+
+#: dist/blocks.js:6
+msgid "Checkbox Border Width"
+msgstr "Kontrollkästchen-Rahmenbreite"
+
+#: dist/blocks.js:6
+msgid "Checkbox Border Radius"
+msgstr "Kontrollkästchen-Randradius"
+
+#: dist/blocks.js:6
+msgid "Checkbox Border Color"
+msgstr "Kontrollkästchen-Rahmenfarbe"
+
+#: dist/blocks.js:6
+msgid "Enable Checkbox Glow"
+msgstr "Checkbox-Leuchten aktivieren"
+
+#: dist/blocks.js:6
+msgid "Checkbox Glow Color"
+msgstr "Kontrollkästchen-Glühfarbe"
+
+#: dist/blocks.js:6
+msgid "Login Button"
+msgstr "Anmeldeknopf"
+
+#: dist/blocks.js:6
+msgid "Button Icon"
+msgstr "Schaltflächen-Symbol"
+
+#: dist/blocks.js:6
+msgid "Icon Position"
+msgstr "Symbolposition"
+
+#: dist/blocks.js:6
+msgid "Before Text"
+msgstr "Vor dem Text"
+
+#: dist/blocks.js:6
+msgid "After Text"
+msgstr "Nach dem Text"
+
+#: dist/blocks.js:6
+msgid "Icon Spacing"
+msgstr "Symbolabstand"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+msgid "EM"
+msgstr "EM"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Alignment"
+msgstr "Ausrichtung"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+msgid "Full"
+msgstr "Voll"
+
+#: dist/blocks.js:6
+msgid "Size"
+msgstr "Größe"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+#: dist/blocks.js:17
+msgid "Default"
+msgstr "Standard"
+
+#: dist/blocks.js:6
+msgid "Small"
+msgstr "Klein"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+msgid "Medium"
+msgstr "Mittel"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+msgid "Large"
+msgstr "Groß"
+
+#: dist/blocks.js:6
+msgid "Extra Large"
+msgstr "Extra Groß"
+
+#: dist/blocks.js:6
+msgid "Success Border Color"
+msgstr "Erfolgsrahmenfarbe"
+
+#: dist/blocks.js:6
+msgid "Success Background"
+msgstr "Erfolgshintergrund"
+
+#: dist/blocks.js:6
+msgid "Success Text"
+msgstr "Erfolgstext"
+
+#: dist/blocks.js:6
+msgid "Error Border Color"
+msgstr "Fehlerrahmenfarbe"
+
+#: dist/blocks.js:6
+msgid "Error Background"
+msgstr "Fehlerhintergrund"
+
+#: dist/blocks.js:6
+msgid "Error Text"
+msgstr "Fehlertext"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Box Shadow"
+msgstr "Box-Schatten"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Vertical"
+msgstr "Vertikal"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Blur"
+msgstr "Unschärfe"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "Spread"
+msgstr "Verbreiten"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Position"
+msgstr "Position"
+
+#: dist/blocks.js:6
+msgid "Google reCAPTCHA"
+msgstr "Google reCAPTCHA"
+
+#: dist/blocks.js:6
+msgid "P.S. Note that If you are using two forms on the same page with the different reCAPTCHA versions (V2 checkbox and V3), it will create conflicts between the versions. Kindly avoid using different versions on same page. "
+msgstr "P.S. Beachten Sie, dass wenn Sie zwei Formulare auf derselben Seite mit unterschiedlichen reCAPTCHA-Versionen (V2-Checkbox und V3) verwenden, es zu Konflikten zwischen den Versionen kommen wird. Bitte vermeiden Sie die Verwendung unterschiedlicher Versionen auf derselben Seite."
+
+#: dist/blocks.js:6
+msgid "Enable reCAPTCHA"
+msgstr "reCAPTCHA aktivieren"
+
+#: dist/blocks.js:6
+msgid "Select Version"
+msgstr "Version auswählen"
+
+#: dist/blocks.js:6
+msgid "V2"
+msgstr "V2"
+
+#: dist/blocks.js:6
+msgid "V3"
+msgstr "V3"
+
+#: dist/blocks.js:6
+msgid "Input Fields Icon"
+msgstr "Eingabefelder-Symbol"
+
+#: dist/blocks.js:6
+msgid "Icon Size"
+msgstr "Symbolgröße"
+
+#: dist/blocks.js:6
+msgid "Icon Color"
+msgstr "Symbolfarbe"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+msgid "Border Width"
+msgstr "Randbreite"
+
+#: dist/blocks.js:6
+msgid "Border Color"
+msgstr "Randfarbe"
+
+#: dist/blocks.js:6
+msgid "Eye Icon"
+msgstr "Augensymbol"
+
+#: dist/blocks.js:6
+msgid "Password Eye Color"
+msgstr "Passwort Augenfarbe"
+
+#: dist/blocks.js:6
+msgid "Register Information"
+msgstr "Registrierungsinformationen"
+
+#: dist/blocks.js:6
+msgid "This is an example success message."
+msgstr "Dies ist eine Beispiel-Erfolgsmeldung."
+
+#: dist/blocks.js:6
+msgid "Error"
+msgstr "Fehler"
+
+#: dist/blocks.js:6
+msgid ": This is an example error message."
+msgstr ": Dies ist eine Beispiel-Fehlermeldung."
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:19
+msgid "Username"
+msgstr "Benutzername"
+
+#: dist/blocks.js:6
+msgid "Remember Me"
+msgstr "Erinnere dich an mich"
+
+#: dist/blocks.js:6
+msgid "Login"
+msgstr "Anmelden"
+
+#: dist/blocks.js:6
+msgid "Do not have an account?"
+msgstr "Haben Sie kein Konto?"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+msgid "login"
+msgstr "anmelden"
+
+#: dist/blocks.js:6
+msgid "This block lets you add Login functionality."
+msgstr "Dieser Block ermöglicht es Ihnen, eine Login-Funktionalität hinzuzufügen."
+
+#: dist/blocks.js:6
+msgid "admin login"
+msgstr "Admin-Login"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:14
+#: dist/blocks.js:15
+msgid "uag"
+msgstr ""
+
+#: dist/blocks.js:6
+msgid "frontend login"
+msgstr "Frontend-Anmeldung"
+
+#: dist/blocks.js:6
+msgid "user login"
+msgstr "Benutzeranmeldung"
+
+#: dist/blocks.js:6
+msgid "custom login"
+msgstr "benutzerdefinierte Anmeldung"
+
+#: dist/blocks.js:6
+msgid "New User Role"
+msgstr "Neue Benutzerrolle"
+
+#: dist/blocks.js:6
+msgid "Choosing 'Select' sets the default role for new users, as configured in WordPress Settings - General - New User Default Role."
+msgstr "Die Auswahl von 'Auswählen' legt die Standardrolle für neue Benutzer fest, wie in den WordPress-Einstellungen - Allgemein - Standardrolle für neue Benutzer konfiguriert."
+
+#: dist/blocks.js:6
+msgid "To adjust the \"New User Registration Role\", please contact your site administrator."
+msgstr "Um die \"Neue Benutzerregistrierungsrolle\" anzupassen, wenden Sie sich bitte an Ihren Site-Administrator."
+
+#: dist/blocks.js:6
+msgid "Hide Label"
+msgstr "Etikett ausblenden"
+
+#: dist/blocks.js:6
+msgid "Show Login Information"
+msgstr "Anmeldeinformationen anzeigen"
+
+#: dist/blocks.js:6
+msgid "Login Link"
+msgstr "Anmeldelink"
+
+#: dist/blocks.js:6
+msgid "Register Button"
+msgstr "Registrieren-Schaltfläche"
+
+#: dist/blocks.js:6
+msgid "Button Size"
+msgstr "Schaltflächengröße"
+
+#: dist/blocks.js:6
+msgid "After Registration Actions"
+msgstr "Aktionen nach der Registrierung"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:14
+msgid "Redirect"
+msgstr "Weiterleiten"
+
+#: dist/blocks.js:6
+msgid "Auto Login"
+msgstr "Automatische Anmeldung"
+
+#: dist/blocks.js:6
+msgid "Send Email"
+msgstr "E-Mail senden"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:14
+msgid "Redirect URL"
+msgstr "URL umleiten"
+
+#: dist/blocks.js:6
+msgid "Email Template"
+msgstr "E-Mail-Vorlage"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:15
+#: dist/blocks.js:17
+msgid "Custom"
+msgstr "Benutzerdefiniert"
+
+#: dist/blocks.js:6
+msgid "Customize Email Template"
+msgstr "E-Mail-Vorlage anpassen"
+
+#: dist/blocks.js:6
+msgid "Subject"
+msgstr "Betreff"
+
+#: dist/blocks.js:6
+msgid "Message"
+msgstr "Nachricht"
+
+#: dist/blocks.js:6
+msgid "HTML Supported"
+msgstr "HTML unterstützt"
+
+#: dist/blocks.js:6
+msgid "Note:"
+msgstr "Hinweis:"
+
+#: dist/blocks.js:6
+msgid "If you wish to send System Generated Password in the email content, use shortcode -"
+msgstr "Wenn Sie das systemgenerierte Passwort im E-Mail-Inhalt senden möchten, verwenden Sie den Shortcode -"
+
+#: dist/blocks.js:6
+msgid "Send As"
+msgstr "Als senden"
+
+#: dist/blocks.js:6
+msgid "HTML"
+msgstr "HTML"
+
+#: dist/blocks.js:6
+msgid "Plain"
+msgstr "Einfach"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:23
+msgid "Make sure to update your post for changes to take effect."
+msgstr "Stellen Sie sicher, dass Sie Ihren Beitrag aktualisieren, damit die Änderungen wirksam werden."
+
+#: dist/blocks.js:6
+#: dist/blocks.js:23
+msgid "Return To Post"
+msgstr "Zurück zum Beitrag"
+
+#: dist/blocks.js:6
+msgid "Validation Messages"
+msgstr "Validierungsmeldungen"
+
+#: dist/blocks.js:6
+msgid "Invalid Email"
+msgstr "Ungültige E-Mail"
+
+#: dist/blocks.js:6
+msgid "Email is missing"
+msgstr "E-Mail fehlt"
+
+#: dist/blocks.js:6
+msgid "Already Used Email"
+msgstr "Bereits verwendete E-Mail"
+
+#: dist/blocks.js:6
+msgid "Invalid Username"
+msgstr "Ungültiger Benutzername"
+
+#: dist/blocks.js:6
+msgid "Username already in use"
+msgstr "Benutzername bereits vergeben"
+
+#: dist/blocks.js:6
+msgid "Invalid Password"
+msgstr "Ungültiges Passwort"
+
+#: dist/blocks.js:6
+msgid "Invalid Password Confirmed"
+msgstr "Ungültiges Passwort bestätigt"
+
+#: dist/blocks.js:6
+msgid "Terms & Condition Error"
+msgstr "Fehler in den Allgemeinen Geschäftsbedingungen"
+
+#: dist/blocks.js:6
+msgid "Other Errors"
+msgstr "Andere Fehler"
+
+#: dist/blocks.js:6
+msgid "Successful Registration"
+msgstr "Erfolgreiche Registrierung"
+
+#: dist/blocks.js:6
+msgid "View Field Error Message"
+msgstr "Fehlermeldung im Feld anzeigen"
+
+#: dist/blocks.js:6
+msgid "Enable reCAPTCHA "
+msgstr "reCAPTCHA aktivieren"
+
+#: dist/blocks.js:6
+msgid "Please configure the Google reCAPTCHA Site & Secret key from"
+msgstr "Bitte konfigurieren Sie den Google reCAPTCHA Site- und Geheimschlüssel von"
+
+#: dist/blocks.js:6
+msgid "here"
+msgstr "hier"
+
+#: dist/blocks.js:6
+msgid "Label Bottom Margin"
+msgstr "Etikettenunterrand"
+
+#: dist/blocks.js:6
+msgid "Login Information"
+msgstr "Anmeldeinformationen"
+
+#: dist/blocks.js:6
+msgid "Link Text"
+msgstr "Linktext"
+
+#: dist/blocks.js:6
+msgid "Field Error Text"
+msgstr "Feldfehlermeldung"
+
+#: dist/blocks.js:6
+msgid "Register New Account"
+msgstr "Neues Konto registrieren"
+
+#: dist/blocks.js:6
+#: dist/blocks.js:8
+#: dist/blocks.js:19
+msgid "Email"
+msgstr "E-Mail"
+
+#: dist/blocks.js:6
+msgid "This message will appear when everything worked fine."
+msgstr "Diese Nachricht wird angezeigt, wenn alles einwandfrei funktioniert hat."
+
+#: dist/blocks.js:6
+msgid "This message will appear when something wrong is happening."
+msgstr "Diese Nachricht wird angezeigt, wenn etwas schiefgeht."
+
+#. translators: %1$s: anchor tag start, %2$s: anchor tag end.
+#: dist/blocks.js:8
+msgid "To use Registration Form on your site, please enable the \"%1$sAnyone Can Register%2$s\" setting from Dashboard -> Settings -> General -> Membership."
+msgstr "Um das Registrierungsformular auf Ihrer Website zu verwenden, aktivieren Sie bitte die Einstellung \"%1$sJeder kann sich registrieren%2$s\" unter Dashboard -> Einstellungen -> Allgemein -> Mitgliedschaft."
+
+#: dist/blocks.js:8
+msgid "Register"
+msgstr "Registrieren"
+
+#: dist/blocks.js:8
+msgid "Already have an account?"
+msgstr "Haben Sie bereits ein Konto?"
+
+#: dist/blocks.js:8
+msgid "This block lets you add Registration functionality."
+msgstr "Mit diesem Block können Sie Registrierungsfunktionen hinzufügen."
+
+#: dist/blocks.js:8
+msgid "register"
+msgstr "registrieren"
+
+#: dist/blocks.js:8
+msgid "admin register"
+msgstr "Admin registrieren"
+
+#: dist/blocks.js:8
+#: dist/blocks.js:14
+msgid "spectra"
+msgstr "Spektren"
+
+#: dist/blocks.js:8
+msgid "frontend register"
+msgstr "Frontend registrieren"
+
+#: dist/blocks.js:8
+msgid "user register"
+msgstr "Benutzer registrieren"
+
+#: dist/blocks.js:8
+msgid "custom register"
+msgstr "benutzerdefiniertes Register"
+
+#: dist/blocks.js:8
+msgid "Icon"
+msgstr "Symbol"
+
+#: dist/blocks.js:8
+msgid "Required"
+msgstr "Erforderlich"
+
+#: dist/blocks.js:8
+#: dist/blocks.js:19
+msgid "Name"
+msgstr "Name"
+
+#: dist/blocks.js:8
+msgid "This is an example error message."
+msgstr "Dies ist eine Beispiel-Fehlermeldung."
+
+#: dist/blocks.js:8
+msgid "This block helps to add First Name field."
+msgstr "Dieser Block hilft, das Feld Vorname hinzuzufügen."
+
+#: dist/blocks.js:8
+msgid "This block helps to add Last Name field."
+msgstr "Dieser Block hilft, das Feld Nachname hinzuzufügen."
+
+#: dist/blocks.js:8
+msgid "This block helps to add Email field."
+msgstr "Dieser Block hilft, ein E-Mail-Feld hinzuzufügen."
+
+#: dist/blocks.js:8
+msgid "This block helps to add Password field."
+msgstr "Dieser Block hilft, ein Passwortfeld hinzuzufügen."
+
+#: dist/blocks.js:8
+msgid "Re-Enter Password"
+msgstr "Passwort erneut eingeben"
+
+#: dist/blocks.js:8
+msgid "This block helps to add Re-Enter Password field."
+msgstr "Dieser Block hilft, das Feld \"Passwort erneut eingeben\" hinzuzufügen."
+
+#: dist/blocks.js:8
+msgid "This block helps to add Username field."
+msgstr "Dieser Block hilft, das Benutzername-Feld hinzuzufügen."
+
+#: dist/blocks.js:8
+msgid "Terms and Conditions notice."
+msgstr "Hinweis zu den Allgemeinen Geschäftsbedingungen."
+
+#: dist/blocks.js:8
+msgid "Terms & Condition"
+msgstr "Allgemeine Geschäftsbedingungen"
+
+#: dist/blocks.js:8
+msgid "This block helps to add Terms & Condtions field."
+msgstr "Dieser Block hilft, ein Feld für die Allgemeinen Geschäftsbedingungen hinzuzufügen."
+
+#: dist/blocks.js:8
+msgid "Background Color"
+msgstr "Hintergrundfarbe"
+
+#: dist/blocks.js:8
+msgid "Overlay Color"
+msgstr "Überlagerungsfarbe"
+
+#: dist/blocks.js:8
+msgid "Bar Color"
+msgstr "Balkenfarbe"
+
+#: dist/blocks.js:8
+msgid "Grayscale Amount"
+msgstr "Graustufenmenge"
+
+#: dist/blocks.js:8
+msgid "Sepia Amount"
+msgstr "Sepia-Menge"
+
+#: dist/blocks.js:8
+msgid "Effect Amount"
+msgstr "Effektbetrag"
+
+#: dist/blocks.js:8
+msgid "Carousel"
+msgstr "Karussell"
+
+#: dist/blocks.js:8
+msgid "Text Color"
+msgstr "Textfarbe"
+
+#: dist/blocks.js:8
+msgid "Blur Amount"
+msgstr "Unschärfegrad"
+
+#: dist/blocks.js:8
+msgid "Effect"
+msgstr "Effekt"
+
+#: dist/blocks.js:8
+#: dist/blocks.js:23
+msgid "None"
+msgstr "Keine"
+
+#: dist/blocks.js:8
+msgid "Grayscale"
+msgstr "Graustufen"
+
+#: dist/blocks.js:8
+msgid "Sepia"
+msgstr "Sepia"
+
+#: dist/blocks.js:8
+msgid "Presets"
+msgstr "Voreinstellungen"
+
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Layout"
+msgstr "Layout"
+
+#: dist/blocks.js:8
+msgid "User"
+msgstr "Benutzer"
+
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Type"
+msgstr "Typ"
+
+#: dist/blocks.js:8
+msgid "Grid"
+msgstr "Gitter"
+
+#: dist/blocks.js:8
+msgid "Masonry"
+msgstr "Mauerwerk"
+
+#: dist/blocks.js:8
+msgid "The masonry layout will appear as a grid in the editor for FSE themes, but will appear as masonry in the frontend."
+msgstr "Das Mauerwerk-Layout wird im Editor für FSE-Themen als Raster angezeigt, aber im Frontend als Mauerwerk erscheinen."
+
+#: dist/blocks.js:8
+msgid "Columns"
+msgstr "Spalten"
+
+#: dist/blocks.js:8
+msgid "Total Posts"
+msgstr "Gesamtbeiträge"
+
+#: dist/blocks.js:8
+msgid "Offset Posts by"
+msgstr "Beiträge versetzen um"
+
+#: dist/blocks.js:8
+msgid "Open Instagram on Click"
+msgstr "Instagram bei Klick öffnen"
+
+#: dist/blocks.js:8
+msgid "Starting Post"
+msgstr "Beitrag starten"
+
+#: dist/blocks.js:8
+msgid "This setting is reflected on the front-end"
+msgstr "Diese Einstellung wird im Frontend angezeigt"
+
+#: dist/blocks.js:8
+msgid "Transition Speed (ms)"
+msgstr "Übergangsgeschwindigkeit (ms)"
+
+#: dist/blocks.js:8
+msgid "Crop Images to Squares"
+msgstr "Bilder zu Quadraten zuschneiden"
+
+#: dist/blocks.js:8
+msgid "Infinite Carousel"
+msgstr "Unendliches Karussell"
+
+#: dist/blocks.js:8
+msgid "Display Dots"
+msgstr "Punkte anzeigen"
+
+#: dist/blocks.js:8
+msgid "Display Arrows"
+msgstr "Pfeile anzeigen"
+
+#: dist/blocks.js:8
+msgid "Autoplay"
+msgstr "Automatische Wiedergabe"
+
+#: dist/blocks.js:8
+msgid "Autoplay Speed (ms)"
+msgstr "Autoplay-Geschwindigkeit (ms)"
+
+#: dist/blocks.js:8
+msgid "Pause on Hover"
+msgstr "Anhalten bei Hover"
+
+#: dist/blocks.js:8
+msgid "Posts Per Page"
+msgstr "Beiträge pro Seite"
+
+#: dist/blocks.js:8
+msgid "Pagination Type"
+msgstr "Seitentyp"
+
+#: dist/blocks.js:8
+msgid "Loader"
+msgstr "Lader"
+
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Button"
+msgstr "Knopf"
+
+#: dist/blocks.js:8
+msgid "Button Text"
+msgstr "Schaltflächentext"
+
+#: dist/blocks.js:8
+msgid "Button Alignment"
+msgstr "Schaltflächenanordnung"
+
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Caption"
+msgstr "Bildunterschrift"
+
+#: dist/blocks.js:8
+msgid "Display Captions"
+msgstr "Untertitel anzeigen"
+
+#: dist/blocks.js:8
+msgid "Max Length (Characters)"
+msgstr "Maximale Länge (Zeichen)"
+
+#: dist/blocks.js:8
+msgid "Overlay"
+msgstr "Überlagerung"
+
+#: dist/blocks.js:8
+msgid "Bar Over Image"
+msgstr "Leiste über Bild"
+
+#: dist/blocks.js:8
+msgid "Bar Outside Image"
+msgstr "Leiste außerhalb des Bildes"
+
+#: dist/blocks.js:8
+#: dist/blocks.js:23
+msgid "Visibility"
+msgstr "Sichtbarkeit"
+
+#: dist/blocks.js:8
+msgid "Above"
+msgstr "Oben"
+
+#: dist/blocks.js:8
+msgid "Below"
+msgstr "Unten"
+
+#: dist/blocks.js:8
+msgid "Gap"
+msgstr "Lücke"
+
+#: dist/blocks.js:8
+msgid "Em"
+msgstr "Em"
+
+#: dist/blocks.js:8
+msgid "Instagram Post"
+msgstr "Instagram-Beitrag"
+
+#: dist/blocks.js:8
+msgid "Enable Hover Zoom"
+msgstr "Hover-Zoom aktivieren"
+
+#: dist/blocks.js:8
+msgid "Zoom Type"
+msgstr "Zoomtyp"
+
+#: dist/blocks.js:8
+msgid "Zoom In"
+msgstr "Vergrößern"
+
+#: dist/blocks.js:8
+msgid "Zoom Out"
+msgstr "Rauszoomen"
+
+#: dist/blocks.js:8
+msgid "Enable Blur Overlay"
+msgstr "Unschärfe-Overlay aktivieren"
+
+#: dist/blocks.js:8
+msgid "Caption Padding"
+msgstr "Beschriftungspolsterung"
+
+#: dist/blocks.js:8
+msgid "Hover Colors"
+msgstr "Hover-Farben"
+
+#: dist/blocks.js:8
+msgid "Arrows & Dots"
+msgstr "Pfeile & Punkte"
+
+#: dist/blocks.js:8
+msgid "Top Margin"
+msgstr "Oberer Rand"
+
+#: dist/blocks.js:8
+msgid "Arrow Position"
+msgstr "Pfeilposition"
+
+#: dist/blocks.js:8
+msgid "Arrow Size"
+msgstr "Pfeilgröße"
+
+#: dist/blocks.js:8
+msgid "Dot Position"
+msgstr "Punktposition"
+
+#: dist/blocks.js:8
+msgid "Loader Size"
+msgstr "Ladergröße"
+
+#: dist/blocks.js:8
+msgid "Button Padding"
+msgstr "Schaltflächenabstand"
+
+#: dist/blocks.js:8
+#: dist/blocks.js:15
+msgid "Spacing"
+msgstr "Abstand"
+
+#: dist/blocks.js:8
+msgid "Gap Between Posts"
+msgstr "Lücke zwischen Beiträgen"
+
+#: dist/blocks.js:8
+msgid "Select a user and you're all good to go!"
+msgstr "Wählen Sie einen Benutzer aus und Sie können loslegen!"
+
+#: dist/blocks.js:8
+msgid "Select an Instagram User:"
+msgstr "Wählen Sie einen Instagram-Nutzer aus:"
+
+#. translators: %1$s: anchor tag start, %2$s: anchor tag end.
+#: dist/blocks.js:10
+msgid "Link an Instagram account from the %1$sSpectra Dashboard%2$s!"
+msgstr "Verknüpfen Sie ein Instagram-Konto über das %1$sSpectra-Dashboard%2$s!"
+
+#: dist/blocks.js:10
+msgid "No posts to display…"
+msgstr "Keine Beiträge zum Anzeigen…"
+
+#. translators: %1$s: Instagram username.
+#: dist/blocks.js:12
+msgid "@%1$s has been unlinked or disabled for Security Reasons."
+msgstr "@%1$s wurde aus Sicherheitsgründen getrennt oder deaktiviert."
+
+#. translators: %1$s: anchor tag start, %2$s: anchor tag end.
+#: dist/blocks.js:14
+msgid "Please relink the account from the %1$sSpectra Dashboard%2$s."
+msgstr "Bitte verlinken Sie das Konto erneut vom %1$sSpectra-Dashboard%2$s."
+
+#: dist/blocks.js:14
+msgid "instagram"
+msgstr "Instagram"
+
+#: dist/blocks.js:14
+msgid "feed"
+msgstr "füttern"
+
+#: dist/blocks.js:14
+msgid "ig"
+msgstr "ig"
+
+#: dist/blocks.js:14
+msgid "social"
+msgstr "sozial"
+
+#: dist/blocks.js:14
+msgid "media"
+msgstr "Medien"
+
+#: dist/blocks.js:14
+msgid "Create a unique Campaign ID to sync multiple countdown timers across your website."
+msgstr "Erstellen Sie eine eindeutige Kampagnen-ID, um mehrere Countdown-Timer auf Ihrer Website zu synchronisieren."
+
+#: dist/blocks.js:14
+msgid "IMPORTANT: All synced countdown timers must have the same end time. "
+msgstr "WICHTIG: Alle synchronisierten Countdown-Timer müssen die gleiche Endzeit haben."
+
+#: dist/blocks.js:14
+msgid "Timer Type"
+msgstr "Timer-Typ"
+
+#: dist/blocks.js:14
+msgid "Choose the type of countdown timer to display."
+msgstr "Wählen Sie den Typ des Countdown-Timers, der angezeigt werden soll."
+
+#: dist/blocks.js:14
+#: dist/blocks.js:15
+msgid "Date"
+msgstr "Datum"
+
+#: dist/blocks.js:14
+msgid "Evergreen"
+msgstr "Immergrün"
+
+#: dist/blocks.js:14
+msgid "Days"
+msgstr "Tage"
+
+#: dist/blocks.js:14
+msgid "Hours"
+msgstr "Stunden"
+
+#: dist/blocks.js:14
+msgid "Minutes"
+msgstr "Protokoll"
+
+#: dist/blocks.js:14
+msgid "Campaign ID"
+msgstr "Kampagnen-ID"
+
+#: dist/blocks.js:14
+msgid "Reset after (Days)"
+msgstr "Zurücksetzen nach (Tagen)"
+
+#: dist/blocks.js:14
+msgid "Number of days to wait until the evergreen is reset for visitors"
+msgstr "Anzahl der Tage, die gewartet werden müssen, bis das Evergreen für Besucher zurückgesetzt wird"
+
+#: dist/blocks.js:14
+msgid "Keep"
+msgstr "Behalten"
+
+#: dist/blocks.js:14
+msgid "Hide"
+msgstr "Verbergen"
+
+#: dist/blocks.js:14
+msgid "Replace"
+msgstr "Ersetzen"
+
+#: dist/blocks.js:14
+msgid "Expiry Settings"
+msgstr "Ablaufeinstellungen"
+
+#: dist/blocks.js:14
+msgid "Expiry Action"
+msgstr "Ablaufaktion"
+
+#: dist/blocks.js:14
+msgid "For a better editing experience, expiry options work only on frontend."
+msgstr "Für ein besseres Bearbeitungserlebnis funktionieren Ablaufoptionen nur im Frontend."
+
+#: dist/blocks.js:14
+msgid "By default, this option redirects user to the homepage."
+msgstr "Standardmäßig leitet diese Option den Benutzer zur Startseite weiter."
+
+#: dist/blocks.js:14
+msgid "Reload Required"
+msgstr "Neuladen erforderlich"
+
+#: dist/blocks.js:14
+msgid "Recommended: Expired content is only rendered after reload when countdown expires."
+msgstr "Empfohlen: Abgelaufene Inhalte werden erst nach dem Neuladen angezeigt, wenn der Countdown abläuft."
+
+#: dist/blocks.js:14
+msgid "Expired content is rendered but visibly hidden until countdown expires."
+msgstr "Abgelaufene Inhalte werden gerendert, aber sichtbar verborgen, bis der Countdown abläuft."
+
+#: dist/blocks.js:14
+msgid "Automatically Reload"
+msgstr "Automatisch neu laden"
+
+#: dist/blocks.js:14
+msgid "Live"
+msgstr "Leben"
+
+#: dist/blocks.js:14
+msgid "Expired"
+msgstr "Abgelaufen"
+
+#: dist/blocks.js:14
+#: dist/blocks.js:15
+msgid "Content"
+msgstr "Inhalt"
+
+#: dist/blocks.js:14
+msgid "Navigation Slug"
+msgstr "Navigations-Slug"
+
+#: dist/blocks.js:14
+msgid "Enable Hash Navigation"
+msgstr "Hash-Navigation aktivieren"
+
+#: dist/blocks.js:14
+msgid "Directly navigate to a slide from the URL with the slide navigation slug. Set the slide slug by clicking on the child slide blocks."
+msgstr "Navigieren Sie direkt zu einer Folie über die URL mit dem Folien-Navigations-Slug. Legen Sie den Folien-Slug fest, indem Sie auf die untergeordneten Folienblöcke klicken."
+
+#: dist/blocks.js:14
+msgid "Custom Navigation"
+msgstr "Benutzerdefinierte Navigation"
+
+#: dist/blocks.js:14
+msgid "You can use the above classes to create your custom links to navigate the slider."
+msgstr "Sie können die oben genannten Klassen verwenden, um Ihre benutzerdefinierten Links zur Navigation im Slider zu erstellen."
+
+#: dist/blocks.js:14
+msgid "Slides Per View"
+msgstr "Folien pro Ansicht"
+
+#: dist/blocks.js:14
+msgid "Gap Between Slides"
+msgstr "Lücke zwischen Folien"
+
+#: dist/blocks.js:14
+msgid "Linked Caption Color"
+msgstr "Verknüpfte Beschriftungsfarbe"
+
+#: dist/blocks.js:14
+msgid "Lightbox Caption URL"
+msgstr "Lightbox-Beschriftungs-URL"
+
+#: dist/blocks.js:14
+msgid "Custom URL"
+msgstr "Benutzerdefinierte URL"
+
+#: dist/blocks.js:14
+msgid "Open Link in New Tab"
+msgstr "Link in neuem Tab öffnen"
+
+#: dist/blocks.js:14
+#: dist/blocks.js:15
+msgid "Previous"
+msgstr "Zurück"
+
+#: dist/blocks.js:14
+#: dist/blocks.js:15
+msgid "Next"
+msgstr "Weiter"
+
+#. Translators: Modal ID.
+#: dist/blocks.js:15
+msgid "Modal Placeholder - ID %1$s"
+msgstr "Modal-Platzhalter - ID %1$s"
+
+#: dist/blocks.js:15
+msgid "Click here to edit modal settings. This text will not be visible in the frontend."
+msgstr "Klicken Sie hier, um die Modaleinstellungen zu bearbeiten. Dieser Text wird im Frontend nicht sichtbar sein."
+
+#: dist/blocks.js:15
+msgid "Top Left"
+msgstr "Oben links"
+
+#: dist/blocks.js:15
+msgid "Top Right"
+msgstr "Oben rechts"
+
+#: dist/blocks.js:15
+msgid "Window - Top Left"
+msgstr "Fenster - Oben links"
+
+#: dist/blocks.js:15
+msgid "Window - Top Right"
+msgstr "Fenster - Oben rechts"
+
+#: dist/blocks.js:15
+msgid "Modal Content"
+msgstr "Modalinhalte"
+
+#: dist/blocks.js:15
+msgid "Open Modal as a"
+msgstr "Modal als öffnen"
+
+#: dist/blocks.js:15
+msgid "Popup"
+msgstr "Popup"
+
+#: dist/blocks.js:15
+msgid "Left Off-Canvas"
+msgstr "Linkes Off-Canvas"
+
+#: dist/blocks.js:15
+msgid "Right Off-Canvas"
+msgstr "Rechts außerhalb der Leinwand"
+
+#: dist/blocks.js:15
+msgid "Appear Effect"
+msgstr "Erscheinungseffekt"
+
+#: dist/blocks.js:15
+msgid "Default Effect"
+msgstr "Standard-Effekt"
+
+#: dist/blocks.js:15
+msgid "Scale"
+msgstr "Skala"
+
+#: dist/blocks.js:15
+msgid "Slide In"
+msgstr "Hereinschieben"
+
+#: dist/blocks.js:15
+msgid "Centered"
+msgstr "Zentriert"
+
+#: dist/blocks.js:15
+msgid "Bottom Left"
+msgstr "Unten links"
+
+#: dist/blocks.js:15
+msgid "Bottom Right"
+msgstr "Unten rechts"
+
+#: dist/blocks.js:15
+msgid "Horizontal Offset"
+msgstr "Horizontaler Versatz"
+
+#: dist/blocks.js:15
+msgid "Vertical Offset"
+msgstr "Vertikaler Versatz"
+
+#: dist/blocks.js:15
+msgid "Icon Background Color"
+msgstr "Symbolhintergrundfarbe"
+
+#: dist/blocks.js:15
+msgid "Icon Border Color"
+msgstr "Symbolrahmenfarbe"
+
+#: dist/blocks.js:15
+msgid "View"
+msgstr "Ansicht"
+
+#: dist/blocks.js:15
+msgid "Stacked"
+msgstr "Gestapelt"
+
+#: dist/blocks.js:15
+msgid "Framed"
+msgstr "Gerahmt"
+
+#: dist/blocks.js:15
+msgid "Shape"
+msgstr "Form"
+
+#: dist/blocks.js:15
+msgid "Circle"
+msgstr "Kreis"
+
+#: dist/blocks.js:15
+msgid "Square"
+msgstr "Quadrat"
+
+#: dist/blocks.js:15
+msgid "Trigger options are not available for custom triggers (Custom Class, Custom ID and Automatic)."
+msgstr "Trigger-Optionen sind für benutzerdefinierte Trigger (benutzerdefinierte Klasse, benutzerdefinierte ID und automatisch) nicht verfügbar."
+
+#: dist/blocks.js:15
+msgid "Custom Class"
+msgstr "Benutzerdefinierte Klasse"
+
+#: dist/blocks.js:15
+msgid "Add your custom class without the dot. e.g: my-class. To edit the Modal content, please add this class to the desired trigger element and initialize modal from it."
+msgstr "Fügen Sie Ihre benutzerdefinierte Klasse ohne den Punkt hinzu, z. B.: my-class. Um den Inhalt des Modals zu bearbeiten, fügen Sie bitte diese Klasse dem gewünschten Auslöseelement hinzu und initialisieren Sie das Modal von dort aus."
+
+#: dist/blocks.js:15
+msgid "Custom ID"
+msgstr "Benutzerdefinierte ID"
+
+#: dist/blocks.js:15
+msgid "Add your custom id without the Pound key. e.g: my-id. This trigger works in the front-end only - add this id to the desired trigger element."
+msgstr "Fügen Sie Ihre benutzerdefinierte ID ohne die Raute-Taste hinzu, z. B.: my-id. Dieser Auslöser funktioniert nur im Frontend - fügen Sie diese ID dem gewünschten Auslöser-Element hinzu."
+
+#: dist/blocks.js:15
+msgid "Display After Seconds"
+msgstr "Nach Sekunden anzeigen"
+
+#: dist/blocks.js:15
+msgid "Number of Seconds"
+msgstr "Anzahl der Sekunden"
+
+#: dist/blocks.js:15
+msgid "Enable Cookies"
+msgstr "Cookies aktivieren"
+
+#: dist/blocks.js:15
+msgid "Set Cookies on"
+msgstr "Cookies aktivieren"
+
+#: dist/blocks.js:15
+msgid "Choose an action on which you want to set cookies to hide the popup for number of days."
+msgstr "Wählen Sie eine Aktion aus, bei der Sie Cookies setzen möchten, um das Popup für eine bestimmte Anzahl von Tagen auszublenden."
+
+#: dist/blocks.js:15
+msgid "Close Action"
+msgstr "Aktion schließen"
+
+#: dist/blocks.js:15
+msgid "Page Refresh"
+msgstr "Seite aktualisieren"
+
+#: dist/blocks.js:15
+msgid "Hide for number of days"
+msgstr "Für eine Anzahl von Tagen verbergen"
+
+#: dist/blocks.js:15
+msgid "No post found!"
+msgstr "Kein Beitrag gefunden!"
+
+#: dist/blocks.js:15
+msgid "Posts per page"
+msgstr "Beiträge pro Seite"
+
+#: dist/blocks.js:15
+msgid "Posts offset"
+msgstr "Beiträge versetzt"
+
+#: dist/blocks.js:15
+msgid "Order"
+msgstr "Bestellung"
+
+#: dist/blocks.js:15
+msgid "Ascending"
+msgstr "Aufsteigend"
+
+#: dist/blocks.js:15
+msgid "Descending"
+msgstr "Absteigend"
+
+#: dist/blocks.js:15
+msgid "Order by"
+msgstr "Sortieren nach"
+
+#: dist/blocks.js:15
+msgid "Title"
+msgstr "Titel"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Author"
+msgstr "Autor"
+
+#: dist/blocks.js:15
+msgid "Last modified"
+msgstr "Zuletzt geändert"
+
+#: dist/blocks.js:15
+msgid "If Posts Not Found"
+msgstr "Wenn Beiträge nicht gefunden werden"
+
+#: dist/blocks.js:15
+msgid "Display Message"
+msgstr "Nachricht anzeigen"
+
+#: dist/blocks.js:15
+msgid "Post Type"
+msgstr "Beitragstyp"
+
+#: dist/blocks.js:15
+msgid "Sticky posts"
+msgstr "Sticky-Beiträge"
+
+#: dist/blocks.js:15
+msgid "Include"
+msgstr "Einfügen"
+
+#: dist/blocks.js:15
+msgid "Exclude"
+msgstr "Ausschließen"
+
+#: dist/blocks.js:15
+msgid "Only"
+msgstr "Nur"
+
+#: dist/blocks.js:15
+msgid "Choose whether to show sticky posts in the loop. Sticky posts will be visible only on frontend"
+msgstr "Wählen Sie, ob Sticky-Posts in der Schleife angezeigt werden sollen. Sticky-Posts sind nur im Frontend sichtbar"
+
+#: dist/blocks.js:15
+msgid "Add keywords required in posts."
+msgstr "Fügen Sie erforderliche Schlüsselwörter in Beiträge ein."
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+#: dist/blocks.js:15
+msgid "Posts"
+msgstr "Beiträge"
+
+#: dist/blocks.js:15
+msgid "Authors"
+msgstr "Autoren"
+
+#: dist/blocks.js:15
+msgid "Choose Layout"
+msgstr "Layout auswählen"
+
+#: dist/blocks.js:15
+msgid "Variation 1"
+msgstr "Variante 1"
+
+#: dist/blocks.js:15
+msgid "1 2 … 6 7 8"
+msgstr "1 2 … 6 7 8"
+
+#: dist/blocks.js:15
+msgid "Variation 2"
+msgstr "Variante 2"
+
+#: dist/blocks.js:15
+msgid "All"
+msgstr "Alle"
+
+#: dist/blocks.js:15
+msgid "Categories"
+msgstr "Kategorien"
+
+#: dist/blocks.js:15
+msgid "Variation 3"
+msgstr "Variation 3"
+
+#: dist/blocks.js:15
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+#: dist/blocks.js:15
+msgid "Variation 4"
+msgstr "Variation 4"
+
+#: dist/blocks.js:15
+msgid "Blog Categories"
+msgstr "Blog-Kategorien"
+
+#: dist/blocks.js:15
+msgid "Reset Filters"
+msgstr "Filter zurücksetzen"
+
+#: dist/blocks.js:15
+msgid "Variation 5"
+msgstr "Variation 5"
+
+#: dist/blocks.js:15
+msgid "Sort"
+msgstr "Sortieren"
+
+#: dist/blocks.js:15
+msgid "Variation 6"
+msgstr "Variation 6"
+
+#: dist/blocks.js:15
+msgid "Create from Scratch"
+msgstr "Von Grund auf neu erstellen"
+
+#: dist/blocks.js:15
+msgid "Build a post loop using advanced query parameters."
+msgstr "Erstellen Sie eine Beitragschleife mit erweiterten Abfrageparametern."
+
+#: dist/blocks.js:15
+msgid "posts"
+msgstr "Beiträge"
+
+#: dist/blocks.js:15
+msgid "query block"
+msgstr "Abfrageblock"
+
+#: dist/blocks.js:15
+msgid "loop builder"
+msgstr "Schleifenbauer"
+
+#: dist/blocks.js:15
+msgid "Layout Spacing"
+msgstr "Layout-Abstand"
+
+#: dist/blocks.js:15
+msgid "For more post-related configuration, select the"
+msgstr "Für weitere einstellungsbezogene Konfigurationen wählen Sie die"
+
+#: dist/blocks.js:15
+msgid "parent block."
+msgstr "Übergeordneter Block."
+
+#: dist/blocks.js:15
+msgid "Number Of Columns"
+msgstr "Anzahl der Spalten"
+
+#: dist/blocks.js:15
+msgid "Column Gap"
+msgstr "Spaltenabstand"
+
+#: dist/blocks.js:15
+msgid "Percent"
+msgstr "Prozent"
+
+#: dist/blocks.js:15
+msgid "Rem"
+msgstr "Rem"
+
+#: dist/blocks.js:15
+msgid "Choose variation"
+msgstr "Variante wählen"
+
+#: dist/blocks.js:15
+msgid "No results found."
+msgstr "Keine Ergebnisse gefunden."
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Loading…"
+msgstr "Laden…"
+
+#: dist/blocks.js:15
+msgid "Portrait Layout 1"
+msgstr "Hochformat Layout 1"
+
+#: dist/blocks.js:15
+msgid "Read More"
+msgstr "Mehr lesen"
+
+#: dist/blocks.js:15
+msgid "Portrait Layout 2"
+msgstr "Hochformat Layout 2"
+
+#: dist/blocks.js:15
+msgid "Landscape Layout"
+msgstr "Querformat"
+
+#: dist/blocks.js:15
+msgid "Boxed Layout"
+msgstr "Box-Layout"
+
+#: dist/blocks.js:15
+msgid "Loop Builder wrapper block has basic row column settings."
+msgstr "Der Loop Builder Wrapper-Block hat grundlegende Zeilen- und Spalteneinstellungen."
+
+#: dist/blocks.js:15
+msgid "loop builder wrapper"
+msgstr "Schleifen-Builder-Wrapper"
+
+#: dist/blocks.js:15
+msgid "Width"
+msgstr "Breite"
+
+#: dist/blocks.js:15
+msgid "Colors"
+msgstr "Farben"
+
+#: dist/blocks.js:15
+msgid "Search Text"
+msgstr "Text suchen"
+
+#: dist/blocks.js:15
+msgid "Above settings will apply to the search text enter by user."
+msgstr "Die obigen Einstellungen gelten für den vom Benutzer eingegebenen Suchtext."
+
+#: dist/blocks.js:15
+msgid "Field"
+msgstr "Feld"
+
+#: dist/blocks.js:15
+msgid "Border"
+msgstr "Grenze"
+
+#: dist/blocks.js:15
+msgid "Loop Builder - Search filter allows user to search posts in the loop."
+msgstr "Loop Builder - Der Suchfilter ermöglicht es dem Benutzer, Beiträge in der Schleife zu durchsuchen."
+
+#: dist/blocks.js:15
+msgid "loop builder search"
+msgstr "Schleifenbauer-Suche"
+
+#: dist/blocks.js:15
+msgid "Short By"
+msgstr "Sortieren nach"
+
+#: dist/blocks.js:15
+msgid "Sort Text"
+msgstr "Text sortieren"
+
+#: dist/blocks.js:15
+msgid "Above settings will apply to the sort text."
+msgstr "Die obigen Einstellungen werden auf den Sortiertext angewendet."
+
+#: dist/blocks.js:15
+msgid "Loop Builder - Sorting filter allows user to sort posts in the loop."
+msgstr "Loop Builder - Der Sortierfilter ermöglicht es dem Benutzer, Beiträge in der Schleife zu sortieren."
+
+#: dist/blocks.js:15
+msgid "loop builder sorting"
+msgstr "Schleifenbauer Sortierung"
+
+#: dist/blocks.js:15
+msgid "Loop Builder - Reset filter allows user to reset the loop filter."
+msgstr "Loop Builder - Mit dem Zurücksetzen des Filters kann der Benutzer den Schleifenfilter zurücksetzen."
+
+#: dist/blocks.js:15
+msgid "loop builder reset"
+msgstr "Schleifen-Builder zurücksetzen"
+
+#: dist/blocks.js:15
+msgid "Select Taxonomy"
+msgstr "Taxonomie auswählen"
+
+#: dist/blocks.js:15
+msgid "Product Category"
+msgstr "Produktkategorie"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Data Not Found!"
+msgstr "Daten nicht gefunden!"
+
+#: dist/blocks.js:15
+msgid "Category Text"
+msgstr "Kategorietext"
+
+#: dist/blocks.js:15
+msgid "The above settings will be applied to the text of the categories."
+msgstr "Die obigen Einstellungen werden auf den Text der Kategorien angewendet."
+
+#: dist/blocks.js:15
+msgid "Gap in Between"
+msgstr "Lücke dazwischen"
+
+#: dist/blocks.js:15
+msgid "PX"
+msgstr "PX"
+
+#: dist/blocks.js:15
+msgid "VW"
+msgstr "VW"
+
+#: dist/blocks.js:15
+msgid "Query"
+msgstr "Anfrage"
+
+#: dist/blocks.js:15
+msgid "CheckBox"
+msgstr "Kontrollkästchen"
+
+#: dist/blocks.js:15
+msgid "Stack"
+msgstr "Stapel"
+
+#: dist/blocks.js:15
+msgid "Inline"
+msgstr "Inline"
+
+#: dist/blocks.js:15
+msgid "Show Posts Count"
+msgstr "Beitragsanzahl anzeigen"
+
+#: dist/blocks.js:15
+msgid "Show Empty Taxonomy"
+msgstr "Leere Taxonomie anzeigen"
+
+#: dist/blocks.js:15
+msgid "Show Children"
+msgstr "Kinder anzeigen"
+
+#: dist/blocks.js:15
+msgid "To view child categories (sub-categories) of the selected taxonomy, enable the \"Show Children\" toggle."
+msgstr "Um die untergeordneten Kategorien (Unterkategorien) der ausgewählten Taxonomie anzuzeigen, aktivieren Sie den Schalter \"Kinder anzeigen\"."
+
+#: dist/blocks.js:15
+msgid "For the styling options please select the Buttons Block."
+msgstr "Für die Stiloptionen wählen Sie bitte den Button-Block aus."
+
+#: dist/blocks.js:15
+msgid "Placeholder 1"
+msgstr "Platzhalter 1"
+
+#: dist/blocks.js:15
+msgid "Placeholder 2"
+msgstr "Platzhalter 2"
+
+#: dist/blocks.js:15
+msgid "Placeholder 3"
+msgstr "Platzhalter 3"
+
+#: dist/blocks.js:15
+msgid "Checkbox Title"
+msgstr "Kontrollkästchen-Titel"
+
+#: dist/blocks.js:15
+msgid "Option Name 1"
+msgstr "Optionsname 1"
+
+#: dist/blocks.js:15
+msgid "Option Value 1"
+msgstr "Optionswert 1"
+
+#: dist/blocks.js:15
+msgid "Loop Builder - Pagination block allows user to paginate the loop."
+msgstr "Loop Builder - Der Paginierungsblock ermöglicht es dem Benutzer, die Schleife zu paginieren."
+
+#: dist/blocks.js:15
+msgid "loop builder pagination"
+msgstr "Schleifen-Builder-Paginierung"
+
+#: dist/blocks.js:15
+msgid "Alt"
+msgstr "Alt"
+
+#: dist/blocks.js:15
+msgid "Description"
+msgstr "Beschreibung"
+
+#: dist/blocks.js:15
+msgid "File URL"
+msgstr "Datei-URL"
+
+#: dist/blocks.js:15
+msgid "Attachment URL"
+msgstr "Anhang-URL"
+
+#: dist/blocks.js:15
+msgid "Thumbnail"
+msgstr "Miniaturansicht"
+
+#: dist/blocks.js:15
+msgid "Medium Large"
+msgstr "Mittelgroß"
+
+#: dist/blocks.js:15
+msgid "Image Size"
+msgstr "Bildgröße"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:17
+#: dist/blocks.js:19
+msgid "Choose"
+msgstr "Wählen"
+
+#: dist/blocks.js:15
+msgid "Fallback Image"
+msgstr "Fallback-Bild"
+
+#: dist/blocks.js:15
+msgid "Fallback"
+msgstr "Ausweichlösung"
+
+#: dist/blocks.js:15
+msgid "Redirect to this link if no dynamic link is found."
+msgstr "Weiterleiten zu diesem Link, wenn kein dynamischer Link gefunden wird."
+
+#: dist/blocks.js:15
+msgid "Show this text if no dynamic data is found."
+msgstr "Zeigen Sie diesen Text an, wenn keine dynamischen Daten gefunden werden."
+
+#: dist/blocks.js:15
+msgid "Advanced"
+msgstr "Fortgeschritten"
+
+#: dist/blocks.js:15
+msgid "Before"
+msgstr "Vorher"
+
+#: dist/blocks.js:15
+msgid "After"
+msgstr "Nach"
+
+#: dist/blocks.js:15
+msgid "Character Length"
+msgstr "Zeichenlänge"
+
+#: dist/blocks.js:15
+msgid "Current Post"
+msgstr "Aktueller Beitrag"
+
+#: dist/blocks.js:15
+msgid "Archive"
+msgstr "Archiv"
+
+#: dist/blocks.js:15
+msgid "Archive Description"
+msgstr "Archivbeschreibung"
+
+#: dist/blocks.js:15
+msgid "Archive Custom Field"
+msgstr "Benutzerdefiniertes Feld archivieren"
+
+#: dist/blocks.js:15
+msgid "Archive Title"
+msgstr "Archivtitel"
+
+#: dist/blocks.js:15
+msgid "Site"
+msgstr "Standort"
+
+#: dist/blocks.js:15
+msgid "Site Tagline"
+msgstr "Website-Slogan"
+
+#: dist/blocks.js:15
+msgid "Site Title"
+msgstr "Seitentitel"
+
+#: dist/blocks.js:15
+msgid "Request Parameter"
+msgstr "Anforderungsparameter"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Shortcode"
+msgstr "Kurzcode"
+
+#: dist/blocks.js:15
+msgid "User Custom Field - Current User"
+msgstr "Benutzerdefiniertes Feld - Aktueller Benutzer"
+
+#: dist/blocks.js:15
+msgid "Site Logo URL"
+msgstr "URL des Seitenlogos"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Manual"
+msgstr "Handbuch"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Custom Input"
+msgstr "Benutzerdefinierte Eingabe"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Custom Fields"
+msgstr "Benutzerdefinierte Felder"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Custom Field"
+msgstr "Benutzerdefiniertes Feld"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:19
+msgid "Custom Meta Key"
+msgstr "Benutzerdefinierter Meta-Schlüssel"
+
+#: dist/blocks.js:15
+msgid "Date Type"
+msgstr "Datumstyp"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:17
+msgid "Post Published"
+msgstr "Beitrag veröffentlicht"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:17
+msgid "Post Modified"
+msgstr "Beitrag geändert"
+
+#: dist/blocks.js:15
+msgid "Date Format"
+msgstr "Datumsformat"
+
+#: dist/blocks.js:15
+msgid "Human Readable"
+msgstr "Für Menschen lesbar"
+
+#: dist/blocks.js:15
+#: dist/blocks.js:17
+msgid "Custom Format"
+msgstr "Benutzerdefiniertes Format"
+
+#. Translators: Link to date format article.
+#: dist/blocks.js:17
+#: dist/blocks.js:19
+msgid "Learn more about date formats %1$shere%2$s."
+msgstr "Erfahren Sie mehr über Datumsformate %1$shier%2$s."
+
+#: dist/blocks.js:17
+msgid "Time Type"
+msgstr "Zeittyp"
+
+#: dist/blocks.js:17
+msgid "Time Format"
+msgstr "Zeitformat"
+
+#: dist/blocks.js:19
+#: dist/blocks.js:23
+msgid "Featured Image"
+msgstr "Beitragsbild"
+
+#: dist/blocks.js:19
+msgid "No Comments Format"
+msgstr "Kein Kommentarformat"
+
+#: dist/blocks.js:19
+msgid "One Comment Format"
+msgstr "Ein Kommentarformat"
+
+#: dist/blocks.js:19
+msgid "Many Comment Format"
+msgstr "Viele Kommentarformate"
+
+#: dist/blocks.js:19
+msgid "Separator"
+msgstr "Trenner"
+
+#: dist/blocks.js:19
+msgid "Include Context"
+msgstr "Kontext einbeziehen"
+
+#: dist/blocks.js:19
+msgid "Saved Key"
+msgstr "Gespeicherter Schlüssel"
+
+#: dist/blocks.js:19
+msgid "Meta Key"
+msgstr "Meta-Taste"
+
+#: dist/blocks.js:19
+msgid "Get"
+msgstr "Holen"
+
+#: dist/blocks.js:19
+msgid "Post"
+msgstr "Beitrag"
+
+#: dist/blocks.js:19
+msgid "Query Var"
+msgstr "Abfrage-Var"
+
+#: dist/blocks.js:19
+msgid "Parameter Name"
+msgstr "Parametername"
+
+#: dist/blocks.js:19
+msgid "When adding a Shortcode, please use the single quotes('') for shortcode attributes. Example format: [spectra id='123']"
+msgstr "Beim Hinzufügen eines Shortcodes verwenden Sie bitte einfache Anführungszeichen ('') für Shortcode-Attribute. Beispielformat: [spectra id='123']"
+
+#: dist/blocks.js:19
+msgid "ID"
+msgstr "ID"
+
+#: dist/blocks.js:19
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#: dist/blocks.js:19
+msgid "Bio"
+msgstr "Biografie"
+
+#: dist/blocks.js:19
+msgid "Website"
+msgstr "Webseite"
+
+#: dist/blocks.js:19
+#: dist/blocks.js:23
+msgid "Post Title"
+msgstr "Beitragstitel"
+
+#: dist/blocks.js:19
+#: dist/blocks.js:23
+msgid "Post Excerpt"
+msgstr "Beitragsauszug"
+
+#: dist/blocks.js:19
+#: dist/blocks.js:23
+msgid "Post Custom Field"
+msgstr "Benutzerdefiniertes Beitragsfeld"
+
+#: dist/blocks.js:19
+#: dist/blocks.js:23
+msgid "Post Date"
+msgstr "Veröffentlichungsdatum"
+
+#: dist/blocks.js:19
+#: dist/blocks.js:23
+msgid "Post Time"
+msgstr "Postzeit"
+
+#: dist/blocks.js:19
+msgid "Post Terms"
+msgstr "Beitragsbedingungen"
+
+#: dist/blocks.js:19
+#: dist/blocks.js:23
+msgid "Post ID"
+msgstr "Beitrags-ID"
+
+#: dist/blocks.js:19
+#: dist/blocks.js:23
+msgid "Comments Number"
+msgstr "Anzahl der Kommentare"
+
+#: dist/blocks.js:19
+msgid "Nickname"
+msgstr "Spitzname"
+
+#: dist/blocks.js:19
+msgid "Avatar Image URL"
+msgstr "Avatar-Bild-URL"
+
+#: dist/blocks.js:19
+msgid "Author Custom Field"
+msgstr "Benutzerdefiniertes Autorenfeld"
+
+#: dist/blocks.js:19
+msgid "Avatar (Profile Image)"
+msgstr "Avatar (Profilbild)"
+
+#: dist/blocks.js:19
+msgid "Previous page"
+msgstr "Vorherige Seite"
+
+#: dist/blocks.js:19
+msgid "Page numbers"
+msgstr "Seitenzahlen"
+
+#: dist/blocks.js:19
+msgid "Next page"
+msgstr "Nächste Seite"
+
+#: dist/blocks.js:19
+msgid "Post Permalink"
+msgstr "Beitrags-Permalink"
+
+#: dist/blocks.js:19
+msgid "Comments Area"
+msgstr "Kommentarbereich"
+
+#: dist/blocks.js:19
+msgid "Avatar (Profile URL)"
+msgstr "Avatar (Profil-URL)"
+
+#: dist/blocks.js:19
+msgid "Author Archive URL"
+msgstr "URL des Autorenarchivs"
+
+#: dist/blocks.js:19
+msgid "Author Page URL"
+msgstr "URL der Autorenseite"
+
+#: dist/blocks.js:19
+msgid "Dynamic Content"
+msgstr "Dynamischer Inhalt"
+
+#: dist/blocks.js:19
+msgid "Data Source"
+msgstr "Datenquelle"
+
+#: dist/blocks.js:19
+msgid "Search Posts"
+msgstr "Beiträge durchsuchen"
+
+#: dist/blocks.js:19
+msgid "Search…"
+msgstr "Suche…"
+
+#: dist/blocks.js:19
+msgid "Source Field"
+msgstr "Quellfeld"
+
+#: dist/blocks.js:19
+msgid "Enable Link"
+msgstr "Link aktivieren"
+
+#: dist/blocks.js:19
+msgid "Link Source"
+msgstr "Linkquelle"
+
+#: dist/blocks.js:19
+msgid "Replace Full Content"
+msgstr "Gesamten Inhalt ersetzen"
+
+#: dist/blocks.js:19
+msgid "Apply"
+msgstr "Anwenden"
+
+#: dist/blocks.js:19
+#: dist/blocks.js:23
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: dist/blocks.js:19
+msgid "This block currently does not support use of multiple dynamic content sources."
+msgstr "Dieser Block unterstützt derzeit nicht die Verwendung mehrerer dynamischer Inhaltsquellen."
+
+#: dist/blocks.js:19
+msgid "No Content"
+msgstr "Kein Inhalt"
+
+#: dist/blocks.js:19
+msgid "Highlight"
+msgstr "Hervorheben"
+
+#: dist/blocks.js:19
+msgid "Dynamic Image"
+msgstr "Dynamisches Bild"
+
+#: dist/blocks.js:19
+msgid "Dynamic Image Link"
+msgstr "Dynamischer Bildlink"
+
+#: dist/blocks.js:19
+msgid "Dynamic"
+msgstr "Dynamisch"
+
+#: dist/blocks.js:19
+msgid "Site Title is not available"
+msgstr "Seitentitel ist nicht verfügbar"
+
+#: dist/blocks.js:19
+msgid "Site Description is not available"
+msgstr "Seitenbeschreibung ist nicht verfügbar"
+
+#. Translators: %s Author Meta name.
+#: dist/blocks.js:21
+#: dist/blocks.js:23
+msgid "Author %s is not available."
+msgstr "Autor %s ist nicht verfügbar."
+
+#: dist/blocks.js:23
+msgid "Post Terms List"
+msgstr "Beitragsbedingungen Liste"
+
+#: dist/blocks.js:23
+msgid "Author Name"
+msgstr "Autorenname"
+
+#: dist/blocks.js:23
+msgid "Author First Name"
+msgstr "Vorname des Autors"
+
+#: dist/blocks.js:23
+msgid "Author Last Name"
+msgstr "Nachname des Autors"
+
+#: dist/blocks.js:23
+msgid "Author Nickname"
+msgstr "Autorenname"
+
+#: dist/blocks.js:23
+msgid "Author Bio"
+msgstr "Autorenbiografie"
+
+#: dist/blocks.js:23
+msgid "Author Avatar"
+msgstr "Autoren-Avatar"
+
+#: dist/blocks.js:23
+msgid "Author Meta"
+msgstr "Autor-Meta"
+
+#: dist/blocks.js:23
+msgid "Dynamic content"
+msgstr "Dynamischer Inhalt"
+
+#: dist/blocks.js:23
+msgid "Trigger Type"
+msgstr "Auslösetyp"
+
+#: dist/blocks.js:23
+msgid "Load"
+msgstr "Laden"
+
+#: dist/blocks.js:23
+msgid "Element"
+msgstr "Element"
+
+#: dist/blocks.js:23
+msgid "Delay in Seconds"
+msgstr "Verzögerung in Sekunden"
+
+#: dist/blocks.js:23
+msgid "Copy and paste the class above to any block's Additional Classes to create a clickable element that will trigger the popup."
+msgstr "Kopieren Sie die obenstehende Klasse und fügen Sie sie in die zusätzlichen Klassen eines Blocks ein, um ein anklickbares Element zu erstellen, das das Popup auslöst."
+
+#: dist/blocks.js:23
+msgid "Entire Website"
+msgstr "Gesamte Website"
+
+#: dist/blocks.js:23
+msgid "-- Select --"
+msgstr "-- Auswählen --"
+
+#: dist/blocks.js:23
+msgid "Start typing to search…"
+msgstr "Tippen Sie, um zu suchen…"
+
+#: dist/blocks.js:23
+msgid "Display Conditions"
+msgstr "Anzeigebedingungen"
+
+#: dist/blocks.js:23
+msgid "Display On"
+msgstr "Anzeige Ein"
+
+#: dist/blocks.js:23
+msgid "Do Not Display On"
+msgstr "Nicht anzeigen auf"
+
+#: dist/blocks.js:23
+msgid "Linear"
+msgstr "Linear"
+
+#: dist/blocks.js:23
+msgid "Ease"
+msgstr "Leichtigkeit"
+
+#: dist/blocks.js:23
+msgid "Ease In"
+msgstr "Langsam beginnen"
+
+#: dist/blocks.js:23
+msgid "Ease Out"
+msgstr "Langsam ausblenden"
+
+#: dist/blocks.js:23
+msgid "Ease In Out"
+msgstr "Leicht ein- und ausblenden"
+
+#: dist/blocks.js:23
+msgid "Animation Duration"
+msgstr "Animationsdauer"
+
+#: dist/blocks.js:23
+msgid "Duration sets the runtime of the animation."
+msgstr "Die Dauer legt die Laufzeit der Animation fest."
+
+#: dist/blocks.js:23
+msgid "Animation Delay"
+msgstr "Animationsverzögerung"
+
+#: dist/blocks.js:23
+msgid "Delay marks how long to wait before the animation starts playing."
+msgstr "Die Verzögerung gibt an, wie lange gewartet wird, bevor die Animation beginnt."
+
+#: dist/blocks.js:23
+msgid "Animation Easing"
+msgstr "Animationseasing"
+
+#: dist/blocks.js:23
+msgid "Easing can help provide a natural feel to the animation by affecting it's speed at a specific interval."
+msgstr "Durch das Anwenden von Easing kann die Animation natürlicher wirken, indem die Geschwindigkeit in einem bestimmten Intervall beeinflusst wird."
+
+#: dist/blocks.js:23
+msgid "Preview"
+msgstr "Vorschau"
+
+#: dist/blocks.js:23
+msgid "Play Repeatedly on Scroll"
+msgstr "Beim Scrollen wiederholt abspielen"
+
+#: dist/blocks.js:23
+msgid "Show Advanced Settings"
+msgstr "Erweiterte Einstellungen anzeigen"
+
+#: dist/blocks.js:23
+msgid "Apply Only to Content"
+msgstr "Nur auf Inhalte anwenden"
+
+#: dist/blocks.js:23
+msgid "If checked, animations will not be applied to this container itself."
+msgstr "Wenn aktiviert, werden Animationen nicht auf diesen Container selbst angewendet."
+
+#: dist/blocks.js:23
+msgid "Delay Interval for Content"
+msgstr "Verzögerungsintervall für Inhalte"
+
+#: dist/blocks.js:23
+msgid "Set delay increments for nested blocks."
+msgstr "Verzögerungsinkremente für verschachtelte Blöcke festlegen."
+
+#: dist/blocks.js:23
+msgid "Apply to Nested Blocks"
+msgstr "Auf verschachtelte Blöcke anwenden"
+
+#: dist/blocks.js:23
+msgid "Remove from Nested Blocks"
+msgstr "Aus verschachtelten Blöcken entfernen"
+
+#: dist/blocks.js:23
+msgid "Remove"
+msgstr "Entfernen"
+
+#: dist/blocks.js:23
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: dist/blocks.js:23
+msgid "Please enter a style name"
+msgstr "Bitte geben Sie einen Stilnamen ein"
+
+#: dist/blocks.js:23
+msgid "Style name should be more then 3 characters and less then 50 characters"
+msgstr "Der Stilname sollte mehr als 3 Zeichen und weniger als 50 Zeichen enthalten"
+
+#: dist/blocks.js:23
+msgid "Style name already exists"
+msgstr "Stilname existiert bereits"
+
+#: dist/blocks.js:23
+msgid "Style name should not contain special characters"
+msgstr "Der Stilname sollte keine Sonderzeichen enthalten"
+
+#: dist/blocks.js:23
+msgid "Manage Styles"
+msgstr "Stile verwalten"
+
+#: dist/blocks.js:23
+msgid "Global Block Styles"
+msgstr "Globale Blockstile"
+
+#: dist/blocks.js:23
+msgid "NAME"
+msgstr "NAME"
+
+#: dist/blocks.js:23
+msgid "Delete All"
+msgstr "Alle löschen"
+
+#: dist/blocks.js:23
+msgid "No Global Style Found"
+msgstr "Kein globaler Stil gefunden"
+
+#: dist/blocks.js:23
+msgid "When you create a block style, you'll see it reflected here."
+msgstr "Wenn Sie einen Blockstil erstellen, wird er hier angezeigt."
+
+#: includes/extensions/dynamic-content/helper.php:269
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr "J"
+
+#: includes/extensions/dynamic-content/helper.php:276
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr "F Y"
+
+#: includes/extensions/dynamic-content/helper.php:283
+msgctxt "daily archives date format"
+msgid "F j, Y"
+msgstr "F j, Y"
+
+#: includes/extensions/dynamic-content/helper.php:291
+msgctxt "post format archive title"
+msgid "Asides"
+msgstr "Nebenbemerkungen"
+
+#: includes/extensions/dynamic-content/helper.php:293
+msgctxt "post format archive title"
+msgid "Galleries"
+msgstr "Galerien"
+
+#: includes/extensions/dynamic-content/helper.php:295
+msgctxt "post format archive title"
+msgid "Images"
+msgstr "Bilder"
+
+#: includes/extensions/dynamic-content/helper.php:297
+msgctxt "post format archive title"
+msgid "Videos"
+msgstr "Videos"
+
+#: includes/extensions/dynamic-content/helper.php:299
+msgctxt "post format archive title"
+msgid "Quotes"
+msgstr "Zitate"
+
+#: includes/extensions/dynamic-content/helper.php:301
+msgctxt "post format archive title"
+msgid "Links"
+msgstr "Links"
+
+#: includes/extensions/dynamic-content/helper.php:303
+msgctxt "post format archive title"
+msgid "Statuses"
+msgstr "Status"
+
+#: includes/extensions/dynamic-content/helper.php:305
+msgctxt "post format archive title"
+msgid "Audio"
+msgstr "Audio"
+
+#: includes/extensions/dynamic-content/helper.php:307
+msgctxt "post format archive title"
+msgid "Chats"
+msgstr "Chats"
+
+#: dist/blocks.js:23
+msgctxt "1 second"
+msgid "1s"
+msgstr "1s"
+
+#: dist/blocks.js:23
+msgctxt "2 seconds"
+msgid "2s"
+msgstr "2s"
+
+#: dist/blocks.js:23
+msgctxt "0.1 seconds"
+msgid "0.1s"
+msgstr "0,1s"
+
+#: dist/blocks.js:23
+msgctxt "0.2 seconds"
+msgid "0.2s"
+msgstr "0,2s"

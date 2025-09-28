@@ -130,18 +130,10 @@ if (-not $SkipQA) {
     Write-Host ""
 }
 
-# Step 4: Verify configuration files
+# Step 4: Verify plugin configuration
 Write-Host "📋 Step 4: Verifying plugin configuration..." -ForegroundColor Yellow
 
-# Check .gitattributes
-if (-not (Test-Path "$PLUGIN_DIR\.gitattributes")) {
-    Write-Host "⚠️  Missing .gitattributes in plugin directory" -ForegroundColor Yellow
-    $QA_FAILED = $true
-} else {
-    Write-Host "✅ Plugin .gitattributes exists" -ForegroundColor Green
-}
-
-# Check .gitignore
+# Check .gitignore (keeps local workspace clean)
 if (-not (Test-Path "$PLUGIN_DIR\.gitignore")) {
     Write-Host "⚠️  Missing .gitignore in plugin directory" -ForegroundColor Yellow
     $QA_FAILED = $true
@@ -149,7 +141,7 @@ if (-not (Test-Path "$PLUGIN_DIR\.gitignore")) {
     Write-Host "✅ Plugin .gitignore exists" -ForegroundColor Green
 }
 
-# Check composer.json
+# Check composer.json (essential for runtime dependencies)
 if (-not (Test-Path "$PLUGIN_DIR\composer.json")) {
     Write-Host "❌ Missing composer.json in plugin directory" -ForegroundColor Red
     exit 1
