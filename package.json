@@ -17,8 +17,8 @@
   },
   "scripts": {
     "lint:js": "eslint .",
-    "lint:json": "eslint . --ext .json,.jsonc --ignore-path .eslintignore",
-    "lint:md": "eslint . --ext .md --ignore-path .eslintignore",
+    "lint:json": "eslint . --ext .json,.jsonc",
+    "lint:md": "eslint . --ext .md",
     "lint:all": "npm run lint:js && npm run lint:json && npm run lint:md",
     "lint:js:fix": "eslint . --fix"
   }
