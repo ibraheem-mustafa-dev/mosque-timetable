@@ -1,17 +1,62 @@
 # Export-ignore patterns for clean plugin distribution
+# These files/directories will be excluded from git archive and releases
+
+# Development configuration files
 /.gitignore          export-ignore
 /.gitattributes      export-ignore
+/.editorconfig       export-ignore
+
+# Development directories
 /tests/              export-ignore
 /.github/            export-ignore
 /.claude/            export-ignore
+/.vscode/            export-ignore
+/.idea/              export-ignore
 /node_modules/       export-ignore
+
+# Build and dependency files
 /composer.lock       export-ignore
+vendor.zip           export-ignore
+
+# QA and testing configuration
 /phpunit.xml         export-ignore
+/phpunit.xml.dist    export-ignore
 /phpcs.xml           export-ignore
+/phpcs.xml.dist      export-ignore
 /phpstan.neon        export-ignore
+/phpstan.neon.dist   export-ignore
 /psalm.xml           export-ignore
+/psalm.xml.dist      export-ignore
+
+# Documentation and readme files
 *.md                 export-ignore
+*.MD                 export-ignore
+*.txt                export-ignore
+README*              export-ignore
+CHANGELOG*           export-ignore
+CONTRIBUTING*        export-ignore
+LICENSE*             export-ignore
+
+# Development and backup files
 *.backup             export-ignore
+*.bak                export-ignore
+*.orig               export-ignore
+*.rej                export-ignore
+*.tmp                export-ignore
+
+# Debug and test files
 *debug*              export-ignore
 *test*               export-ignore
-vendor.zip           export-ignore
+*Test*               export-ignore
+*-test.*             export-ignore
+*_test.*             export-ignore
+
+# OS and IDE files
+Thumbs.db            export-ignore
+.DS_Store            export-ignore
+*.swp                export-ignore
+*.swo                export-ignore
+*~                   export-ignore
+
+# Log files
+*.log                export-ignore
