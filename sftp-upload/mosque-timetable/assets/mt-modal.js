@@ -134,26 +134,9 @@
                             </form>
                         </div>
                         <div class="mt-modal-footer">
-                            <div class="mt-footer-section">
-                                <h4>📥 One-Time Download</h4>
-                                <p class="mt-footer-note">Downloads a file you can import once</p>
-                                <div class="mt-button-group">
-                                    <button type="button" class="mt-btn mt-btn-primary" id="mt-download-ics">📥 Download .ics</button>
-                                </div>
-                            </div>
-
-                            <div class="mt-footer-section">
-                                <h4>🔗 Subscribe to Calendar</h4>
-                                <p class="mt-footer-note">Creates auto-updating feed that stays current</p>
-                                <div class="mt-button-group">
-                                    <button type="button" class="mt-btn mt-btn-primary" id="mt-subscribe-google">📅 Subscribe in Google</button>
-                                    <button type="button" class="mt-btn mt-btn-secondary" id="mt-subscribe-webcal">📱 Subscribe (Apple/Outlook)</button>
-                                </div>
-                            </div>
-
-                            <div class="mt-footer-actions">
-                                <button type="button" class="mt-btn mt-btn-secondary" id="mt-modal-cancel">Cancel</button>
-                            </div>
+                            <button type="button" class="mt-btn mt-btn-secondary" id="mt-modal-cancel">Cancel</button>
+                            <button type="button" class="mt-btn mt-btn-primary" id="mt-download-ics">📥 Download .ics</button>
+                            <button type="button" class="mt-btn mt-btn-primary" id="mt-google-calendar">📅 Add to Google</button>
                         </div>
                     </div>
                 </div>
@@ -197,17 +180,10 @@
                 }
             });
 
-            // Subscribe to Google Calendar
+            // Google Calendar
             document.addEventListener('click', function(e) {
-                if (e.target.id === 'mt-subscribe-google') {
-                    self.subscribeToGoogle();
-                }
-            });
-
-            // Subscribe via webcal (Apple/Outlook)
-            document.addEventListener('click', function(e) {
-                if (e.target.id === 'mt-subscribe-webcal') {
-                    self.subscribeWebcal();
+                if (e.target.id === 'mt-google-calendar') {
+                    self.addToGoogle();
                 }
             });
 
@@ -305,65 +281,11 @@
             this.closeModal();
         },
 
-        // Subscribe to Google Calendar
-        subscribeToGoogle: function() {
-            const subscribeUrl = this.buildSubscribeUrl();
-            const googleUrl = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(subscribeUrl)}`;
-
-            // Open Google Calendar subscribe page
-            window.open(googleUrl, '_blank', 'noopener,noreferrer');
-        },
-
-        // Subscribe via webcal (Apple/Outlook)
-        subscribeWebcal: function() {
-            const subscribeUrl = this.buildSubscribeUrl();
-            const webcalUrl = subscribeUrl.replace(/^https?:\/\//i, 'webcal://');
-
-            // Open webcal link - will prompt user's default calendar app
-            window.location.href = webcalUrl;
-        },
-
-        // Build subscribe URL with current filter settings
-        buildSubscribeUrl: function() {
-            const formData = this.getFormData();
-
-            // Base URL for calendar feed
-            let baseUrl = this.config.baseUrl || window.location.origin;
-            baseUrl += '/prayer-times/calendar.ics';
-
-            // Build query parameters
-            const params = new URLSearchParams();
-
-            // Only add non-default parameters to keep URL clean
-            if (formData.date_range === 'month') {
-                params.set('month', formData.month);
-                params.set('year', formData.year);
-            }
-
-            if (formData.include_jamah === '1') {
-                params.set('include_jamah', '1');
-            }
-
-            if (formData.alarms && formData.alarms.length > 0) {
-                formData.alarms.forEach(alarm => params.append('alarms[]', alarm));
-            }
-
-            if (formData.jummah_option && formData.jummah_option !== 'both') {
-                params.set('jummah', formData.jummah_option);
-            }
-
-            if (formData.sunrise_alarm) {
-                params.set('sunrise_alarm', formData.sunrise_alarm);
-            }
-
-            // Return URL with parameters
-            const queryString = params.toString();
-            return queryString ? `${baseUrl}?${queryString}` : baseUrl;
-        },
-
-        // Legacy method for backward compatibility
+        // Add to Google Calendar
         addToGoogle: function() {
-            this.subscribeToGoogle();
+            // Google Calendar doesn't support bulk import via URL
+            // Show instructions instead
+            alert('To add to Google Calendar:\\n\\n1. Click "Download .ics" to save the file\\n2. Open Google Calendar\\n3. Click the "+" next to "Other calendars"\\n4. Select "Import"\\n5. Choose the downloaded .ics file');
         }
     };
 

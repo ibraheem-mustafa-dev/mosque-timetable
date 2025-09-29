@@ -51,7 +51,8 @@ export default defineConfig([
         MosqueTimetable: "readonly",
         MosqueTimetableAdmin: "readonly",
         mosqueTimetable: "readonly",
-        mosqueTimetableAdmin: "readonly"
+        mosqueTimetableAdmin: "readonly",
+        mosqueTimetableModal: "readonly"
       }
     },
     rules: {
@@ -67,9 +68,9 @@ export default defineConfig([
     files: ["public_html/**/*sw*.js", "public_html/**/sw.js"],
     languageOptions: {
       globals: {
-        self: "readonly",
-        clients: "readonly",
-        caches: "readonly"
+        // serviceworker environment already provides: self, caches
+        // But clients is needed
+        clients: "readonly"
       }
     }
   },

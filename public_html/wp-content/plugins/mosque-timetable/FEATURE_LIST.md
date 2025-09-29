@@ -11,16 +11,19 @@
 - **Excel (.xlsx) import support** using SimpleXLSX library
 - **Manual data entry** via intuitive admin tables
 - **Copy/paste import** from external spreadsheets
-- **Auto-population** of month dates with Islamic calendar alignment
+- **Auto-population** of month dates and number of days in Month using Month name and Year. And then using the Gregorian calendar date to auto populate Islamic calendar alignment
 
 ### 📅 **Frontend Display Options**
 - **[mosque_timetable]** shortcode for monthly tables
 - **[todays_prayers]** widget for current day display
 - **[prayer_countdown]** live countdown to next prayer
 - **Responsive mobile design** with card-based layout transformation
-- **Sticky prayer bar** with swipeable prayer chips on mobile
+- **Sticky prayer bar** under the navbar with swipeable prayer chips on mobile
 - **Next prayer highlighting** with automatic time tracking
 - **Terminology customization** system for multilingual support
+- **Monthly Prayer PDF** downloadable and printable
+- **Subscribe To Calendar** button that allows them to subscribe to the Google Calendar link so they never need to import prayers again.
+- **Prayer** system for multilingual support
 
 ---
 
@@ -50,7 +53,7 @@
 - **ICS calendar generation** (`/prayer-times/calendar.ics`)
 - **Visitor export modal** with comprehensive customization options:
   - Date range selection (full year or specific month)
-  - Jamāʿah time inclusion toggle
+  - Masjid Jamāʿah time inclusion toggle
   - Multiple notification options (Start, 5m, 10m, 20m, 30m)
   - Jummah service selection (both, 1st, or 2nd only)
   - Sunrise warning alarms
@@ -110,10 +113,10 @@
 - **Per-month PDF uploads** within individual month tabs
 - **Print-ready document support** for physical distribution
 - **Conditional button display**:
-  - "Download Timetable" when PDF exists
-  - "Print Timetable" (window.print()) when no PDF
+- **"Download Timetable"** when PDF exists
+- **"Print Timetable"** (window.print()) when no PDF
 - **File management** with proper upload validation
-- **ACF Pro + options dual storage** support
+- **ACF Pro + options dual admin** page visuals
 
 ### ⚙️ **Configuration Management**
 - **Mosque details** (name, address, contact information)

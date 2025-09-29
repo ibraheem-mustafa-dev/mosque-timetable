@@ -165,45 +165,13 @@
    ========================================================================== */
 
 .mt-modal-footer {
-    padding: 20px 24px;
+    padding: 16px 24px;
     border-top: 1px solid #e5e7eb;
     background: #f9fafb;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.mt-footer-section {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.mt-footer-section h4 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-    color: #374151;
-}
-
-.mt-footer-note {
-    margin: 0;
-    font-size: 13px;
-    color: #6b7280;
-    line-height: 1.4;
-}
-
-.mt-button-group {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.mt-footer-actions {
-    display: flex;
     justify-content: flex-end;
-    padding-top: 12px;
-    border-top: 1px solid #e5e7eb;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 /* ==========================================================================
@@ -392,8 +360,8 @@
         grid-template-columns: 1fr;
     }
 
-    .mt-button-group {
-        flex-direction: column;
+    .mt-modal-footer {
+        flex-direction: column-reverse;
     }
 
     .mt-btn {
@@ -403,62 +371,8 @@
 }
 
 /* ==========================================================================
-   WCAG 2.1 AA Accessibility Compliance
+   Accessibility
    ========================================================================== */
-
-/* Focus indicators for modal elements */
-.mt-btn:focus,
-.mt-modal-close:focus,
-input:focus,
-textarea:focus,
-select:focus {
-    outline: 2px solid #0073aa;
-    outline-offset: 2px;
-    box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.2);
-}
-
-/* High contrast focus indicators */
-@media (prefers-contrast: more) {
-    .mt-btn:focus,
-    .mt-modal-close:focus,
-    input:focus,
-    textarea:focus,
-    select:focus {
-        outline: 3px solid #000;
-        outline-offset: 2px;
-        box-shadow: 0 0 0 2px #fff, 0 0 0 5px #000;
-    }
-}
-
-/* Touch target compliance for modal buttons */
-.mt-btn {
-    min-height: 44px;
-    min-width: 44px;
-    padding: 12px 20px;
-}
-
-.mt-modal-close {
-    min-height: 44px;
-    min-width: 44px;
-}
-
-/* Checkbox and radio touch targets */
-input[type="checkbox"],
-input[type="radio"] {
-    min-height: 20px;
-    min-width: 20px;
-    margin-right: 8px;
-}
-
-/* Label touch targets */
-.mt-radio-option,
-.mt-checkbox-option {
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 8px 0;
-}
 
 @media (prefers-reduced-motion: reduce) {
     .mt-modal {

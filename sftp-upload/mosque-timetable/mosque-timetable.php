@@ -205,65 +205,6 @@ if ( ! function_exists( 'mt_get_subscribe_url' ) ) {
 	}
 }
 
-// === Subscribe to Calendar Helper Functions ===
-if ( ! function_exists( 'mt_get_calendar_subscribe_url' ) ) {
-	/**
-	 * Get the calendar subscribe URL with optional filters
-	 * Supports custom mosque calendar URL override
-	 *
-	 * @param array $args Optional filter parameters
-	 * @return string Subscribe URL
-	 */
-	function mt_get_calendar_subscribe_url( array $args = array() ): string {
-		// Check for mosque's custom subscribe URL first
-		$custom_url = '';
-		if ( mt_has_acf() ) {
-			$custom_url = get_field( 'custom_subscribe_url', 'option' );
-		} else {
-			$custom_url = get_option( 'custom_subscribe_url', '' );
-		}
-
-		if ( ! empty( $custom_url ) && filter_var( $custom_url, FILTER_VALIDATE_URL ) ) {
-			// Use mosque's existing calendar (may include events + prayers)
-			return $custom_url;
-		}
-
-		// Fall back to auto-generated prayer times feed
-		$base_url = get_site_url() . '/prayer-times/calendar.ics';
-
-		if ( ! empty( $args ) ) {
-			$query_string = http_build_query( $args, '', '&', PHP_QUERY_RFC3986 );
-			$base_url .= '?' . $query_string;
-		}
-
-		return $base_url;
-	}
-}
-
-if ( ! function_exists( 'mt_get_google_subscribe_url' ) ) {
-	/**
-	 * Build a Google Calendar "Add by URL" subscribe link
-	 *
-	 * @param string $ics_url The ICS feed URL to subscribe to
-	 * @return string Google Calendar subscribe URL
-	 */
-	function mt_get_google_subscribe_url( string $ics_url ): string {
-		return 'https://calendar.google.com/calendar/r?cid=' . rawurlencode( $ics_url );
-	}
-}
-
-if ( ! function_exists( 'mt_get_webcal_url' ) ) {
-	/**
-	 * Convert https:// URL to webcal:// for native calendar apps
-	 *
-	 * @param string $ics_url The ICS feed URL
-	 * @return string Webcal URL for Apple Calendar, Outlook, etc.
-	 */
-	function mt_get_webcal_url( string $ics_url ): string {
-		return preg_replace( '#^https?://#i', 'webcal://', $ics_url );
-	}
-}
-
 // === Save rows for a month (works with/without ACF) ===
 if ( ! function_exists( 'mt_save_month_rows' ) ) {
 	function mt_save_month_rows( int $month, array $rows, ?int $year = null ): bool {
@@ -377,28 +318,6 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 		return (bool) update_option( $option_name, $pdf_url, false );
 	}
 
-	function mt_set_pdf_for_month( int $month, int $year, string $pdf_url ): bool {
-		return mt_save_pdf_for_month( $month, $pdf_url, $year );
-	}
-
-	function mt_remove_pdf_for_month( int $month, int $year ): bool {
-		$month = max( 1, min( 12, (int) $month ) );
-		$year  = (int) $year;
-
-		if ( mt_has_acf() ) {
-			$field_name = "daily_prayers_{$month}";
-			$rows       = get_field( $field_name, 'option' ) ?: array();
-
-			if ( is_array( $rows ) && isset( $rows[0] ) && is_array( $rows[0] ) ) {
-				$rows[0]['pdf_url'] = '';
-				return (bool) update_field( $field_name, $rows, 'option' );
-			}
-		}
-
-		$option_name = sprintf( 'mt_pdf_%04d_%d', $year, $month );
-		return (bool) delete_option( $option_name );
-	}
-
 	// Ensure Composer autoload is available for SimpleXLSX
 	$mt_vendor = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 	if ( is_readable( $mt_vendor ) ) {
@@ -477,12 +396,6 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 			add_action( 'init', array( $this, 'init_push_notifications_cron' ) );
 			add_action( 'mt_send_push_notifications', array( $this, 'process_push_notifications' ) );
 			add_filter( 'cron_schedules', array( $this, 'add_cron_intervals' ) );
-
-			// AJAX handlers for push notifications
-			add_action( 'wp_ajax_subscribe_push_notifications', array( $this, 'ajax_subscribe_push_notifications' ) );
-			add_action( 'wp_ajax_nopriv_subscribe_push_notifications', array( $this, 'ajax_subscribe_push_notifications' ) );
-			add_action( 'wp_ajax_unsubscribe_push_notifications', array( $this, 'ajax_unsubscribe_push_notifications' ) );
-			add_action( 'wp_ajax_nopriv_unsubscribe_push_notifications', array( $this, 'ajax_unsubscribe_push_notifications' ) );
 			add_filter( 'admin_footer_text', array( $this, 'admin_footer_credit' ) );
 			add_action( 'wp_footer', array( $this, 'frontend_credit' ) );
 			add_filter( 'robots_txt', array( $this, 'add_robots_txt_entries' ), 10, 2 );
@@ -653,225 +566,23 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 		}
 
 		/**
-		 * Render admin assets
+		 * Enqueue admin assets
 		 */
-
-		public function render_timetables_admin_page() {
-			$available_months = get_field( 'available_months', 'option' ) ?: range(1,12);
-			$default_year     = get_field( 'default_year', 'option' ) ?: wp_date( 'Y' );
-		
-			$months = array(
-				1=>'January',2=>'February',3=>'March',4=>'April',
-				5=>'May',6=>'June',7=>'July',8=>'August',
-				9=>'September',10=>'October',11=>'November',12=>'December',
-			);
-			?>
-			<div class="wrap mosque-timetable-admin">
-				<div class="mosque-page-header">
-					<img src="<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/icon-192.png' ); ?>" alt="Mosque Logo" class="mosque-logo">
-					<h1>Prayer Timetables — <?php echo esc_html( $default_year ); ?></h1>
-				</div>
-		
-				<div class="mosque-admin-header">
-					<div class="year-archive-browser">
-						<h3>📅 Year Archive Browser</h3>
-						<div class="year-controls">
-							<label for="year-selector">Select Year:</label>
-							<select id="year-selector" class="year-selector">
-								<?php
-								$current_year = (int) wp_date( 'Y' );
-								for ( $y = 2020; $y <= $current_year + 5; $y++ ) :
-									?>
-									<option value="<?php echo esc_attr( $y ); ?>" <?php selected( (string) $y, (string) $default_year ); ?>>
-										<?php echo esc_html( $y ); ?>
-									</option>
-								<?php endfor; ?>
-							</select>
-							<button type="button" class="button button-primary" id="load-year-data">Load Year</button>
-							<button type="button" class="button button-secondary" id="create-new-year">+ New Year</button>
-						</div>
-		
-						<div class="bulk-actions">
-							<button type="button" class="button" id="generate-all-dates">🗓 Generate All Dates</button>
-							<button type="button" class="button button-secondary" id="save-all-months">💾 Save All Months</button>
-						</div>
-					</div>
-		
-					<div class="import-tools">
-						<h3>Import Tools</h3>
-						<button type="button" class="button button-primary" id="csv-import-btn">📄 Import CSV</button>
-						<button type="button" class="button" id="xlsx-import-btn">📊 Import XLSX</button>
-						<button type="button" class="button" id="paste-import-btn">📋 Copy/Paste Data</button>
-						<p class="description">
-							💡 <strong>Need examples?</strong>
-							<a href="admin.php?page=mosque-import-export">Download sample templates</a>
-						</p>
-					</div>
-				</div>
-		
-				<h2 class="nav-tab-wrapper">
-					<?php $first = true; foreach ( $available_months as $m ) : $m = (int) $m; ?>
-						<a href="#"
-						   class="mosque-month-tab <?php echo $first ? 'nav-tab-active active' : ''; ?>"
-						   data-month="<?php echo esc_attr( $m ); ?>">
-							<?php echo esc_html( $months[ $m ] ); ?>
-						</a>
-					<?php $first = false; endforeach; ?>
-				</h2>
-		
-				<div class="mt-month-panels">
-					<?php $first = true; foreach ( $available_months as $m ) :
-						$m = (int) $m;
-						$existing_pdf_url = function_exists('mt_get_pdf_for_month')
-							? mt_get_pdf_for_month( $m, (int) $default_year )
-							: '';
-						$has_pdf = ! empty( $existing_pdf_url );
-					?>
-						<div id="month-panel-<?php echo esc_attr( $m ); ?>" class="month-panel <?php echo $first ? 'active' : ''; ?>">
-							<div class="mt-controls-row" style="display:flex;gap:12px;align-items:center;justify-content:space-between;">
-								<div class="left" style="display:flex;gap:8px;align-items:center;">
-									<label for="hijri-adj-<?php echo esc_attr( $m ); ?>">Hijri Adj:</label>
-									<input type="number" id="hijri-adj-<?php echo esc_attr( $m ); ?>" class="hijri-adjust-input" value="0" step="1" min="-2" max="2" style="width:80px;">
-									<button type="button"
-											class="button recalc-hijri-btn"
-											data-month="<?php echo esc_attr( $m ); ?>"
-											data-year="<?php echo esc_attr( $default_year ); ?>">
-										Recalculate Hijri
-									</button>
-								</div>
-								<div class="right" style="display:flex;gap:8px;">
-									<button type="button"
-											class="button button-primary save-month-btn"
-											data-month="<?php echo esc_attr( $m ); ?>"
-											data-year="<?php echo esc_attr( $default_year ); ?>">
-										Save <?php echo esc_html( $months[ $m ] ); ?>
-									</button>
-									<button type="button"
-											class="button generate-month-dates"
-											data-month="<?php echo esc_attr( $m ); ?>"
-											data-year="<?php echo esc_attr( $default_year ); ?>">
-										Generate Dates
-									</button>
-								</div>
-							</div>
-		
-							<div class="mt-pdf-upload-section">
-								<h4>📄 Print-ready PDF</h4>
-
-								<?php if ( $has_pdf ) : ?>
-									<div class="mt-pdf-current">
-										<span class="mt-pdf-info">✅ PDF uploaded</span>
-										<a href="<?php echo esc_url( $existing_pdf_url ); ?>" target="_blank" class="button button-secondary">📖 View PDF</a>
-										<button type="button"
-												class="button button-link-delete mt-remove-pdf-btn"
-												data-month="<?php echo esc_attr( $m ); ?>"
-												data-year="<?php echo esc_attr( $default_year ); ?>">
-											Remove
-										</button>
-									</div>
-								<?php endif; ?>
-
-								<form enctype="multipart/form-data" class="mt-pdf-upload-form" data-month="<?php echo esc_attr( $m ); ?>">
-									<input type="file"
-										   name="pdf_file"
-										   accept="application/pdf"
-										   class="mt-pdf-file-input"
-										   id="pdf-file-<?php echo esc_attr( $m ); ?>">
-									<label for="pdf-file-<?php echo esc_attr( $m ); ?>" class="button button-secondary">📁 Choose PDF File</label>
-
-									<button type="button"
-											class="button mt-upload-pdf-btn"
-											data-month="<?php echo esc_attr( $m ); ?>"
-											data-year="<?php echo esc_attr( $default_year ); ?>"
-											style="display:none;">
-										<?php echo $has_pdf ? '📤 Replace' : '📤 Upload'; ?>
-									</button>
-								</form>
-							</div>
-		
-							<div class="mosque-admin-table-wrapper">
-								<p class="description">Loading <?php echo esc_html( $months[ $m ] ); ?>…</p>
-							</div>
-						</div>
-					<?php $first = false; endforeach; ?>
-				</div>
-		
-				<div id="import-modal" class="mosque-modal-overlay" style="display:none;">
-					<div class="mosque-modal">
-						<div class="mosque-modal-header">
-							<h3 class="mosque-modal-title">Import Prayer Times</h3>
-							<button class="mosque-modal-close" type="button">&times;</button>
-						</div>
-		
-						<div class="mosque-modal-body">
-							<div class="import-method-tabs">
-								<button class="import-tab-btn active" data-method="csv">CSV File</button>
-								<button class="import-tab-btn" data-method="xlsx">XLSX File</button>
-								<button class="import-tab-btn" data-method="paste">Copy/Paste</button>
-							</div>
-		
-							<div class="import-method-content">
-								<div id="csv-import" class="import-method active">
-									<label for="csv-file">Select CSV File:</label>
-									<input type="file" id="csv-file" accept=".csv" />
-								</div>
-		
-								<div id="xlsx-import" class="import-method">
-									<label for="xlsx-file">Select XLSX File:</label>
-									<input type="file" id="xlsx-file" accept=".xlsx,.xls" />
-								</div>
-		
-								<div id="paste-import" class="import-method">
-									<label for="paste-data">Paste Google Sheets Data:</label>
-									<textarea id="paste-data" placeholder="Copy and paste from Google Sheets..." rows="10"></textarea>
-								</div>
-							</div>
-		
-							<div class="import-options">
-								<label for="import-month">Import to Month:</label>
-								<select id="import-month">
-									<?php foreach ( $available_months as $m ) : $m = (int) $m; ?>
-										<option value="<?php echo esc_attr( $m ); ?>"><?php echo esc_html( $months[ $m ] ); ?></option>
-									<?php endforeach; ?>
-								</select>
-							</div>
-		
-							<div class="import-format-info">
-								<h4>Expected Format:</h4>
-								<p><strong>Times-only import (dates will be auto-generated):</strong></p>
-								<code>Fajr_Start,Fajr_Jamaat,Sunrise,Zuhr_Start,Zuhr_Jamaat,Asr_Start,Asr_Jamaat,Maghrib_Start,Maghrib_Jamaat,Isha_Start,Isha_Jamaat,Jummah_1,Jummah_2</code>
-							</div>
-						</div>
-		
-						<div class="mosque-modal-footer">
-							<button type="button" class="button button-primary" id="execute-import">Import Data</button>
-							<button type="button" class="button" id="cancel-import">Cancel</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<?php
-		}
-
-		/**
-		 * Enqueue admin assets for Mosque Timetable pages
-		 */
-		public function enqueue_admin_assets($hook)
-		{
-			if (defined('WP_DEBUG') && WP_DEBUG) {
-				error_log('Admin hook: ' . $hook);
+		public function enqueue_admin_assets( $hook ) {
+			// Debug: Log the hook name to help diagnose loading issues
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				error_log( 'Admin hook: ' . $hook );
 			}
 
-			$is_mosque_page =
-				($hook === 'toplevel_page_mosque-timetables') ||
-				($hook === 'mosque-timetable_page_mosque-import-export') ||
-				(isset($_GET['page']) && in_array(
-					sanitize_text_field(wp_unslash($_GET['page'])),
-					array('mosque-timetables', 'mosque-import-export', 'mosque-settings', 'mosque-appearance'),
-					true
-				));
+			// Allow loading on all mosque-related admin pages
+			$is_mosque_page = (
+				strpos( $hook, 'mosque-' ) !== false ||
+				strpos( $hook, 'mosque_' ) !== false ||
+				strpos( $hook, 'timetables' ) !== false ||
+				isset( $_GET['page'] ) && strpos( sanitize_text_field( wp_unslash( $_GET['page'] ) ), 'mosque' ) !== false // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only page detection for asset loading
+			);
 
-			if (! $is_mosque_page) {
+			if ( ! $is_mosque_page ) {
 				return;
 			}
 
@@ -879,14 +590,14 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 				'mosque-timetable-admin-style',
 				MOSQUE_TIMETABLE_ASSETS_URL . 'mosque-timetable-admin.css',
 				array(),
-				MOSQUE_TIMETABLE_VERSION . '-' . wp_date('YmdHi')
+				MOSQUE_TIMETABLE_VERSION
 			);
 
 			wp_enqueue_script(
 				'mosque-timetable-admin-script',
 				MOSQUE_TIMETABLE_ASSETS_URL . 'mosque-timetable-admin.js',
-				array('jquery'),
-				MOSQUE_TIMETABLE_VERSION . '-' . wp_date('YmdHi'),
+				array( 'jquery' ),
+				MOSQUE_TIMETABLE_VERSION,
 				true
 			);
 
@@ -894,47 +605,33 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 				'mosque-timetable-admin-script',
 				'mosqueTimetableAdmin',
 				array(
-					'ajaxUrl'      => admin_url('admin-ajax.php'),
-					'nonce'        => wp_create_nonce('mosque_timetable_nonce'),
+					'ajaxUrl'      => admin_url( 'admin-ajax.php' ),
+					'nonce'        => wp_create_nonce( 'mosque_timetable_nonce' ),
 					'pluginUrl'    => MOSQUE_TIMETABLE_PLUGIN_URL,
 					'assetsUrl'    => MOSQUE_TIMETABLE_ASSETS_URL,
-					'currentYear'  => (int) (get_field('default_year', 'option') ?: wp_date('Y')),
-					'currentMonth' => (int) wp_date('n'),
+					'currentYear'  => get_field( 'default_year', 'option' ) ?: wp_date( 'Y' ),
+					'currentMonth' => wp_date( 'n' ),
 					'strings'      => array(
-						'saveSuccess'       => __('Month timetable saved successfully!', 'mosque-timetable'),
-						'saveError'         => __('Error saving month timetable. Please try again.', 'mosque-timetable'),
-						'unsavedChanges'    => __('You have unsaved changes. Are you sure you want to leave?', 'mosque-timetable'),
-						'confirmLeave'      => __('You have unsaved changes. Are you sure you want to leave this tab?', 'mosque-timetable'),
-						'generateSuccess'   => __('All dates generated successfully! Hijri dates calculated automatically.', 'mosque-timetable'),
-						'generateError'     => __('Failed to generate dates', 'mosque-timetable'),
-						'hijriRecalculated' => __('Hijri dates recalculated successfully!', 'mosque-timetable'),
-						'importSuccess'     => __('Import completed successfully!', 'mosque-timetable'),
-						'importError'       => __('Error importing file. Please check format and try again.', 'mosque-timetable'),
-						'noMonth'           => __('Please select a month.', 'mosque-timetable'),
-						'noFile'            => __('Please select a file before importing.', 'mosque-timetable'),
-						'noPaste'           => __('Please paste your timetable data before importing.', 'mosque-timetable'),
-						'networkError'      => __('Network error: Could not connect to server', 'mosque-timetable'),
-						'permissionError'   => __('Permission denied: Please refresh the page', 'mosque-timetable'),
-						'serverError'       => __('Server error: Please try again later', 'mosque-timetable'),
-						'connectionError'   => __('Error connecting to server: ', 'mosque-timetable'),
-						'loadError'         => __('Failed to load month data', 'mosque-timetable'),
-						'invalidTime'       => __('Invalid time format. Please use HH:MM format.', 'mosque-timetable'),
-						'saveNow'            => __('Save Now', 'mosque-timetable'),
-						'confirmGenerateAll' => __('Generate date structure for all 12 months?', 'mosque-timetable'),
-						'confirmSaveAll'     => __('Save all months?', 'mosque-timetable'),
-						'confirmHijri'       => __('Recalculate Hijri dates with adjustment?', 'mosque-timetable'),
-						'generateMonthSuccess' => __('Month dates generated.', 'mosque-timetable'),
-						'yearCreated'        => __('Year created.', 'mosque-timetable'),
-						'yearCreateError'    => __('Failed to create year.', 'mosque-timetable'),
-						'loadingYear'        => __('Loading data for year…', 'mosque-timetable'),
-						'exportingCsv'       => __('CSV export started…', 'mosque-timetable'),
-						'pdfUploadSuccess'   => __('PDF uploaded successfully!', 'mosque-timetable'),
-						'pdfRemoveSuccess'   => __('PDF removed successfully!', 'mosque-timetable'),
-						'pdfUploadError'     => __('PDF upload failed', 'mosque-timetable'),
-						'pdfRemoveError'     => __('PDF removal failed', 'mosque-timetable'),
-						'pdfSelectFirst'     => __('Please select a PDF file first', 'mosque-timetable'),
-						'pdfInvalidFile'     => __('Please select a valid PDF file', 'mosque-timetable'),
-						'confirmRemovePdf'   => __('Are you sure you want to remove this PDF?', 'mosque-timetable'),
+						'saveSuccess'       => __( 'Month timetable saved successfully!', 'mosque-timetable' ),
+						'saveError'         => __( 'Error saving month timetable. Please try again.', 'mosque-timetable' ),
+						'unsavedChanges'    => __( 'You have unsaved changes. Are you sure you want to leave?', 'mosque-timetable' ),
+						'confirmLeave'      => __( 'You have unsaved changes. Are you sure you want to leave this tab?', 'mosque-timetable' ),
+						'generateSuccess'   => __( 'All dates generated successfully! Hijri dates calculated automatically.', 'mosque-timetable' ),
+						'generateError'     => __( 'Failed to generate dates', 'mosque-timetable' ),
+						'hijriRecalculated' => __( 'Hijri dates recalculated successfully!', 'mosque-timetable' ),
+
+						// NEW ones used by updated JS:
+						'importSuccess'     => __( 'Import completed successfully!', 'mosque-timetable' ),
+						'importError'       => __( 'Error importing file. Please check format and try again.', 'mosque-timetable' ),
+						'noMonth'           => __( 'Please select a month.', 'mosque-timetable' ),
+						'noFile'            => __( 'Please select a file before importing.', 'mosque-timetable' ),
+						'noPaste'           => __( 'Please paste your timetable data before importing.', 'mosque-timetable' ),
+						'networkError'      => __( 'Network error: Could not connect to server', 'mosque-timetable' ),
+						'permissionError'   => __( 'Permission denied: Please refresh the page', 'mosque-timetable' ),
+						'serverError'       => __( 'Server error: Please try again later', 'mosque-timetable' ),
+						'connectionError'   => __( 'Error connecting to server: ', 'mosque-timetable' ),
+						'loadError'         => __( 'Failed to load month data', 'mosque-timetable' ),
+						'invalidTime'       => __( 'Invalid time format. Please use HH:MM format.', 'mosque-timetable' ),
 					),
 				)
 			);
@@ -2395,26 +2092,35 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 			}
 		}
 
-		
 		/**
-		 * Render timetables admin page
+		 * Render custom timetables admin page with tabs
 		 */
 		public function render_timetables_admin_page() {
-			$available_months = get_field( 'available_months', 'option' ) ?: range(1,12);
+			$available_months = get_field( 'available_months', 'option' ) ?: array( '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' );
 			$default_year     = get_field( 'default_year', 'option' ) ?: wp_date( 'Y' );
-		
+
 			$months = array(
-				1=>'January',2=>'February',3=>'March',4=>'April',
-				5=>'May',6=>'June',7=>'July',8=>'August',
-				9=>'September',10=>'October',11=>'November',12=>'December',
+				1  => 'January',
+				2  => 'February',
+				3  => 'March',
+				4  => 'April',
+				5  => 'May',
+				6  => 'June',
+				7  => 'July',
+				8  => 'August',
+				9  => 'September',
+				10 => 'October',
+				11 => 'November',
+				12 => 'December',
 			);
+
 			?>
-			<div class="wrap mosque-timetable-admin">
+			<div class="wrap">
 				<div class="mosque-page-header">
 					<img src="<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/icon-192.png' ); ?>" alt="Mosque Logo" class="mosque-logo">
-					<h1>Prayer Timetables — <?php echo esc_html( $default_year ); ?></h1>
+					<h1>Prayer Timetables - <?php echo esc_html( $default_year ); ?></h1>
 				</div>
-		
+
 				<div class="mosque-admin-header">
 					<div class="year-archive-browser">
 						<h3>📅 Year Archive Browser</h3>
@@ -2422,24 +2128,40 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 							<label for="year-selector">Select Year:</label>
 							<select id="year-selector" class="year-selector">
 								<?php
-								$current_year = (int) wp_date( 'Y' );
+								$current_year = wp_date( 'Y' );
 								for ( $y = 2020; $y <= $current_year + 5; $y++ ) :
+									$selected = ( $y === $default_year ) ? 'selected' : '';
 									?>
-									<option value="<?php echo esc_attr( $y ); ?>" <?php selected( (string) $y, (string) $default_year ); ?>>
-										<?php echo esc_html( $y ); ?>
-									</option>
+									<option value="<?php echo esc_attr( (string) $y ); ?>" <?php echo esc_attr( $selected ); ?>><?php echo esc_html( (string) $y ); ?></option>
 								<?php endfor; ?>
 							</select>
 							<button type="button" class="button button-primary" id="load-year-data">Load Year</button>
 							<button type="button" class="button button-secondary" id="create-new-year">+ New Year</button>
 						</div>
-		
-						<div class="bulk-actions">
-							<button type="button" class="button" id="generate-all-dates">🗓 Generate All Dates</button>
-							<button type="button" class="button button-secondary" id="save-all-months">💾 Save All Months</button>
+						<div class="year-info">
+							<small>Current: <?php echo esc_html( $default_year ); ?> | Available Years:
+								<?php
+								$available_years = array();
+								for ( $y = 2020; $y <= $current_year + 5; $y++ ) {
+									$has_data = false;
+									foreach ( $available_months as $month ) {
+										$field_name = 'daily_prayers_' . $month;
+										$data       = get_field( $field_name, 'option' );
+										if ( ! empty( $data ) ) {
+											$has_data = true;
+											break;
+										}
+									}
+									if ( $has_data ) {
+										$available_years[] = $y;
+									}
+								}
+								echo esc_html( implode( ', ', $available_years ) );
+								?>
+							</small>
 						</div>
 					</div>
-		
+
 					<div class="import-tools">
 						<h3>Import Tools</h3>
 						<button type="button" class="button button-primary" id="csv-import-btn">📄 Import CSV</button>
@@ -2448,143 +2170,228 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 						<p class="description">
 							💡 <strong>Need examples?</strong>
 							<a href="admin.php?page=mosque-import-export">Download sample templates</a>
+							to see the correct format for your data.
 						</p>
 					</div>
+
+					<div class="bulk-actions">
+						<button type="button" class="button" id="generate-all-dates">🗓 Generate All Dates</button>
+						<button type="button" class="button button-secondary" id="save-all-months">💾 Save All Months</button>
+					</div>
 				</div>
-		
-				<h2 class="nav-tab-wrapper">
-					<?php $first = true; foreach ( $available_months as $m ) : $m = (int) $m; ?>
-						<a href="#"
-						   class="mosque-month-tab <?php echo $first ? 'nav-tab-active active' : ''; ?>"
-						   data-month="<?php echo esc_attr( $m ); ?>">
-							<?php echo esc_html( $months[ $m ] ); ?>
-						</a>
-					<?php $first = false; endforeach; ?>
-				</h2>
-		
-				<div class="mt-month-panels">
-					<?php $first = true; foreach ( $available_months as $m ) :
-						$m = (int) $m;
-						$existing_pdf_url = function_exists('mt_get_pdf_for_month')
-							? mt_get_pdf_for_month( $m, (int) $default_year )
-							: '';
-					?>
-						<div id="month-panel-<?php echo esc_attr( $m ); ?>" class="month-panel <?php echo $first ? 'active' : ''; ?>">
-							<div class="mt-controls-row" style="display:flex;gap:12px;align-items:center;justify-content:space-between;">
-								<div class="left" style="display:flex;gap:8px;align-items:center;">
-									<label for="hijri-adj-<?php echo esc_attr( $m ); ?>">Hijri Adj:</label>
-									<input type="number" id="hijri-adj-<?php echo esc_attr( $m ); ?>" class="hijri-adjust-input" value="0" step="1" min="-2" max="2" style="width:80px;">
-									<button type="button"
-											class="button recalc-hijri-btn"
-											data-month="<?php echo esc_attr( $m ); ?>"
-											data-year="<?php echo esc_attr( $default_year ); ?>">
-										Recalculate Hijri
-									</button>
-								</div>
-								<div class="right" style="display:flex;gap:8px;">
-									<button type="button"
-											class="button button-primary save-month-btn"
-											data-month="<?php echo esc_attr( $m ); ?>"
-											data-year="<?php echo esc_attr( $default_year ); ?>">
-										Save <?php echo esc_html( $months[ $m ] ); ?>
-									</button>
-									<button type="button"
-											class="button generate-month-dates"
-											data-month="<?php echo esc_attr( $m ); ?>"
-											data-year="<?php echo esc_attr( $default_year ); ?>">
-										Generate Dates
-									</button>
+
+				<div class="mosque-timetable-tabs">
+					<nav class="nav-tab-wrapper">
+						<?php
+						foreach ( $available_months as $month_num ) :
+							$month_name = $months[ intval( $month_num ) ];
+							$is_first   = ( reset( $available_months ) === $month_num );
+							?>
+							<a href="#month-<?php echo esc_attr( $month_num ); ?>"
+								class="nav-tab <?php echo esc_attr( $is_first ? 'nav-tab-active' : '' ); ?>"
+								data-month="<?php echo esc_attr( $month_num ); ?>">
+								<?php echo esc_html( $month_name ); ?>
+							</a>
+						<?php endforeach; ?>
+					</nav>
+
+					<?php
+					foreach ( $available_months as $month_num ) :
+						$is_first      = ( reset( $available_months ) === $month_num );
+						$field_name    = 'daily_prayers_' . $month_num;
+						$daily_prayers = get_field( $field_name, 'option' ) ?: array();
+						?>
+						<div id="month-<?php echo esc_attr( $month_num ); ?>"
+							class="tab-content <?php echo esc_attr( $is_first ? 'active' : '' ); ?>"
+							data-month="<?php echo esc_attr( $month_num ); ?>">
+
+							<div class="month-header">
+								<h2><?php echo esc_html( $months[ intval( $month_num ) ] . ' ' . $default_year ); ?></h2>
+								<div class="month-actions">
+									<button type="button" class="button save-month-btn" data-month="<?php echo esc_attr( $month_num ); ?>">💾 Save <?php echo esc_html( $months[ intval( $month_num ) ] ); ?></button>
+									<button type="button" class="button populate-month-btn" data-month="<?php echo esc_attr( $month_num ); ?>">🗓 Generate Dates</button>
 								</div>
 							</div>
-		
+
+							<div class="hijri-adjustment">
+								<label for="hijri-adj-<?php echo esc_attr( $month_num ); ?>">Hijri Date Adjustment:</label>
+								<select id="hijri-adj-<?php echo esc_attr( $month_num ); ?>" data-month="<?php echo esc_attr( $month_num ); ?>">
+									<option value="-1">-1 day</option>
+									<option value="0" selected>Calculated (default)</option>
+									<option value="1">+1 day</option>
+								</select>
+								<button type="button" class="button recalc-hijri-btn" data-month="<?php echo esc_attr( $month_num ); ?>">🔄 Recalculate Hijri</button>
+							</div>
+
+							<?php
+							// PDF uploader section
+							// Decide which year to use (option can be numeric or "current")
+							$opt          = get_option( 'default_year', 'current' );
+							$current_year = ( ! is_numeric( $opt ) || 'current' === $opt )
+								? (int) wp_date( 'Y' )
+								: (int) $opt;
+
+							// Now fetch PDF for this month/year
+							$pdf_url = mt_get_pdf_for_month( (int) $month_num, (int) $current_year );
+							?>
+
 							<div class="mt-pdf-upload-section">
 								<h4>📄 Print-ready PDF</h4>
-
-								<?php if ( ! empty( $existing_pdf_url ) ) : ?>
+								<?php if ( $pdf_url ) : ?>
 									<div class="mt-pdf-current">
 										<span class="mt-pdf-info">✅ PDF uploaded</span>
-										<a href="<?php echo esc_url( $existing_pdf_url ); ?>" target="_blank" class="button button-secondary">📖 View PDF</a>
-										<button type="button"
-												class="button button-link-delete mt-remove-pdf-btn"
-												data-month="<?php echo esc_attr( $m ); ?>"
-												data-year="<?php echo esc_attr( $default_year ); ?>">
-											Remove
-										</button>
+										<a href="<?php echo esc_url( $pdf_url ); ?>" target="_blank" class="button button-secondary">📖 View PDF</a>
+										<button type="button" class="button button-link-delete mt-remove-pdf-btn" data-month="<?php echo esc_attr( $month_num ); ?>">Remove</button>
+									</div>
+								<?php else : ?>
+									<div class="mt-pdf-upload">
+										<form enctype="multipart/form-data" class="mt-pdf-upload-form" data-month="<?php echo esc_attr( $month_num ); ?>">
+											<input type="file" name="pdf_file" accept=".pdf" class="mt-pdf-file-input" id="pdf-file-<?php echo esc_attr( $month_num ); ?>">
+											<label for="pdf-file-<?php echo esc_attr( $month_num ); ?>" class="button button-secondary">📁 Choose PDF File</label>
+											<button type="button" class="button button-primary mt-upload-pdf-btn" data-month="<?php echo esc_attr( $month_num ); ?>">📤 Upload</button>
+										</form>
+										<p class="description">Upload a print-ready PDF for <?php echo esc_html( $months[ intval( $month_num ) ] ); ?>. Visitors can download this instead of using browser print.</p>
 									</div>
 								<?php endif; ?>
-
-								<form enctype="multipart/form-data" class="mt-pdf-upload-form" data-month="<?php echo esc_attr( $m ); ?>">
-									<input type="file"
-										   name="pdf_file"
-										   accept="application/pdf"
-										   class="mt-pdf-file-input"
-										   id="pdf-file-<?php echo esc_attr( $m ); ?>">
-									<label for="pdf-file-<?php echo esc_attr( $m ); ?>" class="button button-secondary">📁 Choose PDF File</label>
-
-									<button type="button"
-											class="button mt-upload-pdf-btn"
-											data-month="<?php echo esc_attr( $m ); ?>"
-											data-year="<?php echo esc_attr( $default_year ); ?>"
-											style="display:none;">
-										<?php echo ! empty( $existing_pdf_url ) ? '📤 Replace' : '📤 Upload'; ?>
-									</button>
-								</form>
 							</div>
-		
-							<div class="mosque-admin-table-wrapper">
-								<p class="description">Loading <?php echo esc_html( $months[ $m ] ); ?>…</p>
+
+							<?php
+							// Make sure we have a year to read from (use your current UI/year variable if different)
+							$current_year = isset( $current_year ) ? (int) $current_year : (int) get_option( 'default_year', (int) wp_date( 'Y' ) );
+
+							// Ensure this appears AFTER you've set $current_year
+							$pdf_url = mt_get_pdf_for_month( (int) $month_num, (int) $current_year );
+
+							// Always read via the shim (works with and without ACF)
+							$daily_prayers = mt_get_month_rows( (int) $month_num, $current_year );
+
+							// Extra hardening in case something legacy wrote a string
+							if ( ! is_array( $daily_prayers ) ) {
+								$maybe         = maybe_unserialize( $daily_prayers );
+								$daily_prayers = is_array( $maybe ) ? $maybe : array();
+							}
+							?>
+
+							<div class="prayer-times-table-container">
+								<?php if ( ! empty( $daily_prayers ) ) : ?>
+									<table class="wp-list-table widefat fixed striped">
+										<thead>
+											<tr>
+												<th>Day</th>
+												<th>Date</th>
+												<th>Day Name</th>
+												<th>Hijri Date</th>
+												<th>Fajr Start</th>
+												<th>Fajr Jamaat</th>
+												<th>Sunrise</th>
+												<th>Zuhr Start</th>
+												<th>Zuhr Jamaat</th>
+												<th>Asr Start</th>
+												<th>Asr Jamaat</th>
+												<th>Maghrib Start</th>
+												<th>Maghrib Jamaat</th>
+												<th>Isha Start</th>
+												<th>Isha Jamaat</th>
+												<th>Jummah 1</th>
+												<th>Jummah 2</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											// $daily_prayers is already coerced to array above
+											foreach ( $daily_prayers as $index => $day ) :
+												if ( ! is_array( $day ) ) {
+													continue;
+												}
+
+												// Be defensive with dates (avoid warnings on empty/invalid strings)
+												$dateStr   = isset( $day['date_full'] ) ? (string) $day['date_full'] : '';
+												$date_obj  = $dateStr ? DateTime::createFromFormat( 'Y-m-d', $dateStr ) : false;
+												$is_friday = ( $date_obj && $date_obj->format( 'N' ) === 5 );
+												?>
+												<tr class="<?php echo esc_attr( $is_friday ? 'friday-row' : '' ); ?>">
+													<td><input type="number" value="<?php echo esc_attr( $day['day_number'] ?? '' ); ?>" readonly /></td>
+													<td><input type="date" value="<?php echo esc_attr( $day['date_full'] ?? '' ); ?>" readonly /></td>
+													<td><input type="text" value="<?php echo esc_attr( $day['day_name'] ?? '' ); ?>" readonly /></td>
+													<td><input type="text" value="<?php echo esc_attr( $day['hijri_date'] ?? '' ); ?>" readonly class="hijri-field" /></td>
+
+													<td><input type="time" value="<?php echo esc_attr( $day['fajr_start'] ?? '' ); ?>" name="fajr_start[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['fajr_jamaat'] ?? '' ); ?>" name="fajr_jamaat[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['sunrise'] ?? '' ); ?>" name="sunrise[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['zuhr_start'] ?? '' ); ?>" name="zuhr_start[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['zuhr_jamaat'] ?? '' ); ?>" name="zuhr_jamaat[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['asr_start'] ?? '' ); ?>" name="asr_start[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['asr_jamaat'] ?? '' ); ?>" name="asr_jamaat[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['maghrib_start'] ?? '' ); ?>" name="maghrib_start[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['maghrib_jamaat'] ?? '' ); ?>" name="maghrib_jamaat[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['isha_start'] ?? '' ); ?>" name="isha_start[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['isha_jamaat'] ?? '' ); ?>" name="isha_jamaat[]" /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['jummah_1'] ?? '' ); ?>" name="jummah_1[]" <?php echo $is_friday ? '' : esc_attr( 'style="background:#f0f0f0;"' ); ?> /></td>
+													<td><input type="time" value="<?php echo esc_attr( $day['jummah_2'] ?? '' ); ?>" name="jummah_2[]" <?php echo $is_friday ? '' : esc_attr( 'style="background:#f0f0f0;"' ); ?> /></td>
+												</tr>
+											<?php endforeach; ?>
+										</tbody>
+									</table>
+								<?php else : ?>
+									<div class="no-data-message">
+										<p><strong>No prayer times data for <?php echo esc_html( $months[ intval( $month_num ) ] ); ?>.</strong></p>
+										<p>Click "Generate Dates" to create empty date structure, then add your prayer times.</p>
+										<button type="button" class="button button-primary populate-month-btn" data-month="<?php echo esc_attr( $month_num ); ?>">🗓 Generate Dates for <?php echo esc_html( $months[ intval( $month_num ) ] ); ?></button>
+									</div>
+								<?php endif; ?>
 							</div>
 						</div>
-					<?php $first = false; endforeach; ?>
+					<?php endforeach; ?>
 				</div>
-		
+
+				<!-- Import Modal -->
 				<div id="import-modal" class="mosque-modal-overlay" style="display:none;">
 					<div class="mosque-modal">
 						<div class="mosque-modal-header">
 							<h3 class="mosque-modal-title">Import Prayer Times</h3>
 							<button class="mosque-modal-close" type="button">&times;</button>
 						</div>
-		
+
 						<div class="mosque-modal-body">
 							<div class="import-method-tabs">
 								<button class="import-tab-btn active" data-method="csv">CSV File</button>
 								<button class="import-tab-btn" data-method="xlsx">XLSX File</button>
 								<button class="import-tab-btn" data-method="paste">Copy/Paste</button>
 							</div>
-		
+
 							<div class="import-method-content">
 								<div id="csv-import" class="import-method active">
 									<label for="csv-file">Select CSV File:</label>
 									<input type="file" id="csv-file" accept=".csv" />
 								</div>
-		
+
 								<div id="xlsx-import" class="import-method">
 									<label for="xlsx-file">Select XLSX File:</label>
 									<input type="file" id="xlsx-file" accept=".xlsx,.xls" />
 								</div>
-		
+
 								<div id="paste-import" class="import-method">
 									<label for="paste-data">Paste Google Sheets Data:</label>
 									<textarea id="paste-data" placeholder="Copy and paste from Google Sheets..." rows="10"></textarea>
 								</div>
 							</div>
-		
+
 							<div class="import-options">
 								<label for="import-month">Import to Month:</label>
 								<select id="import-month">
-									<?php foreach ( $available_months as $m ) : $m = (int) $m; ?>
-										<option value="<?php echo esc_attr( $m ); ?>"><?php echo esc_html( $months[ $m ] ); ?></option>
+									<?php foreach ( $available_months as $month_num ) : ?>
+										<option value="<?php echo esc_attr( $month_num ); ?>"><?php echo esc_html( $months[ intval( $month_num ) ] ); ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
-		
+
 							<div class="import-format-info">
 								<h4>Expected Format:</h4>
 								<p><strong>Times-only import (dates will be auto-generated):</strong></p>
 								<code>Fajr_Start,Fajr_Jamaat,Sunrise,Zuhr_Start,Zuhr_Jamaat,Asr_Start,Asr_Jamaat,Maghrib_Start,Maghrib_Jamaat,Isha_Start,Isha_Jamaat,Jummah_1,Jummah_2</code>
 							</div>
 						</div>
-		
+
 						<div class="mosque-modal-footer">
 							<button type="button" class="button button-primary" id="execute-import">Import Data</button>
 							<button type="button" class="button" id="cancel-import">Cancel</button>
@@ -2592,7 +2399,7 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 					</div>
 				</div>
 			</div>
-		
+
 			<style>
 				.mosque-admin-header {
 					display: flex;
@@ -2874,6 +2681,120 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 							done(false, 'Unknown import method.');
 						}
 					});
+
+					// ---------- Legacy/fallback handlers (only if modern JS is NOT loaded) ----------
+					if (!window.MosqueTimetableAdmin) {
+						// Main month tab switching (legacy UI)
+						$('.nav-tab').on('click', function(e) {
+							e.preventDefault();
+
+							var currentTab = $('.nav-tab-active').data('month');
+							if (currentTab && hasUnsavedChanges(currentTab)) {
+								if (!confirm('You have unsaved changes. Are you sure you want to leave this tab?')) {
+									return;
+								}
+							}
+
+							var targetMonth = $(this).data('month');
+							$('.nav-tab').removeClass('nav-tab-active');
+							$(this).addClass('nav-tab-active');
+							$('.tab-content').removeClass('active');
+							$('#month-' + targetMonth).addClass('active');
+						});
+
+						// Generate dates for month (legacy UI)
+						$('.populate-month-btn').on('click', function() {
+							var month = $(this).data('month');
+							$.post(ajaxurl, {
+								action: 'populate_month_dates',
+								month: month,
+								nonce: importNonce
+							}, function(response) {
+								if (response.success) {
+									location.reload();
+								} else {
+									alert('Error: ' + response.data);
+								}
+							});
+						});
+
+						// Save month (legacy UI expects different DOM names like fajr_start[])
+						$('.save-month-btn').on('click', function() {
+							var month = $(this).data('month');
+							saveMonthLegacy(month);
+						});
+
+						// Hijri recalculation (support both .hijri-field and .hijri-date)
+						$('.recalc-hijri-btn').on('click', function() {
+							var month = $(this).data('month');
+							var adjustment = $('#hijri-adj-' + month).val();
+
+							$.post(ajaxurl, {
+								action: 'recalculate_hijri_dates',
+								month: month,
+								adjustment: adjustment,
+								nonce: importNonce
+							}, function(response) {
+								if (response.success && Array.isArray(response.data)) {
+									response.data.forEach(function(h, idx) {
+										var $scope = $('#month-' + month);
+										$scope.find('.hijri-field').eq(idx).val(h);
+										$scope.find('.hijri-date').eq(idx).val(h);
+									});
+								}
+							});
+						});
+
+						function saveMonthLegacy(month) {
+							var monthData = [];
+
+							$('#month-' + month + ' tbody tr').each(function() {
+								var row = $(this);
+								monthData.push({
+									day_number: row.find('input[type="number"]').val(),
+									date_full: row.find('input[type="date"]').val(),
+									day_name: row.find('input[type="text"]').first().val(),
+									hijri_date: row.find('.hijri-field, .hijri-date').first().val(),
+									fajr_start: row.find('input[name="fajr_start[]"]').val(),
+									fajr_jamaat: row.find('input[name="fajr_jamaat[]"]').val(),
+									sunrise: row.find('input[name="sunrise[]"]').val(),
+									zuhr_start: row.find('input[name="zuhr_start[]"]').val(),
+									zuhr_jamaat: row.find('input[name="zuhr_jamaat[]"]').val(),
+									asr_start: row.find('input[name="asr_start[]"]').val(),
+									asr_jamaat: row.find('input[name="asr_jamaat[]"]').val(),
+									maghrib_start: row.find('input[name="maghrib_start[]"]').val(),
+									maghrib_jamaat: row.find('input[name="maghrib_jamaat[]"]').val(),
+									isha_start: row.find('input[name="isha_start[]"]').val(),
+									isha_jamaat: row.find('input[name="isha_jamaat[]"]').val(),
+									jummah_1: row.find('input[name="jummah_1[]"]').val(),
+									jummah_2: row.find('input[name="jummah_2[]"]').val()
+								});
+							});
+
+							$.post(ajaxurl, {
+								action: 'save_month_timetable',
+								month: month,
+								data: monthData,
+								nonce: importNonce
+							}, function(response) {
+								if (response.success) {
+									$('<div class="notice notice-success"><p>✅ ' + response.data + '</p></div>')
+										.insertAfter('.wrap h1').delay(3000).fadeOut();
+								} else {
+									alert('Error: ' + response.data);
+								}
+							});
+						}
+
+						function hasUnsavedChanges(month) {
+							return false; // legacy placeholder
+						}
+					}
+				});
+			</script>
+
+			<?php
+		}
 
 		/**
 		 * Render fallback settings form (when ACF is not available)
@@ -6593,6 +6514,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			$offline_url = plugins_url( 'assets/offline.html', __FILE__ );
 
 			// Generate service worker content
+			?>
 			/**
 			* Mosque Prayer Timetable Service Worker
 			* Version: 3.0.0 - Dynamically Generated
@@ -7625,7 +7547,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 				<div class="mosque-timetable-footer">
 					<div class="mosque-system-credit">
-						<p>🕌 Need a prayer timetable system or new website for your masjid?
+						<p>🕌 Need a prayer timetable system for your masjid?
 							<a href="mailto:ibraheem@mosquewebdesign.com">Contact us</a> or
 							<a href="https://mosquewebdesign.com" target="_blank">visit mosquewebdesign.com</a>
 							for professional mosque website solutions.
@@ -8832,90 +8754,6 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			}
 			return $output;
 		}
-
-		/**
-		 * AJAX handler for push notification subscription
-		 */
-		public function ajax_subscribe_push_notifications() {
-			// Verify nonce for security
-			if ( ! check_ajax_referer( 'mosque_timetable_nonce', '_wpnonce', false ) ) {
-				wp_send_json_error( array( 'message' => 'Invalid security token' ) );
-			}
-
-			// Get JSON input
-			$input = file_get_contents( 'php://input' );
-			$data  = json_decode( $input, true );
-
-			if ( ! $data || ! isset( $data['subscription'] ) ) {
-				wp_send_json_error( array( 'message' => 'Invalid subscription data' ) );
-			}
-
-			$subscription    = $data['subscription'];
-			$alarms          = $data['alarms'] ?? array( 5, 15 );
-			$sunrise_warning = $data['sunrise_warning'] ?? false;
-
-			// Validate subscription structure
-			if ( ! isset( $subscription['endpoint'] ) || ! isset( $subscription['keys'] ) ) {
-				wp_send_json_error( array( 'message' => 'Invalid subscription format' ) );
-			}
-
-			// Get current subscriptions
-			$subscriptions = get_option( 'mt_push_subscriptions', array() );
-
-			// Store subscription with user preferences
-			$subscriptions[ $subscription['endpoint'] ] = array(
-				'subscription'    => $subscription,
-				'offsets'         => array_map( 'intval', $alarms ),
-				'sunrise_warning' => (bool) $sunrise_warning,
-				'subscribed_at'   => current_time( 'timestamp' ),
-				'user_agent'      => $_SERVER['HTTP_USER_AGENT'] ?? '',
-				'ip_address'      => $_SERVER['REMOTE_ADDR'] ?? '',
-			);
-
-			// Save updated subscriptions
-			if ( update_option( 'mt_push_subscriptions', $subscriptions ) ) {
-				wp_send_json_success( array( 'message' => 'Successfully subscribed to notifications' ) );
-			} else {
-				wp_send_json_error( array( 'message' => 'Failed to save subscription' ) );
-			}
-		}
-
-		/**
-		 * AJAX handler for push notification unsubscription
-		 */
-		public function ajax_unsubscribe_push_notifications() {
-			// Verify nonce for security
-			if ( ! check_ajax_referer( 'mosque_timetable_nonce', '_wpnonce', false ) ) {
-				wp_send_json_error( array( 'message' => 'Invalid security token' ) );
-			}
-
-			// Get JSON input
-			$input = file_get_contents( 'php://input' );
-			$data  = json_decode( $input, true );
-
-			if ( ! $data || ! isset( $data['endpoint'] ) ) {
-				wp_send_json_error( array( 'message' => 'Invalid endpoint data' ) );
-			}
-
-			$endpoint = $data['endpoint'];
-
-			// Get current subscriptions
-			$subscriptions = get_option( 'mt_push_subscriptions', array() );
-
-			// Remove subscription
-			if ( isset( $subscriptions[ $endpoint ] ) ) {
-				unset( $subscriptions[ $endpoint ] );
-
-				// Save updated subscriptions
-				if ( update_option( 'mt_push_subscriptions', $subscriptions ) ) {
-					wp_send_json_success( array( 'message' => 'Successfully unsubscribed from notifications' ) );
-				} else {
-					wp_send_json_error( array( 'message' => 'Failed to remove subscription' ) );
-				}
-			} else {
-				wp_send_json_error( array( 'message' => 'Subscription not found' ) );
-			}
-		}
 	}
 
 	// Initialize the plugin
@@ -9500,96 +9338,111 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				}
 			);
 
-			// --- PHP: AJAX handlers for PDF upload + removal ---
+			// PDF upload AJAX handler
+			add_action(
+				'wp_ajax_upload_month_pdf',
+				function () {
+					// Security check
+					if ( ! check_ajax_referer( 'mosque_timetable_nonce', 'nonce', false ) ) {
+						wp_send_json_error( __( 'Security check failed', 'mosque-timetable' ) );
+					}
 
-			// Upload month PDF
-			add_action('wp_ajax_upload_month_pdf', function () {
-				if (! check_ajax_referer('mosque_timetable_nonce', 'nonce', false)) {
-					wp_send_json_error(__('Security check failed', 'mosque-timetable'), 403);
+					// Check user capabilities
+					if ( ! current_user_can( 'edit_posts' ) ) {
+						wp_send_json_error( __( 'Insufficient permissions', 'mosque-timetable' ) );
+					}
+
+					// Validate inputs
+					$month = isset( $_POST['month'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['month'] ) ) ) : 0;
+					$year  = isset( $_POST['year'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['year'] ) ) ) : intval( wp_date( 'Y' ) );
+
+					if ( $month < 1 || $month > 12 ) {
+						wp_send_json_error( __( 'Invalid month', 'mosque-timetable' ) );
+					}
+
+					// Check if file was uploaded
+					if ( empty( $_FILES['pdf_file'] ) ) {
+						wp_send_json_error( esc_html__( 'No file uploaded', 'mosque-timetable' ) );
+					}
+
+					$file = isset( $_FILES['pdf_file'] ) && is_array( $_FILES['pdf_file'] ) ? $_FILES['pdf_file'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- File upload validation handled below
+
+					// Validate uploaded file
+					if ( empty( $file['tmp_name'] ) || ! is_uploaded_file( $file['tmp_name'] ) ) {
+						wp_send_json_error( esc_html__( 'Invalid upload', 'mosque-timetable' ) );
+					}
+
+					// Validate file type and extension
+					$check = wp_check_filetype_and_ext(
+						$file['tmp_name'],
+						$file['name'],
+						array( 'pdf' => 'application/pdf' )
+					);
+					if ( ! $check['ext'] || ! $check['type'] ) {
+						wp_send_json_error( esc_html__( 'Unsupported file type', 'mosque-timetable' ) );
+					}
+
+					// Handle the upload
+					if ( ! function_exists( 'wp_handle_upload' ) ) {
+						require_once ABSPATH . 'wp-admin/includes/file.php';
+					}
+
+					$upload_overrides = array(
+						'test_form' => false,
+						'mimes'     => array( 'pdf' => 'application/pdf' ),
+					);
+
+					$movefile = wp_handle_upload( $file, $upload_overrides );
+
+					if ( $movefile && ! isset( $movefile['error'] ) ) {
+						// Save the PDF URL
+						$pdf_url = $movefile['url'];
+						if ( mt_save_pdf_for_month( $month, $pdf_url, $year ) ) {
+							wp_send_json_success(
+								array(
+									'message' => 'PDF uploaded successfully',
+									'pdf_url' => $pdf_url,
+								)
+							);
+						} else {
+							wp_send_json_error( __( 'Failed to save PDF URL', 'mosque-timetable' ) );
+						}
+					} else {
+						wp_send_json_error( $movefile['error'] ?? 'Upload failed' );
+					}
 				}
-				if (! current_user_can('edit_posts')) {
-					wp_send_json_error(__('Insufficient permissions', 'mosque-timetable'), 403);
+			);
+
+			// Remove PDF AJAX handler
+			add_action(
+				'wp_ajax_remove_month_pdf',
+				function () {
+					// Security check
+					if ( ! check_ajax_referer( 'mosque_timetable_nonce', 'nonce', false ) ) {
+						wp_send_json_error( __( 'Security check failed', 'mosque-timetable' ) );
+					}
+
+					// Check user capabilities
+					if ( ! current_user_can( 'edit_posts' ) ) {
+						wp_send_json_error( __( 'Insufficient permissions', 'mosque-timetable' ) );
+					}
+
+					// Validate inputs
+					$month = isset( $_POST['month'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['month'] ) ) ) : 0;
+					$year  = isset( $_POST['year'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['year'] ) ) ) : intval( wp_date( 'Y' ) );
+
+					if ( $month < 1 || $month > 12 ) {
+						wp_send_json_error( __( 'Invalid month', 'mosque-timetable' ) );
+					}
+
+					// Remove the PDF URL
+					if ( mt_save_pdf_for_month( $month, '', $year ) ) {
+						wp_send_json_success( array( 'message' => 'PDF removed successfully' ) );
+					} else {
+						wp_send_json_error( __( 'Failed to remove PDF', 'mosque-timetable' ) );
+					}
 				}
-
-				$month = isset($_POST['month']) ? (int) sanitize_text_field(wp_unslash($_POST['month'])) : 0;
-				$year  = isset($_POST['year'])  ? (int) sanitize_text_field(wp_unslash($_POST['year']))  : (int) wp_date('Y');
-
-				if ($month < 1 || $month > 12) {
-					wp_send_json_error(__('Invalid month', 'mosque-timetable'));
-				}
-				if (! isset($_FILES['pdf_file']) || empty($_FILES['pdf_file']['name'])) {
-					wp_send_json_error(__('No file uploaded', 'mosque-timetable'));
-				}
-
-				// Only accept PDFs
-				$filetype = wp_check_filetype($_FILES['pdf_file']['name']);
-				if (empty($filetype['ext']) || strtolower($filetype['ext']) !== 'pdf') {
-					wp_send_json_error(__('Please upload a PDF file', 'mosque-timetable'));
-				}
-
-				// Prepare WP media includes
-				if (! function_exists('media_handle_upload')) {
-					require_once ABSPATH . 'wp-admin/includes/image.php';
-					require_once ABSPATH . 'wp-admin/includes/file.php';
-					require_once ABSPATH . 'wp-admin/includes/media.php';
-				}
-
-				// Let WordPress handle upload + attachment creation
-				$attachment_id = media_handle_upload('pdf_file', 0);
-				if (is_wp_error($attachment_id)) {
-					wp_send_json_error($attachment_id->get_error_message() ?: __('Upload failed', 'mosque-timetable'));
-				}
-
-				$url = wp_get_attachment_url($attachment_id);
-				if (! $url) {
-					wp_send_json_error(__('Could not resolve uploaded URL', 'mosque-timetable'));
-				}
-
-				// Persist the URL (prefer helper if available; else store an option)
-				if (function_exists('mt_set_pdf_for_month')) {
-					$ok = mt_set_pdf_for_month($month, $year, $url);
-				} else {
-					// Fallback storage key
-					$ok = update_option("mt_pdf_{$year}_{$month}", esc_url_raw($url));
-				}
-
-				if (! $ok) {
-					wp_send_json_error(__('Failed to save PDF reference', 'mosque-timetable'));
-				}
-
-				wp_send_json_success(array('url' => $url));
-			});
-
-			// Remove month PDF
-			add_action('wp_ajax_remove_month_pdf', function () {
-				if (! check_ajax_referer('mosque_timetable_nonce', 'nonce', false)) {
-					wp_send_json_error(__('Security check failed', 'mosque-timetable'), 403);
-				}
-				if (! current_user_can('edit_posts')) {
-					wp_send_json_error(__('Insufficient permissions', 'mosque-timetable'), 403);
-				}
-
-				$month = isset($_POST['month']) ? (int) sanitize_text_field(wp_unslash($_POST['month'])) : 0;
-				$year  = isset($_POST['year'])  ? (int) sanitize_text_field(wp_unslash($_POST['year']))  : (int) wp_date('Y');
-
-				if ($month < 1 || $month > 12) {
-					wp_send_json_error(__('Invalid month', 'mosque-timetable'));
-				}
-
-				$ok = false;
-				if (function_exists('mt_remove_pdf_for_month')) {
-					$ok = mt_remove_pdf_for_month($month, $year);
-				} else {
-					// Fallback removes our stored option (URL only)
-					$ok = delete_option("mt_pdf_{$year}_{$month}");
-				}
-
-				if (! $ok) {
-					wp_send_json_error(__('Nothing to remove or removal failed', 'mosque-timetable'));
-				}
-
-				wp_send_json_success(__('PDF removed', 'mosque-timetable'));
-			});
+			);
 
 			// Generate All Dates AJAX handler
 			add_action(

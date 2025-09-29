@@ -31,6 +31,6 @@ parameters:
 
   # Known false-positives/WordPress patterns
   ignoreErrors:
-    - '#^Parameter /#2 /$callback of function add_(action|filter)/(/) expects callable, string given#'
+    - '#^Parameter \#2 \$callback of function add_(action|filter) expects callable, string given#'
     - '#Access to an undefined property .* via magic method#'
-    - '#^Function (esc_|sanitize_)/w+/(/) might not be defined#'
+    - '#^Function (esc_|sanitize_)\w+ might not be defined#'
