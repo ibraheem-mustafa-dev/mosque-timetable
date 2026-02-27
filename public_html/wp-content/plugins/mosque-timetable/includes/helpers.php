@@ -12,23 +12,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// === Load ACF stubs only if ACF isn't available (after other plugins) ===
+// === Load ACF stubs only if ACF isn't available (after other plugins) ===.
 add_action(
 	'plugins_loaded',
 	static function () {
-		// If ACF Pro (or ACF) is active, do nothing
+		// If ACF Pro (or ACF) is active, do nothing.
 		if ( function_exists( 'get_field' ) || defined( 'ACF_VERSION' ) || class_exists( 'ACF' ) ) {
 			return;
 		}
 
-		// As a final guard, only load the stub if get_field isn't defined
+		// As a final guard, only load the stub if get_field isn't defined.
 		$stub = MOSQUE_TIMETABLE_PLUGIN_DIR . 'tools/stubs-acf.php';
 		if ( ! function_exists( 'get_field' ) && file_exists( $stub ) ) {
 			require_once $stub;
 		}
 	},
 	20
-); // run after ACF (usually priority 10)
+); // run after ACF (usually priority 10).
 
 
 /**
@@ -41,7 +41,7 @@ function is_acf_pro_available(): bool {
 		&& function_exists( 'acf_add_local_field_group' ) );
 }
 
-// === ACF detection & fallback helpers ===
+// === ACF detection & fallback helpers ===.
 if ( ! function_exists( 'mt_has_acf' ) ) {
 	function mt_has_acf(): bool {
 		return function_exists( 'get_field' ) && function_exists( 'update_field' );
@@ -57,10 +57,10 @@ if ( ! function_exists( 'mt_has_acf' ) ) {
  * @return mixed Option value
  */
 if ( ! function_exists( 'mt_get_option' ) ) {
-	function mt_get_option( string $key, $default = false ) {
+	function mt_get_option( string $key, $default = false ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.defaultFound
 		if ( mt_has_acf() ) {
 			$value = get_field( $key, 'option' );
-			if ( $value !== false && $value !== null && $value !== '' ) {
+			if ( false !== $value && null !== $value && '' !== $value ) {
 				return $value;
 			}
 		}
@@ -88,11 +88,8 @@ if ( ! function_exists( 'mt_update_option' ) ) {
 	}
 }
 
-// ---- Add these two helpers once (above your import functions) ----
-
-// Map common headings to your ACF field keys.
-// You can add more aliases on the left if your CSV/XLSX uses them.
-$MT_FIELD_MAP = array(
+// Map common headings to ACF field keys; add more aliases on the left if CSV/XLSX uses different column names.
+$mt_field_map = array(
 	'fajr_start'     => 'fajr',
 	'fajr_jamaat'    => 'fajr_jamat',
 	'sunrise'        => 'sunrise',
@@ -114,15 +111,16 @@ function mt_normalise_time( $time ): string {
 	if ( '' === $time || '--:--' === $time ) {
 		return '';
 	}
-	// already like 09:05 or 19:30
+	// already like 09:05 or 19:30.
 	if ( preg_match( '/^(\\d{2}):(\\d{2})$/', $time ) ) {
 		return $time;
 	}
-	// like 2:5 or 2:39 or 10:51
+	// phpcs:ignore Squiz.PHP.CommentedOutCode.Found -- Examples of time formats, not commented-out code.
+	// like 2:5 or 2:39 or 10:51.
 	if ( preg_match( '/^(\\d{1,2}):(\\d{1,2})$/', $time, $m ) ) {
 		$h = (int) $m[1];
 		$i = (int) $m[2];
-		// Early morning (0–2) leave as-is; 3–11 assume PM and add 12
+		// Early morning (0–2) leave as-is; 3–11 assume PM and add 12.
 		if ( $h >= 3 && $h <= 11 ) {
 			$h += 12;
 		}
@@ -132,18 +130,18 @@ function mt_normalise_time( $time ): string {
 }
 
 
-// === Read rows for a month (works with/without ACF) ===
+// === Read rows for a month (works with/without ACF) ===.
 if ( ! function_exists( 'mt_get_month_rows' ) ) {
 	function mt_get_month_rows( int $month, ?int $year = null ): array {
 		$month = max( 1, min( 12, $month ) );
 		$year  = $year ?? (int) get_option( 'default_year', (int) wp_date( 'Y' ) );
 
 		if ( mt_has_acf() ) {
-			// Use year-specific ACF field names for multi-year support
+			// Use year-specific ACF field names for multi-year support.
 			$field_name = "daily_prayers_{$year}_{$month}";
 			$rows       = get_field( $field_name, 'option' );
 
-			// Fallback to legacy field name if year-specific doesn't exist
+			// Fallback to legacy field name if year-specific doesn't exist.
 			if ( ! $rows || ! is_array( $rows ) ) {
 				$legacy_field_name = "daily_prayers_{$month}";
 				$rows              = get_field( $legacy_field_name, 'option' );
@@ -160,12 +158,12 @@ if ( ! function_exists( 'mt_get_month_rows' ) ) {
 	}
 }
 
-// === Apply terminology overrides to text labels ===
+// === Apply terminology overrides to text labels ===.
 if ( ! function_exists( 'mt_apply_terminology' ) ) {
 	function mt_apply_terminology( string $text ): string {
 		static $overrides_cache = null;
 
-		// Load overrides once and cache
+		// Load overrides once and cache.
 		if ( null === $overrides_cache ) {
 			$overrides_cache = array();
 
@@ -184,22 +182,22 @@ if ( ! function_exists( 'mt_apply_terminology' ) ) {
 			}
 		}
 
-		// Apply overrides (case-sensitive)
+		// Apply overrides (case-sensitive).
 		return str_replace( array_keys( $overrides_cache ), array_values( $overrides_cache ), $text );
 	}
 }
 
-// === Get subscribe calendar URL (with custom override support) ===
+// === Get subscribe calendar URL (with custom override support) ===.
 if ( ! function_exists( 'mt_get_subscribe_url' ) ) {
 	function mt_get_subscribe_url(): string {
-		// Check for custom override first
+		// Check for custom override first.
 		if ( mt_has_acf() ) {
 			$custom_url = get_field( 'custom_subscribe_url', 'option' );
 		} else {
 			$custom_url = get_option( 'custom_subscribe_url', '' );
 		}
 
-		// Return custom URL if set and valid, otherwise return default
+		// Return custom URL if set and valid, otherwise return default.
 		/** @phpstan-ignore-next-line */
 		if ( ! empty( $custom_url ) && filter_var( $custom_url, FILTER_VALIDATE_URL ) ) {
 			return $custom_url;
@@ -209,7 +207,7 @@ if ( ! function_exists( 'mt_get_subscribe_url' ) ) {
 	}
 }
 
-// === Subscribe to Calendar Helper Functions ===
+// === Subscribe to Calendar Helper Functions ===.
 if ( ! function_exists( 'mt_get_calendar_subscribe_url' ) ) {
 	/**
 	 * Get the calendar subscribe URL with optional filters
@@ -219,7 +217,7 @@ if ( ! function_exists( 'mt_get_calendar_subscribe_url' ) ) {
 	 * @return string Subscribe URL
 	 */
 	function mt_get_calendar_subscribe_url( array $args = array() ): string {
-		// Check for mosque's custom subscribe URL first
+		// Check for mosque's custom subscribe URL first.
 		$custom_url = '';
 		if ( mt_has_acf() ) {
 			$custom_url = get_field( 'custom_subscribe_url', 'option' );
@@ -228,11 +226,11 @@ if ( ! function_exists( 'mt_get_calendar_subscribe_url' ) ) {
 		}
 
 		if ( ! empty( $custom_url ) && filter_var( $custom_url, FILTER_VALIDATE_URL ) ) {
-			// Use mosque's existing calendar (may include events + prayers)
+			// Use mosque's existing calendar (may include events + prayers).
 			return $custom_url;
 		}
 
-		// Fall back to auto-generated prayer times feed
+		// Fall back to auto-generated prayer times feed.
 		$base_url = get_site_url() . '/prayer-times/calendar.ics';
 
 		if ( ! empty( $args ) ) {
@@ -258,7 +256,7 @@ if ( ! function_exists( 'mt_get_google_subscribe_url' ) ) {
 
 if ( ! function_exists( 'mt_get_webcal_url' ) ) {
 	/**
-	 * Convert https:// URL to webcal:// for native calendar apps
+	 * Convert https: // URL to webcal:// for native calendar apps.
 	 *
 	 * @param string $ics_url The ICS feed URL
 	 * @return string Webcal URL for Apple Calendar, Outlook, etc.
@@ -268,7 +266,7 @@ if ( ! function_exists( 'mt_get_webcal_url' ) ) {
 	}
 }
 
-// === Save rows for a month (works with/without ACF) ===
+// === Save rows for a month (works with/without ACF) ===.
 if ( ! function_exists( 'mt_save_month_rows' ) ) {
 	function mt_save_month_rows( int $month, array $rows, ?int $year = null ): bool {
 		$month = max( 1, min( 12, $month ) );
@@ -276,7 +274,7 @@ if ( ! function_exists( 'mt_save_month_rows' ) ) {
 		$rows  = array_values( $rows );
 
 		if ( mt_has_acf() ) {
-			// Use year-specific ACF field names for multi-year support
+			// Use year-specific ACF field names for multi-year support.
 			$field_name = "daily_prayers_{$year}_{$month}";
 			return (bool) update_field( $field_name, $rows, 'option' );
 		}
@@ -285,22 +283,22 @@ if ( ! function_exists( 'mt_save_month_rows' ) ) {
 		$all[ $year ]           = $all[ $year ] ?? array();
 		$all[ $year ][ $month ] = $rows;
 		$result                 = update_option( 'mosque_timetable_rows', $all, false );
-		return $result !== false;
+		return false !== $result;
 	}
 }
 
-// === Clear all rows (works with/without ACF) ===
+// === Clear all rows (works with/without ACF) ===.
 if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 	function mt_clear_all_rows( ?int $year = null ): void {
 		if ( mt_has_acf() ) {
 			$year = $year ?? (int) get_option( 'default_year', (int) wp_date( 'Y' ) );
 
-			// Clear year-specific fields
+			// Clear year-specific fields.
 			for ( $m = 1; $m <= 12; $m++ ) {
 				update_field( "daily_prayers_{$year}_{$m}", array(), 'option' );
 			}
 
-			// Also clear legacy fields if clearing current year
+			// Also clear legacy fields if clearing current year.
 			$current_year = (int) get_option( 'default_year', (int) wp_date( 'Y' ) );
 			if ( $year === $current_year ) {
 				for ( $m = 1; $m <= 12; $m++ ) {
@@ -324,17 +322,17 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 	 * @return string|null PDF URL or null if not set
 	 */
 	function mt_get_pdf_for_month( ?int $month = null, ?int $year = null ): ?string {
-		// Defaults if any arg missing
-		$month = (int) ( $month ?? wp_date( 'n' ) ); // 1..12
+		// Defaults if any arg missing.
+		$month = (int) ( $month ?? wp_date( 'n' ) ); // 1..12.
 		$year  = (int) ( $year ?? wp_date( 'Y' ) );
 
-		// Clamp month safely
+		// Clamp month safely.
 		if ( $month < 1 || $month > 12 ) {
 			$month = (int) wp_date( 'n' );
 		}
 
 		if ( mt_has_acf() ) {
-			// ACF option repeater
+			// ACF option repeater.
 			$field_name = "daily_prayers_{$month}";
 			$rows       = get_field( $field_name, 'option' );
 
@@ -346,7 +344,7 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 			}
 		}
 
-		// Fallback to options
+		// Fallback to options.
 		$option_name = sprintf( 'mt_pdf_%04d_%d', $year, $month );
 		$pdf_url     = get_option( $option_name, '' );
 
@@ -367,7 +365,7 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 
 		if ( mt_has_acf() ) {
 			$field_name = "daily_prayers_{$month}";
-			$rows       = get_field( $field_name, 'option' ) ?: array();
+			$rows       = get_field( $field_name, 'option' ) ?: array(); // phpcs:ignore Universal.Operators.DisallowShortTernary.Found -- ACF get_field() returns false not null; falsy fallback required.
 
 			if ( empty( $rows ) || ! is_array( $rows[0] ) ) {
 				$rows = array( array( 'pdf_url' => $pdf_url ) );
@@ -391,7 +389,7 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 
 		if ( mt_has_acf() ) {
 			$field_name = "daily_prayers_{$month}";
-			$rows       = get_field( $field_name, 'option' ) ?: array();
+			$rows       = get_field( $field_name, 'option' ) ?: array(); // phpcs:ignore Universal.Operators.DisallowShortTernary.Found -- ACF get_field() returns false not null; falsy fallback required.
 
 			if ( is_array( $rows ) && isset( $rows[0] ) && is_array( $rows[0] ) ) {
 				$rows[0]['pdf_url'] = '';
@@ -403,13 +401,10 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 		return (bool) delete_option( $option_name );
 	}
 
-	// Ensure Composer autoload is available for SimpleXLSX
+	// Ensure Composer autoload is available for SimpleXLSX.
 	$mt_vendor = MOSQUE_TIMETABLE_PLUGIN_DIR . 'vendor/autoload.php';
 	if ( is_readable( $mt_vendor ) ) {
 		require_once $mt_vendor;
-	} else {
-		// Optional: Helpful message for missing deps
-		// error_log('mosque-timetable: vendor/autoload.php not found. Run composer install.');
 	}
 
 	/**
@@ -427,4 +422,4 @@ if ( ! function_exists( 'mt_clear_all_rows' ) ) {
 	}
 
 
-} // end conditional wrapper from mt_clear_all_rows guard
+} // end conditional wrapper from mt_clear_all_rows guard.

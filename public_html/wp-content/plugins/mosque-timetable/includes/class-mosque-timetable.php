@@ -5,6 +5,8 @@
  * @package MosqueTimetable
  */
 
+// phpcs:disable Universal.Operators.DisallowShortTernary.Found -- Elvis operator is intentionally used throughout for concise null/empty fallbacks.
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -50,7 +52,7 @@ class MosqueTimetablePlugin {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_assets' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
-		add_action( 'admin_init', array( $this, 'check_year_advancement' ) ); // Auto-check year advancement
+		add_action( 'admin_init', array( $this, 'check_year_advancement' ) ); // Auto-check year advancement.
 		add_action( 'acf/init', array( $this, 'register_acf_fields' ) );
 		add_action( 'acf/save_post', array( $this, 'handle_acf_save_redirect' ) );
 		add_action( 'rest_api_init', array( $this, 'register_rest_endpoints' ) );
@@ -64,9 +66,9 @@ class MosqueTimetablePlugin {
 		add_action( 'init', array( $this, 'handle_service_worker_request' ) );
 		add_action( 'init', array( $this, 'init_push_notifications_cron' ) );
 		add_action( 'mt_send_push_notifications', array( $this, 'process_push_notifications' ) );
-		add_filter( 'cron_schedules', array( $this, 'add_cron_intervals' ) );
+		add_filter( 'cron_schedules', array( $this, 'add_cron_intervals' ) ); // phpcs:ignore WordPress.WP.CronInterval.CronSchedulesInterval -- 5-min interval required for timely prayer notifications.
 
-		// AJAX handlers for push notifications
+		// AJAX handlers for push notifications.
 		add_action( 'wp_ajax_subscribe_push_notifications', array( $this, 'ajax_subscribe_push_notifications' ) );
 		add_action( 'wp_ajax_nopriv_subscribe_push_notifications', array( $this, 'ajax_subscribe_push_notifications' ) );
 		add_action( 'wp_ajax_unsubscribe_push_notifications', array( $this, 'ajax_unsubscribe_push_notifications' ) );
@@ -76,16 +78,16 @@ class MosqueTimetablePlugin {
 		add_filter( 'robots_txt', array( $this, 'add_robots_txt_entries' ), 10, 2 );
 		add_action( 'init', array( $this, 'add_rtl_support' ) );
 
-		// AJAX hooks with proper security
+		// AJAX hooks with proper security.
 		add_action( 'wp_ajax_save_month_timetable', array( $this, 'ajax_save_month_timetable' ) );
 		add_action( 'wp_ajax_import_csv_timetable', array( $this, 'ajax_import_csv_timetable' ) );
 		add_action( 'wp_ajax_export_ics_calendar', array( $this, 'ajax_export_ics_calendar' ) );
 		add_action( 'wp_ajax_export_csv_calendar', array( $this, 'ajax_export_csv_calendar' ) );
 
-		// Additional AJAX hooks are registered at the bottom of the file to avoid duplicates
+		// Additional AJAX hooks are registered at the bottom of the file to avoid duplicates.
 
-		// Admin hooks
-		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 9 ); // Priority 9 to load before ACF
+		// Admin hooks.
+		add_action( 'admin_menu', array( $this, 'add_admin_menu' ), 9 ); // Priority 9 to load before ACF.
 	}
 
 	/**
@@ -103,17 +105,17 @@ class MosqueTimetablePlugin {
 	 * Plugin activation
 	 */
 	public function activate_plugin(): void {
-		// Create necessary database tables if needed
+		// Create necessary database tables if needed.
 		$this->create_plugin_tables();
 
-		// Add rewrite rules and flush
+		// Add rewrite rules and flush.
 		$this->add_rewrite_rules();
 		flush_rewrite_rules();
 
-		// Set default options
+		// Set default options.
 		$this->set_default_options();
 
-		// Auto-populate monthly timetables based on default year
+		// Auto-populate monthly timetables based on default year.
 		$this->auto_populate_monthly_structure();
 	}
 
@@ -121,7 +123,7 @@ class MosqueTimetablePlugin {
 	 * Plugin deactivation
 	 */
 	public function deactivate_plugin(): void {
-		// Clean up temporary data
+		// Clean up temporary data.
 		flush_rewrite_rules();
 	}
 
@@ -129,7 +131,7 @@ class MosqueTimetablePlugin {
 	 * Create plugin database tables
 	 */
 	private function create_plugin_tables(): void {
-		// Tables will be managed via ACF Pro, but we can add custom tables here if needed
+		// Tables will be managed via ACF Pro, but we can add custom tables here if needed.
 	}
 
 	/**
@@ -177,7 +179,7 @@ class MosqueTimetablePlugin {
 			true
 		);
 
-		// Inject custom appearance colors as CSS variables
+		// Inject custom appearance colors as CSS variables.
 		$today_color  = get_option( 'mt_today_color', '#FFF9C4' );
 		$friday_color = get_option( 'mt_friday_color', '#E8F5E9' );
 		$custom_css   = "
@@ -188,7 +190,7 @@ class MosqueTimetablePlugin {
 		";
 		wp_add_inline_style( 'mosque-timetable-style', $custom_css );
 
-		// Enqueue modal assets - depends on main CSS for variables
+		// Enqueue modal assets - depends on main CSS for variables.
 		wp_enqueue_style(
 			'mosque-timetable-modal',
 			MOSQUE_TIMETABLE_ASSETS_URL . 'mt-modal.css',
@@ -204,10 +206,10 @@ class MosqueTimetablePlugin {
 			true
 		);
 
-		// Get VAPID public key for push notifications
+		// Get VAPID public key for push notifications.
 		$vapid_public_key = mt_get_option( 'vapid_public_key', '' );
 
-		// Localize script with AJAX URL and nonce
+		// Localize script with AJAX URL and nonce.
 		wp_localize_script(
 			'mosque-timetable-script',
 			'mosqueTimetable',
@@ -230,7 +232,7 @@ class MosqueTimetablePlugin {
 			)
 		);
 
-		// Localize modal script with export-specific configuration
+		// Localize modal script with export-specific configuration.
 		wp_localize_script(
 			'mosque-timetable-modal',
 			'mosqueTimetableModal',
@@ -255,7 +257,7 @@ class MosqueTimetablePlugin {
 	 * Render admin assets
 	 */
 	public function render_timetables_admin_page() {
-		// Use options with fallbacks instead of ACF
+		// Use options with fallbacks instead of ACF.
 		$available_months = get_option( 'available_months', range( 1, 12 ) );
 		if ( ! is_array( $available_months ) || empty( $available_months ) ) {
 			$available_months = range( 1, 12 );
@@ -563,17 +565,19 @@ endforeach;
 	 */
 	public function enqueue_admin_assets( $hook ) {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( 'Admin hook: ' . $hook );
+			error_log( 'Admin hook: ' . $hook ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
 
 		$is_mosque_page =
-			( $hook === 'toplevel_page_mosque-timetables' ) ||
-			( $hook === 'mosque-timetable_page_mosque-import-export' ) ||
+			( 'toplevel_page_mosque-timetables' === $hook ) ||
+			( 'mosque-timetable_page_mosque-import-export' === $hook ) ||
+			// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only page detection, no data modification.
 			( isset( $_GET['page'] ) && in_array(
 				sanitize_text_field( wp_unslash( $_GET['page'] ) ),
 				array( 'mosque-timetables', 'mosque-import-export', 'mosque-settings', 'mosque-appearance' ),
 				true
 			) );
+			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( ! $is_mosque_page ) {
 			return;
@@ -657,9 +661,9 @@ endforeach;
 		$this->register_appearance_settings_fields();
 	}
 
-	// ← next thing here must be ANOTHER method of the class,
-	// e.g. private function register_mosque_settings_fields() { … }
-	// Do NOT put global functions here
+	// ← next thing here must be ANOTHER method of the class,.
+	// e.g. private function register_mosque_settings_fields() { … }.
+	// Do NOT put global functions here.
 
 	/**
 	 * Register Mosque Settings ACF fields
@@ -1111,7 +1115,7 @@ endforeach;
 	 * Register Monthly Timetables ACF fields
 	 */
 	private function register_monthly_timetables_fields(): void {
-		// Register individual month field groups dynamically
+		// Register individual month field groups dynamically.
 		$months = array(
 			1  => 'January',
 			2  => 'February',
@@ -1582,7 +1586,7 @@ endforeach;
 		$field_name    = 'daily_prayers_' . $month;
 		$existing_data = get_field( $field_name, 'option' );
 
-		// Only populate if no existing data
+		// Only populate if no existing data.
 		if ( ! empty( $existing_data ) ) {
 			return;
 		}
@@ -1625,7 +1629,7 @@ endforeach;
 	 * Returns 'YYYY-MM-DD' string on success, or false on failure.
 	 */
 	private function validate_import_date( $date_string, int $day_number, int $month, ?int $year = null ) {
-		// Normalise inputs
+		// Normalise inputs.
 		$day_number = (int) $day_number;
 		$month      = max( 1, min( 12, (int) $month ) );
 		$year       = $year ? (int) $year : (int) wp_date( 'Y' );
@@ -1636,7 +1640,7 @@ endforeach;
 
 		$date_string = is_string( $date_string ) ? trim( $date_string ) : '';
 
-		// If we were given a plausible date string, try to parse and normalise it
+		// If we were given a plausible date string, try to parse and normalise it.
 		if ( '' !== $date_string && $this->looks_like_date( $date_string ) ) {
 			$ts = strtotime( $date_string );
 			if ( false !== $ts ) {
@@ -1644,7 +1648,7 @@ endforeach;
 			}
 		}
 
-		// Fallback: compose from Y, M, D and validate
+		// Fallback: compose from Y, M, D and validate.
 		$candidate = sprintf( '%04d-%02d-%02d', $year, $month, $day_number );
 		$dt        = DateTime::createFromFormat( 'Y-m-d', $candidate );
 
@@ -1657,16 +1661,16 @@ endforeach;
 	public function calculate_hijri_date( $gregorian_date, $adjustment = 0 ) {
 		$timestamp = strtotime( $gregorian_date );
 
-		// Apply adjustment
+		// Apply adjustment.
 		if ( 0 !== $adjustment ) {
-			$timestamp += ( $adjustment * 24 * 60 * 60 ); // Add/subtract days
+			$timestamp += ( $adjustment * 24 * 60 * 60 ); // Add/subtract days.
 		}
 
 		$gregorian_year  = gmdate( 'Y', $timestamp );
 		$gregorian_month = gmdate( 'n', $timestamp );
 		$gregorian_day   = gmdate( 'j', $timestamp );
 
-		// More accurate Hijri conversion using Julian Day Number algorithm
+		// More accurate Hijri conversion using Julian Day Number algorithm.
 		$hijri_date = $this->gregorian_to_hijri_accurate( $gregorian_year, $gregorian_month, $gregorian_day );
 
 		$hijri_months = array(
@@ -1696,9 +1700,9 @@ endforeach;
 	 * More accurate Gregorian to Hijri conversion
 	 */
 	private function gregorian_to_hijri_accurate( $g_year, $g_month, $g_day ) {
-		// Calculate Julian Day Number
+		// Calculate Julian Day Number.
 		if ( $g_month <= 2 ) {
-			$g_year  -= 1;
+			--$g_year;
 			$g_month += 12;
 		}
 
@@ -1707,8 +1711,8 @@ endforeach;
 
 		$jd = floor( 365.25 * ( $g_year + 4716 ) ) + floor( 30.6001 * ( $g_month + 1 ) ) + $g_day + $b - 1524;
 
-		// Convert Julian Day to Hijri
-		$l = $jd - 1948439; // Difference between Julian and Hijri epochs
+		// Convert Julian Day to Hijri.
+		$l = $jd - 1948439; // Difference between Julian and Hijri epochs.
 		$n = floor( ( $l - 1 ) / 10631 );
 		$l = $l - 10631 * $n + 354;
 
@@ -1722,7 +1726,7 @@ endforeach;
 		$hijri_day   = $l - floor( ( 709 * $hijri_month ) / 24 );
 		$hijri_year  = 30 * $n + $j - 30;
 
-		// Adjust for proper ranges
+		// Adjust for proper ranges.
 		if ( $hijri_day <= 0 ) {
 			--$hijri_month;
 			if ( $hijri_month <= 0 ) {
@@ -1751,11 +1755,11 @@ endforeach;
 	 * Get number of days in a Hijri month
 	 */
 	private function get_hijri_month_days( $month, $year ) {
-		// Hijri months alternate between 30 and 29 days
-		// with adjustments for leap years
+		// Hijri months alternate between 30 and 29 days.
+		// with adjustments for leap years.
 		$days = array( 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29 );
 
-		// In leap years, the last month has 30 days instead of 29
+		// In leap years, the last month has 30 days instead of 29.
 		if ( $this->is_hijri_leap_year( $year ) && 12 === $month ) {
 			return 30;
 		}
@@ -1767,10 +1771,10 @@ endforeach;
 	 * Check if a Hijri year is a leap year
 	 */
 	private function is_hijri_leap_year( $year ) {
-		// Hijri leap year calculation: 11 leap years in every 30-year cycle
+		// Hijri leap year calculation: 11 leap years in every 30-year cycle.
 		$cycle_position = $year % 30;
 		$leap_years     = array( 2, 5, 7, 10, 13, 16, 18, 21, 24, 26, 29 );
-		return in_array( $cycle_position, $leap_years );
+		return in_array( $cycle_position, $leap_years, true );
 	}
 
 	/**
@@ -1786,18 +1790,18 @@ endforeach;
 	 * Add admin menu
 	 */
 	public function add_admin_menu() {
-		// Create main menu page (not using ACF to avoid conflicts)
+		// Create main menu page (not using ACF to avoid conflicts).
 		add_menu_page(
-			mt_apply_terminology( 'Mosque Timetable' ), // Page title
-			mt_apply_terminology( 'Mosque Timetable' ), // Menu title
-			'edit_posts',       // Capability
-			'mosque-main',      // Menu slug
-			array( $this, 'render_main_admin_page' ), // Function
-			'dashicons-clock',  // Icon
-			30                  // Position
+			mt_apply_terminology( 'Mosque Timetable' ), // Page title.
+			mt_apply_terminology( 'Mosque Timetable' ), // Menu title.
+			'edit_posts', // Capability.
+			'mosque-main', // Menu slug.
+			array( $this, 'render_main_admin_page' ), // Function.
+			'dashicons-clock', // Icon.
+			30 // Position.
 		);
 
-		// Submenu: Mosque Settings
+		// Submenu: Mosque Settings.
 		add_submenu_page(
 			'mosque-main',
 			mt_apply_terminology( 'Mosque Configuration' ),
@@ -1807,7 +1811,7 @@ endforeach;
 			array( $this, 'render_settings_page' )
 		);
 
-		// Submenu: Timetables (main functionality)
+		// Submenu: Timetables (main functionality).
 		add_submenu_page(
 			'mosque-main',
 			'Prayer Timetables',
@@ -1817,7 +1821,7 @@ endforeach;
 			array( $this, 'render_timetables_admin_page' )
 		);
 
-		// Submenu: Appearance
+		// Submenu: Appearance.
 		add_submenu_page(
 			'mosque-main',
 			'Appearance & PWA Settings',
@@ -1827,7 +1831,7 @@ endforeach;
 			array( $this, 'render_appearance_page' )
 		);
 
-		// Debug submenu (temporary)
+		// Debug submenu (temporary).
 		add_submenu_page(
 			'mosque-main',
 			'Debug Timetables',
@@ -1837,7 +1841,7 @@ endforeach;
 			array( $this, 'render_debug_page' )
 		);
 
-		// Submenu: Import/Export
+		// Submenu: Import/Export.
 		add_submenu_page(
 			'mosque-main',
 			'Import/Export Tools',
@@ -1847,7 +1851,7 @@ endforeach;
 			array( $this, 'render_import_export_page' )
 		);
 
-		// ACF fields are registered separately and will work with our pages
+		// ACF fields are registered separately and will work with our pages.
 	}
 
 	/**
@@ -1856,8 +1860,8 @@ endforeach;
 	public function setup_acf_on_custom_pages() {
 		$screen = get_current_screen();
 
-		// We don't need to do anything special here anymore
-		// ACF fields are loaded directly in the render functions
+		// We don't need to do anything special here anymore.
+		// ACF fields are loaded directly in the render functions.
 	}
 
 	/**
@@ -2071,13 +2075,13 @@ endforeach;
 	 * Render settings page with ACF fields
 	 */
 	public function render_settings_page() {
-		// Handle form submission first
+		// Handle form submission first.
 		if ( isset( $_POST['submit'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['mosque_timetable_nonce'] ?? '' ) ), 'mosque_timetable_action' ) ) {
 			$this->save_mosque_settings();
 			$message = 'Configuration updated successfully!';
 		}
 
-		// Check for ACF form save success
+		// Check for ACF form save success.
 		if ( isset( $_GET['updated'] ) && sanitize_text_field( wp_unslash( $_GET['updated'] ) ) === 'true' ) {
 			$message = 'Configuration updated successfully!';
 		}
@@ -2108,7 +2112,7 @@ endforeach;
 	 * Save mosque settings (fallback method)
 	 */
 	private function save_mosque_settings() {
-		// Verify nonce for state-changing operations
+		// Verify nonce for state-changing operations.
 		check_admin_referer( 'mosque_timetable_action', 'mosque_timetable_nonce' );
 
 		if ( isset( $_POST['mosque_name'] ) ) {
@@ -2143,7 +2147,7 @@ endforeach;
 			$custom_url = sanitize_url( wp_unslash( $_POST['custom_subscribe_url'] ) );
 			update_option( 'custom_subscribe_url', $custom_url );
 		}
-		// Prayer calculation settings
+		// Prayer calculation settings.
 		if ( isset( $_POST['enable_auto_times'] ) ) {
 			update_option( 'enable_auto_times', 1 );
 		} else {
@@ -2165,7 +2169,7 @@ endforeach;
 			$method = sanitize_text_field( wp_unslash( $_POST['calculation_method'] ) );
 			update_option( 'calculation_method', $method );
 		}
-		// Jamāʿah offsets
+		// Jamāʿah offsets.
 		if ( isset( $_POST['fajr_jamaat_offset'] ) ) {
 			update_option( 'fajr_jamaat_offset', intval( wp_unslash( $_POST['fajr_jamaat_offset'] ) ) );
 		}
@@ -2187,15 +2191,15 @@ endforeach;
 			foreach ( $clean_overrides as $override ) {
 				if ( ! empty( $override['from'] ) && ! empty( $override['to'] ) ) {
 					$terminology_overrides[] = array(
-						'from'    => sanitize_text_field( $override['from'] ), // Already unslashed above
-						'to'      => sanitize_text_field( $override['to'] ), // Already unslashed above
+						'from'    => sanitize_text_field( $override['from'] ), // Already unslashed above.
+						'to'      => sanitize_text_field( $override['to'] ), // Already unslashed above.
 						'enabled' => isset( $override['enabled'] ) ? 1 : 0,
 					);
 				}
 			}
 			update_option( 'terminology_overrides', $terminology_overrides );
 		}
-		// Push notification settings
+		// Push notification settings.
 		if ( isset( $_POST['vapid_public_key'] ) ) {
 			update_option( 'vapid_public_key', sanitize_text_field( wp_unslash( $_POST['vapid_public_key'] ) ) );
 		}
@@ -2220,18 +2224,18 @@ endforeach;
 	 * Handle ACF form save redirects properly
 	 */
 	public function handle_acf_save_redirect( $post_id ) {
-		// Only handle options page saves
+		// Only handle options page saves.
 		if ( 'options' !== $post_id ) {
 			return;
 		}
 
-		// Verify nonce for state-changing operations
-		// If ACF Pro is active, it handles nonce verification; otherwise we need to verify
+		// Verify nonce for state-changing operations.
+		// If ACF Pro is active, it handles nonce verification; otherwise we need to verify.
 		if ( function_exists( 'acf_verify_nonce' ) || class_exists( 'ACF' ) ) {
-			// ACF Pro handles nonce verification internally
+			// ACF Pro handles nonce verification internally.
 			$acf_screen = isset( $_POST['_acf_screen'] ) ? sanitize_text_field( wp_unslash( $_POST['_acf_screen'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- ACF Pro handles nonce verification
 		} else {
-			// When using fallback stubs, we must verify nonce ourselves
+			// When using fallback stubs, we must verify nonce ourselves.
 			if ( ! isset( $_POST['mosque_timetable_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['mosque_timetable_nonce'] ) ), 'mosque_timetable_action' ) ) {
 				wp_die( esc_html__( 'Security check failed', 'mosque-timetable' ) );
 			}
@@ -2261,13 +2265,13 @@ endforeach;
 	 * Render appearance page with ACF fields
 	 */
 	public function render_appearance_page() {
-		// Handle form submission first
+		// Handle form submission first.
 		if ( isset( $_POST['submit'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['mosque_timetable_nonce'] ?? '' ) ), 'mosque_timetable_action' ) ) {
 			$this->save_appearance_settings();
 			$message = 'Appearance settings updated successfully!';
 		}
 
-		// Check for ACF form save success
+		// Check for ACF form save success.
 		if ( isset( $_GET['updated'] ) && sanitize_text_field( wp_unslash( $_GET['updated'] ) ) === 'true' ) {
 			$message = 'Appearance settings updated successfully!';
 		}
@@ -2315,7 +2319,7 @@ endforeach;
 	 * Save appearance settings (fallback method)
 	 */
 	private function save_appearance_settings() {
-		// Verify nonce for state-changing operations
+		// Verify nonce for state-changing operations.
 		check_admin_referer( 'mosque_timetable_action', 'mosque_timetable_nonce' );
 
 		if ( isset( $_POST['mt_today_color'] ) ) {
@@ -2483,7 +2487,7 @@ endforeach;
 							);
 
 							foreach ( $months as $num => $name ) :
-								$checked = in_array( $num, $available_months ) ? 'checked' : '';
+								$checked = in_array( (int) $num, $available_months, true ) ? 'checked' : '';
 								?>
 								<label style="display: inline-block; margin-right: 15px; margin-bottom: 5px;">
 									<input type="checkbox" name="available_months[]" value="<?php echo esc_attr( $num ); ?>" <?php echo esc_attr( $checked ); ?> />
@@ -2504,27 +2508,27 @@ endforeach;
 					const button = $(this);
 					const status = $('#geocode-status');
 
-					// Get address components
+					// Get address components.
 					const street = $('#mosque_street_address').val().trim();
 					const city = $('#mosque_city').val().trim();
 					const postcode = $('#mosque_postcode').val().trim();
 					const country = $('#mosque_country').val().trim();
 
-					// Validation
+					// Validation.
 					if (!street && !city && !postcode) {
 						status.css('color', '#d63638').text('⚠️ Please enter at least street, city, or postcode');
 						return;
 					}
 
-					// Build address string
+					// Build address string.
 					const addressParts = [street, city, postcode, country].filter(part => part.length > 0);
 					const fullAddress = addressParts.join(', ');
 
-					// Show loading state
+					// Show loading state.
 					button.prop('disabled', true);
 					status.css('color', '#667eea').html('<span class="dashicons dashicons-update-alt" style="animation: spin 1s linear infinite;"></span> Finding coordinates...');
 
-					// Call Nominatim API (OpenStreetMap)
+					// Call Nominatim API (OpenStreetMap).
 					$.ajax({
 						url: 'https://nominatim.openstreetmap.org/search',
 						data: {
@@ -2542,14 +2546,14 @@ endforeach;
 								const lat = parseFloat(data[0].lat).toFixed(6);
 								const lon = parseFloat(data[0].lon).toFixed(6);
 
-								// Populate fields
+								// Populate fields.
 								$('#mosque_latitude').val(lat);
 								$('#mosque_longitude').val(lon);
 
-								// Show success
+								// Show success.
 								status.css('color', '#00a32a').html('✅ Coordinates found! <small>(' + lat + ', ' + lon + ')</small>');
 
-								// Highlight the coordinate fields briefly
+								// Highlight the coordinate fields briefly.
 								$('#mosque_latitude, #mosque_longitude').css({
 									'background-color': '#e6f4ea',
 									'transition': 'background-color 0.3s'
@@ -2695,11 +2699,11 @@ endforeach;
 						<h3>📋 Sample Templates</h3>
 						<p>Download example files to see the correct format for your prayer time data:</p>
 						<div class="sample-downloads">
-							<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=download_sample_csv&nonce=' . wp_create_nonce( 'mosque_sample_download' ) ) ); ?>" // Escape output
+							<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=download_sample_csv&nonce=' . wp_create_nonce( 'mosque_sample_download' ) ) ); ?>" // Escape output.
 								class="button button-secondary" target="_blank">
 								📄 Download Sample CSV
 							</a>
-							<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=download_sample_xlsx&nonce=' . wp_create_nonce( 'mosque_sample_download' ) ) ); ?>" // Escape output
+							<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=download_sample_xlsx&nonce=' . wp_create_nonce( 'mosque_sample_download' ) ) ); ?>" // Escape output.
 								class="button button-secondary" target="_blank">
 								📊 Download Sample XLSX
 							</a>
@@ -2918,7 +2922,7 @@ endforeach;
 				function clearAllData() {
 					jQuery.post(ajaxurl, {
 						action: 'clear_all_prayer_data',
-						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output
+						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output.
 					}, function(response) {
 						if (response.success) {
 							alert('✅ All prayer data cleared successfully!');
@@ -2931,7 +2935,7 @@ endforeach;
 				function resetToEmptyStructure() {
 					jQuery.post(ajaxurl, {
 						action: 'reset_to_empty_structure',
-						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output
+						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output.
 					}, function(response) {
 						if (response.success) {
 							alert('✅ Prayer times reset to empty structure!');
@@ -2944,7 +2948,7 @@ endforeach;
 				function regenerateAllDates() {
 					jQuery.post(ajaxurl, {
 						action: 'regenerate_all_dates',
-						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output
+						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output.
 					}, function(response) {
 						if (response.success) {
 							alert('✅ All dates regenerated successfully!');
@@ -2955,12 +2959,12 @@ endforeach;
 				}
 
 				jQuery(document).ready(function($) {
-					// prevent wiring twice
+					// prevent wiring twice.
 					if (window.__mt_import_wired__) return;
 					window.__mt_import_wired__ = true;
 
 					$('#export-csv-btn').on('click', function() {
-						window.open(ajaxurl + '?action=export_csv_calendar&nonce=' + '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>', '_blank'); // Escape output
+						window.open(ajaxurl + '?action=export_csv_calendar&nonce=' + '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>', '_blank'); // Escape output.
 					});
 				});
 			</script>
@@ -2982,7 +2986,7 @@ endforeach;
 				</div>
 
 			<?php
-			// Test 1: AJAX Actions
+			// Test 1: AJAX Actions.
 			echo '<div style="border: 1px solid #ccc; margin: 10px 0; padding: 15px;">';
 			echo '<h2>Test 1: AJAX Action Registration</h2>';
 
@@ -2996,14 +3000,14 @@ endforeach;
 
 			foreach ( $critical_ajax_actions as $action => $description ) {
 				if ( has_action( "wp_ajax_$action" ) ) {
-					echo '<p style="color: green;">✅ ' . esc_html( $description ) . ' (' . esc_html( $action ) . ')</p>'; // Escape output
+					echo '<p style="color: green;">✅ ' . esc_html( $description ) . ' (' . esc_html( $action ) . ')</p>'; // Escape output.
 				} else {
-					echo '<p style="color: red;">❌ ' . esc_html( $description ) . ' (' . esc_html( $action ) . ') - MISSING!</p>'; // Escape output
+					echo '<p style="color: red;">❌ ' . esc_html( $description ) . ' (' . esc_html( $action ) . ') - MISSING!</p>'; // Escape output.
 				}
 			}
 			echo '</div>';
 
-			// Test 2: JavaScript Files
+			// Test 2: JavaScript Files.
 			echo '<div style="border: 1px solid #ccc; margin: 10px 0; padding: 15px;">';
 			echo '<h2>Test 2: Admin Assets</h2>';
 
@@ -3022,7 +3026,7 @@ endforeach;
 			}
 			echo '</div>';
 
-			// Test 3: Month Data
+			// Test 3: Month Data.
 			echo '<div style="border: 1px solid #ccc; margin: 10px 0; padding: 15px;">';
 			echo '<h2>Test 3: Prayer Data Availability</h2>';
 
@@ -3046,21 +3050,21 @@ endforeach;
 				$month_data = get_field( $field_name, 'option' );
 
 				if ( $month_data && is_array( $month_data ) ) {
-					echo '<p style="color: green;">✅ ' . esc_html( $months[ $month - 1 ] ) . ': ' . esc_html( count( $month_data ) ) . ' days</p>'; // Escape output
+					echo '<p style="color: green;">✅ ' . esc_html( $months[ $month - 1 ] ) . ': ' . esc_html( count( $month_data ) ) . ' days</p>'; // Escape output.
 				} else {
-					echo '<p style="color: orange;">⚠️ ' . esc_html( $months[ $month - 1 ] ) . ': No data</p>'; // Escape output
+					echo '<p style="color: orange;">⚠️ ' . esc_html( $months[ $month - 1 ] ) . ': No data</p>'; // Escape output.
 				}
 			}
 			echo '</div>';
 
-			// Test 4: Browser Console Test
+			// Test 4: Browser Console Test.
 			echo '<div style="border: 1px solid #ccc; margin: 10px 0; padding: 15px;">';
 			echo '<h2>Test 4: Browser Console Test</h2>';
 			echo '<p>Copy this code and paste it into the browser console on the Timetables page:</p>';
 			?>
 				<textarea readonly style="width: 100%; height: 200px; font-family: monospace; font-size: 12px;">console.log("=== MOSQUE TIMETABLE DEBUG ===");
 
-// Check main objects
+// Check main objects.
 if (typeof MosqueTimetableAdmin !== 'undefined') {
 	console.log('✅ MosqueTimetableAdmin exists:', MosqueTimetableAdmin);
 } else {
@@ -3073,7 +3077,7 @@ if (typeof mosqueTimetableAdmin !== 'undefined') {
 	console.error('❌ mosqueTimetableAdmin config missing');
 }
 
-// Test AJAX
+// Test AJAX.
 if (typeof jQuery !== 'undefined' && mosqueTimetableAdmin?.ajaxUrl) {
 	jQuery.post(mosqueTimetableAdmin.ajaxUrl, {
 		action: 'get_month_timetable',
@@ -3091,7 +3095,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			<?php
 			echo '<p><strong>Instructions:</strong></p>';
 			echo '<ol>';
-			echo '<li>Go to the <a href="' . esc_url( admin_url( 'admin.php?page=mosque-timetables' ) ) . '" target="_blank">Timetables page</a></li>'; // Escape output
+			echo '<li>Go to the <a href="' . esc_url( admin_url( 'admin.php?page=mosque-timetables' ) ) . '" target="_blank">Timetables page</a></li>'; // Escape output.
 			echo '<li>Press F12 to open browser dev tools</li>';
 			echo '<li>Go to Console tab</li>';
 			echo '<li>Copy and paste the code above</li>';
@@ -3118,7 +3122,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Register REST API endpoints
 	 */
 	public function register_rest_endpoints() {
-		// Register namespace
+		// Register namespace.
 		register_rest_route(
 			'mosque/v1',
 			'/prayer-times/(?P<year>\d{4})/(?P<month>\d{1,2})',
@@ -3219,7 +3223,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							return is_bool( $param ) || in_array( $param, array( '0', '1', 'true', 'false' ), true );
 						},
 					),
-					// Legacy parameters for backward compatibility
+					// Legacy parameters for backward compatibility.
 					'prayer_types'  => array(
 						'required' => false,
 						'default'  => 'both',
@@ -3248,7 +3252,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			)
 		);
 
-		// Widget endpoints for PWA home screen widgets
+		// Widget endpoints for PWA home screen widgets.
 		register_rest_route(
 			'mosque/v1',
 			'/widget/prayer-times',
@@ -3269,7 +3273,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			)
 		);
 
-		// Push notification endpoints
+		// Push notification endpoints.
 		register_rest_route(
 			'mosque/v1',
 			'/subscribe',
@@ -3382,44 +3386,44 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * REST: Export ICS calendar
 	 */
 	public function rest_export_ics( $request ) {
-		// Extract parameters with defaults and legacy support
+		// Extract parameters with defaults and legacy support.
 		$date_range = $request->get_param( 'date_range' ) ?: 'year';
 		$month      = $request->get_param( 'month' );
 		$year       = $request->get_param( 'year' ) ?: wp_date( 'Y' );
 
-		// Handle include_jamah parameter (with legacy prayer_types fallback)
+		// Handle include_jamah parameter (with legacy prayer_types fallback).
 		$include_jamah = $request->get_param( 'include_jamah' );
 		if ( null === $include_jamah ) {
-			// Legacy fallback
+			// Legacy fallback.
 			$prayer_types  = $request->get_param( 'prayer_types' ) ?: 'both';
 			$include_jamah = in_array( $prayer_types, array( 'jamaat', 'both' ), true );
 		} else {
-			// Convert string booleans
+			// Convert string booleans.
 			/** @phpstan-ignore-next-line */
 			// @phpstan-ignore-line
 			$include_jamah = filter_var( $include_jamah, FILTER_VALIDATE_BOOLEAN );
 		}
 
-		// Alarms array
+		// Alarms array.
 		$alarms = $request->get_param( 'alarms' ) ?: array();
 		if ( ! is_array( $alarms ) ) {
 			$alarms = array();
 		}
 
-		// Legacy reminder fallback
+		// Legacy reminder fallback.
 		$legacy_reminder = $request->get_param( 'reminder' );
 		if ( $legacy_reminder && empty( $alarms ) ) {
 			$alarms = array( intval( $legacy_reminder ) );
 		}
 
-		// Other parameters
+		// Other parameters.
 		$jummah        = $request->get_param( 'jummah' ) ?: 'both';
 		$sunrise_alarm = $request->get_param( 'sunrise_alarm' ) ?: '';
 		/** @phpstan-ignore-next-line */
 		// @phpstan-ignore-line
 		$subscribe = filter_var( $request->get_param( 'subscribe' ), FILTER_VALIDATE_BOOLEAN );
 
-		// Generate ICS content with new parameters
+		// Generate ICS content with new parameters.
 		$ics_content = $this->generate_enhanced_ics_content(
 			array(
 				'date_range'    => $date_range,
@@ -3436,7 +3440,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			return new WP_Error( 'generation_failed', 'Failed to generate ICS content', array( 'status' => 500 ) );
 		}
 
-		// For subscribe mode, return content directly
+		// For subscribe mode, return content directly.
 		if ( $subscribe ) {
 			header( 'Content-Type: text/calendar; charset=utf-8' );
 			header( 'Content-Disposition: inline; filename="prayer-times.ics"' );
@@ -3446,7 +3450,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			exit;
 		}
 
-		// For download mode, create temporary file
+		// For download mode, create temporary file.
 		$upload_dir = wp_upload_dir();
 		$filename   = 'prayer-times-' . $year;
 		if ( 'month' === $date_range && $month ) {
@@ -3460,7 +3464,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			return new WP_Error( 'file_creation_failed', 'Failed to create ICS file', array( 'status' => 500 ) );
 		}
 
-		// Set download headers
+		// Set download headers.
 		header( 'Content-Type: text/calendar; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 		header( 'Content-Length: ' . strlen( $ics_content ) );
@@ -3469,7 +3473,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format
 		echo $ics_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format requires unescaped content per RFC 5545 // ICS calendar format - content sanitized at creation, escaping would break format
 
-		// Clean up temporary file
+		// Clean up temporary file.
 		$fs->delete( $file_path );
 
 		exit;
@@ -3516,7 +3520,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$mosque_name    = get_field( 'mosque_name', 'option' ) ?: 'Local Mosque';
 		$mosque_address = get_field( 'mosque_address', 'option' ) ?: '';
 
-		// Get widget customization settings
+		// Get widget customization settings.
 		$widget_bg_color      = get_field( 'widget_bg_color', 'option' ) ?: '#ffffff';
 		$widget_text_color    = get_field( 'widget_text_color', 'option' ) ?: '#333333';
 		$widget_border_radius = get_field( 'widget_border_radius', 'option' ) ?: 8;
@@ -3572,7 +3576,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				}
 			}
 
-			// Add Jummah if it's Friday
+			// Add Jummah if it's Friday.
 			if ( wp_date( 'w' ) === 5 ) {
 				if ( ! empty( $today_data['jummah_1'] ) ) {
 					$widget_data['today']['prayers'][] = array(
@@ -3605,7 +3609,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$next_prayer = $this->get_next_prayer_data();
 		$mosque_name = get_field( 'mosque_name', 'option' ) ?: 'Local Mosque';
 
-		// Get widget customization settings
+		// Get widget customization settings.
 		$widget_bg_color   = get_field( 'widget_bg_color', 'option' ) ?: '#667eea';
 		$widget_text_color = get_field( 'widget_text_color', 'option' ) ?: '#ffffff';
 
@@ -3631,7 +3635,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		);
 
 		if ( $next_prayer ) {
-			$current_time = current_time( 'timestamp' );
+			$current_time = current_time( 'timestamp' ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested -- Local timezone comparison required for prayer time calculations.
 			$next_time    = strtotime( $next_prayer['time'] );
 			$time_diff    = $next_time - $current_time;
 
@@ -3661,7 +3665,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * REST: Subscribe to push notifications
 	 */
 	public function rest_subscribe_push( $request ) {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! wp_verify_nonce( $request->get_header( 'X-WP-Nonce' ), 'wp_rest' ) ) {
 			return new WP_Error( 'invalid_nonce', __( 'Security check failed', 'mosque-timetable' ), array( 'status' => 403 ) );
 		}
@@ -3670,7 +3674,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$offsets         = $request->get_param( 'offsets' ) ?: array();
 		$sunrise_warning = filter_var( $request->get_param( 'sunrise_warning' ), FILTER_VALIDATE_BOOLEAN );
 
-		// Validate VAPID keys are configured
+		// Validate VAPID keys are configured.
 		$vapid_public  = mt_has_acf() ? get_field( 'vapid_public_key', 'option' ) : get_option( 'vapid_public_key' );
 		$vapid_private = mt_has_acf() ? get_field( 'vapid_private_key', 'option' ) : get_option( 'vapid_private_key' );
 
@@ -3678,14 +3682,14 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			return new WP_Error( 'vapid_not_configured', 'Push notifications not properly configured', array( 'status' => 500 ) );
 		}
 
-		// Store subscription in database
+		// Store subscription in database.
 		$subscription_data = array(
 			'endpoint'        => $subscription['endpoint'],
 			'keys'            => $subscription['keys'],
 			'offsets'         => $offsets,
 			'sunrise_warning' => $sunrise_warning,
 			'created_at'      => current_time( 'mysql' ),
-			'user_agent'      => sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ?? '' ) ), // Sanitize input
+			'user_agent'      => sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ?? '' ) ), // Sanitize input.
 		);
 
 		$subscriptions                              = get_option( 'mt_push_subscriptions', array() );
@@ -3704,7 +3708,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * REST: Unsubscribe from push notifications
 	 */
 	public function rest_unsubscribe_push( $request ) {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! wp_verify_nonce( $request->get_header( 'X-WP-Nonce' ), 'wp_rest' ) ) {
 			return new WP_Error( 'invalid_nonce', __( 'Security check failed', 'mosque-timetable' ), array( 'status' => 403 ) );
 		}
@@ -3736,7 +3740,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			return false;
 		}
 
-		// Check required fields
+		// Check required fields.
 		if ( empty( $param['endpoint'] ) || ! is_string( $param['endpoint'] ) ) {
 			return false;
 		}
@@ -3749,7 +3753,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			return false;
 		}
 
-		// Validate endpoint URL
+		// Validate endpoint URL.
 		if ( ! filter_var( $param['endpoint'], FILTER_VALIDATE_URL ) ) {
 			return false;
 		}
@@ -3787,17 +3791,17 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 */
 	public function init_push_notifications_cron() {
 		if ( ! wp_next_scheduled( 'mt_send_push_notifications' ) ) {
-			wp_schedule_event( time(), 'mt_every_minute', 'mt_send_push_notifications' );
+			wp_schedule_event( time(), 'mt_every_five_minutes', 'mt_send_push_notifications' );
 		}
 	}
 
 	/**
-	 * Add custom cron interval for every minute
+	 * Add custom cron interval: every five minutes for push notification checks.
 	 */
 	public function add_cron_intervals( $schedules ) {
-		$schedules['mt_every_minute'] = array(
-			'interval' => 60,
-			'display'  => __( 'Every Minute', 'mosque-timetable' ),
+		$schedules['mt_every_five_minutes'] = array(
+			'interval' => 300,
+			'display'  => __( 'Every 5 Minutes', 'mosque-timetable' ),
 		);
 		return $schedules;
 	}
@@ -3806,42 +3810,42 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Process and send push notifications
 	 */
 	public function process_push_notifications() {
-		// Get VAPID keys
+		// Get VAPID keys.
 		$vapid_public  = mt_has_acf() ? get_field( 'vapid_public_key', 'option' ) : get_option( 'vapid_public_key' );
 		$vapid_private = mt_has_acf() ? get_field( 'vapid_private_key', 'option' ) : get_option( 'vapid_private_key' );
 
 		if ( empty( $vapid_public ) || empty( $vapid_private ) ) {
-			return; // Push notifications not configured
+			return; // Push notifications not configured.
 		}
 
-		// Get all subscriptions
+		// Get all subscriptions.
 		$subscriptions = get_option( 'mt_push_subscriptions', array() );
 		if ( empty( $subscriptions ) ) {
-			return; // No subscriptions
+			return; // No subscriptions.
 		}
 
-		// Load web push library
+		// Load web push library.
 		if ( ! class_exists( 'Minishlink\WebPush\WebPush' ) ) {
-			return; // Library not available
+			return; // Library not available.
 		}
 
-		$current_time = current_time( 'timestamp' );
+		$current_time = current_time( 'timestamp' ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested -- Local timezone comparison required for prayer time calculations.
 		$today_data   = $this->get_today_prayer_data();
 
 		if ( ! $today_data ) {
-			return; // No prayer data for today
+			return; // No prayer data for today.
 		}
 
 		$prayer_times = array(
 			'fajr'    => $today_data['fajr_start'],
 			'sunrise' => $today_data['sunrise'],
-			'zuhr'    => wp_date( 'w' ) === 5 ? null : $today_data['zuhr_start'], // Skip Zuhr on Friday
+			'zuhr'    => wp_date( 'w' ) === 5 ? null : $today_data['zuhr_start'], // Skip Zuhr on Friday.
 			'asr'     => $today_data['asr_start'],
 			'maghrib' => $today_data['maghrib_start'],
 			'isha'    => $today_data['isha_start'],
 		);
 
-		// Add Jummah times on Friday
+		// Add Jummah times on Friday.
 		if ( wp_date( 'w' ) === 5 ) {
 			if ( ! empty( $today_data['jummah_1'] ) ) {
 				$prayer_times['jummah_1'] = $today_data['jummah_1'];
@@ -3851,9 +3855,9 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			}
 		}
 
-		// Initialize WebPush
+		// Initialize WebPush.
 		try {
-			$webPush = new \Minishlink\WebPush\WebPush(
+			$web_push = new \Minishlink\WebPush\WebPush(
 				array(
 					'VAPID' => array(
 						'subject'    => get_home_url(),
@@ -3867,7 +3871,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				$offsets         = $subscription_data['offsets'] ?? array();
 				$sunrise_warning = $subscription_data['sunrise_warning'] ?? false;
 
-				// Check each prayer time for notifications
+				// Check each prayer time for notifications.
 				foreach ( $prayer_times as $prayer => $time_str ) {
 					if ( empty( $time_str ) ) {
 						continue;
@@ -3878,33 +3882,33 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						continue;
 					}
 
-					// Check each offset for this subscription
+					// Check each offset for this subscription.
 					foreach ( $offsets as $offset ) {
 						$notification_time = $prayer_time - ( $offset * 60 );
 
-						// Check if we should send notification now (within 1 minute window)
+						// Check if we should send notification now (within 1 minute window).
 						if ( abs( $current_time - $notification_time ) <= 30 ) {
-							$this->send_prayer_notification( $webPush, $subscription_data, $prayer, $time_str, $offset );
+							$this->send_prayer_notification( $web_push, $subscription_data, $prayer, $time_str, $offset );
 						}
 					}
 
-					// Handle sunrise warning
+					// Handle sunrise warning.
 					if ( $sunrise_warning && 'sunrise' === $prayer ) {
 						$warning_offset = mt_has_acf() ? get_field( 'sunrise_warning_offset', 'option' ) : get_option( 'sunrise_warning_offset', 30 );
 						$warning_time   = $prayer_time - ( $warning_offset * 60 );
 
 						if ( abs( $current_time - $warning_time ) <= 30 ) {
-							$this->send_sunrise_warning( $webPush, $subscription_data, $time_str, $warning_offset );
+							$this->send_sunrise_warning( $web_push, $subscription_data, $time_str, $warning_offset );
 						}
 					}
 				}
 			}
 
-			// Send all queued notifications
-			foreach ( $webPush->flush() as $report ) {
+			// Send all queued notifications.
+			foreach ( $web_push->flush() as $report ) {
 				$endpoint = $report->getRequest()->getUri()->__toString();
 				if ( ! $report->isSuccess() ) {
-					// Remove failed subscriptions (expired/invalid)
+					// Remove failed subscriptions (expired/invalid).
 					$error = $report->getReason();
 					if ( strpos( $error, '410' ) !== false || strpos( $error, '404' ) !== false ) {
 						$this->remove_invalid_subscription( $endpoint );
@@ -3912,15 +3916,15 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				}
 			}
 		} catch ( Exception $e ) {
-			// Log error but continue
-			error_log( 'Push notification error: ' . $e->getMessage() );
+			// Log error but continue.
+			error_log( 'Push notification error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
 	}
 
 	/**
 	 * Send prayer notification
 	 */
-	private function send_prayer_notification( $webPush, $subscription_data, $prayer, $time_str, $offset ) {
+	private function send_prayer_notification( $web_push, $subscription_data, $prayer, $time_str, $offset ) {
 		$prayer_name = ucfirst( $prayer );
 		if ( 'jummah_1' === $prayer ) {
 			$prayer_name = 'Jummah 1';
@@ -3950,7 +3954,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			)
 		);
 
-		$webPush->queueNotification(
+		$web_push->queueNotification(
 			\Minishlink\WebPush\Subscription::create(
 				array(
 					'endpoint' => $subscription_data['endpoint'],
@@ -3964,7 +3968,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	/**
 	 * Send sunrise warning notification
 	 */
-	private function send_sunrise_warning( $webPush, $subscription_data, $time_str, $offset ) {
+	private function send_sunrise_warning( $web_push, $subscription_data, $time_str, $offset ) {
 		$formatted_time = wp_date( 'g:i A', strtotime( $time_str ) );
 		$title          = mt_apply_terminology( 'End of Fajr in ' . $offset . ' minutes' );
 		$body           = mt_apply_terminology( 'Sunrise: ' . $formatted_time );
@@ -3986,7 +3990,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			)
 		);
 
-		$webPush->queueNotification(
+		$web_push->queueNotification(
 			\Minishlink\WebPush\Subscription::create(
 				array(
 					'endpoint' => $subscription_data['endpoint'],
@@ -4016,8 +4020,8 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			return;
 		}
 
-		echo '<link rel="manifest" href="' . esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/manifest.json' ) . '">'; // Escape output
-		echo '<meta name="theme-color" content="' . esc_attr( get_field( 'mt_btn_bg', 'option' ) ) . '">'; // Escape output
+		echo '<link rel="manifest" href="' . esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/manifest.json' ) . '">'; // Escape output.
+		echo '<meta name="theme-color" content="' . esc_attr( get_field( 'mt_btn_bg', 'option' ) ) . '">'; // Escape output.
 		echo '<meta name="apple-mobile-web-app-capable" content="yes">';
 		echo '<meta name="apple-mobile-web-app-status-bar-style" content="black">';
 	}
@@ -4030,12 +4034,12 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			return;
 		}
 
-		// Don't show on admin pages
+		// Don't show on admin pages.
 		if ( is_admin() ) {
 			return;
 		}
 
-		// Only show on pages with mosque timetable content
+		// Only show on pages with mosque timetable content.
 		global $post;
 		if ( ! $post || ( ! has_shortcode( $post->post_content, 'mosque_timetable' ) &&
 			! has_shortcode( $post->post_content, 'todays_prayers' ) &&
@@ -4043,7 +4047,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			return;
 		}
 
-		// Enhanced PWA install prompt
+		// Enhanced PWA install prompt.
 		?>
 			<style>
 				.mosque-pwa-banner {
@@ -4154,15 +4158,15 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 			<script>
 				document.addEventListener('DOMContentLoaded', function() {
-					// Check if app is already installed
+					// Check if app is already installed.
 					if (window.matchMedia('(display-mode: standalone)').matches ||
 						window.navigator.standalone === true) {
-						return; // Don't show banner if already installed
+						return; // Don't show banner if already installed.
 					}
 
 					let deferredPrompt;
 
-					// Listen for beforeinstallprompt event
+					// Listen for beforeinstallprompt event.
 					window.addEventListener('beforeinstallprompt', function(e) {
 						e.preventDefault();
 						deferredPrompt = e;
@@ -4186,10 +4190,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 						document.body.appendChild(banner);
 
-						// Show banner with animation
+						// Show banner with animation.
 						setTimeout(() => banner.classList.add('show'), 100);
 
-						// Handle install button
+						// Handle install button.
 						banner.querySelector('.install').addEventListener('click', function() {
 							if (deferredPrompt) {
 								deferredPrompt.prompt();
@@ -4203,14 +4207,14 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							}
 						});
 
-						// Handle dismiss button
+						// Handle dismiss button.
 						banner.querySelector('.dismiss').addEventListener('click', function() {
 							banner.remove();
-							// Don't show again for 24 hours
+							// Don't show again for 24 hours.
 							localStorage.setItem('pwa-banner-dismissed', Date.now());
 						});
 
-						// Auto-hide after 10 seconds
+						// Auto-hide after 10 seconds.
 						setTimeout(function() {
 							if (banner.parentNode) {
 								banner.remove();
@@ -4218,16 +4222,16 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						}, 10000);
 					}
 
-					// Check if banner was recently dismissed
+					// Check if banner was recently dismissed.
 					const dismissed = localStorage.getItem('pwa-banner-dismissed');
 					if (dismissed && (Date.now() - parseInt(dismissed)) < 24 * 60 * 60 * 1000) {
-						return; // Don't show if dismissed within 24 hours
+						return; // Don't show if dismissed within 24 hours.
 					}
 
-					// Fallback: show banner after 3 seconds if no install prompt
+					// Fallback: show banner after 3 seconds if no install prompt.
 					setTimeout(function() {
 						if (!deferredPrompt && !document.querySelector('.mosque-pwa-banner')) {
-							// Create a simpler banner for browsers that don't support beforeinstallprompt
+							// Create a simpler banner for browsers that don't support beforeinstallprompt.
 							const fallbackBanner = document.createElement('div');
 							fallbackBanner.className = 'mosque-pwa-banner';
 							fallbackBanner.innerHTML = `
@@ -4245,18 +4249,18 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							document.body.appendChild(fallbackBanner);
 							setTimeout(() => fallbackBanner.classList.add('show'), 100);
 
-							// Handle today button
+							// Handle today button.
 							fallbackBanner.querySelector('.today').addEventListener('click', function() {
 								window.location.href = '/today';
 							});
 
-							// Handle dismiss
+							// Handle dismiss.
 							fallbackBanner.querySelector('.dismiss').addEventListener('click', function() {
 								fallbackBanner.remove();
 								localStorage.setItem('pwa-banner-dismissed', Date.now());
 							});
 
-							// Auto-hide after 8 seconds
+							// Auto-hide after 8 seconds.
 							setTimeout(function() {
 								if (fallbackBanner.parentNode) {
 									fallbackBanner.remove();
@@ -4273,20 +4277,20 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Output global sticky prayer bar
 	 */
 	public function output_global_sticky_prayer_bar() {
-		// Check if sticky prayer bar is enabled
+		// Check if sticky prayer bar is enabled.
 		if ( ! get_option( 'enable_sticky_prayer_bar', 1 ) ) {
 			return;
 		}
 
-		// Don't show on admin pages
+		// Don't show on admin pages.
 		if ( is_admin() ) {
 			return;
 		}
 
-		// Get today's prayer data
+		// Get today's prayer data.
 		$today_data = $this->get_today_prayer_data();
 		if ( ! $today_data ) {
-			return; // No data, no bar
+			return; // No data, no bar.
 		}
 
 		?>
@@ -4309,7 +4313,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					'Isha'    => $today_data['isha_start'],
 				);
 
-				// Replace Zuhr with Jummah on Friday
+				// Replace Zuhr with Jummah on Friday.
 				if ( '5' === wp_date( 'N' ) && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
 					unset( $prayers['Zuhr'] );
 					$jummah_times = array();
@@ -4356,7 +4360,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Add structured data
 	 */
 	public function add_structured_data() {
-		// Only add on pages that contain prayer timetable shortcodes
+		// Only add on pages that contain prayer timetable shortcodes.
 		global $post;
 
 		if ( ! is_singular() || ! $post ) {
@@ -4374,20 +4378,20 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			return;
 		}
 
-		// Get mosque settings
+		// Get mosque settings.
 		$mosque_name    = get_field( 'mosque_name', 'option' ) ?: 'Local Mosque';
 		$mosque_address = get_field( 'mosque_address', 'option' ) ?: '';
 
-		// Generate enhanced AI-readable structured data
+		// Generate enhanced AI-readable structured data.
 		$structured_data = array();
 
-		// Add comprehensive prayer time data for AI
+		// Add comprehensive prayer time data for AI.
 		$ai_prayer_data = $this->generate_ai_readable_prayer_data();
 		if ( $ai_prayer_data ) {
 			$structured_data[] = $ai_prayer_data;
 		}
 
-		// Mosque Organization Schema
+		// Mosque Organization Schema.
 		$mosque_schema = array(
 			'@context'       => 'https://schema.org',
 			'@type'          => 'Place',
@@ -4419,7 +4423,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 		$structured_data[] = $mosque_schema;
 
-		// Organization Schema for the mosque
+		// Organization Schema for the mosque.
 		$organization_schema = array(
 			'@context'        => 'https://schema.org',
 			'@type'           => 'Organization',
@@ -4455,7 +4459,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 		$structured_data[] = $organization_schema;
 
-		// WebSite Schema with SearchAction
+		// WebSite Schema with SearchAction.
 		$website_schema = array(
 			'@context'        => 'https://schema.org',
 			'@type'           => 'WebSite',
@@ -4478,7 +4482,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 		$structured_data[] = $website_schema;
 
-		// Dataset Schema for prayer times data
+		// Dataset Schema for prayer times data.
 		$year           = get_field( 'default_year', 'option' ) ?: wp_date( 'Y' );
 		$dataset_schema = array(
 			'@context'         => 'https://schema.org',
@@ -4522,7 +4526,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 		$structured_data[] = $dataset_schema;
 
-		// Today's Prayer Times Schema (if shortcode present)
+		// Today's Prayer Times Schema (if shortcode present).
 		if ( has_shortcode( $content, 'todays_prayers' ) || has_shortcode( $content, 'mosque_timetable' ) ) {
 			$today_data = $this->get_today_prayer_data();
 
@@ -4532,7 +4536,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			}
 		}
 
-		// FAQ Schema for common questions
+		// FAQ Schema for common questions.
 		$faq_schema = array(
 			'@context'   => 'https://schema.org',
 			'@type'      => 'FAQPage',
@@ -4566,7 +4570,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 		$structured_data[] = $faq_schema;
 
-		// Website Schema
+		// Website Schema.
 		$website_schema = array(
 			'@context'        => 'https://schema.org',
 			'@type'           => 'WebSite',
@@ -4586,19 +4590,19 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 		$structured_data[] = $website_schema;
 
-		// Output structured data
+		// Output structured data.
 		foreach ( $structured_data as $data ) {
 			echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
 		}
 
-		// Add Open Graph tags
+		// Add Open Graph tags.
 		echo '<meta property="og:title" content="' . esc_attr( $mosque_name . ' - Prayer Times' ) . '">' . "\n";
 		echo '<meta property="og:description" content="' . esc_attr( 'Daily prayer times and Islamic services at ' . $mosque_name ) . '">' . "\n";
 		echo '<meta property="og:type" content="website">' . "\n";
 		echo '<meta property="og:url" content="' . esc_attr( get_permalink() ) . '">' . "\n";
 		echo '<meta property="og:site_name" content="' . esc_attr( get_bloginfo( 'name' ) ) . '">' . "\n";
 
-		// Add Twitter Card tags
+		// Add Twitter Card tags.
 		echo '<meta name="twitter:card" content="summary">' . "\n";
 		echo '<meta name="twitter:title" content="' . esc_attr( $mosque_name . ' - Prayer Times' ) . '">' . "\n";
 		echo '<meta name="twitter:description" content="' . esc_attr( 'Daily prayer times and Islamic services at ' . $mosque_name ) . '">' . "\n";
@@ -4621,7 +4625,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$mosque_address = get_field( 'mosque_address', 'option' ) ?: '';
 		$timezone       = wp_timezone_string();
 
-		// Create comprehensive AI-readable schema
+		// Create comprehensive AI-readable schema.
 		$ai_schema = array(
 			'@context'         => 'https://schema.org',
 			'@type'            => 'Dataset',
@@ -4664,7 +4668,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					'@type'       => 'PropertyValue',
 					'name'        => 'Fajr Prayer Time',
 					'description' => 'Dawn prayer - first prayer of the day',
-					'unitCode'    => 'H14', // Time format code
+					'unitCode'    => 'H14', // Time format code.
 				),
 				array(
 					'@type'       => 'PropertyValue',
@@ -4705,7 +4709,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			'mainEntity'       => array(),
 		);
 
-		// Add structured prayer time entries
+		// Add structured prayer time entries.
 		foreach ( $prayer_data['days'] as $day ) {
 			if ( empty( $day['date_full'] ) ) {
 				continue;
@@ -4774,25 +4778,25 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Add rewrite rules for SEO URLs
 	 */
 	public function add_rewrite_rules() {
-		// Year and month specific pages
+		// Year and month specific pages.
 		add_rewrite_rule(
 			'prayer-times/([0-9]{4})/([^/]+)/?$',
 			'index.php?mosque_year=$matches[1]&mosque_month=$matches[2]',
 			'top'
 		);
-		// Year archive pages
+		// Year archive pages.
 		add_rewrite_rule(
 			'prayer-times/([0-9]{4})/?$',
 			'index.php?mosque_year_archive=$matches[1]',
 			'top'
 		);
-		// Main prayer times page (dynamic current month)
+		// Main prayer times page (dynamic current month).
 		add_rewrite_rule(
 			'prayer-times/?$',
 			'index.php?mosque_prayer_times=1',
 			'top'
 		);
-		// Prayer times archive
+		// Prayer times archive.
 		add_rewrite_rule(
 			'prayer-times/archive/?$',
 			'index.php?mosque_archive=1',
@@ -4835,50 +4839,50 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	public function handle_virtual_pages() {
 		global $wp_query;
 
-		// Handle calendar.ics requests
+		// Handle calendar.ics requests.
 		if ( get_query_var( 'mosque_calendar' ) === 'ics' ) {
 			$this->serve_ics_calendar();
 			exit;
 		}
 
-		// Handle prayer times sitemap
+		// Handle prayer times sitemap.
 		if ( get_query_var( 'mosque_sitemap' ) === 'xml' ) {
 			$this->serve_prayer_times_sitemap();
 			exit;
 		}
 
-		// Handle llms.txt requests
+		// Handle llms.txt requests.
 		if ( get_query_var( 'llms_txt' ) === '1' ) {
 			$this->serve_llms_txt();
 			exit;
 		}
 
-		// Handle /today page requests
+		// Handle /today page requests.
 		if ( get_query_var( 'mosque_today' ) === '1' ) {
 			$this->serve_today_page();
 			exit;
 		}
 
-		// Handle main prayer times page (dynamic current month)
+		// Handle main prayer times page (dynamic current month).
 		if ( get_query_var( 'mosque_prayer_times' ) === '1' ) {
 			$this->serve_dynamic_prayer_times_page();
 			exit;
 		}
 
-		// Handle prayer times archive requests
+		// Handle prayer times archive requests.
 		if ( get_query_var( 'mosque_archive' ) === '1' ) {
 			$this->serve_prayer_times_archive();
 			exit;
 		}
 
-		// Handle year archive requests
+		// Handle year archive requests.
 		$year_archive = get_query_var( 'mosque_year_archive' );
 		if ( $year_archive ) {
 			$this->serve_year_archive_page( (int) $year_archive );
 			exit;
 		}
 
-		// Handle month-specific prayer times pages (e.g., /prayer-times/2024/10/)
+		// Handle month-specific prayer times pages (e.g., /prayer-times/2024/10/).
 		$year  = get_query_var( 'mosque_year' );
 		$month = get_query_var( 'mosque_month' );
 		if ( $year && $month ) {
@@ -4891,16 +4895,16 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Serve ICS calendar file
 	 */
 	private function serve_ics_calendar() {
-		// Set proper headers
+		// Set proper headers.
 		header( 'Content-Type: text/calendar; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename="mosque-prayer-times.ics"' );
 		header( 'Cache-Control: no-cache, must-revalidate' );
 
-		// Get mosque details
+		// Get mosque details.
 		$mosque_name    = get_field( 'mosque_name', 'option' ) ?: get_bloginfo( 'name' );
 		$mosque_address = get_field( 'mosque_address', 'option' ) ?: '';
 
-		// Start ICS content
+		// Start ICS content.
 		echo "BEGIN:VCALENDAR\r\n";
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format constants
 		echo "VERSION:2.0\r\n";
@@ -4916,11 +4920,11 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format
 		echo 'X-WR-TIMEZONE:' . $timezone . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format requires unescaped content per RFC 5545
 
-		// Get all available prayer data
+		// Get all available prayer data.
 		$default_year     = get_field( 'default_year', 'option' ) ?: wp_date( 'Y' );
 		$available_months = get_field( 'available_months', 'option' ) ?: array();
 
-		// If no specific months are set, include all 12 months
+		// If no specific months are set, include all 12 months.
 		if ( empty( $available_months ) ) {
 			$available_months = range( 1, 12 );
 		}
@@ -4933,7 +4937,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					$date      = new DateTime( $day['date_full'] );
 					$is_friday = $date->format( 'N' ) === 5;
 
-					// Create events for each prayer time
+					// Create events for each prayer time.
 					$prayers = array(
 						'Fajr Start'     => $day['fajr_start'],
 						'Fajr Jamaat'    => $day['fajr_jamaat'],
@@ -4966,9 +4970,9 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Serve prayer times sitemap XML
 	 */
 	private function serve_prayer_times_sitemap() {
-		// Set proper headers
+		// Set proper headers.
 		header( 'Content-Type: application/xml; charset=utf-8' );
-		header( 'Cache-Control: public, max-age=3600' ); // Cache for 1 hour
+		header( 'Cache-Control: public, max-age=3600' ); // Cache for 1 hour.
 
 		$site_url         = get_site_url();
 		$default_year     = get_field( 'default_year', 'option' ) ?: wp_date( 'Y' );
@@ -4977,12 +4981,12 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 		echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
-		// Add entry for each available month
+		// Add entry for each available month.
 		foreach ( $available_months as $month ) {
 			$month_num  = intval( $month );
 			$month_name = wp_date( 'F', mktime( 0, 0, 0, $month_num, 1 ) );
 			$url        = $site_url . '/prayer-times/' . $default_year . '/' . $month_num;
-			$lastmod    = wp_date( 'Y-m-d\TH:i:s+00:00' ); // Use current time as modification date
+			$lastmod    = wp_date( 'Y-m-d\TH:i:s+00:00' ); // Use current time as modification date.
 
 			echo "\t<url>\n";
 			echo "\t\t<loc>" . esc_url( $url ) . "</loc>\n";
@@ -4992,7 +4996,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			echo "\t</url>\n";
 		}
 
-		// Add main prayer times archive page
+		// Add main prayer times archive page.
 		echo "\t<url>\n";
 		echo "\t\t<loc>" . esc_url( $site_url . '/prayer-times/' ) . "</loc>\n";
 		echo "\t\t<lastmod>" . esc_html( wp_date( 'Y-m-d\TH:i:s+00:00' ) ) . "</lastmod>\n";
@@ -5000,7 +5004,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		echo "\t\t<priority>1.0</priority>\n";
 		echo "\t</url>\n";
 
-		// Add available year archive pages
+		// Add available year archive pages.
 		$available_years = $this->get_available_years();
 		foreach ( $available_years as $year ) {
 			echo "\t<url>\n";
@@ -5011,7 +5015,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			echo "\t</url>\n";
 		}
 
-		// Add today page
+		// Add today page.
 		echo "\t<url>\n";
 		echo "\t\t<loc>" . esc_url( $site_url . '/today' ) . "</loc>\n";
 		echo "\t\t<lastmod>" . esc_html( wp_date( 'Y-m-d\TH:i:s+00:00' ) ) . "</lastmod>\n";
@@ -5026,31 +5030,31 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Serve llms.txt file
 	 */
 	private function serve_llms_txt() {
-		// Set proper headers
+		// Set proper headers.
 		header( 'Content-Type: text/plain; charset=utf-8' );
-		header( 'Cache-Control: public, max-age=86400' ); // Cache for 24 hours
+		header( 'Cache-Control: public, max-age=86400' ); // Cache for 24 hours.
 
 		$site_url       = get_site_url();
 		$mosque_name    = get_field( 'mosque_name', 'option' ) ?: get_bloginfo( 'name' );
 		$mosque_address = get_field( 'mosque_address', 'option' ) ?: '';
 		$admin_email    = get_option( 'admin_email' );
 
-		echo '# LLMs.txt - Machine-readable metadata for ' . esc_html( $mosque_name ) . "\n\n"; // Escape output
+		echo '# LLMs.txt - Machine-readable metadata for ' . esc_html( $mosque_name ) . "\n\n"; // Escape output.
 		echo "## Source of Truth\n";
-		echo 'This file provides metadata about the prayer timetable system for ' . esc_html( $mosque_name ) . ".\n"; // Escape output
+		echo 'This file provides metadata about the prayer timetable system for ' . esc_html( $mosque_name ) . ".\n"; // Escape output.
 		echo "The data is maintained by mosque administrators and updated regularly.\n\n";
 
 		echo "## Organization\n";
-		echo 'Name: ' . esc_html( $mosque_name ) . "\n"; // Escape output
+		echo 'Name: ' . esc_html( $mosque_name ) . "\n"; // Escape output.
 		if ( $mosque_address ) {
-			echo 'Address: ' . esc_html( $mosque_address ) . "\n"; // Escape output
+			echo 'Address: ' . esc_html( $mosque_address ) . "\n"; // Escape output.
 		}
-		echo 'Website: ' . esc_url( $site_url ) . "\n\n"; // Escape output
+		echo 'Website: ' . esc_url( $site_url ) . "\n\n"; // Escape output.
 
 		echo "## API Endpoints\n";
-		echo 'REST API Base: ' . esc_url( $site_url ) . "/wp-json/mosque/v1/\n"; // Escape output
-		echo 'Prayer Times ICS: ' . esc_url( $site_url ) . "/prayer-times/calendar.ics\n"; // Escape output
-		echo 'Prayer Times Sitemap: ' . esc_url( $site_url ) . "/prayer-times-sitemap.xml\n\n"; // Escape output
+		echo 'REST API Base: ' . esc_url( $site_url ) . "/wp-json/mosque/v1/\n"; // Escape output.
+		echo 'Prayer Times ICS: ' . esc_url( $site_url ) . "/prayer-times/calendar.ics\n"; // Escape output.
+		echo 'Prayer Times Sitemap: ' . esc_url( $site_url ) . "/prayer-times-sitemap.xml\n\n"; // Escape output.
 
 		echo "## Data Format\n";
 		echo "Prayer times are available in multiple formats:\n";
@@ -5065,19 +5069,19 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		echo "Please contact the mosque for any commercial usage.\n\n";
 
 		echo "## Contact\n";
-		echo 'Technical inquiries: ' . esc_html( $admin_email ) . "\n"; // Escape output
-		echo 'Generated by: Mosque Timetable Plugin v' . esc_html( MOSQUE_TIMETABLE_VERSION ) . "\n"; // Escape output
-		echo 'Last updated: ' . esc_html( wp_date( 'Y-m-d H:i:s T' ) ) . "\n"; // Escape output
+		echo 'Technical inquiries: ' . esc_html( $admin_email ) . "\n"; // Escape output.
+		echo 'Generated by: Mosque Timetable Plugin v' . esc_html( MOSQUE_TIMETABLE_VERSION ) . "\n"; // Escape output.
+		echo 'Last updated: ' . esc_html( wp_date( 'Y-m-d H:i:s T' ) ) . "\n"; // Escape output.
 	}
 
 	/**
 	 * Serve dedicated /today page
 	 */
 	private function serve_today_page() {
-		// Set proper headers
+		// Set proper headers.
 		header( 'Content-Type: text/html; charset=utf-8' );
 
-		// Get today's prayer data
+		// Get today's prayer data.
 		$today = new DateTime( 'now', new DateTimeZone( wp_timezone_string() ) );
 		$month = (int) $today->format( 'n' );
 		$year  = (int) $today->format( 'Y' );
@@ -5089,10 +5093,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$mosque_name    = get_field( 'mosque_name', 'option' ) ?: get_bloginfo( 'name' );
 		$mosque_address = get_field( 'mosque_address', 'option' ) ?: '';
 
-		// Get terminology overrides
+		// Get terminology overrides.
 		$terminology = $this->get_terminology_overrides();
 
-		// Apply terminology overrides to prayer names
+		// Apply terminology overrides to prayer names.
 		$prayer_labels = array(
 			'fajr'    => isset( $terminology['Fajr'] ) ? $terminology['Fajr'] : 'Fajr',
 			'sunrise' => isset( $terminology['Sunrise'] ) ? $terminology['Sunrise'] : 'Sunrise',
@@ -5105,10 +5109,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$page_title  = $terminology['Mosque'] ?? 'Mosque';
 		$today_label = $terminology['Today'] ?? 'Today';
 
-		// Get Hijri date
+		// Get Hijri date.
 		$hijri_date = $this->get_hijri_date( $today );
 
-		// Calculate next prayer
+		// Calculate next prayer.
 		$next_prayer      = null;
 		$next_prayer_time = null;
 		$countdown_data   = null;
@@ -5132,7 +5136,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				}
 			}
 
-			// If no prayer found today, get tomorrow's Fajr
+			// If no prayer found today, get tomorrow's Fajr.
 			if ( ! $next_prayer ) {
 				$tomorrow = clone $today;
 				$tomorrow->modify( '+1 day' );
@@ -5445,8 +5449,8 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 								),
 							);
 
-							// Handle Friday/Jummah display
-							if ( $today->format( 'N' ) === 5 ) { // Friday
+							// Handle Friday/Jummah display.
+							if ( $today->format( 'N' ) === 5 ) { // Friday.
 								if ( $today_prayers['jummah1_start'] && $today_prayers['jummah2_start'] ) {
 									$prayers_display['zuhr'] = array(
 										'start'  => $today_prayers['jummah1_start'] . ' / ' . $today_prayers['jummah2_start'],
@@ -5514,13 +5518,13 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							document.getElementById('countdown').textContent = countdownText;
 						}
 
-						// Update countdown immediately and then every second
+						// Update countdown immediately and then every second.
 						updateCountdown();
 						setInterval(updateCountdown, 1000);
 
-						// Register service worker for PWA functionality
+						// Register service worker for PWA functionality.
 						if ('serviceWorker' in navigator) {
-							navigator.serviceWorker.register('<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/sw.js' ); ?>') // Escape output
+							navigator.serviceWorker.register('<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/sw.js' ); ?>') // Escape output.
 								.catch(function(error) {
 									console.log('Service Worker registration failed:', error);
 								});
@@ -5537,14 +5541,14 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Serve prayer times archive page
 	 */
 	private function serve_prayer_times_archive() {
-		// Set proper headers
+		// Set proper headers.
 		header( 'Content-Type: text/html; charset=utf-8' );
 
 		$mosque_name    = get_field( 'mosque_name', 'option' ) ?: get_bloginfo( 'name' );
 		$mosque_address = get_field( 'mosque_address', 'option' ) ?: '';
 		$terminology    = $this->get_terminology_overrides();
 
-		// Get all available years
+		// Get all available years.
 		$available_years = $this->get_available_years();
 		$current_year    = get_option( 'default_year', wp_date( 'Y' ) );
 
@@ -5761,8 +5765,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	private function serve_dynamic_prayer_times_page() {
 		$current_year  = (int) wp_date( 'Y' );
 		$current_month = (int) wp_date( 'n' );
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only display navigation, no data modification.
 		$display_year  = isset( $_GET['year'] ) ? (int) $_GET['year'] : $current_year;
 		$display_month = isset( $_GET['month'] ) ? (int) $_GET['month'] : $current_month;
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( $display_year < 2020 || $display_year > $current_year + 5 ) {
 			$display_year = $current_year;
@@ -5861,7 +5867,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Serve year archive page
 	 */
 	private function serve_year_archive_page( $year ) {
-		// Set proper headers
+		// Set proper headers.
 		header( 'Content-Type: text/html; charset=utf-8' );
 
 		$mosque_name    = get_field( 'mosque_name', 'option' ) ?: get_bloginfo( 'name' );
@@ -5869,7 +5875,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$terminology    = $this->get_terminology_overrides();
 		$current_year   = get_option( 'default_year', wp_date( 'Y' ) );
 
-		// Get months with data for this year
+		// Get months with data for this year.
 		$months_with_data = $this->get_months_with_data( $year );
 
 		?>
@@ -6097,7 +6103,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 								);
 
 								foreach ( $month_names as $month_num => $month_name ) :
-									$has_data   = in_array( $month_num, $months_with_data );
+									$has_data   = in_array( $month_num, $months_with_data, true );
 									$month_slug = strtolower( $month_name );
 									?>
 										<div class="month-card <?php echo $has_data ? 'available' : 'unavailable'; ?>">
@@ -6141,7 +6147,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * URL: /prayer-times/2024/october/
 	 */
 	private function serve_month_timetable_page( int $year, string $month_slug ) {
-		// Convert month slug to number
+		// Convert month slug to number.
 		$month_names = array(
 			'january'   => 1,
 			'february'  => 2,
@@ -6160,25 +6166,25 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$month = $month_names[ strtolower( $month_slug ) ] ?? (int) $month_slug;
 
 		if ( ! $month || $month < 1 || $month > 12 ) {
-			// Invalid month, redirect to year archive
+			// Invalid month, redirect to year archive.
 			wp_safe_redirect( home_url( "/prayer-times/{$year}/" ) );
 			exit;
 		}
 
-		// Get prayer data for the month
+		// Get prayer data for the month.
 		$prayer_data = $this->get_month_prayer_data( $year, $month );
 
 		if ( empty( $prayer_data ) || empty( $prayer_data['days'] ) ) {
-			// No data, redirect to year archive with message
+			// No data, redirect to year archive with message.
 			wp_safe_redirect( home_url( "/prayer-times/{$year}/" ) );
 			exit;
 		}
 
-		// Get mosque details
+		// Get mosque details.
 		$mosque_name = get_field( 'mosque_name', 'option' ) ?: get_bloginfo( 'name' );
 		$month_name  = $prayer_data['month'];
 
-		// Enqueue modal assets
+		// Enqueue modal assets.
 		wp_enqueue_style( 'mosque-timetable-css', MOSQUE_TIMETABLE_ASSETS_URL . 'mosque-timetable.css', array(), MOSQUE_TIMETABLE_VERSION );
 		wp_enqueue_style( 'mt-modal-css', MOSQUE_TIMETABLE_ASSETS_URL . 'mt-modal.css', array(), MOSQUE_TIMETABLE_VERSION );
 		wp_enqueue_script( 'mt-modal-js', MOSQUE_TIMETABLE_ASSETS_URL . 'mt-modal.js', array(), MOSQUE_TIMETABLE_VERSION, true );
@@ -6195,10 +6201,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			)
 		);
 
-		// Get all available years for dropdown
+		// Get all available years for dropdown.
 		$available_years = $this->get_available_years();
 
-		// Output HTML
+		// Output HTML.
 		?>
 			<!DOCTYPE html>
 			<html lang="en">
@@ -6569,17 +6575,17 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Get available years with prayer data
 	 */
 	private function get_available_years() {
-		// This would normally query the database for years with data
-		// For now, return a range including current year and recent years
+		// This would normally query the database for years with data.
+		// For now, return a range including current year and recent years.
 		$current_year = wp_date( 'Y' );
 		$years        = array();
 
-		// Add current year and previous 2 years, next 1 year
+		// Add current year and previous 2 years, next 1 year.
 		for ( $i = -2; $i <= 1; $i++ ) {
 			$years[] = (int) $current_year + $i;
 		}
 
-		// Sort in descending order (newest first)
+		// Sort in descending order (newest first).
 		rsort( $years );
 
 		return $years;
@@ -6591,7 +6597,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	private function get_months_with_data( int $year ): array {
 		$months_with_data = array();
 
-		// Check each month for data
+		// Check each month for data.
 		for ( $month = 1; $month <= 12; $month++ ) {
 			$prayer_data = $this->get_month_prayer_data( $year, $month );
 			if ( ! empty( $prayer_data ) ) {
@@ -6606,18 +6612,18 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Enhanced default year management
 	 */
 	public function get_current_year() {
-		// Use ACF field first, then option, then current year
+		// Use ACF field first, then option, then current year.
 		$year = get_field( 'default_year', 'option' );
 		if ( ! $year ) {
 			$year = get_option( 'default_year', wp_date( 'Y' ) );
 		}
 
-		// Validate year is reasonable
+		// Validate year is reasonable.
 		$current_year = (int) wp_date( 'Y' );
 		$year         = (int) $year;
 
 		if ( $year < ( $current_year - 5 ) || $year > ( $current_year + 5 ) ) {
-			// Reset to current year if unreasonable
+			// Reset to current year if unreasonable.
 			$year = $current_year;
 			$this->update_default_year( $year );
 		}
@@ -6632,11 +6638,11 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$year         = (int) $year;
 		$current_year = (int) wp_date( 'Y' );
 
-		// Validate year is reasonable (within 5 years of current)
+		// Validate year is reasonable (within 5 years of current).
 		if ( $year >= ( $current_year - 5 ) && $year <= ( $current_year + 5 ) ) {
 			update_option( 'default_year', $year );
 
-			// Update ACF field if available
+			// Update ACF field if available.
 			if ( function_exists( 'update_field' ) ) {
 				update_field( 'default_year', $year, 'option' );
 			}
@@ -6654,14 +6660,14 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$current_default = $this->get_current_year();
 		$actual_current  = (int) wp_date( 'Y' );
 
-		// If we're in a new year and still using old default, consider updating
+		// If we're in a new year and still using old default, consider updating.
 		if ( $actual_current > $current_default ) {
-			// Check if new year has any data
+			// Check if new year has any data.
 			$new_year_data = $this->get_months_with_data( $actual_current );
 
-			// If new year has data for current month or later, auto-advance
+			// If new year has data for current month or later, auto-advance.
 			$current_month          = (int) wp_date( 'n' );
-			$has_current_month_data = in_array( $current_month, $new_year_data );
+			$has_current_month_data = in_array( $current_month, $new_year_data, true );
 
 			if ( $has_current_month_data || count( $new_year_data ) >= 3 ) {
 				$this->update_default_year( $actual_current );
@@ -6700,13 +6706,13 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 */
 	private function get_hijri_date( DateTime $date ): string {
 		$hijri = $this->calculate_hijri_date( $date->format( 'Y-m-d' ) );
-		return $hijri; // This already returns a formatted string
+		return $hijri; // This already returns a formatted string.
 	}
 
 	/**
 	 * Add entries to robots.txt
 	 */
-	public function add_robots_txt_entries( $output, $public ) {
+	public function add_robots_txt_entries( $output, $public ) { // phpcs:ignore Universal.NamingConventions.NoReservedKeywordParameterNames.publicFound -- Matches WordPress robots_txt filter signature.
 		if ( $public ) {
 			$site_url = get_site_url();
 			$output  .= "\n# Mosque Timetable Plugin\n";
@@ -6728,7 +6734,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		);
 
 		if ( ! $prayer_datetime ) {
-			return; // Skip invalid times
+			return; // Skip invalid times.
 		}
 
 		$event_id  = md5( $event_date . $prayer_name . $prayer_time . $mosque_name );
@@ -6737,7 +6743,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format constants
 		echo "BEGIN:VEVENT\r\n";
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format
-		echo 'UID:' . $event_id . '@' . parse_url( get_site_url(), PHP_URL_HOST ) . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format requires unescaped content per RFC 5545
+		echo 'UID:' . $event_id . '@' . wp_parse_url( get_site_url(), PHP_URL_HOST ) . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format requires unescaped content per RFC 5545
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format
 		echo 'DTSTAMP:' . $timestamp . "\r\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format requires unescaped content per RFC 5545
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS calendar format
@@ -6778,7 +6784,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	public function handle_service_worker_request() {
 		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
-		// Check if this is a service worker request
+		// Check if this is a service worker request.
 		if ( strpos( $request_uri, '/wp-content/plugins/mosque-timetable/assets/sw.js' ) !== false ) {
 			$this->serve_dynamic_service_worker();
 			exit;
@@ -6789,16 +6795,16 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	 * Serve dynamically generated service worker
 	 */
 	private function serve_dynamic_service_worker() {
-		// Set proper headers
+		// Set proper headers.
 		header( 'Content-Type: application/javascript; charset=utf-8' );
-		header( 'Cache-Control: max-age=3600' ); // Cache for 1 hour
+		header( 'Cache-Control: max-age=3600' ); // Cache for 1 hour.
 
-		// Get plugin URLs
+		// Get plugin URLs.
 		$plugin_url  = MOSQUE_TIMETABLE_PLUGIN_URL;
 		$assets_url  = MOSQUE_TIMETABLE_ASSETS_URL;
 		$offline_url = MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/offline.html';
 
-		// Generate service worker content
+		// Generate service worker content.
 		?>
 /**
  * Mosque Prayer Timetable Service Worker
@@ -6808,7 +6814,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			const OFFLINE_PAGE = '<?php echo esc_url( $offline_url ); ?>';
 
-			// Assets to cache immediately
+			// Assets to cache immediately.
 			const STATIC_ASSETS = [
 			'/',
 			'/today',
@@ -6821,10 +6827,10 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			'<?php echo esc_url( $offline_url ); ?>'
 			];
 
-			// Prayer times cache duration (1 hour)
+			// Prayer times cache duration (1 hour).
 			const PRAYER_CACHE_DURATION = 60 * 60 * 1000;
 
-			// Install event - cache static assets
+			// Install event - cache static assets.
 			self.addEventListener('install', (event) => {
 			console.log('Service Worker installing...');
 
@@ -6838,7 +6844,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			);
 			});
 
-			// Activate event - clean up old caches
+			// Activate event - clean up old caches.
 			self.addEventListener('activate', (event) => {
 			console.log('Service Worker activating...');
 
@@ -6859,17 +6865,17 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			);
 			});
 
-			// Fetch event - serve from cache when offline
+			// Fetch event - serve from cache when offline.
 			self.addEventListener('fetch', (event) => {
 			const request = event.request;
 			const url = new URL(request.url);
 
-			// Skip non-GET requests
+			// Skip non-GET requests.
 			if (request.method !== 'GET') {
 			return;
 			}
 
-			// Handle navigation requests
+			// Handle navigation requests.
 			if (request.mode === 'navigate') {
 			event.respondWith(
 			fetch(request)
@@ -6878,8 +6884,8 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			return;
 			}
 
-			// Handle static assets
-			if (url.pathname.includes('<?php echo esc_js( parse_url( $assets_url, PHP_URL_PATH ) ); ?>')) {
+			// Handle static assets.
+			if (url.pathname.includes('<?php echo esc_js( wp_parse_url( $assets_url, PHP_URL_PATH ) ); ?>')) {
 			event.respondWith(
 			caches.match(request)
 			.then((response) => {
@@ -6900,7 +6906,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			return;
 			}
 
-			// Handle API requests (prayer times)
+			// Handle API requests (prayer times).
 			if (url.pathname.includes('/wp-json/mosque/v1/')) {
 			event.respondWith(
 			fetch(request)
@@ -6927,14 +6933,14 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			return;
 			}
 
-			// Default: try network first, fall back to cache
+			// Default: try network first, fall back to cache.
 			event.respondWith(
 			fetch(request)
 			.catch(() => caches.match(request))
 			);
 			});
 
-			// Push notification event
+			// Push notification event.
 			self.addEventListener('push', (event) => {
 			if (!event.data) {
 			return;
@@ -6966,7 +6972,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			);
 			});
 
-			// Notification click event
+			// Notification click event.
 			self.addEventListener('notificationclick', (event) => {
 			event.notification.close();
 
@@ -7014,7 +7020,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			wp_send_json_error( __( 'Invalid month', 'mosque-timetable' ) );
 		}
 
-		// normalise rows (ensure day_number int)
+		// normalise rows (ensure day_number int).
 		$rows = array();
 		foreach ( $data as $d ) {
 			if ( empty( $d['day_number'] ) ) {
@@ -7038,12 +7044,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * AJAX: Recalculate Hijri dates
 	 */
 	public function ajax_recalculate_hijri_dates() {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! check_ajax_referer( 'mosque_timetable_nonce', 'nonce', false ) ) {
 			wp_send_json_error( __( 'Security check failed', 'mosque-timetable' ) );
 		}
 
-		// Check user capabilities
+		// Check user capabilities.
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_send_json_error( __( 'Insufficient permissions', 'mosque-timetable' ) );
 		}
@@ -7056,7 +7062,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			wp_send_json_error( __( 'Invalid month specified', 'mosque-timetable' ) );
 		}
 
-		// Use helper function to get data with year-based field names
+		// Use helper function to get data with year-based field names.
 		$rows = mt_get_month_rows( $month, $year );
 
 		if ( empty( $rows ) ) {
@@ -7065,7 +7071,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 		$hijri_dates = array();
 
-		// Recalculate Hijri dates for each row
+		// Recalculate Hijri dates for each row.
 		foreach ( $rows as $index => $row ) {
 			if ( ! empty( $row['date_full'] ) ) {
 				$hijri_date                   = $this->calculate_hijri_date( $row['date_full'], $adjustment );
@@ -7074,7 +7080,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			}
 		}
 
-		// Save using helper function with year-based field names
+		// Save using helper function with year-based field names.
 		mt_save_month_rows( $month, $rows, $year );
 
 		wp_send_json_success(
@@ -7089,7 +7095,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * AJAX: Export CSV calendar
 	 */
 	public function ajax_export_csv_calendar() {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['nonce'] ) ), 'mosque_timetable_nonce' ) ) {
 			wp_die( esc_html__( 'Security check failed', 'mosque-timetable' ) );
 		}
@@ -7097,15 +7103,15 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$default_year = get_field( 'default_year', 'option' ) ?: wp_date( 'Y' );
 		$mosque_name  = get_field( 'mosque_name', 'option' ) ?: 'Local Mosque';
 
-		// Set headers for CSV download
+		// Set headers for CSV download.
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename="prayer-times-' . $default_year . '.csv"' );
 		header( 'Cache-Control: max-age=0' );
 
-		// Create output buffer
+		// Create output buffer.
 		$output = fopen( 'php://output', 'w' );
 
-		// Add CSV header
+		// Add CSV header.
 		fputcsv(
 			$output,
 			array(
@@ -7130,7 +7136,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			)
 		);
 
-		// Export all available months
+		// Export all available months.
 		for ( $month = 1; $month <= 12; $month++ ) {
 			$field_name    = 'daily_prayers_' . $month;
 			$daily_prayers = get_field( $field_name, 'option' );
@@ -7181,7 +7187,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			}
 		}
 
-		fclose( $output );
+		fclose( $output ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Direct stream required for CSV export buffering.
 		exit;
 	}
 
@@ -7189,17 +7195,17 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * AJAX: Clear all prayer data
 	 */
 	public function ajax_clear_all_prayer_data() {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! check_ajax_referer( 'mosque_timetable_nonce', 'nonce', false ) ) {
 			wp_send_json_error( __( 'Security check failed', 'mosque-timetable' ) );
 		}
 
-		// Check user capabilities
+		// Check user capabilities.
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_send_json_error( __( 'Insufficient permissions', 'mosque-timetable' ) );
 		}
 
-		// Clear all monthly prayer data
+		// Clear all monthly prayer data.
 		for ( $month = 1; $month <= 12; $month++ ) {
 			$field_name = 'daily_prayers_' . $month;
 			delete_field( $field_name, 'option' );
@@ -7212,12 +7218,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * AJAX: Reset to empty structure
 	 */
 	public function ajax_reset_to_empty_structure() {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! check_ajax_referer( 'mosque_timetable_nonce', 'nonce', false ) ) {
 			wp_send_json_error( __( 'Security check failed', 'mosque-timetable' ) );
 		}
 
-		// Check user capabilities
+		// Check user capabilities.
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_send_json_error( __( 'Insufficient permissions', 'mosque-timetable' ) );
 		}
@@ -7225,7 +7231,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$default_year     = get_field( 'default_year', 'option' ) ?: wp_date( 'Y' );
 		$available_months = get_field( 'available_months', 'option' ) ?: array( '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' );
 
-		// Reset structure for each available month
+		// Reset structure for each available month.
 		foreach ( $available_months as $month_num ) {
 			$field_name = 'daily_prayers_' . $month_num;
 			delete_field( $field_name, 'option' );
@@ -7239,12 +7245,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * AJAX: Regenerate all dates
 	 */
 	public function ajax_regenerate_all_dates() {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! check_ajax_referer( 'mosque_timetable_nonce', 'nonce', false ) ) {
 			wp_send_json_error( __( 'Security check failed', 'mosque-timetable' ) );
 		}
 
-		// Check user capabilities
+		// Check user capabilities.
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_send_json_error( __( 'Insufficient permissions', 'mosque-timetable' ) );
 		}
@@ -7253,14 +7259,14 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$available_months = get_field( 'available_months', 'option' ) ?: array( '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' );
 		$processed        = 0;
 
-		// Regenerate dates for each available month (preserving prayer times)
+		// Regenerate dates for each available month (preserving prayer times).
 		foreach ( $available_months as $month_num ) {
 			$month         = intval( $month_num );
 			$year          = $default_year;
 			$field_name    = 'daily_prayers_' . $month_num;
 			$existing_data = get_field( $field_name, 'option' );
 
-			// Get new date structure
+			// Get new date structure.
 			$days_in_month = cal_days_in_month( CAL_GREGORIAN, intval( $month_num ), $default_year );
 			$month_data    = array();
 
@@ -7270,7 +7276,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				$day_name   = $date_obj->format( 'l' );
 				$hijri_date = $this->calculate_hijri_date( $date );
 
-				// Preserve existing prayer times if available
+				// Preserve existing prayer times if available.
 				$existing_day = null;
 				if ( $existing_data ) {
 					foreach ( $existing_data as $existing ) {
@@ -7304,7 +7310,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			}
 
 			mt_save_month_rows( $month, array_values( $month_data ), $year );
-			// Remove undefined success() call - handled by wp_send_json_success below
+			// Remove undefined success() call - handled by wp_send_json_success below.
 		}
 
 		wp_send_json_success( 'All dates regenerated successfully' );
@@ -7314,7 +7320,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * AJAX: Import CSV timetable
 	 */
 	public function ajax_import_csv_timetable() {
-		// Security
+		// Security.
 		if ( ! check_ajax_referer( 'mosque_timetable_nonce', 'nonce', false ) ) {
 			wp_send_json_error( __( 'Security check failed', 'mosque-timetable' ) );
 		}
@@ -7322,7 +7328,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			wp_send_json_error( __( 'Insufficient permissions', 'mosque-timetable' ) );
 		}
 
-		// Input
+		// Input.
 		if ( ! isset( $_FILES['csv_file'] ) ) {
 			wp_send_json_error( esc_html__( 'No file uploaded', 'mosque-timetable' ) );
 		}
@@ -7349,7 +7355,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			wp_send_json_error( __( 'Could not read uploaded file', 'mosque-timetable' ) );
 		}
 
-		// Helpers
+		// Helpers.
 		$year = isset( $_POST['year'] ) ? (int) sanitize_text_field( wp_unslash( $_POST['year'] ) ) : (int) wp_date( 'Y' );
 
 		$norm = function ( $s ) {
@@ -7370,7 +7376,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			$month_data     = array();
 			$processed      = 0;
 			$row_number     = 1;
-			$data_row_count = 0; // Track actual data rows (excluding headers and empty lines)
+			$data_row_count = 0; // Track actual data rows (excluding headers and empty lines).
 
 		foreach ( $lines as $line ) {
 			$line = trim( $line );
@@ -7381,21 +7387,21 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 			$data = str_getcsv( $line );
 
-			// Optional header skip
+			// Optional header skip.
 			if ( 1 === $row_number && $this->is_header_row( $data ) ) {
 				++$row_number;
 				continue;
 			}
 
-			// This is a data row, increment the data row counter
+			// This is a data row, increment the data row counter.
 			++$data_row_count;
 
-			// Determine mode
+			// Determine mode.
 			$day_num = null;
 			$date    = null;
 			$start   = 0;
 
-			// Case A: first col = day, optional second col = date, then times
+			// Case A: first col = day, optional second col = date, then times.
 			if ( isset( $data[0] ) && is_numeric( $data[0] ) && (int) $data[0] >= 1 && (int) $data[0] <= 31 ) {
 				$day_num = (int) $data[0];
 				$start   = 1;
@@ -7405,22 +7411,22 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				}
 			}
 
-			// If no day number provided, fall back to data row count (not row number)
+			// If no day number provided, fall back to data row count (not row number).
 			if ( ! $day_num ) {
 				$day_num = $data_row_count;
 			}
 
-			// Auto date if not provided
+			// Auto date if not provided.
 			if ( ! $date ) {
 				$date = sprintf( '%04d-%02d-%02d', $year, $month, $day_num );
 			}
 
-			// Extract times
+			// Extract times.
 			$times = array_slice( $data, $start );
 
-			// Accept either “date+times” or “times only”
-			// For times-only we expect at least 12 fields (fajr start..jummah2)
-			// For date+times same expectation once start offset is applied
+			// Accept either “date+times” or “times only”.
+			// For times-only we expect at least 12 fields (fajr start..jummah2).
+			// For date+times same expectation once start offset is applied.
 			if ( count( $times ) < 12 ) {
 				++$row_number;
 				continue;
@@ -7457,10 +7463,10 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			wp_send_json_error( __( 'No valid data found in the uploaded file', 'mosque-timetable' ) );
 		}
 
-			// Sort and save as a numeric array for ACF repeater
+			// Sort and save as a numeric array for ACF repeater.
 			usort( $month_data, fn( $a, $b ) => ( $a['day_number'] ?? 0 ) <=> ( $b['day_number'] ?? 0 ) );
 
-			// Ensure data is saved in the correct structure expected by get_month_prayer_data
+			// Ensure data is saved in the correct structure expected by get_month_prayer_data.
 			$ok = mt_save_month_rows( $month, $month_data, $year );
 
 		if ( $ok ) {
@@ -7479,7 +7485,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * AJAX: Export ICS calendar
 	 */
 	public function ajax_export_ics_calendar() {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ?? '' ) ), 'mosque_timetable_nonce' ) ) {
 			wp_die( esc_html__( 'Security check failed', 'mosque-timetable' ) );
 		}
@@ -7523,12 +7529,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$year          = intval( $atts['year'] );
 		$show_controls = 'true' === $atts['show_controls'];
 
-		// Get mosque settings
+		// Get mosque settings.
 		$mosque_name       = get_field( 'mosque_name', 'option' ) ?: 'Local Mosque';
 		$mosque_address    = get_field( 'mosque_address', 'option' ) ?: '';
 		$auto_calendar_url = mt_get_subscribe_url();
 
-		// Get prayer data for the month
+		// Get prayer data for the month.
 		$prayer_data = $this->get_month_prayer_data( $year, $month );
 
 		ob_start();
@@ -7558,7 +7564,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 							</button>
 
 							<?php
-							// Print/Download PDF button
+							// Print/Download PDF button.
 							$pdf_url = mt_get_pdf_for_month( $month, $year );
 							if ( $pdf_url ) :
 								?>
@@ -7608,7 +7614,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 									'Isha'    => $today_data['isha_start'],
 								);
 
-								// Replace Zuhr with Jummah on Friday
+								// Replace Zuhr with Jummah on Friday.
 								if ( wp_date( 'N' ) === 5 && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
 									unset( $prayers['Zuhr'] );
 									$jummah_times = array();
@@ -7631,7 +7637,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 										continue;
 									}
 									$is_next   = ( $next_prayer === $name );
-									$is_active = $is_next; // We can expand this logic later
+									$is_active = $is_next; // We can expand this logic later.
 									?>
 									<div class="mosque-prayer-chip <?php echo esc_attr( $is_active ? 'active' : '' ); ?> <?php echo esc_attr( $is_next ? 'next-prayer' : '' ); ?>"
 										role="tab"
@@ -7672,8 +7678,8 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 									continue;
 								}
 
-								$dateStr = isset( $day['date_full'] ) ? (string) $day['date_full'] : '';
-								$date    = $dateStr ? DateTime::createFromFormat( 'Y-m-d', $dateStr ) : false;
+								$date_str = isset( $day['date_full'] ) ? (string) $day['date_full'] : '';
+								$date     = $date_str ? DateTime::createFromFormat( 'Y-m-d', $date_str ) : false;
 
 								$is_today  = $date && ( $date->format( 'Y-m-d' ) === wp_date( 'Y-m-d' ) );
 								$is_friday = $date && ( $date->format( 'N' ) === 5 );
@@ -7737,7 +7743,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					</table>
 
 					<?php
-					// Mobile card layout (hidden on desktop)
+					// Mobile card layout (hidden on desktop).
 					if ( $prayer_data && ! empty( $prayer_data['days'] ) ) :
 						?>
 						<div class="mosque-timetable-mobile">
@@ -7747,8 +7753,8 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								if ( ! is_array( $day ) ) {
 									continue;
 								}
-								$dateStr    = isset( $day['date_full'] ) ? (string) $day['date_full'] : '';
-								$date       = $dateStr ? DateTime::createFromFormat( 'Y-m-d', $dateStr ) : false;
+								$date_str   = isset( $day['date_full'] ) ? (string) $day['date_full'] : '';
+								$date       = $date_str ? DateTime::createFromFormat( 'Y-m-d', $date_str ) : false;
 								$is_today   = $date && ( $date->format( 'Y-m-d' ) === wp_date( 'Y-m-d' ) );
 								$is_friday  = $date && ( $date->format( 'N' ) === 5 );
 								$day_name   = $date ? $date->format( 'l' ) : '';
@@ -7853,7 +7859,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 				<?php else : ?>
 					<div class="mosque-error">
-						No prayer time data available for <?php echo esc_html( wp_date( 'F Y', mktime( 0, 0, 0, $month, 1, $year ) ) ); ?>. // Escape output
+						No prayer time data available for <?php echo esc_html( wp_date( 'F Y', mktime( 0, 0, 0, $month, 1, $year ) ) ); ?>. // Escape output.
 						Please contact the mosque administrator.
 					</div>
 				<?php endif; ?>
@@ -7916,7 +7922,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 		$show_date = 'true' === $atts['show_date'];
 
-		// Get today's prayer data
+		// Get today's prayer data.
 		$today_data  = $this->get_today_prayer_data();
 		$mosque_name = get_field( 'mosque_name', 'option' ) ?: 'Local Mosque';
 
@@ -7962,11 +7968,11 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 							),
 						);
 
-						// Replace Zuhr with Jummah if it's Friday
+						// Replace Zuhr with Jummah if it's Friday.
 						if ( wp_date( 'N' ) === 5 && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
-							unset( $prayers['Zuhr'] ); // Remove Zuhr on Friday
+							unset( $prayers['Zuhr'] ); // Remove Zuhr on Friday.
 
-							// Build Jummah time display
+							// Build Jummah time display.
 							$jummah_times = array();
 							if ( $today_data['jummah_1'] ) {
 								$jummah_times[] = $today_data['jummah_1'];
@@ -8016,7 +8022,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	public function shortcode_prayer_countdown( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'type' => 'next', // 'next' or specific prayer name
+				'type' => 'next', // 'next' or specific prayer name.
 			),
 			$atts,
 			'prayer_countdown'
@@ -8024,7 +8030,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 		$type = sanitize_text_field( $atts['type'] );
 
-		// Get next prayer data
+		// Get next prayer data.
 		$next_prayer_data = $this->get_next_prayer_data();
 
 		ob_start();
@@ -8089,7 +8095,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * Get month prayer data
 	 */
 	public function get_month_prayer_data( int $year, int $month ): array {
-		// Use the year-aware mt_get_month_rows function instead of direct ACF access
+		// Use the year-aware mt_get_month_rows function instead of direct ACF access.
 		$daily_prayers = mt_get_month_rows( $month, $year );
 
 		if ( ! $daily_prayers ) {
@@ -8153,7 +8159,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$now        = new DateTime();
 		$today_date = $now->format( 'Y-m-d' );
 
-		// Define prayer times in order
+		// Define prayer times in order.
 		$prayer_times = array(
 			'Fajr'    => $today_data['fajr_start'],
 			'Sunrise' => $today_data['sunrise'],
@@ -8163,15 +8169,15 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			'Isha'    => $today_data['isha_start'],
 		);
 
-		// Replace Zuhr with Jummah on Friday
-		if ( $now->format( 'N' ) === 5 ) { // Friday
+		// Replace Zuhr with Jummah on Friday.
+		if ( $now->format( 'N' ) === 5 ) { // Friday.
 			if ( $today_data['jummah_1'] ) {
 				$prayer_times['Jummah'] = $today_data['jummah_1'];
 				unset( $prayer_times['Zuhr'] );
 			}
 		}
 
-		// Find next prayer
+		// Find next prayer.
 		foreach ( $prayer_times as $prayer_name => $prayer_time ) {
 			if ( ! $prayer_time ) {
 				continue;
@@ -8188,7 +8194,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			}
 		}
 
-		// If no prayer found today, get tomorrow's Fajr
+		// If no prayer found today, get tomorrow's Fajr.
 		$tomorrow      = $now->modify( '+1 day' );
 		$tomorrow_data = $this->get_day_prayer_data( $tomorrow->format( 'Y' ), $tomorrow->format( 'n' ), $tomorrow->format( 'j' ) );
 
@@ -8209,7 +8215,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * Get specific day prayer data
 	 */
 	private function get_day_prayer_data( $year, $month, $day ) {
-		// Convert to integers to match type hints
+		// Convert to integers to match type hints.
 		$year  = (int) $year;
 		$month = (int) $month;
 		$day   = (int) $day;
@@ -8254,7 +8260,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$timezone     = wp_timezone_string();
 		$ics_content .= 'X-WR-TIMEZONE:' . $timezone . "\r\n";
 
-		// Get prayer data
+		// Get prayer data.
 		if ( $month ) {
 			$months = array( $month );
 		} else {
@@ -8277,7 +8283,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				$date_string = $date_obj->format( 'Ymd' );
 				$is_friday   = $date_obj->format( 'N' ) === 5;
 
-				// Prayer times to include
+				// Prayer times to include.
 				$prayers = array(
 					'Fajr'    => array(
 						'start'  => $day['fajr_start'],
@@ -8305,7 +8311,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					),
 				);
 
-				// Replace Zuhr with Jummah on Friday
+				// Replace Zuhr with Jummah on Friday.
 				if ( $is_friday && ( $day['jummah_1'] || $day['jummah_2'] ) ) {
 					unset( $prayers['Zuhr'] );
 					if ( $day['jummah_1'] ) {
@@ -8323,7 +8329,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				}
 
 				foreach ( $prayers as $prayer_name => $times ) {
-					// Add start times
+					// Add start times.
 					if ( $times['start'] && ( 'start' === $prayer_types || 'both' === $prayer_types ) ) {
 						$ics_content .= $this->create_ics_event(
 							$prayer_name . ' - Start',
@@ -8336,7 +8342,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 						);
 					}
 
-					// Add jamaat times (except for Sunrise and Jummah)
+					// Add jamaat times (except for Sunrise and Jummah).
 					if ( $times['jamaat'] && ( 'jamaat' === $prayer_types || 'both' === $prayer_types ) && 'Sunrise' !== $prayer_name && ! strpos( $prayer_name, 'Jummah' ) ) {
 						$ics_content .= $this->create_ics_event(
 							$prayer_name . ' - Jamaat',
@@ -8411,7 +8417,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$mosque_name    = get_field( 'mosque_name', 'option' ) ?: 'Local Mosque';
 		$mosque_address = get_field( 'mosque_address', 'option' ) ?: '';
 
-		// Generate ICS header
+		// Generate ICS header.
 		$ics_content  = "BEGIN:VCALENDAR\r\n";
 		$ics_content .= "VERSION:2.0\r\n";
 		$ics_content .= "PRODID:-//Mosque Timetable Plugin//Prayer Times//EN\r\n";
@@ -8422,7 +8428,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$timezone     = wp_timezone_string();
 		$ics_content .= 'X-WR-TIMEZONE:' . $timezone . "\r\n";
 
-		// Determine months to process
+		// Determine months to process.
 		if ( 'month' === $options['date_range'] && $options['month'] ) {
 			$months = array( $options['month'] );
 		} else {
@@ -8444,10 +8450,10 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				$date_obj  = new DateTime( $day['date_full'] );
 				$is_friday = $date_obj->format( 'N' ) === 5;
 
-				// Build prayer list
+				// Build prayer list.
 				$prayers = array();
 
-				// Always include start times
+				// Always include start times.
 				$prayers['Fajr']    = array(
 					'time' => $day['fajr_start'],
 					'type' => 'start',
@@ -8457,9 +8463,9 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					'type' => 'info',
 				);
 
-				// Handle Friday/Jummah logic
+				// Handle Friday/Jummah logic.
 				if ( $is_friday ) {
-					// On Fridays, include Jummah instead of Zuhr based on selection
+					// On Fridays, include Jummah instead of Zuhr based on selection.
 					if ( 'both' === $options['jummah'] || '1st' === $options['jummah'] ) {
 						$prayers['Jummah 1'] = array(
 							'time' => $day['jummah_1'],
@@ -8492,7 +8498,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					'type' => 'start',
 				);
 
-				// Add Jamāʿah times if requested
+				// Add Jamāʿah times if requested.
 				if ( $options['include_jamah'] ) {
 					$prayers['Fajr Jamāʿah'] = array(
 						'time' => $day['fajr_jamaat'],
@@ -8518,7 +8524,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					);
 				}
 
-				// Generate events for each prayer
+				// Generate events for each prayer.
 				foreach ( $prayers as $prayer_name => $prayer_data ) {
 					if ( empty( $prayer_data['time'] ) ) {
 						continue;
@@ -8536,7 +8542,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					);
 				}
 
-				// Add sunrise warning if requested
+				// Add sunrise warning if requested.
 				if ( $options['sunrise_alarm'] > 0 && ! empty( $day['sunrise'] ) ) {
 					$sunrise_time = DateTime::createFromFormat( 'Y-m-d H:i', $day['date_full'] . ' ' . $day['sunrise'] );
 					if ( $sunrise_time ) {
@@ -8550,7 +8556,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 							$mosque_name,
 							$mosque_address,
 							$timezone,
-							array( 0 ), // No additional alarms for warnings
+							array( 0 ), // No additional alarms for warnings.
 							'warning'
 						);
 					}
@@ -8571,7 +8577,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			return '';
 		}
 
-		// Parse time
+		// Parse time.
 		$time_parts = explode( ':', $time );
 		if ( count( $time_parts ) !== 2 ) {
 			return '';
@@ -8580,12 +8586,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$dt = clone $date_obj;
 		$dt->setTime( intval( $time_parts[0] ), intval( $time_parts[1] ) );
 
-		// Event duration (5 minutes for prayers, 1 minute for info/warnings)
+		// Event duration (5 minutes for prayers, 1 minute for info/warnings).
 		$duration = ( 'info' === $type || 'warning' === $type ) ? 1 : 5;
 		$end      = clone $dt;
 		$end->add( new DateInterval( 'PT' . $duration . 'M' ) );
 
-		// Generate unique ID
+		// Generate unique ID.
 		$uid = md5( $title . $dt->format( 'Y-m-d H:i:s' ) ) . '@mosque-timetable';
 		$now = wp_date( 'Ymd\THis\Z' );
 
@@ -8596,7 +8602,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$event .= "DTEND;TZID={$timezone}:" . $end->format( 'Ymd\THis' ) . "\r\n";
 		$event .= 'SUMMARY:' . $this->escape_ics_text( $title ) . "\r\n";
 
-		// Different descriptions based on type
+		// Different descriptions based on type.
 		$description = '';
 		switch ( $type ) {
 			case 'jamaat':
@@ -8616,7 +8622,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$event .= 'LOCATION:' . $this->escape_ics_text( $mosque_address ?: $mosque_name ) . "\r\n";
 		$event .= "CATEGORIES:Religious\r\n";
 
-		// Add multiple alarms
+		// Add multiple alarms.
 		foreach ( $alarms as $alarm_minutes ) {
 			$alarm_minutes = intval( $alarm_minutes );
 			if ( $alarm_minutes >= 0 ) {
@@ -8667,7 +8673,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			return new WP_Error( 'empty_file', 'CSV file is empty' );
 		}
 
-		// Parse header (first line)
+		// Parse header (first line).
 		$header           = str_getcsv( $lines[0] );
 		$expected_columns = array(
 			'Date',
@@ -8686,16 +8692,17 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			'Jummah_2',
 		);
 
-		// Validate header
-		if ( count( $header ) < 13 ) { // At least date + 12 prayer times
+		// Validate header.
+		if ( count( $header ) < 13 ) { // At least date + 12 prayer times.
 			return new WP_Error( 'invalid_format', 'CSV file does not have required columns' );
 		}
 
 		$prayer_data = array();
 		$year        = wp_date( 'Y' );
 
-		// Process data rows
-		for ( $i = 1; $i < count( $lines ); $i++ ) {
+		// Process data rows.
+		$line_count = count( $lines );
+		for ( $i = 1; $i < $line_count; $i++ ) {
 			if ( empty( trim( $lines[ $i ] ) ) ) {
 				continue;
 			}
@@ -8705,12 +8712,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				continue;
 			}
 
-			// Parse date
+			// Parse date.
 			$date_str    = trim( $row[0] );
 			$parsed_date = $this->parse_flexible_date( $date_str, $year, $month );
 
 			if ( ! $parsed_date ) {
-				continue; // Skip invalid dates
+				continue; // Skip invalid dates.
 			}
 
 			$day_data = array(
@@ -8739,7 +8746,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			return new WP_Error( 'no_valid_data', 'No valid prayer time data found in CSV' );
 		}
 
-		// Save to ACF
+		// Save to ACF.
 		$result = $this->save_month_prayer_data( $year, $month, $prayer_data );
 
 		if ( is_wp_error( $result ) ) {
@@ -8757,34 +8764,34 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * Parse flexible date formats
 	 */
 	private function parse_flexible_date( $date_str, $year, $month ) {
-		// Remove extra spaces
+		// Remove extra spaces.
 		$date_str = preg_replace( '/\s+/', ' ', trim( $date_str ) );
 
-		// Try different date formats
+		// Try different date formats.
 		$formats = array(
 			'd/m/Y',
 			'd.m.Y',
-			'd-m-Y', // Day first with year
+			'd-m-Y', // Day first with year.
 			'd/m',
 			'd.m',
-			'd-m',       // Day first without year
+			'd-m', // Day first without year.
 			'j/n/Y',
 			'j.n.Y',
-			'j-n-Y', // Single digits
+			'j-n-Y', // Single digits.
 			'j/n',
 			'j.n',
-			'j-n',       // Single digits without year
-			'j',                         // Just day number
+			'j-n', // Single digits without year.
+			'j', // Just day number.
 		);
 
 		foreach ( $formats as $format ) {
 			$parsed = DateTime::createFromFormat( $format, $date_str );
 			if ( false !== $parsed ) {
-				// If year is missing, use provided year
+				// If year is missing, use provided year.
 				if ( false === strpos( $format, 'Y' ) ) {
 					$parsed->setDate( $year, $month, (int) $parsed->format( 'j' ) );
 				}
-				// If month is missing, use provided month
+				// If month is missing, use provided month.
 				if ( strpos( $format, 'm' ) === false && strpos( $format, 'n' ) === false ) {
 					$parsed->setDate( $year, $month, intval( $date_str ) );
 				}
@@ -8808,7 +8815,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			return '';
 		}
 
-		// Handle different time formats
+		// Handle different time formats.
 		if ( preg_match( '/^(\d{1,2}):(\d{2})$/', $time_str, $matches ) ) {
 			return sprintf( '%02d:%02d', $matches[1], $matches[2] );
 		}
@@ -8817,7 +8824,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			return sprintf( '%02d:%02d', $matches[1], $matches[2] );
 		}
 
-		if ( preg_match( '/^(\d{1,2})(\d{2})$/', $time_str, $matches ) && strlen( $time_str ) === 3 || strlen( $time_str ) === 4 ) {
+		if ( ( preg_match( '/^(\d{1,2})(\d{2})$/', $time_str, $matches ) && 3 === strlen( $time_str ) ) || 4 === strlen( $time_str ) ) {
 			$hour   = substr( $time_str, 0, -2 );
 			$minute = substr( $time_str, -2 );
 			return sprintf( '%02d:%02d', $hour, $minute );
@@ -8832,7 +8839,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	private function save_month_prayer_data( $year, $month, $prayer_data ) {
 		$field_name = 'daily_prayers_' . $month;
 
-		// Save to ACF using the new field structure
+		// Save to ACF using the new field structure.
 		$result = update_field( $field_name, $prayer_data, 'option' );
 
 		if ( ! $result ) {
@@ -8877,7 +8884,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			),
 		);
 
-		// Replace Zuhr with Jummah on Friday
+		// Replace Zuhr with Jummah on Friday.
 		if ( $is_friday && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
 			unset( $prayers['Zuhr'] );
 			if ( $today_data['jummah_1'] ) {
@@ -8900,7 +8907,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			}
 
 			$start_datetime = $today_date . 'T' . $times['start'] . ':00';
-			$end_datetime   = $today_date . 'T' . $times['start'] . ':00'; // Same time for start/end
+			$end_datetime   = $today_date . 'T' . $times['start'] . ':00'; // Same time for start/end.
 
 			$event_schema = array(
 				'@context'            => 'https://schema.org',
@@ -8932,7 +8939,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				),
 			);
 
-			// Add jamaat time if available
+			// Add jamaat time if available.
 			if ( $times['jamaat'] && 'Sunrise' !== $prayer_name ) {
 				$jamaat_datetime = $today_date . 'T' . $times['jamaat'] . ':00';
 				$jamaat_schema   = array(
@@ -8968,17 +8975,17 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * @return array|WP_Error Array of prayer times or error
 	 */
 	private function fetch_prayer_times_from_api( $year, $month ) {
-		// Get settings (with ACF/options fallback)
+		// Get settings (with ACF/options fallback).
 		$latitude  = mt_get_option( 'mosque_latitude', '' );
 		$longitude = mt_get_option( 'mosque_longitude', '' );
 		$method    = mt_get_option( 'calculation_method', '2' );
 
-		// Validate coordinates
+		// Validate coordinates.
 		if ( empty( $latitude ) || empty( $longitude ) ) {
 			return new WP_Error( 'missing_coordinates', 'Latitude and longitude are required for automatic prayer times' );
 		}
 
-		// Construct Aladhan API URL
+		// Construct Aladhan API URL.
 		$api_url = sprintf(
 			'https://api.aladhan.com/v1/calendar/%d/%d?latitude=%s&longitude=%s&method=%s',
 			$year,
@@ -8988,7 +8995,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			$method
 		);
 
-		// Fetch from API
+		// Fetch from API.
 		$response = wp_remote_get(
 			$api_url,
 			array(
@@ -8999,7 +9006,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			)
 		);
 
-		// Check for errors
+		// Check for errors.
 		if ( is_wp_error( $response ) ) {
 			return new WP_Error( 'api_error', 'Failed to fetch prayer times: ' . $response->get_error_message() );
 		}
@@ -9047,18 +9054,18 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$days_in_month = cal_days_in_month( CAL_GREGORIAN, $month, $year );
 		$month_data    = array();
 
-		// Check if automatic prayer times are enabled
+		// Check if automatic prayer times are enabled.
 		$auto_times_enabled = mt_get_option( 'enable_auto_times', 1 );
 		$api_data           = null;
 
-		// Fetch prayer times from API if enabled
+		// Fetch prayer times from API if enabled.
 		if ( $auto_times_enabled ) {
 			$api_response = $this->fetch_prayer_times_from_api( $year, $month );
 
 			if ( ! is_wp_error( $api_response ) ) {
 				$api_data = $api_response;
 
-				// Get Jamāʿah offsets
+				// Get Jamāʿah offsets.
 				$fajr_offset    = (int) mt_get_option( 'fajr_jamaat_offset', 10 );
 				$zuhr_offset    = (int) mt_get_option( 'zuhr_jamaat_offset', 15 );
 				$asr_offset     = (int) mt_get_option( 'asr_jamaat_offset', 15 );
@@ -9067,12 +9074,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			}
 		}
 
-		// Build month data with dates and prayer times
+		// Build month data with dates and prayer times.
 		for ( $day = 1; $day <= $days_in_month; $day++ ) {
 			$date_str   = sprintf( '%04d-%02d-%02d', $year, $month, $day );
 			$hijri_date = $this->calculate_hijri_date( $date_str );
 
-			// Initialize with empty times
+			// Initialize with empty times.
 			$day_data = array(
 				'day_number'     => $day,
 				'date_full'      => $date_str,
@@ -9093,11 +9100,11 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				'jummah_2'       => '',
 			);
 
-			// Populate with API data if available
+			// Populate with API data if available.
 			if ( $api_data && isset( $api_data[ $day - 1 ]['timings'] ) ) {
 				$timings = $api_data[ $day - 1 ]['timings'];
 
-				// Extract times (Aladhan returns format like "05:30 (GMT)")
+				// Extract times (Aladhan returns format like "05:30 (GMT)").
 				$day_data['fajr_start']    = $this->parse_api_time( $timings['Fajr'] ?? '' );
 				$day_data['sunrise']       = $this->parse_api_time( $timings['Sunrise'] ?? '' );
 				$day_data['zuhr_start']    = $this->parse_api_time( $timings['Dhuhr'] ?? '' );
@@ -9105,14 +9112,14 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				$day_data['maghrib_start'] = $this->parse_api_time( $timings['Maghrib'] ?? '' );
 				$day_data['isha_start']    = $this->parse_api_time( $timings['Isha'] ?? '' );
 
-				// Calculate Jamāʿah times
+				// Calculate Jamāʿah times.
 				$day_data['fajr_jamaat']    = $this->calculate_jamaat_time( $day_data['fajr_start'], $fajr_offset );
 				$day_data['zuhr_jamaat']    = $this->calculate_jamaat_time( $day_data['zuhr_start'], $zuhr_offset );
 				$day_data['asr_jamaat']     = $this->calculate_jamaat_time( $day_data['asr_start'], $asr_offset );
 				$day_data['maghrib_jamaat'] = $this->calculate_jamaat_time( $day_data['maghrib_start'], $maghrib_offset );
 				$day_data['isha_jamaat']    = $this->calculate_jamaat_time( $day_data['isha_start'], $isha_offset );
 
-				// For Friday, copy Zuhr time to Jummah 1 (admin can adjust manually)
+				// For Friday, copy Zuhr time to Jummah 1 (admin can adjust manually).
 				if ( 'Friday' === $day_data['day_name'] && ! empty( $day_data['zuhr_jamaat'] ) ) {
 					$day_data['jummah_1'] = $day_data['zuhr_jamaat'];
 				}
@@ -9121,7 +9128,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			$month_data[] = $day_data;
 		}
 
-		// Save using year-specific field name
+		// Save using year-specific field name.
 		return mt_save_month_rows( $month, $month_data, $year );
 	}
 
@@ -9136,10 +9143,10 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			return '';
 		}
 
-		// Remove timezone suffix like " (GMT)" or " (BST)"
+		// Remove timezone suffix like " (GMT)" or " (BST)".
 		$time = trim( preg_replace( '/\s*\([^)]+\)\s*$/', '', $api_time ) );
 
-		// Validate format
+		// Validate format.
 		if ( preg_match( '/^\d{2}:\d{2}$/', $time ) ) {
 			return $time;
 		}
@@ -9151,18 +9158,18 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * Save month data
 	 */
 	public function save_month_data( $year, $month, $data ) {
-		// Use year-specific field names for multi-year support
+		// Use year-specific field names for multi-year support.
 		$year       = $year ?: (int) get_option( 'default_year', (int) wp_date( 'Y' ) );
 		$field_name = "daily_prayers_{$year}_{$month}";
 
-		// Extract days array if data is wrapped
+		// Extract days array if data is wrapped.
 		$days = isset( $data['days'] ) && is_array( $data['days'] ) ? $data['days'] : $data;
 
 		if ( mt_has_acf() ) {
 			return (bool) update_field( $field_name, $days, 'option' );
 		}
 
-		// Fallback to options table
+		// Fallback to options table.
 		$all                    = get_option( 'mosque_timetable_rows', array() );
 		$all[ $year ]           = $all[ $year ] ?? array();
 		$all[ $year ][ $month ] = $days;
@@ -9177,7 +9184,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$existing_data = $this->get_month_prayer_data( $year, $month );
 
 		if ( $existing_data && isset( $existing_data['days'] ) ) {
-			// Keep date structure, clear prayer times
+			// Keep date structure, clear prayer times.
 			foreach ( $existing_data['days'] as &$day ) {
 				$day['fajr_start']     = '';
 				$day['fajr_jamaat']    = '';
@@ -9205,25 +9212,25 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * Add RTL language detection and HTML dir attribute
 	 */
 	public function add_rtl_support() {
-		// List of RTL language codes
+		// List of RTL language codes.
 		$rtl_languages = array(
-			'ar',    // Arabic
-			'he',    // Hebrew
-			'fa',    // Persian/Farsi
-			'ur',    // Urdu
-			'ku',    // Kurdish
-			'sd',    // Sindhi
-			'ps',    // Pashto
-			'dv',    // Divehi
-			'yi',    // Yiddish
-			'arc',   // Aramaic
+			'ar', // Arabic.
+			'he', // Hebrew.
+			'fa', // Persian/Farsi.
+			'ur', // Urdu.
+			'ku', // Kurdish.
+			'sd', // Sindhi.
+			'ps', // Pashto.
+			'dv', // Divehi.
+			'yi', // Yiddish.
+			'arc', // Aramaic.
 		);
 
-		// Get current site language
+		// Get current site language.
 		$locale        = get_locale();
 		$language_code = substr( $locale, 0, 2 );
 
-		// Check if current language is RTL
+		// Check if current language is RTL.
 		if ( in_array( $language_code, $rtl_languages, true ) ) {
 			add_filter( 'language_attributes', array( $this, 'add_rtl_lang_attributes' ) );
 		}
@@ -9243,12 +9250,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * AJAX handler for push notification subscription
 	 */
 	public function ajax_subscribe_push_notifications() {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! check_ajax_referer( 'mosque_timetable_nonce', '_wpnonce', false ) ) {
 			wp_send_json_error( array( 'message' => 'Invalid security token' ) );
 		}
 
-		// Get JSON input
+		// Get JSON input.
 		$input = file_get_contents( 'php://input' );
 		$data  = json_decode( $input, true );
 
@@ -9260,12 +9267,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$alarms          = $data['alarms'] ?? array( 5, 15 );
 		$sunrise_warning = $data['sunrise_warning'] ?? false;
 
-		// Validate subscription structure
+		// Validate subscription structure.
 		if ( ! isset( $subscription['endpoint'] ) || ! isset( $subscription['keys'] ) ) {
 			wp_send_json_error( array( 'message' => 'Invalid subscription format' ) );
 		}
 
-		// Get current subscriptions
+		// Get current subscriptions.
 		$subscriptions = get_option( 'mt_push_subscriptions', array() );
 
 		// Store subscription with user preferences.
@@ -9273,12 +9280,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			'subscription'    => $subscription,
 			'offsets'         => array_map( 'intval', $alarms ),
 			'sunrise_warning' => (bool) $sunrise_warning,
-			'subscribed_at'   => current_time( 'timestamp' ),
+			'subscribed_at'   => time(),
 			'user_agent'      => isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '',
 			'ip_address'      => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '',
 		);
 
-		// Save updated subscriptions
+		// Save updated subscriptions.
 		if ( update_option( 'mt_push_subscriptions', $subscriptions ) ) {
 			wp_send_json_success( array( 'message' => 'Successfully subscribed to notifications' ) );
 		} else {
@@ -9290,12 +9297,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * AJAX handler for push notification unsubscription
 	 */
 	public function ajax_unsubscribe_push_notifications() {
-		// Verify nonce for security
+		// Verify nonce for security.
 		if ( ! check_ajax_referer( 'mosque_timetable_nonce', '_wpnonce', false ) ) {
 			wp_send_json_error( array( 'message' => 'Invalid security token' ) );
 		}
 
-		// Get JSON input
+		// Get JSON input.
 		$input = file_get_contents( 'php://input' );
 		$data  = json_decode( $input, true );
 
@@ -9305,14 +9312,14 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 		$endpoint = $data['endpoint'];
 
-		// Get current subscriptions
+		// Get current subscriptions.
 		$subscriptions = get_option( 'mt_push_subscriptions', array() );
 
-		// Remove subscription
+		// Remove subscription.
 		if ( isset( $subscriptions[ $endpoint ] ) ) {
 			unset( $subscriptions[ $endpoint ] );
 
-			// Save updated subscriptions
+			// Save updated subscriptions.
 			if ( update_option( 'mt_push_subscriptions', $subscriptions ) ) {
 				wp_send_json_success( array( 'message' => 'Successfully unsubscribed from notifications' ) );
 			} else {
