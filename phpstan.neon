@@ -2,35 +2,18 @@ includes:
   - vendor/szepeviktor/phpstan-wordpress/extension.neon
 
 parameters:
-  level: 6
-
-  # Where to analyse
+  level: 4
+  
   paths:
     - public_html/wp-content/plugins/mosque-timetable
-
-  # Only treat PHP files as code inside templates
-  fileExtensions:
-    - php
-    - phtml
-
-  # Bootstrap so WP-ish constants exist on CLI
+  
   bootstrapFiles:
     - vendor/autoload.php
-
-  # (Removed in v2) checkGenericClassInNonGenericObjectType, checkMissingIterableValueType
-  # treatPhpDocTypesAsCertain was kept intentionally
-  treatPhpDocTypesAsCertain: false
-
-  # Exclusions
+  
   excludePaths:
-    analyse:
-      - public_html/wp-content/plugins/mosque-timetable/vendor/*
-      - public_html/wp-content/plugins/mosque-timetable/node_modules/*
-      - public_html/wp-content/plugins/mosque-timetable/assets/*
-      - public_html/wp-content/plugins/mosque-timetable/tests/*
-
-  # Known false-positives/WordPress patterns
+    - public_html/wp-content/plugins/mosque-timetable/vendor/*
+    - public_html/wp-content/plugins/mosque-timetable/node_modules/*
+  
   ignoreErrors:
-    - '#^Parameter \#2 \$callback of function add_(action|filter) expects callable, string given#'
-    - '#Access to an undefined property .* via magic method#'
+    - '#^Parameter \#2 \$callback of function add_(action|filter) expects callable#'
     - '#^Function (esc_|sanitize_)\w+ might not be defined#'

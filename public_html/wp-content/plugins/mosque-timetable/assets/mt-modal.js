@@ -5,373 +5,397 @@
 
 /* eslint-env browser */
 
-(function() {
-    'use strict';
+(function () {
+	'use strict';
 
-    // Global modal object
-    window.MosqueTimetableModal = {
-        // Configuration
-        config: {
-            restUrl: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.restUrl) || '',
-            restNonce: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.restNonce) || '',
-            currentMonth: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.currentMonth) || new Date().getMonth() + 1,
-            currentYear: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.currentYear) || new Date().getFullYear(),
-            siteUrl: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.siteUrl) || '',
-            strings: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.strings) || {}
-        },
+	// Global modal object
+	window.MosqueTimetableModal = {
+		// Configuration
+		config: {
+			restUrl: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.restUrl) || '',
+			restNonce: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.restNonce) || '',
+			currentMonth: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.currentMonth) || new Date().getMonth() + 1,
+			currentYear: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.currentYear) || new Date().getFullYear(),
+			siteUrl: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.siteUrl) || '',
+			strings: (typeof mosqueTimetableModal !== 'undefined' && mosqueTimetableModal.strings) || {}
+		},
 
-        // Initialize modal functionality
-        init: function(config) {
-            this.config = Object.assign(this.config, config || {});
-            this.initModal();
-            this.initEventHandlers();
-        },
+		// Initialize modal functionality
+		init: function (config) {
+			this.config = Object.assign( this.config, config || {} );
+			this.initModal();
+			this.initEventHandlers();
+		},
 
-        // Create and inject modal HTML
-        initModal: function() {
-            const modalHTML = `
-                <div id="mt-export-modal" class="mt-modal-overlay">
-                    <div class="mt-modal">
-                        <div class="mt-modal-header">
-                            <h3>📅 Export Prayer Calendar</h3>
-                            <button type="button" class="mt-modal-close">&times;</button>
-                        </div>
-                        <div class="mt-modal-body">
-                            <form id="mt-export-form">
-                                <!-- Date Range Section -->
-                                <div class="mt-form-section">
-                                    <h4>📆 Date Range</h4>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="date_range" value="year" checked>
-                                        <span>Full Year ${this.config.currentYear}</span>
-                                    </label>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="date_range" value="month">
-                                        <span>Selected Month Only</span>
-                                    </label>
-                                </div>
+		// Create and inject modal HTML
+		initModal: function () {
+			const modalHTML                 = `
+				< div id                    = "mt-export-modal" class = "mt-modal-overlay" >
+					< div class             = "mt-modal" >
+						< div class         = "mt-modal-header" >
+							< h3 > 📅 Export Prayer Calendar < / h3 >
+							< button type   = "button" class = "mt-modal-close" > & times; < / button >
+						< / div >
+						< div class         = "mt-modal-body" >
+							< form id       = "mt-export-form" >
+								< ! --Date Range Section-- >
+								< div class = "mt-form-section" >
+									< h4 > 📆 Date Range < / h4 >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "date_range" value = "year" checked >
+										< span > Full Year ${this.config.currentYear} < / span >
+									< / label >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "date_range" value = "month" >
+										< span > Selected Month Only < / span >
+									< / label >
+								< / div >
 
-                                <!-- Prayer Times Section -->
-                                <div class="mt-form-section">
-                                    <h4>🕌 Prayer Times</h4>
-                                    <p class="mt-form-note">Start times are always included</p>
-                                    <label class="mt-checkbox-option">
-                                        <input type="checkbox" name="include_jamah" value="1" checked>
-                                        <span>Include Jamāʿah (congregation) times</span>
-                                    </label>
-                                </div>
+								< ! --Prayer Times Section-- >
+								< div class          = "mt-form-section" >
+									< h4 > 🕌 Prayer Times < / h4 >
+									< p class        = "mt-form-note" > Start times are always included < / p >
+									< label class    = "mt-checkbox-option" >
+										< input type = "checkbox" name = "include_jamah" value = "1" checked >
+										< span > Include Jamāʿah( congregation ) times < / span >
+									< / label >
+								< / div >
 
-                                <!-- Notifications Section -->
-                                <div class="mt-form-section">
-                                    <h4>🔔 Notifications (VALARM)</h4>
-                                    <p class="mt-form-note">Create calendar reminders before each prayer</p>
-                                    <div class="mt-checkbox-grid">
-                                        <label class="mt-checkbox-option">
-                                            <input type="checkbox" name="alarms[]" value="0">
-                                            <span>At prayer time</span>
-                                        </label>
-                                        <label class="mt-checkbox-option">
-                                            <input type="checkbox" name="alarms[]" value="5">
-                                            <span>5 minutes before</span>
-                                        </label>
-                                        <label class="mt-checkbox-option">
-                                            <input type="checkbox" name="alarms[]" value="10">
-                                            <span>10 minutes before</span>
-                                        </label>
-                                        <label class="mt-checkbox-option">
-                                            <input type="checkbox" name="alarms[]" value="20">
-                                            <span>20 minutes before</span>
-                                        </label>
-                                        <label class="mt-checkbox-option">
-                                            <input type="checkbox" name="alarms[]" value="30">
-                                            <span>30 minutes before</span>
-                                        </label>
-                                    </div>
-                                </div>
+								< ! --Notifications Section-- >
+								< div class              = "mt-form-section" >
+									< h4 > 🔔 Notifications( VALARM ) < / h4 >
+									< p class            = "mt-form-note" > Create calendar reminders before each prayer < / p >
+									< div class          = "mt-checkbox-grid" >
+										< label class    = "mt-checkbox-option" >
+											< input type = "checkbox" name = "alarms[]" value = "0" >
+											< span > At prayer time < / span >
+										< / label >
+										< label class    = "mt-checkbox-option" >
+											< input type = "checkbox" name = "alarms[]" value = "5" >
+											< span > 5 minutes before < / span >
+										< / label >
+										< label class    = "mt-checkbox-option" >
+											< input type = "checkbox" name = "alarms[]" value = "10" >
+											< span > 10 minutes before < / span >
+										< / label >
+										< label class    = "mt-checkbox-option" >
+											< input type = "checkbox" name = "alarms[]" value = "20" >
+											< span > 20 minutes before < / span >
+										< / label >
+										< label class    = "mt-checkbox-option" >
+											< input type = "checkbox" name = "alarms[]" value = "30" >
+											< span > 30 minutes before < / span >
+										< / label >
+									< / div >
+								< / div >
 
-                                <!-- Jummah Section -->
-                                <div class="mt-form-section">
-                                    <h4>🕌 Jummah (Friday) Prayers</h4>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="jummah" value="both" checked>
-                                        <span>Both Jummah services</span>
-                                    </label>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="jummah" value="1st">
-                                        <span>1st Jummah only</span>
-                                    </label>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="jummah" value="2nd">
-                                        <span>2nd Jummah only</span>
-                                    </label>
-                                </div>
+								< ! --Jummah Section-- >
+								< div class          = "mt-form-section" >
+									< h4 > 🕌 Jummah( Friday ) Prayers < / h4 >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "jummah" value = "both" checked >
+										< span > Both Jummah services < / span >
+									< / label >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "jummah" value = "1st" >
+										< span > 1st Jummah only < / span >
+									< / label >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "jummah" value = "2nd" >
+										< span > 2nd Jummah only < / span >
+									< / label >
+								< / div >
 
-                                <!-- Sunrise Warning Section -->
-                                <div class="mt-form-section">
-                                    <h4>🌅 End of Fajr Warning</h4>
-                                    <p class="mt-form-note">Optional reminder before sunrise (end of Fajr time)</p>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="sunrise_alarm" value="" checked>
-                                        <span>No sunrise warning</span>
-                                    </label>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="sunrise_alarm" value="15">
-                                        <span>15 minutes before sunrise</span>
-                                    </label>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="sunrise_alarm" value="30">
-                                        <span>30 minutes before sunrise</span>
-                                    </label>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="sunrise_alarm" value="45">
-                                        <span>45 minutes before sunrise</span>
-                                    </label>
-                                    <label class="mt-radio-option">
-                                        <input type="radio" name="sunrise_alarm" value="60">
-                                        <span>1 hour before sunrise</span>
-                                    </label>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="mt-modal-footer">
-                            <div class="mt-footer-section">
-                                <h4>📥 One-Time Download</h4>
-                                <p class="mt-footer-note">Downloads a file you can import once</p>
-                                <div class="mt-button-group">
-                                    <button type="button" class="mt-btn mt-btn-primary" id="mt-download-ics">📥 Download .ics</button>
-                                </div>
-                            </div>
+								< ! --Sunrise Warning Section-- >
+								< div class          = "mt-form-section" >
+									< h4 > 🌅 End of Fajr Warning < / h4 >
+									< p class        = "mt-form-note" > Optional reminder before sunrise( end of Fajr time ) < / p >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "sunrise_alarm" value = "" checked >
+										< span > No sunrise warning < / span >
+									< / label >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "sunrise_alarm" value = "15" >
+										< span > 15 minutes before sunrise < / span >
+									< / label >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "sunrise_alarm" value = "30" >
+										< span > 30 minutes before sunrise < / span >
+									< / label >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "sunrise_alarm" value = "45" >
+										< span > 45 minutes before sunrise < / span >
+									< / label >
+									< label class    = "mt-radio-option" >
+										< input type = "radio" name = "sunrise_alarm" value = "60" >
+										< span > 1 hour before sunrise < / span >
+									< / label >
+								< / div >
+							< / form >
+						< / div >
+						< div class                  = "mt-modal-footer" >
+							< div class              = "mt-footer-section" >
+								< h4 > 📥 One - Time Download < / h4 >
+								< p class            = "mt-footer-note" > Downloads a file you can import once < / p >
+								< div class          = "mt-button-group" >
+									< button type    = "button" class = "mt-btn mt-btn-primary" id = "mt-download-ics" > 📥 Download .ics < / button >
+								< / div >
+							< / div >
 
-                            <div class="mt-footer-section">
-                                <h4>🔗 Subscribe to Calendar</h4>
-                                <p class="mt-footer-note">Creates auto-updating feed that stays current</p>
-                                <div class="mt-button-group">
-                                    <button type="button" class="mt-btn mt-btn-primary" id="mt-subscribe-google">📅 Subscribe in Google</button>
-                                    <button type="button" class="mt-btn mt-btn-secondary" id="mt-subscribe-webcal">📱 Subscribe (Apple/Outlook)</button>
-                                </div>
-                            </div>
+							< div class           = "mt-footer-section" >
+								< h4 > 🔗 Subscribe to Calendar < / h4 >
+								< p class         = "mt-footer-note" > Creates auto - updating feed that stays current < / p >
+								< div class       = "mt-button-group" >
+									< button type = "button" class = "mt-btn mt-btn-primary" id = "mt-subscribe-google" > 📅 Subscribe in Google < / button >
+									< button type = "button" class = "mt-btn mt-btn-secondary" id = "mt-subscribe-webcal" > 📱 Subscribe( Apple / Outlook ) < / button >
+								< / div >
+							< / div >
 
-                            <div class="mt-footer-actions">
-                                <button type="button" class="mt-btn mt-btn-secondary" id="mt-modal-cancel">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+							< div class       = "mt-footer-actions" >
+								< button type = "button" class = "mt-btn mt-btn-secondary" id = "mt-modal-cancel" > Cancel < / button >
+							< / div >
+						< / div >
+					< / div >
+				< / div >
+			`;
 
-            // Remove existing modal if present
-            const existingModal = document.getElementById('mt-export-modal');
-            if (existingModal) {
-                existingModal.remove();
-            }
+			// Remove existing modal if present
+			const existingModal = document.getElementById( 'mt-export-modal' );
+			if (existingModal) {
+				existingModal.remove();
+			}
 
-            // Add modal to page
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-        },
+			// Add modal to page
+			document.body.insertAdjacentHTML( 'beforeend', modalHTML );
+		},
 
-        // Initialize event handlers
-        initEventHandlers: function() {
-            const self = this;
+		// Initialize event handlers
+		initEventHandlers: function () {
+			const self = this;
 
-            // Open modal when export button is clicked
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('mosque-export-btn')) {
-                    e.preventDefault();
-                    self.openModal();
-                }
-            });
+			// Open modal when export button is clicked
+			document.addEventListener(
+				'click',
+				function (e) {
+					if (e.target.classList.contains( 'mosque-export-btn' )) {
+						e.preventDefault();
+						self.openModal();
+					}
+				}
+			);
 
-            // Close modal events
-            document.addEventListener('click', function(e) {
-                if (e.target.classList.contains('mt-modal-close') ||
-                    e.target.id === 'mt-modal-cancel' ||
-                    e.target.classList.contains('mt-modal-overlay')) {
-                    self.closeModal();
-                }
-            });
+			// Close modal events
+			document.addEventListener(
+				'click',
+				function (e) {
+					if (e.target.classList.contains( 'mt-modal-close' ) ||
+					e.target.id === 'mt-modal-cancel' ||
+					e.target.classList.contains( 'mt-modal-overlay' )) {
+						self.closeModal();
+					}
+				}
+			);
 
-            // Download ICS
-            document.addEventListener('click', function(e) {
-                if (e.target.id === 'mt-download-ics') {
-                    self.downloadICS();
-                }
-            });
+			// Download ICS
+			document.addEventListener(
+				'click',
+				function (e) {
+					if (e.target.id === 'mt-download-ics') {
+						self.downloadICS();
+					}
+				}
+			);
 
-            // Subscribe to Google Calendar
-            document.addEventListener('click', function(e) {
-                if (e.target.id === 'mt-subscribe-google') {
-                    self.subscribeToGoogle();
-                }
-            });
+			// Subscribe to Google Calendar
+			document.addEventListener(
+				'click',
+				function (e) {
+					if (e.target.id === 'mt-subscribe-google') {
+						self.subscribeToGoogle();
+					}
+				}
+			);
 
-            // Subscribe via webcal (Apple/Outlook)
-            document.addEventListener('click', function(e) {
-                if (e.target.id === 'mt-subscribe-webcal') {
-                    self.subscribeWebcal();
-                }
-            });
+			// Subscribe via webcal (Apple/Outlook)
+			document.addEventListener(
+				'click',
+				function (e) {
+					if (e.target.id === 'mt-subscribe-webcal') {
+						self.subscribeWebcal();
+					}
+				}
+			);
 
-            // Prevent modal close when clicking inside modal content
-            document.addEventListener('click', function(e) {
-                if (e.target.closest('.mt-modal') && !e.target.classList.contains('mt-modal-overlay')) {
-                    e.stopPropagation();
-                }
-            });
+			// Prevent modal close when clicking inside modal content
+			document.addEventListener(
+				'click',
+				function (e) {
+					if (e.target.closest( '.mt-modal' ) && ! e.target.classList.contains( 'mt-modal-overlay' )) {
+						e.stopPropagation();
+					}
+				}
+			);
 
-            // ESC key to close modal
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    self.closeModal();
-                }
-            });
-        },
+			// ESC key to close modal
+			document.addEventListener(
+				'keydown',
+				function (e) {
+					if (e.key === 'Escape') {
+						self.closeModal();
+					}
+				}
+			);
+		},
 
-        // Open modal
-        openModal: function() {
-            const modal = document.getElementById('mt-export-modal');
-            if (modal) {
-                modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
+		// Open modal
+		openModal: function () {
+			const modal = document.getElementById( 'mt-export-modal' );
+			if (modal) {
+				modal.style.display          = 'flex';
+				document.body.style.overflow = 'hidden';
 
-                // Focus management for accessibility
-                const firstInput = modal.querySelector('input[type="radio"]:checked');
-                if (firstInput) {
-                    firstInput.focus();
-                }
-            }
-        },
+				// Focus management for accessibility
+				const firstInput = modal.querySelector( 'input[type="radio"]:checked' );
+				if (firstInput) {
+					firstInput.focus();
+				}
+			}
+		},
 
-        // Close modal
-        closeModal: function() {
-            const modal = document.getElementById('mt-export-modal');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = '';
-            }
-        },
+		// Close modal
+		closeModal: function () {
+			const modal = document.getElementById( 'mt-export-modal' );
+			if (modal) {
+				modal.style.display          = 'none';
+				document.body.style.overflow = '';
+			}
+		},
 
-        // Collect form data
-        getFormData: function() {
-            const form = document.getElementById('mt-export-form');
-            const formData = new FormData(form);
-            const data = {};
+		// Collect form data
+		getFormData: function () {
+			const form     = document.getElementById( 'mt-export-form' );
+			const formData = new FormData( form );
+			const data     = {};
 
-            // Convert FormData to object
-            for (const [key, value] of formData.entries()) {
-                if (key.endsWith('[]')) {
-                    const arrayKey = key.slice(0, -2);
-                    if (!data[arrayKey]) {
-                        data[arrayKey] = [];
-                    }
-                    data[arrayKey].push(value);
-                } else {
-                    data[key] = value;
-                }
-            }
+			// Convert FormData to object
+			for (const [key, value] of formData.entries()) {
+				if (key.endsWith( '[]' )) {
+					const arrayKey = key.slice( 0, -2 );
+					if ( ! data[arrayKey]) {
+						data[arrayKey] = [];
+					}
+					data[arrayKey].push( value );
+				} else {
+					data[key] = value;
+				}
+			}
 
-            // Add current month/year context
-            data.year = this.config.currentYear;
-            data.month = this.config.currentMonth;
+			// Add current month/year context
+			data.year  = this.config.currentYear;
+			data.month = this.config.currentMonth;
 
-            return data;
-        },
+			return data;
+		},
 
-        // Download ICS file
-        downloadICS: function() {
-            const formData = this.getFormData();
+		// Download ICS file
+		downloadICS: function () {
+			const formData = this.getFormData();
 
-            // Build query string
-            const params = new URLSearchParams();
-            for (const [key, value] of Object.entries(formData)) {
-                if (Array.isArray(value)) {
-                    value.forEach(v => params.append(key + '[]', v));
-                } else {
-                    params.set(key, value);
-                }
-            }
+			// Build query string
+			const params = new URLSearchParams();
+			for (const [key, value] of Object.entries( formData )) {
+				if (Array.isArray( value )) {
+					value.forEach( v => params.append( key + '[]', v ) );
+				} else {
+					params.set( key, value );
+				}
+			}
 
-            // Create download URL
-            const downloadUrl = `${this.config.restUrl}/export-ics?${params.toString()}`;
+			// Create download URL
+			const downloadUrl = `${this.config.restUrl} / export - ics ? ${params.toString()}`;
 
-            // Trigger download
-            const link = document.createElement('a');
-            link.href = downloadUrl;
-            link.download = `prayer-times-${formData.year}-${formData.month || 'full'}.ics`;
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+			// Trigger download
+			const link         = document.createElement( 'a' );
+			link.href          = downloadUrl;
+			link.download      = `prayer - times - ${formData.year} - ${formData.month || 'full'}.ics`;
+			link.style.display = 'none';
+			document.body.appendChild( link );
+			link.click();
+			document.body.removeChild( link );
 
-            this.closeModal();
-        },
+			this.closeModal();
+		},
 
-        // Subscribe to Google Calendar
-        subscribeToGoogle: function() {
-            const subscribeUrl = this.buildSubscribeUrl();
-            const googleUrl = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(subscribeUrl)}`;
+		// Subscribe to Google Calendar
+		subscribeToGoogle: function () {
+			const subscribeUrl = this.buildSubscribeUrl();
+			const googleUrl    = `https://calendar.google.com / calendar / r ? cid = ${encodeURIComponent( subscribeUrl )}`;
 
-            // Open Google Calendar subscribe page
-            window.open(googleUrl, '_blank', 'noopener,noreferrer');
-        },
+			// Open Google Calendar subscribe page
+			window.open( googleUrl, '_blank', 'noopener,noreferrer' );
+		},
 
-        // Subscribe via webcal (Apple/Outlook)
-        subscribeWebcal: function() {
-            const subscribeUrl = this.buildSubscribeUrl();
-            const webcalUrl = subscribeUrl.replace(/^https?:\/\//i, 'webcal://');
+		// Subscribe via webcal (Apple/Outlook)
+		subscribeWebcal: function () {
+			const subscribeUrl = this.buildSubscribeUrl();
+			const webcalUrl    = subscribeUrl.replace( /^https?:\/\//i, 'webcal://' );
 
-            // Open webcal link - will prompt user's default calendar app
-            window.location.href = webcalUrl;
-        },
+			// Open webcal link - will prompt user's default calendar app
+			window.location.href = webcalUrl;
+		},
 
-        // Build subscribe URL with current filter settings
-        buildSubscribeUrl: function() {
-            const formData = this.getFormData();
+		// Build subscribe URL with current filter settings
+		buildSubscribeUrl: function () {
+			const formData = this.getFormData();
 
-            // Base URL for calendar feed
-            let baseUrl = this.config.baseUrl || window.location.origin;
-            baseUrl += '/prayer-times/calendar.ics';
+			// Base URL for calendar feed
+			let baseUrl = this.config.baseUrl || window.location.origin;
+			baseUrl    += '/prayer-times/calendar.ics';
 
-            // Build query parameters
-            const params = new URLSearchParams();
+			// Build query parameters
+			const params = new URLSearchParams();
 
-            // Only add non-default parameters to keep URL clean
-            if (formData.date_range === 'month') {
-                params.set('month', formData.month);
-                params.set('year', formData.year);
-            }
+			// Only add non-default parameters to keep URL clean
+			if (formData.date_range === 'month') {
+				params.set( 'month', formData.month );
+				params.set( 'year', formData.year );
+			}
 
-            if (formData.include_jamah === '1') {
-                params.set('include_jamah', '1');
-            }
+			if (formData.include_jamah === '1') {
+				params.set( 'include_jamah', '1' );
+			}
 
-            if (formData.alarms && formData.alarms.length > 0) {
-                formData.alarms.forEach(alarm => params.append('alarms[]', alarm));
-            }
+			if (formData.alarms && formData.alarms.length > 0) {
+				formData.alarms.forEach( alarm => params.append( 'alarms[]', alarm ) );
+			}
 
-            if (formData.jummah_option && formData.jummah_option !== 'both') {
-                params.set('jummah', formData.jummah_option);
-            }
+			if (formData.jummah_option && formData.jummah_option !== 'both') {
+				params.set( 'jummah', formData.jummah_option );
+			}
 
-            if (formData.sunrise_alarm) {
-                params.set('sunrise_alarm', formData.sunrise_alarm);
-            }
+			if (formData.sunrise_alarm) {
+				params.set( 'sunrise_alarm', formData.sunrise_alarm );
+			}
 
-            // Return URL with parameters
-            const queryString = params.toString();
-            return queryString ? `${baseUrl}?${queryString}` : baseUrl;
-        },
+			// Return URL with parameters
+			const queryString = params.toString();
+			return queryString ? `${baseUrl} ? ${queryString}` : baseUrl;
+		},
 
-        // Legacy method for backward compatibility
-        addToGoogle: function() {
-            this.subscribeToGoogle();
-        }
-    };
+		// Legacy method for backward compatibility
+		addToGoogle: function () {
+			this.subscribeToGoogle();
+		}
+	};
 
-    // Auto-initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            // Will be initialized by the main script with proper config
-        });
-    }
+	// Auto-initialize when DOM is ready
+	if (document.readyState === 'loading') {
+		document.addEventListener(
+			'DOMContentLoaded',
+			function () {
+				// Will be initialized by the main script with proper config
+			}
+		);
+	}
 
 })();

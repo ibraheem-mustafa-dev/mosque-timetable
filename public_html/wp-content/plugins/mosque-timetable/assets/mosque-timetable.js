@@ -236,8 +236,8 @@
       }
 
       try {
-        const registration = await navigator.serviceWorker.register(this.config.serviceWorkerUrl);
-        console.log('Service Worker registered successfully:', registration);
+        const _registration = await navigator.serviceWorker.register(this.config.serviceWorkerUrl);
+        // Service Worker registered successfully (registration stored but not used)
       } catch (error) {
         console.error('Service Worker registration failed:', error);
       }

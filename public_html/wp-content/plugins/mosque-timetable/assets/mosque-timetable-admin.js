@@ -59,9 +59,9 @@
     },
 
     switchToMonth(monthNumber) {
-      $('.mosque-month-tab').removeClass('nav-tab-active active');
-      $(`.mosque-month-tab[data-month="${monthNumber}"]`).addClass('nav-tab-active active');
-      $('.month-panel').removeClass('active');
+      $('.mosque-month-tab').removeClass('active');
+      $(`.mosque-month-tab[data-month="${monthNumber}"]`).addClass('active');
+      $('.mosque-month-panel').removeClass('active');
       $(`#month-panel-${monthNumber}`).addClass('active');
 
       this.config.currentMonth = monthNumber;
@@ -325,15 +325,18 @@
           this.hideUnsavedChangesWarning();
           this.updateMonthIndicators();
         } else {
-          this.showError((res && res.data) || this.t('saveError', 'Failed to save.'));
+          const errorMsg = (res && res.data && res.data.message) || (res && res.data) || this.t('saveError', 'Failed to save.');
+          this.showError(errorMsg);
         }
       }).fail((xhr, _s, err) => {
         $('.save-month-btn').removeClass('mosque-btn-loading');
-        if (xhr?.responseJSON?.data?.includes('Security check failed')) {
+        const errorData = xhr?.responseJSON?.data;
+        const errorText = (typeof errorData === 'string' ? errorData : errorData?.message) || '';
+        if (errorText.includes('Security check failed')) {
           this.showError('Security check failed. Please refresh.');
           this.refreshNonce();
         } else {
-          this.showError('Error saving data: ' + (err || ''));
+          this.showError('Error saving data: ' + (errorText || err || ''));
         }
       });
     },
@@ -715,14 +718,14 @@
             if ($current.length === 0) {
               $current = $(`
                 <div class="mt-pdf-current">
-                  <span class="mt-pdf-info">✅ PDF uploaded</span>
-                  <a href="${res.data.url}" target="_blank" class="button button-secondary">📖 View PDF</a>
-                  <button type="button" class="button button-link-delete mt-remove-pdf-btn" data-month="${month}" data-year="${self.config.currentYear}">Remove</button>
+                  <span class="mt-pdf-info"><span class="dashicons dashicons-yes-alt"></span> PDF uploaded</span>
+                  <a href="${res.data.url}" target="_blank" class="mosque-btn mosque-btn-secondary"><span class="dashicons dashicons-visibility"></span> View PDF</a>
+                  <button type="button" class="mosque-btn mosque-btn-danger mt-remove-pdf-btn" data-month="${month}" data-year="${self.config.currentYear}"><span class="dashicons dashicons-trash"></span> Remove</button>
                 </div>
               `);
               $current.insertBefore($form);
             } else {
-              $current.find('a.button.button-secondary').attr('href', res.data.url).show();
+              $current.find('a.mosque-btn.mosque-btn-secondary').attr('href', res.data.url).show();
               $current.find('.mt-remove-pdf-btn').show();
             }
 

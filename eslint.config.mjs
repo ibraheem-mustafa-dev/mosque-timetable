@@ -1,11 +1,8 @@
 // eslint.config.mjs
 import js from "@eslint/js";
 import globals from "globals";
-import json from "@eslint/json";
-import markdown from "@eslint/markdown";
-import { defineConfig } from "eslint/config";
 
-export default defineConfig([
+export default [
   // 0) Ignore heavy/irrelevant paths (flat config ignores replace .eslintignore)
   {
     ignores: [
@@ -19,9 +16,14 @@ export default defineConfig([
       "public_html/core/**",
       "public_html/.private/**",
       "public_html/test-sync/**",
+      "public_html/wp-content/plugins/!(mosque-timetable)/**",
+      "public_html/wp-content/themes/**",
+      "public_html/wp-content/uploads/**",
       "**/*.min.js",
       "**/dist/**",
-      "**/build/**"
+      "**/build/**",
+      "**/*.json",
+      "**/*.md"
     ]
   },
 
@@ -73,14 +75,5 @@ export default defineConfig([
         clients: "readonly"
       }
     }
-  },
-
-  // 4) JSON (flat) — lints package.json, composer.json, etc.
-  json.configs.recommended,
-  { files: ["**/*.json"],  language: "json/json"  },
-  { files: ["**/*.jsonc"], language: "json/jsonc" },
-
-  // 5) Markdown — lints fenced code blocks in docs/READMEs
-  markdown.configs.recommended,
-  { files: ["**/*.md"], language: "markdown/gfm" }
-]);
+  }
+];

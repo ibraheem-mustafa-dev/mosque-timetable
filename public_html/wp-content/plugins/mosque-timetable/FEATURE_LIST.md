@@ -12,6 +12,13 @@
 - **Manual data entry** via intuitive admin tables
 - **Copy/paste import** from external spreadsheets
 - **Auto-population** of month dates and number of days in Month using Month name and Year. And then using the Gregorian calendar date to auto populate Islamic calendar alignment
+- **Automatic prayer time calculation** via Aladhan API integration:
+  - Location-based calculation using latitude/longitude coordinates
+  - 15 calculation methods supported (MWL, ISNA, Egyptian, Karachi, etc.)
+  - Automatic Jamāʿah time calculation with configurable offsets per prayer
+  - Pre-filled times when generating dates (still works offline for end users)
+  - Fallback to manual entry if API unavailable
+  - Friday Jummah auto-populated from Zuhr Jamāʿah time
 
 ### 📅 **Frontend Display Options**
 - **[mosque_timetable]** shortcode for monthly tables
