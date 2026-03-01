@@ -274,9 +274,21 @@ if ( ! function_exists( 'mt_save_month_rows' ) ) {
 		$rows  = array_values( $rows );
 
 		if ( mt_has_acf() ) {
-			// Use year-specific ACF field names for multi-year support.
-			$field_name = "daily_prayers_{$year}_{$month}";
-			return (bool) update_field( $field_name, $rows, 'option' );
+			// ACF local field groups register fields as daily_prayers_{month} (no year suffix).
+			// Year-specific field names are only used for multi-year support when those fields
+			// are explicitly registered. Try year-specific first (registered installations),
+			// then fall back to the registered legacy name to prevent silent save failures.
+			$year_field   = "daily_prayers_{$year}_{$month}";
+			$legacy_field = "daily_prayers_{$month}";
+
+			// Check if the year-specific field is registered in ACF.
+			$field_exists = function_exists( 'acf_get_field' ) && acf_get_field( $year_field );
+			if ( $field_exists ) {
+				return (bool) update_field( $year_field, $rows, 'option' );
+			}
+
+			// Fall back to the registered field name (no year prefix).
+			return (bool) update_field( $legacy_field, $rows, 'option' );
 		}
 
 		$all                    = get_option( 'mosque_timetable_rows', array() );

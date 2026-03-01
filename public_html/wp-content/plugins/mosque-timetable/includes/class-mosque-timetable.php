@@ -9158,14 +9158,18 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	 * Save month data
 	 */
 	public function save_month_data( $year, $month, $data ) {
-		// Use year-specific field names for multi-year support.
-		$year       = $year ?: (int) get_option( 'default_year', (int) wp_date( 'Y' ) );
-		$field_name = "daily_prayers_{$year}_{$month}";
+		$year = $year ?: (int) get_option( 'default_year', (int) wp_date( 'Y' ) );
 
 		// Extract days array if data is wrapped.
 		$days = isset( $data['days'] ) && is_array( $data['days'] ) ? $data['days'] : $data;
 
 		if ( mt_has_acf() ) {
+			// ACF local fields are registered as daily_prayers_{month} (no year).
+			// Check if year-specific field is registered before using it.
+			$year_field   = "daily_prayers_{$year}_{$month}";
+			$legacy_field = "daily_prayers_{$month}";
+			$field_exists = function_exists( 'acf_get_field' ) && acf_get_field( $year_field );
+			$field_name   = $field_exists ? $year_field : $legacy_field;
 			return (bool) update_field( $field_name, $days, 'option' );
 		}
 
