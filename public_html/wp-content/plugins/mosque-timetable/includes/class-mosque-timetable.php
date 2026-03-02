@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Mosque Timetable - Main Plugin Class
  *
@@ -292,7 +292,7 @@ class MosqueTimetablePlugin {
 						<div class="mosque-admin-title-wrapper">
 							<h1 class="mosque-admin-title">
 								<span class="dashicons dashicons-calendar-alt" style="font-size: 32px; width: 32px; height: 32px;"></span>
-							<?php echo esc_html( $mosque_name ); ?> — Prayer Timetables
+							<?php echo esc_html( $mosque_name ); ?> â€” Prayer Timetables
 							</h1>
 							<p class="mosque-admin-subtitle">
 								Managing <?php echo esc_html( (string) $default_year ); ?> Prayer Times
@@ -305,7 +305,7 @@ class MosqueTimetablePlugin {
 						<!-- Year Archive Browser Card -->
 						<div class="mt-control-card">
 							<div class="mt-card-header">
-								<h2>📅 Year Archive Browser</h2>
+								<h2>ðŸ“… Year Archive Browser</h2>
 							</div>
 							<div class="mt-card-body">
 								<p class="mt-card-description">Browse and manage prayer times across different years</p>
@@ -347,7 +347,7 @@ class MosqueTimetablePlugin {
 						<!-- Import Tools Card -->
 						<div class="mt-control-card">
 							<div class="mt-card-header">
-								<h2>📥 Import Tools</h2>
+								<h2>ðŸ“¥ Import Tools</h2>
 							</div>
 							<div class="mt-card-body">
 								<p class="mt-card-description">Import prayer times from various sources</p>
@@ -365,7 +365,7 @@ class MosqueTimetablePlugin {
 								</div>
 
 								<p class="mt-help-text">
-									💡 <strong>Need examples?</strong>
+									ðŸ’¡ <strong>Need examples?</strong>
 									<a href="admin.php?page=mosque-import-export">Download sample templates</a>
 								</p>
 							</div>
@@ -436,7 +436,7 @@ class MosqueTimetablePlugin {
 										data-year="<?php echo esc_attr( (string) $default_year ); ?>">
 									<span class="dashicons dashicons-update"></span> Recalculate Hijri
 								</button>
-								<span class="mt-help-text">Adjust Hijri dates by ±2 days if needed</span>
+								<span class="mt-help-text">Adjust Hijri dates by Â±2 days if needed</span>
 							</div>
 
 							<!-- PDF Upload Section -->
@@ -634,8 +634,8 @@ endforeach;
 					'generateMonthSuccess' => __( 'Month dates generated.', 'mosque-timetable' ),
 					'yearCreated'          => __( 'Year created.', 'mosque-timetable' ),
 					'yearCreateError'      => __( 'Failed to create year.', 'mosque-timetable' ),
-					'loadingYear'          => __( 'Loading data for year…', 'mosque-timetable' ),
-					'exportingCsv'         => __( 'CSV export started…', 'mosque-timetable' ),
+					'loadingYear'          => __( 'Loading data for yearâ€¦', 'mosque-timetable' ),
+					'exportingCsv'         => __( 'CSV export startedâ€¦', 'mosque-timetable' ),
 					'pdfUploadSuccess'     => __( 'PDF uploaded successfully!', 'mosque-timetable' ),
 					'pdfRemoveSuccess'     => __( 'PDF removed successfully!', 'mosque-timetable' ),
 					'pdfUploadError'       => __( 'PDF upload failed', 'mosque-timetable' ),
@@ -661,8 +661,8 @@ endforeach;
 		$this->register_appearance_settings_fields();
 	}
 
-	// ← next thing here must be ANOTHER method of the class,.
-	// e.g. private function register_mosque_settings_fields() { … }.
+	// â† next thing here must be ANOTHER method of the class,.
+	// e.g. private function register_mosque_settings_fields() { â€¦ }.
 	// Do NOT put global functions here.
 
 	/**
@@ -833,7 +833,7 @@ endforeach;
 							'10' => __( 'Qatar', 'mosque-timetable' ),
 							'11' => __( 'Majlis Ugama Islam Singapura, Singapore', 'mosque-timetable' ),
 							'12' => __( 'Union Organization islamic de France', 'mosque-timetable' ),
-							'13' => __( 'Diyanet İşleri Başkanlığı, Turkey', 'mosque-timetable' ),
+							'13' => __( 'Diyanet Ä°ÅŸleri BaÅŸkanlÄ±ÄŸÄ±, Turkey', 'mosque-timetable' ),
 							'14' => __( 'Spiritual Administration of Muslims of Russia', 'mosque-timetable' ),
 							'15' => __( 'Moonsighting Committee Worldwide', 'mosque-timetable' ),
 						),
@@ -842,11 +842,11 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_jamaat_offsets_message',
-						'label'             => __( 'Jamāʿah Time Offsets', 'mosque-timetable' ),
+						'label'             => __( 'JamÄÊ¿ah Time Offsets', 'mosque-timetable' ),
 						'name'              => '',
 						'type'              => 'message',
 						'instructions'      => '',
-						'message'           => __( 'Set how many minutes after the start time your mosque holds Jamāʿah (congregation). For example, if Zuhr starts at 12:00 and Jamāʿah is at 12:15, enter 15 minutes.', 'mosque-timetable' ),
+						'message'           => __( 'Set how many minutes after the start time your mosque holds JamÄÊ¿ah (congregation). For example, if Zuhr starts at 12:00 and JamÄÊ¿ah is at 12:15, enter 15 minutes.', 'mosque-timetable' ),
 						'conditional_logic' => array(
 							array(
 								array(
@@ -859,10 +859,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_fajr_jamaat_offset',
-						'label'             => __( 'Fajr Jamāʿah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Fajr JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'fajr_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Fajr start time for Jamāʿah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Fajr start time for JamÄÊ¿ah', 'mosque-timetable' ),
 						'default_value'     => 10,
 						'min'               => 0,
 						'max'               => 60,
@@ -879,10 +879,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_zuhr_jamaat_offset',
-						'label'             => __( 'Zuhr Jamāʿah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Zuhr JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'zuhr_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Zuhr start time for Jamāʿah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Zuhr start time for JamÄÊ¿ah', 'mosque-timetable' ),
 						'default_value'     => 15,
 						'min'               => 0,
 						'max'               => 60,
@@ -899,10 +899,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_asr_jamaat_offset',
-						'label'             => __( 'Asr Jamāʿah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Asr JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'asr_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Asr start time for Jamāʿah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Asr start time for JamÄÊ¿ah', 'mosque-timetable' ),
 						'default_value'     => 15,
 						'min'               => 0,
 						'max'               => 60,
@@ -919,10 +919,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_maghrib_jamaat_offset',
-						'label'             => __( 'Maghrib Jamāʿah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Maghrib JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'maghrib_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Maghrib start time for Jamāʿah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Maghrib start time for JamÄÊ¿ah', 'mosque-timetable' ),
 						'default_value'     => 5,
 						'min'               => 0,
 						'max'               => 30,
@@ -939,10 +939,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_isha_jamaat_offset',
-						'label'             => __( 'Isha Jamāʿah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Isha JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'isha_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Isha start time for Jamāʿah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Isha start time for JamÄÊ¿ah', 'mosque-timetable' ),
 						'default_value'     => 15,
 						'min'               => 0,
 						'max'               => 60,
@@ -962,7 +962,7 @@ endforeach;
 						'label'        => __( 'Terminology Overrides', 'mosque-timetable' ),
 						'name'         => 'terminology_overrides',
 						'type'         => 'repeater',
-						'instructions' => __( 'Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque" → "Masjid", "Zuhr" → "Dhuhr", "Maghrib" → "Maghreb".', 'mosque-timetable' ),
+						'instructions' => __( 'Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque" â†’ "Masjid", "Zuhr" â†’ "Dhuhr", "Maghrib" â†’ "Maghreb".', 'mosque-timetable' ),
 						'required'     => 0,
 						'layout'       => 'table',
 						'button_label' => __( 'Add Override', 'mosque-timetable' ),
@@ -1835,7 +1835,7 @@ endforeach;
 		add_submenu_page(
 			'mosque-main',
 			'Debug Timetables',
-			'🔧 Debug',
+			'ðŸ”§ Debug',
 			'edit_posts',
 			'mosque-debug',
 			array( $this, 'render_debug_page' )
@@ -1887,25 +1887,25 @@ endforeach;
 
 					<div class="mosque-quick-actions">
 						<div class="action-card">
-							<h3>⚙️ Quick Setup</h3>
+							<h3>âš™ï¸ Quick Setup</h3>
 							<p>Configure your mosque details and select which months you need.</p>
 							<a href="admin.php?page=mosque-settings" class="button button-primary">Configure Settings</a>
 						</div>
 
 						<div class="action-card">
-							<h3>📅 Manage Timetables</h3>
+							<h3>ðŸ“… Manage Timetables</h3>
 							<p>Add and edit prayer times for <?php echo esc_html( (string) $default_year ); ?>. <?php echo count( $available_months ); ?> months configured.</p>
 							<a href="admin.php?page=mosque-timetables" class="button button-primary">Edit Timetables</a>
 						</div>
 
 						<div class="action-card">
-							<h3>🎨 Customize Look</h3>
+							<h3>ðŸŽ¨ Customize Look</h3>
 							<p>Change colors, enable PWA features, and customize the appearance.</p>
 							<a href="admin.php?page=mosque-appearance" class="button">Customize Appearance</a>
 						</div>
 
 						<div class="action-card">
-							<h3>📥📤 Import/Export</h3>
+							<h3>ðŸ“¥ðŸ“¤ Import/Export</h3>
 							<p>Import CSV data or export calendars for sharing.</p>
 							<a href="admin.php?page=mosque-import-export" class="button">Import/Export Tools</a>
 						</div>
@@ -1917,8 +1917,8 @@ endforeach;
 							<li><strong>Mosque:</strong> <?php echo esc_html( $mosque_name ); ?></li>
 							<li><strong>Current Year:</strong> <?php echo esc_html( (string) $default_year ); ?></li>
 							<li><strong>Active Months:</strong> <?php echo esc_html( (string) count( $available_months ) ); ?>/12</li>
-							<li><strong>ACF Pro:</strong> <?php echo function_exists( 'acf' ) ? '✅ Installed' : '❌ Missing'; ?></li>
-							<li><strong>PWA:</strong> <?php echo mt_get_option( 'enable_pwa', false ) ? '✅ Enabled' : '❌ Disabled'; ?></li>
+							<li><strong>ACF Pro:</strong> <?php echo function_exists( 'acf' ) ? 'âœ… Installed' : 'âŒ Missing'; ?></li>
+							<li><strong>PWA:</strong> <?php echo mt_get_option( 'enable_pwa', false ) ? 'âœ… Enabled' : 'âŒ Disabled'; ?></li>
 						</ul>
 					</div>
 
@@ -2062,7 +2062,7 @@ endforeach;
 			</style>
 
 			<div class="mosque-support-footer">
-				<h3>🤲 Supporting the Muslim Community</h3>
+				<h3>ðŸ¤² Supporting the Muslim Community</h3>
 				<p>We're dedicated to empowering mosques and Islamic centres worldwide with professional digital solutions. Our team provides comprehensive support for website development, digital marketing, and technology solutions to help strengthen your community's online presence.</p>
 				<p>Need assistance with your mosque's digital needs? We're here to help with everything from prayer time systems to complete website solutions.</p>
 				<p><strong>Contact us:</strong> <a href="mailto:ibraheem@mosquewebdesign.com">ibraheem@mosquewebdesign.com</a> | <a href="https://mosquewebdesign.com" target="_blank">mosquewebdesign.com</a></p>
@@ -2169,7 +2169,7 @@ endforeach;
 			$method = sanitize_text_field( wp_unslash( $_POST['calculation_method'] ) );
 			update_option( 'calculation_method', $method );
 		}
-		// Jamāʿah offsets.
+		// JamÄÊ¿ah offsets.
 		if ( isset( $_POST['fajr_jamaat_offset'] ) ) {
 			update_option( 'fajr_jamaat_offset', intval( wp_unslash( $_POST['fajr_jamaat_offset'] ) ) );
 		}
@@ -2381,13 +2381,13 @@ endforeach;
 				<tr>
 					<th><label>Mosque Address</label></th>
 					<td>
-						<div style="margin-bottom:15px"><label for="mosque_street_address" style="display:block;font-weight:600;margin-bottom:5px">Street Address</label><input type="text" id="mosque_street_address" name="mosque_street_address" value="<?php echo esc_attr( $street_address ); ?>" class="regular-text" placeholder="e.g., 123 High Street" style="margin-bottom:10px"/><label for="mosque_city" style="display:block;font-weight:600;margin-bottom:5px">City/Town</label><input type="text" id="mosque_city" name="mosque_city" value="<?php echo esc_attr( $city ); ?>" class="regular-text" placeholder="e.g., Birmingham" style="margin-bottom:10px"/><label for="mosque_postcode" style="display:block;font-weight:600;margin-bottom:5px">Postcode/ZIP</label><input type="text" id="mosque_postcode" name="mosque_postcode" value="<?php echo esc_attr( $postcode ); ?>" class="regular-text" placeholder="e.g., B11 4EA" style="margin-bottom:10px"/><label for="mosque_country" style="display:block;font-weight:600;margin-bottom:5px">Country</label><select id="mosque_country" name="mosque_country" class="regular-text" style="margin-bottom:10px"><option value="United Kingdom" <?php selected( $country, 'United Kingdom' ); ?>>United Kingdom</option><option value="United States" <?php selected( $country, 'United States' ); ?>>United States</option><option value="Canada" <?php selected( $country, 'Canada' ); ?>>Canada</option><option value="Australia" <?php selected( $country, 'Australia' ); ?>>Australia</option><option value="Pakistan" <?php selected( $country, 'Pakistan' ); ?>>Pakistan</option><option value="India" <?php selected( $country, 'India' ); ?>>India</option><option value="Bangladesh" <?php selected( $country, 'Bangladesh' ); ?>>Bangladesh</option><option value="South Africa" <?php selected( $country, 'South Africa' ); ?>>South Africa</option><option value="United Arab Emirates" <?php selected( $country, 'United Arab Emirates' ); ?>>United Arab Emirates</option><option value="Saudi Arabia" <?php selected( $country, 'Saudi Arabia' ); ?>>Saudi Arabia</option><option value="Malaysia" <?php selected( $country, 'Malaysia' ); ?>>Malaysia</option><option value="Indonesia" <?php selected( $country, 'Indonesia' ); ?>>Indonesia</option><option value="Turkey" <?php selected( $country, 'Turkey' ); ?>>Turkey</option><option value="Egypt" <?php selected( $country, 'Egypt' ); ?>>Egypt</option><option value="Morocco" <?php selected( $country, 'Morocco' ); ?>>Morocco</option><option value="Nigeria" <?php selected( $country, 'Nigeria' ); ?>>Nigeria</option><option value="Other" <?php selected( $country, 'Other' ); ?>>Other</option></select><div style="margin-top:15px"><button type="button" id="find-coordinates-btn" class="button button-primary" style="margin-bottom:10px"><span class="dashicons dashicons-location" style="margin-top:3px"></span> Find My Coordinates</button><span id="geocode-status" style="margin-left:10px;font-weight:600"></span></div></div><div style="background:#f0f0f1;padding:15px;border-radius:4px;border-left:4px solid #667eea"><label for="mosque_latitude" style="display:block;font-weight:600;margin-bottom:5px">Latitude</label><input type="text" id="mosque_latitude" name="mosque_latitude" value="<?php echo esc_attr( $latitude ); ?>" class="regular-text" placeholder="e.g., 52.4862" style="margin-bottom:10px"/><label for="mosque_longitude" style="display:block;font-weight:600;margin-bottom:5px">Longitude</label><input type="text" id="mosque_longitude" name="mosque_longitude" value="<?php echo esc_attr( $longitude ); ?>" class="regular-text" placeholder="e.g., -1.8904"/><p class="description" style="margin-top:10px"><strong>📍 Coordinates are used for automatic prayer time calculation.</strong><br>Click "Find My Coordinates" above to automatically populate these fields, or enter them manually.<br>Find coordinates at <a href="https://www.latlong.net/" target="_blank">latlong.net</a></p></div><input type="hidden" id="mosque_address" name="mosque_address" value="<?php echo esc_attr( $mosque_address ); ?>"/>
+						<div style="margin-bottom:15px"><label for="mosque_street_address" style="display:block;font-weight:600;margin-bottom:5px">Street Address</label><input type="text" id="mosque_street_address" name="mosque_street_address" value="<?php echo esc_attr( $street_address ); ?>" class="regular-text" placeholder="e.g., 123 High Street" style="margin-bottom:10px"/><label for="mosque_city" style="display:block;font-weight:600;margin-bottom:5px">City/Town</label><input type="text" id="mosque_city" name="mosque_city" value="<?php echo esc_attr( $city ); ?>" class="regular-text" placeholder="e.g., Birmingham" style="margin-bottom:10px"/><label for="mosque_postcode" style="display:block;font-weight:600;margin-bottom:5px">Postcode/ZIP</label><input type="text" id="mosque_postcode" name="mosque_postcode" value="<?php echo esc_attr( $postcode ); ?>" class="regular-text" placeholder="e.g., B11 4EA" style="margin-bottom:10px"/><label for="mosque_country" style="display:block;font-weight:600;margin-bottom:5px">Country</label><select id="mosque_country" name="mosque_country" class="regular-text" style="margin-bottom:10px"><option value="United Kingdom" <?php selected( $country, 'United Kingdom' ); ?>>United Kingdom</option><option value="United States" <?php selected( $country, 'United States' ); ?>>United States</option><option value="Canada" <?php selected( $country, 'Canada' ); ?>>Canada</option><option value="Australia" <?php selected( $country, 'Australia' ); ?>>Australia</option><option value="Pakistan" <?php selected( $country, 'Pakistan' ); ?>>Pakistan</option><option value="India" <?php selected( $country, 'India' ); ?>>India</option><option value="Bangladesh" <?php selected( $country, 'Bangladesh' ); ?>>Bangladesh</option><option value="South Africa" <?php selected( $country, 'South Africa' ); ?>>South Africa</option><option value="United Arab Emirates" <?php selected( $country, 'United Arab Emirates' ); ?>>United Arab Emirates</option><option value="Saudi Arabia" <?php selected( $country, 'Saudi Arabia' ); ?>>Saudi Arabia</option><option value="Malaysia" <?php selected( $country, 'Malaysia' ); ?>>Malaysia</option><option value="Indonesia" <?php selected( $country, 'Indonesia' ); ?>>Indonesia</option><option value="Turkey" <?php selected( $country, 'Turkey' ); ?>>Turkey</option><option value="Egypt" <?php selected( $country, 'Egypt' ); ?>>Egypt</option><option value="Morocco" <?php selected( $country, 'Morocco' ); ?>>Morocco</option><option value="Nigeria" <?php selected( $country, 'Nigeria' ); ?>>Nigeria</option><option value="Other" <?php selected( $country, 'Other' ); ?>>Other</option></select><div style="margin-top:15px"><button type="button" id="find-coordinates-btn" class="button button-primary" style="margin-bottom:10px"><span class="dashicons dashicons-location" style="margin-top:3px"></span> Find My Coordinates</button><span id="geocode-status" style="margin-left:10px;font-weight:600"></span></div></div><div style="background:#f0f0f1;padding:15px;border-radius:4px;border-left:4px solid #667eea"><label for="mosque_latitude" style="display:block;font-weight:600;margin-bottom:5px">Latitude</label><input type="text" id="mosque_latitude" name="mosque_latitude" value="<?php echo esc_attr( $latitude ); ?>" class="regular-text" placeholder="e.g., 52.4862" style="margin-bottom:10px"/><label for="mosque_longitude" style="display:block;font-weight:600;margin-bottom:5px">Longitude</label><input type="text" id="mosque_longitude" name="mosque_longitude" value="<?php echo esc_attr( $longitude ); ?>" class="regular-text" placeholder="e.g., -1.8904"/><p class="description" style="margin-top:10px"><strong>ðŸ“ Coordinates are used for automatic prayer time calculation.</strong><br>Click "Find My Coordinates" above to automatically populate these fields, or enter them manually.<br>Find coordinates at <a href="https://www.latlong.net/" target="_blank">latlong.net</a></p></div><input type="hidden" id="mosque_address" name="mosque_address" value="<?php echo esc_attr( $mosque_address ); ?>"/>
 					</td>
 				</tr>
 				<tr>
 					<th><label>Automatic Prayer Times</label></th>
 					<td>
-						<fieldset><label><input type="checkbox" name="enable_auto_times" value="1" <?php checked( $enable_auto_times, 1 ); ?>/> <strong>Enable automatic prayer time generation</strong></label><p class="description">When enabled, the "Generate Dates" button will automatically fetch prayer times from Aladhan API based on your mosque coordinates.</p><div style="margin-top:15px"><label for="calculation_method" style="display:block;font-weight:600;margin-bottom:5px">Calculation Method</label><select id="calculation_method" name="calculation_method" class="regular-text"><option value="0" <?php selected( $calculation_method, '0' ); ?>>Shia Ithna-Ansari</option><option value="1" <?php selected( $calculation_method, '1' ); ?>>University of Islamic Sciences, Karachi</option><option value="2" <?php selected( $calculation_method, '2' ); ?>>Islamic Society of North America (ISNA)</option><option value="3" <?php selected( $calculation_method, '3' ); ?>>Muslim World League (MWL)</option><option value="4" <?php selected( $calculation_method, '4' ); ?>>Umm Al-Qura University, Makkah</option><option value="5" <?php selected( $calculation_method, '5' ); ?>>Egyptian General Authority of Survey</option><option value="7" <?php selected( $calculation_method, '7' ); ?>>Institute of Geophysics, University of Tehran</option><option value="8" <?php selected( $calculation_method, '8' ); ?>>Gulf Region</option><option value="9" <?php selected( $calculation_method, '9' ); ?>>Kuwait</option><option value="10" <?php selected( $calculation_method, '10' ); ?>>Qatar</option><option value="11" <?php selected( $calculation_method, '11' ); ?>>Majlis Ugama Islam Singapura, Singapore</option><option value="12" <?php selected( $calculation_method, '12' ); ?>>Union Organization islamic de France</option><option value="13" <?php selected( $calculation_method, '13' ); ?>>Diyanet İşleri Başkanlığı, Turkey</option><option value="14" <?php selected( $calculation_method, '14' ); ?>>Spiritual Administration of Muslims of Russia</option></select><p class="description">Select the calculation method appropriate for your region.</p></div></fieldset>
+						<fieldset><label><input type="checkbox" name="enable_auto_times" value="1" <?php checked( $enable_auto_times, 1 ); ?>/> <strong>Enable automatic prayer time generation</strong></label><p class="description">When enabled, the "Generate Dates" button will automatically fetch prayer times from Aladhan API based on your mosque coordinates.</p><div style="margin-top:15px"><label for="calculation_method" style="display:block;font-weight:600;margin-bottom:5px">Calculation Method</label><select id="calculation_method" name="calculation_method" class="regular-text"><option value="0" <?php selected( $calculation_method, '0' ); ?>>Shia Ithna-Ansari</option><option value="1" <?php selected( $calculation_method, '1' ); ?>>University of Islamic Sciences, Karachi</option><option value="2" <?php selected( $calculation_method, '2' ); ?>>Islamic Society of North America (ISNA)</option><option value="3" <?php selected( $calculation_method, '3' ); ?>>Muslim World League (MWL)</option><option value="4" <?php selected( $calculation_method, '4' ); ?>>Umm Al-Qura University, Makkah</option><option value="5" <?php selected( $calculation_method, '5' ); ?>>Egyptian General Authority of Survey</option><option value="7" <?php selected( $calculation_method, '7' ); ?>>Institute of Geophysics, University of Tehran</option><option value="8" <?php selected( $calculation_method, '8' ); ?>>Gulf Region</option><option value="9" <?php selected( $calculation_method, '9' ); ?>>Kuwait</option><option value="10" <?php selected( $calculation_method, '10' ); ?>>Qatar</option><option value="11" <?php selected( $calculation_method, '11' ); ?>>Majlis Ugama Islam Singapura, Singapore</option><option value="12" <?php selected( $calculation_method, '12' ); ?>>Union Organization islamic de France</option><option value="13" <?php selected( $calculation_method, '13' ); ?>>Diyanet Ä°ÅŸleri BaÅŸkanlÄ±ÄŸÄ±, Turkey</option><option value="14" <?php selected( $calculation_method, '14' ); ?>>Spiritual Administration of Muslims of Russia</option></select><p class="description">Select the calculation method appropriate for your region.</p></div></fieldset>
 					</td>
 				</tr>
 				<tr>
@@ -2431,7 +2431,7 @@ endforeach;
 							?>
 								<div class="terminology-override-row" style="margin-bottom: 10px; display: flex; gap: 10px; align-items: center;">
 									<input type="text" name="terminology_overrides[<?php echo esc_attr( $index ); ?>][from]" value="<?php echo esc_attr( $override['from'] ?? '' ); ?>" placeholder="From (e.g., Mosque)" style="width: 150px;" />
-									<span>→</span>
+									<span>â†’</span>
 									<input type="text" name="terminology_overrides[<?php echo esc_attr( $index ); ?>][to]" value="<?php echo esc_attr( $override['to'] ?? '' ); ?>" placeholder="To (e.g., Masjid)" style="width: 150px;" />
 									<label>
 										<input type="checkbox" name="terminology_overrides[<?php echo esc_attr( $index ); ?>][enabled]" value="1" <?php checked( $override['enabled'] ?? 1, 1 ); ?> />
@@ -2442,7 +2442,7 @@ endforeach;
 							<?php endforeach; ?>
 						</div>
 						<button type="button" class="button" id="add-terminology-override">Add Override</button>
-						<p class="description">Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque" → "Masjid", "Zuhr" → "Dhuhr".</p>
+						<p class="description">Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque" â†’ "Masjid", "Zuhr" â†’ "Dhuhr".</p>
 						<script>
 							document.getElementById('add-terminology-override').addEventListener('click', function() {
 								const container = document.getElementById('terminology-overrides');
@@ -2452,7 +2452,7 @@ endforeach;
 								newRow.style.cssText = 'margin-bottom: 10px; display: flex; gap: 10px; align-items: center;';
 								newRow.innerHTML = `
 							<input type="text" name="terminology_overrides[${index}][from]" placeholder="From (e.g., Mosque)" style="width: 150px;" />
-							<span>→</span>
+							<span>â†’</span>
 							<input type="text" name="terminology_overrides[${index}][to]" placeholder="To (e.g., Masjid)" style="width: 150px;" />
 							<label>
 								<input type="checkbox" name="terminology_overrides[${index}][enabled]" value="1" checked />
@@ -2516,7 +2516,7 @@ endforeach;
 
 					// Validation.
 					if (!street && !city && !postcode) {
-						status.css('color', '#d63638').text('⚠️ Please enter at least street, city, or postcode');
+						status.css('color', '#d63638').text('âš ï¸ Please enter at least street, city, or postcode');
 						return;
 					}
 
@@ -2526,7 +2526,7 @@ endforeach;
 
 					// Show loading state.
 					button.prop('disabled', true);
-					status.css('color', '#667eea').html('<span class="dashicons dashicons-update-alt" style="animation: spin 1s linear infinite;"></span> Finding coordinates...');
+					status.css('color', '#0D7377').html('<span class="dashicons dashicons-update-alt" style="animation: spin 1s linear infinite;"></span> Finding coordinates...');
 
 					// Call Nominatim API (OpenStreetMap).
 					$.ajax({
@@ -2551,7 +2551,7 @@ endforeach;
 								$('#mosque_longitude').val(lon);
 
 								// Show success.
-								status.css('color', '#00a32a').html('✅ Coordinates found! <small>(' + lat + ', ' + lon + ')</small>');
+								status.css('color', '#00a32a').html('âœ… Coordinates found! <small>(' + lat + ', ' + lon + ')</small>');
 
 								// Highlight the coordinate fields briefly.
 								$('#mosque_latitude, #mosque_longitude').css({
@@ -2563,11 +2563,11 @@ endforeach;
 								}, 2000);
 
 							} else {
-								status.css('color', '#d63638').text('⚠️ No results found. Try a different address or enter coordinates manually.');
+								status.css('color', '#d63638').text('âš ï¸ No results found. Try a different address or enter coordinates manually.');
 							}
 						},
 						error: function() {
-							status.css('color', '#d63638').text('❌ Geocoding failed. Please check your internet connection or enter coordinates manually.');
+							status.css('color', '#d63638').text('âŒ Geocoding failed. Please check your internet connection or enter coordinates manually.');
 						},
 						complete: function() {
 							button.prop('disabled', false);
@@ -2688,24 +2688,24 @@ endforeach;
 
 				<div class="mosque-import-export-container">
 					<div class="card">
-						<h2>📥 Import Prayer Times</h2>
+						<h2>ðŸ“¥ Import Prayer Times</h2>
 						<p>Import prayer times from various sources:</p>
 						<ul>
-							<li>📄 <strong>CSV Files</strong> - Standard comma-separated values</li>
-							<li>📊 <strong>XLSX Files</strong> - Excel spreadsheets</li>
-							<li>📋 <strong>Copy/Paste</strong> - Direct from Google Sheets</li>
+							<li>ðŸ“„ <strong>CSV Files</strong> - Standard comma-separated values</li>
+							<li>ðŸ“Š <strong>XLSX Files</strong> - Excel spreadsheets</li>
+							<li>ðŸ“‹ <strong>Copy/Paste</strong> - Direct from Google Sheets</li>
 						</ul>
 
-						<h3>📋 Sample Templates</h3>
+						<h3>ðŸ“‹ Sample Templates</h3>
 						<p>Download example files to see the correct format for your prayer time data:</p>
 						<div class="sample-downloads">
 							<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=download_sample_csv&nonce=' . wp_create_nonce( 'mosque_sample_download' ) ) ); ?>" // Escape output.
 								class="button button-secondary" target="_blank">
-								📄 Download Sample CSV
+								ðŸ“„ Download Sample CSV
 							</a>
 							<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=download_sample_xlsx&nonce=' . wp_create_nonce( 'mosque_sample_download' ) ) ); ?>" // Escape output.
 								class="button button-secondary" target="_blank">
-								📊 Download Sample XLSX
+								ðŸ“Š Download Sample XLSX
 							</a>
 						</div>
 						<p class="description">These templates show the exact column headers and data format required for successful imports. Fill in your mosque's prayer times using the same structure.</p>
@@ -2714,10 +2714,10 @@ endforeach;
 					</div>
 
 					<div class="card">
-						<h2>📤 Export Prayer Times</h2>
+						<h2>ðŸ“¤ Export Prayer Times</h2>
 						<p>Export your prayer times in various formats:</p>
 
-						<h3>📅 ICS Calendar Export</h3>
+						<h3>ðŸ“… ICS Calendar Export</h3>
 						<form method="post" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>"> <!-- Escape output -->
 							<input type="hidden" name="action" value="export_ics_calendar">
 							<input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>"> <!-- Escape output -->
@@ -2788,37 +2788,37 @@ endforeach;
 								</tr>
 							</table>
 
-							<p><input type="submit" class="button button-primary" value="📅 Export ICS Calendar"></p>
+							<p><input type="submit" class="button button-primary" value="ðŸ“… Export ICS Calendar"></p>
 						</form>
 
-						<h3>📊 CSV Export</h3>
+						<h3>ðŸ“Š CSV Export</h3>
 						<p>Export prayer times as CSV for use in spreadsheets.</p>
-						<button class="button" id="export-csv-btn">📊 Export CSV</button>
+						<button class="button" id="export-csv-btn">ðŸ“Š Export CSV</button>
 
-						<h3>🔗 Auto-Generated Calendar Subscription</h3>
+						<h3>ðŸ”— Auto-Generated Calendar Subscription</h3>
 						<?php $auto_calendar_url = mt_get_subscribe_url(); ?>
 						<p><strong>Your automatic prayer calendar URL:</strong><br>
 							<code><?php echo esc_url( $auto_calendar_url ); ?></code>
 						</p>
-						<p><a href="<?php echo esc_url( $auto_calendar_url ); ?>" target="_blank" class="button">📅 Download Prayer Calendar</a></p>
+						<p><a href="<?php echo esc_url( $auto_calendar_url ); ?>" target="_blank" class="button">ðŸ“… Download Prayer Calendar</a></p>
 						<p class="description">This calendar is automatically generated from your prayer timetables and updates whenever you change prayer times. Share this URL with your congregation so they can subscribe to prayer times in their calendar apps.</p>
 					</div>
 
 					<div class="card">
-						<h2>🔄 Data Management</h2>
+						<h2>ðŸ”„ Data Management</h2>
 						<p>Manage your prayer time data:</p>
 
-						<h3>🗑️ Clear All Data</h3>
+						<h3>ðŸ—‘ï¸ Clear All Data</h3>
 						<p><strong>Warning:</strong> This will remove all prayer times from all months.</p>
-						<button class="button button-secondary" id="clear-all-data-btn" onclick="if(confirm('Are you sure you want to delete ALL prayer time data? This cannot be undone!')) { clearAllData(); }">🗑️ Clear All Prayer Times</button>
+						<button class="button button-secondary" id="clear-all-data-btn" onclick="if(confirm('Are you sure you want to delete ALL prayer time data? This cannot be undone!')) { clearAllData(); }">ðŸ—‘ï¸ Clear All Prayer Times</button>
 
-						<h3>🔄 Reset to Empty Structure</h3>
+						<h3>ðŸ”„ Reset to Empty Structure</h3>
 						<p>Keep the date structure but remove all prayer times.</p>
-						<button class="button" id="reset-structure-btn" onclick="if(confirm('Reset all months to empty date structure?')) { resetToEmptyStructure(); }">🔄 Reset Prayer Times</button>
+						<button class="button" id="reset-structure-btn" onclick="if(confirm('Reset all months to empty date structure?')) { resetToEmptyStructure(); }">ðŸ”„ Reset Prayer Times</button>
 
-						<h3>📅 Regenerate Dates</h3>
+						<h3>ðŸ“… Regenerate Dates</h3>
 						<p>Regenerate all dates based on current default year setting.</p>
-						<button class="button" id="regenerate-dates-btn" onclick="if(confirm('Regenerate all dates? This will update Hijri dates too.')) { regenerateAllDates(); }">📅 Regenerate All Dates</button>
+						<button class="button" id="regenerate-dates-btn" onclick="if(confirm('Regenerate all dates? This will update Hijri dates too.')) { regenerateAllDates(); }">ðŸ“… Regenerate All Dates</button>
 					</div>
 				</div>
 			</div>
@@ -2925,9 +2925,9 @@ endforeach;
 						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output.
 					}, function(response) {
 						if (response.success) {
-							alert('✅ All prayer data cleared successfully!');
+							alert('âœ… All prayer data cleared successfully!');
 						} else {
-							alert('❌ Error: ' + response.data);
+							alert('âŒ Error: ' + response.data);
 						}
 					});
 				}
@@ -2938,9 +2938,9 @@ endforeach;
 						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output.
 					}, function(response) {
 						if (response.success) {
-							alert('✅ Prayer times reset to empty structure!');
+							alert('âœ… Prayer times reset to empty structure!');
 						} else {
-							alert('❌ Error: ' + response.data);
+							alert('âŒ Error: ' + response.data);
 						}
 					});
 				}
@@ -2951,9 +2951,9 @@ endforeach;
 						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output.
 					}, function(response) {
 						if (response.success) {
-							alert('✅ All dates regenerated successfully!');
+							alert('âœ… All dates regenerated successfully!');
 						} else {
-							alert('❌ Error: ' + response.data);
+							alert('âŒ Error: ' + response.data);
 						}
 					});
 				}
@@ -2977,7 +2977,7 @@ endforeach;
 	public function render_debug_page() {
 		?>
 			<div class="wrap">
-				<h1>🔧 Timetables Debug Report</h1>
+				<h1>ðŸ”§ Timetables Debug Report</h1>
 
 				<div style="background: #f0f8ff; padding: 15px; margin: 10px 0; border-left: 4px solid #0073aa;">
 					<h3>Quick Test: Go to Timetables Page</h3>
@@ -3000,9 +3000,9 @@ endforeach;
 
 			foreach ( $critical_ajax_actions as $action => $description ) {
 				if ( has_action( "wp_ajax_$action" ) ) {
-					echo '<p style="color: green;">✅ ' . esc_html( $description ) . ' (' . esc_html( $action ) . ')</p>'; // Escape output.
+					echo '<p style="color: green;">âœ… ' . esc_html( $description ) . ' (' . esc_html( $action ) . ')</p>'; // Escape output.
 				} else {
-					echo '<p style="color: red;">❌ ' . esc_html( $description ) . ' (' . esc_html( $action ) . ') - MISSING!</p>'; // Escape output.
+					echo '<p style="color: red;">âŒ ' . esc_html( $description ) . ' (' . esc_html( $action ) . ') - MISSING!</p>'; // Escape output.
 				}
 			}
 			echo '</div>';
@@ -3013,16 +3013,16 @@ endforeach;
 
 			$admin_js_file = MOSQUE_TIMETABLE_PLUGIN_DIR . 'assets/mosque-timetable-admin.js';
 			if ( file_exists( $admin_js_file ) ) {
-				echo '<p style="color: green;">✅ Admin JS file exists (' . number_format( filesize( $admin_js_file ) ) . ' bytes)</p>';
+				echo '<p style="color: green;">âœ… Admin JS file exists (' . number_format( filesize( $admin_js_file ) ) . ' bytes)</p>';
 			} else {
-				echo '<p style="color: red;">❌ Admin JS file missing</p>';
+				echo '<p style="color: red;">âŒ Admin JS file missing</p>';
 			}
 
 			$admin_css_file = MOSQUE_TIMETABLE_PLUGIN_DIR . 'assets/mosque-timetable-admin.css';
 			if ( file_exists( $admin_css_file ) ) {
-				echo '<p style="color: green;">✅ Admin CSS file exists (' . number_format( filesize( $admin_css_file ) ) . ' bytes)</p>';
+				echo '<p style="color: green;">âœ… Admin CSS file exists (' . number_format( filesize( $admin_css_file ) ) . ' bytes)</p>';
 			} else {
-				echo '<p style="color: red;">❌ Admin CSS file missing</p>';
+				echo '<p style="color: red;">âŒ Admin CSS file missing</p>';
 			}
 			echo '</div>';
 
@@ -3050,9 +3050,9 @@ endforeach;
 				$month_data = get_field( $field_name, 'option' );
 
 				if ( $month_data && is_array( $month_data ) ) {
-					echo '<p style="color: green;">✅ ' . esc_html( $months[ $month - 1 ] ) . ': ' . esc_html( count( $month_data ) ) . ' days</p>'; // Escape output.
+					echo '<p style="color: green;">âœ… ' . esc_html( $months[ $month - 1 ] ) . ': ' . esc_html( count( $month_data ) ) . ' days</p>'; // Escape output.
 				} else {
-					echo '<p style="color: orange;">⚠️ ' . esc_html( $months[ $month - 1 ] ) . ': No data</p>'; // Escape output.
+					echo '<p style="color: orange;">âš ï¸ ' . esc_html( $months[ $month - 1 ] ) . ': No data</p>'; // Escape output.
 				}
 			}
 			echo '</div>';
@@ -3066,15 +3066,15 @@ endforeach;
 
 // Check main objects.
 if (typeof MosqueTimetableAdmin !== 'undefined') {
-	console.log('✅ MosqueTimetableAdmin exists:', MosqueTimetableAdmin);
+	console.log('âœ… MosqueTimetableAdmin exists:', MosqueTimetableAdmin);
 } else {
-	console.error('❌ MosqueTimetableAdmin missing');
+	console.error('âŒ MosqueTimetableAdmin missing');
 }
 
 if (typeof mosqueTimetableAdmin !== 'undefined') {
-	console.log('✅ mosqueTimetableAdmin config:', mosqueTimetableAdmin);
+	console.log('âœ… mosqueTimetableAdmin config:', mosqueTimetableAdmin);
 } else {
-	console.error('❌ mosqueTimetableAdmin config missing');
+	console.error('âŒ mosqueTimetableAdmin config missing');
 }
 
 // Test AJAX.
@@ -3085,9 +3085,9 @@ if (typeof jQuery !== 'undefined' && mosqueTimetableAdmin?.ajaxUrl) {
 		year: 2024,
 		nonce: mosqueTimetableAdmin.nonce
 	}).done(function(response) {
-		console.log('✅ AJAX test successful:', response);
+		console.log('âœ… AJAX test successful:', response);
 	}).fail(function(xhr) {
-		console.error('❌ AJAX test failed:', xhr.responseText);
+		console.error('âŒ AJAX test failed:', xhr.responseText);
 	});
 }
 
@@ -3106,7 +3106,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 				<div style="background: #fff3cd; padding: 15px; margin: 10px 0; border-left: 4px solid #ffc107;">
 					<h3>What to Do Next</h3>
-					<p><strong>If you see red ❌ errors above:</strong></p>
+					<p><strong>If you see red âŒ errors above:</strong></p>
 					<ul>
 						<li>Missing AJAX actions = Backend problem</li>
 						<li>Missing asset files = File upload problem</li>
@@ -3610,7 +3610,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$mosque_name = get_field( 'mosque_name', 'option' ) ?: 'Local Mosque';
 
 		// Get widget customization settings.
-		$widget_bg_color   = get_field( 'widget_bg_color', 'option' ) ?: '#667eea';
+		$widget_bg_color   = get_field( 'widget_bg_color', 'option' ) ?: '#0D7377';
 		$widget_text_color = get_field( 'widget_text_color', 'option' ) ?: '#ffffff';
 
 		$countdown_data = array(
@@ -3767,7 +3767,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	public function admin_footer_credit( $text ) {
 		$screen = get_current_screen();
 		if ( strpos( $screen->base, 'mosque' ) !== false ) {
-			return '<em>🕌 Mosque Prayer Timetable System v3.0 - Enhanced with <a href="https://claude.ai/code" target="_blank">Claude Code</a></em>';
+			return '<em>ðŸ•Œ Mosque Prayer Timetable System v3.0 - Enhanced with <a href="https://claude.ai/code" target="_blank">Claude Code</a></em>';
 		}
 		return $text;
 	}
@@ -3781,7 +3781,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			has_shortcode( $post->post_content, 'todays_prayers' ) ||
 			has_shortcode( $post->post_content, 'prayer_countdown' ) ) ) {
 			echo '<div style="text-align: center; margin: 20px 0; font-size: 0.8em; color: #666;">
-                    <em>Prayer times powered by <a href="https://claude.ai/code" target="_blank" style="color: #667eea;">Claude Code</a></em>
+                    <em>Prayer times powered by <a href="https://claude.ai/code" target="_blank" style="color: #0D7377;">Claude Code</a></em>
                   </div>';
 		}
 	}
@@ -4055,7 +4055,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					bottom: 20px;
 					left: 50%;
 					transform: translateX(-50%);
-					background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+					background: linear-gradient(135deg, #0D7377 0%, #1A3A5C 100%);
 					color: white;
 					padding: 16px 20px;
 					border-radius: 16px;
@@ -4127,7 +4127,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 				.mosque-pwa-banner button.primary {
 					background: white;
-					color: #667eea;
+					color: #0D7377;
 				}
 
 				.mosque-pwa-banner button.primary:hover {
@@ -4177,7 +4177,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						const banner = document.createElement('div');
 						banner.className = 'mosque-pwa-banner';
 						banner.innerHTML = `
-						<div class="icon">🕌</div>
+						<div class="icon">ðŸ•Œ</div>
 						<div class="content">
 							<div class="title">Install Prayer Times App</div>
 							<div class="subtitle">Get quick access to prayer times offline</div>
@@ -4235,7 +4235,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							const fallbackBanner = document.createElement('div');
 							fallbackBanner.className = 'mosque-pwa-banner';
 							fallbackBanner.innerHTML = `
-							<div class="icon">🕌</div>
+							<div class="icon">ðŸ•Œ</div>
 							<div class="content">
 								<div class="title">Add to Home Screen</div>
 								<div class="subtitle">Access prayer times quickly from your home screen</div>
@@ -5175,20 +5175,27 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 				<!-- PWA Meta Tags -->
 				<link rel="manifest" href="<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/manifest.json' ); ?>"> <!-- Escape output -->
-				<meta name="theme-color" content="#667eea">
+				<meta name="theme-color" content="#0D7377">
 				<meta name="apple-mobile-web-app-capable" content="yes">
 				<meta name="apple-mobile-web-app-status-bar-style" content="default">
 				<meta name="apple-mobile-web-app-title" content="<?php echo esc_attr( $today_label ); ?>">
+				<link rel="preconnect" href="https://fonts.googleapis.com">
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+				<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=Space+Mono&display=swap" rel="stylesheet">
 
 				<style>
 					:root {
-						--mosque-primary: #667eea;
-						--mosque-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-						--text-primary: #1f2937;
-						--text-secondary: #6b7280;
-						--bg-card: #ffffff;
-						--border-color: #e5e7eb;
-						--shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+						--mosque-primary:       #0D7377;
+						--mosque-primary-dark:  #0a5d61;
+						--mosque-secondary:     #C5A55A;
+						--mosque-accent:        #1A3A5C;
+						--mosque-gradient:      linear-gradient(135deg, #0D7377 0%, #1A3A5C 100%);
+						--text-primary:         #1A2332;
+						--text-secondary:       #5A6978;
+						--bg-card:              #ffffff;
+						--bg-cream:             #F5F1EB;
+						--border-color:         #d8d2c8;
+						--shadow:               0 4px 20px rgba(13, 115, 119, 0.15);
 					}
 
 					* {
@@ -5198,7 +5205,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					}
 
 					body {
-						font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+						font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 						background: var(--mosque-gradient);
 						min-height: 100vh;
 						display: flex;
@@ -5292,7 +5299,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					}
 
 					.prayer-card.next {
-						background: rgba(102, 126, 234, 0.1);
+						background: rgba(13, 115, 119, 0.1);
 						border-color: var(--mosque-primary);
 					}
 
@@ -5341,12 +5348,12 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					.btn-primary {
 						background: var(--mosque-gradient);
 						color: white;
-						box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+						box-shadow: 0 4px 15px rgba(13, 115, 119, 0.3);
 					}
 
 					.btn-primary:hover {
 						transform: translateY(-2px);
-						box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+						box-shadow: 0 6px 20px rgba(13, 115, 119, 0.4);
 					}
 
 					.btn-secondary {
@@ -5402,7 +5409,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 			<body>
 				<div class="today-container">
-					<div class="mosque-icon">🕌</div>
+					<div class="mosque-icon">ðŸ•Œ</div>
 					<h1><?php echo esc_html( $page_title . ' ' . $today_label ); ?></h1>
 
 					<div class="date-info">
@@ -5466,7 +5473,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 									<h3><?php echo esc_html( $prayer_labels[ $prayer ] ); ?></h3>
 									<div class="time"><?php echo esc_html( $times['start'] ?: 'N/A' ); ?></div>
 									<?php if ( $times['jamaah'] ) : ?>
-										<div class="jamaah">Jamāʿah: <?php echo esc_html( $times['jamaah'] ); ?></div>
+										<div class="jamaah">JamÄÊ¿ah: <?php echo esc_html( $times['jamaah'] ); ?></div>
 									<?php endif; ?>
 								</div>
 							<?php endforeach; ?>
@@ -5475,10 +5482,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 					<div class="actions">
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-primary">
-							📅 Full Timetable
+							ðŸ“… Full Timetable
 						</a>
 						<a href="<?php echo esc_url( home_url( '/prayer-times/calendar.ics' ) ); ?>" class="btn btn-secondary">
-							📱 Subscribe
+							ðŸ“± Subscribe
 						</a>
 					</div>
 				</div>
@@ -5564,12 +5571,12 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 				<!-- PWA Meta Tags -->
 				<link rel="manifest" href="<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/manifest.json' ); ?>"> <!-- Escape output -->
-				<meta name="theme-color" content="#667eea">
+				<meta name="theme-color" content="#0D7377">
 
 				<style>
 					:root {
-						--mosque-primary: #667eea;
-						--mosque-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+						--mosque-primary: #0D7377;
+						--mosque-gradient: linear-gradient(135deg, #0D7377 0%, #1A3A5C 100%);
 						--text-primary: #1f2937;
 						--text-secondary: #6b7280;
 						--bg-card: #ffffff;
@@ -5676,7 +5683,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 					.btn:hover {
 						transform: translateY(-1px);
-						box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+						box-shadow: 0 4px 12px rgba(13, 115, 119, 0.4);
 					}
 
 					.btn-secondary {
@@ -5724,7 +5731,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						<h2>Current Year - <?php echo esc_html( (string) $current_year ); ?></h2>
 						<p>View this year's complete prayer timetable with monthly breakdowns.</p>
 						<a href="<?php echo esc_url( home_url( "/prayer-times/{$current_year}/" ) ); ?>" class="btn">
-							📅 View <?php echo esc_html( (string) $current_year ); ?> Timetable
+							ðŸ“… View <?php echo esc_html( (string) $current_year ); ?> Timetable
 						</a>
 					</div>
 
@@ -5746,10 +5753,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 					<div class="navigation">
 						<a href="<?php echo esc_url( home_url( '/today' ) ); ?>" class="btn">
-							📱 Today's Prayers
+							ðŸ“± Today's Prayers
 						</a>
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-secondary">
-							🏠 Home
+							ðŸ  Home
 						</a>
 					</div>
 				</div>
@@ -5811,7 +5818,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				<title><?php echo esc_html( $mosque_name ); ?> - Prayer Times</title>
 			<?php wp_head(); ?>
 				<style>
-					:root{--mosque-primary:#667eea;--mosque-gradient:linear-gradient(135deg,#667eea 0%,#764ba2 100%);--text-primary:#2c3e50;--text-secondary:#6c757d;--border-color:#ddd}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:var(--text-primary);background:#f8f9fa}.header{background:var(--mosque-gradient);color:white;padding:2rem 1rem;text-align:center;box-shadow:0 4px 12px rgba(102,126,234,0.2)}.header h1{font-size:2.5rem;margin-bottom:0.5rem}.header p{font-size:1.2rem;opacity:0.95}.container{max-width:1200px;margin:2rem auto;padding:0 1rem}.controls{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:2rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}.controls-left{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.controls-left label{font-weight:600;color:var(--text-primary)}.controls-left select{padding:0.5rem 1rem;border:2px solid var(--border-color);border-radius:8px;font-size:1rem;cursor:pointer;transition:border-color 0.2s}.controls-left select:focus{outline:none;border-color:var(--mosque-primary)}.controls-right{display:flex;gap:0.75rem;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;text-decoration:none;cursor:pointer;transition:all 0.2s}.btn-primary{background:var(--mosque-gradient);color:white;box-shadow:0 2px 8px rgba(102,126,234,0.3)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(102,126,234,0.4)}.btn-secondary{background:white;color:var(--mosque-primary);border:2px solid var(--mosque-primary)}.btn-secondary:hover{background:var(--mosque-primary);color:white}.timetable-wrapper{background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden}.timetable-header{background:var(--mosque-gradient);color:white;padding:1.5rem;text-align:center}.timetable-header h2{font-size:1.8rem;margin:0}.footer{text-align:center;padding:2rem 1rem;color:var(--text-secondary)}.footer a{color:var(--mosque-primary);text-decoration:none;font-weight:600}.footer a:hover{text-decoration:underline}@media (max-width:768px){.header h1{font-size:1.8rem}.controls{flex-direction:column;align-items:stretch}.controls-left,.controls-right{width:100%;justify-content:center}.controls-right{flex-direction:column}.btn{width:100%;justify-content:center}}
+					:root{--mosque-primary:#0D7377;--mosque-gradient:linear-gradient(135deg,#0D7377 0%,#1A3A5C 100%);--text-primary:#2c3e50;--text-secondary:#6c757d;--border-color:#ddd}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:var(--text-primary);background:#f8f9fa}.header{background:var(--mosque-gradient);color:white;padding:2rem 1rem;text-align:center;box-shadow:0 4px 12px rgba(102,126,234,0.2)}.header h1{font-size:2.5rem;margin-bottom:0.5rem}.header p{font-size:1.2rem;opacity:0.95}.container{max-width:1200px;margin:2rem auto;padding:0 1rem}.controls{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:2rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}.controls-left{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.controls-left label{font-weight:600;color:var(--text-primary)}.controls-left select{padding:0.5rem 1rem;border:2px solid var(--border-color);border-radius:8px;font-size:1rem;cursor:pointer;transition:border-color 0.2s}.controls-left select:focus{outline:none;border-color:var(--mosque-primary)}.controls-right{display:flex;gap:0.75rem;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;text-decoration:none;cursor:pointer;transition:all 0.2s}.btn-primary{background:var(--mosque-gradient);color:white;box-shadow:0 2px 8px rgba(102,126,234,0.3)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(102,126,234,0.4)}.btn-secondary{background:white;color:var(--mosque-primary);border:2px solid var(--mosque-primary)}.btn-secondary:hover{background:var(--mosque-primary);color:white}.timetable-wrapper{background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden}.timetable-header{background:var(--mosque-gradient);color:white;padding:1.5rem;text-align:center}.timetable-header h2{font-size:1.8rem;margin:0}.footer{text-align:center;padding:2rem 1rem;color:var(--text-secondary)}.footer a{color:var(--mosque-primary);text-decoration:none;font-weight:600}.footer a:hover{text-decoration:underline}@media (max-width:768px){.header h1{font-size:1.8rem}.controls{flex-direction:column;align-items:stretch}.controls-left,.controls-right{width:100%;justify-content:center}.controls-right{flex-direction:column}.btn{width:100%;justify-content:center}}
 				</style>
 			</head>
 			<body>
@@ -5833,9 +5840,9 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							</select>
 						</div>
 						<div class="controls-right">
-							<a href="#" id="download-btn" class="btn btn-primary">📥 Download Timetable</a>
-							<a href="<?php echo esc_url( home_url( '/prayer-times/calendar.ics' ) ); ?>" class="btn btn-secondary">📅 Subscribe to Calendar</a>
-							<a href="#" id="add-to-calendar-btn" class="btn btn-secondary">➕ Add to Calendar</a>
+							<a href="#" id="download-btn" class="btn btn-primary">ðŸ“¥ Download Timetable</a>
+							<a href="<?php echo esc_url( home_url( '/prayer-times/calendar.ics' ) ); ?>" class="btn btn-secondary">ðŸ“… Subscribe to Calendar</a>
+							<a href="#" id="add-to-calendar-btn" class="btn btn-secondary">âž• Add to Calendar</a>
 						</div>
 					</div>
 					<div class="timetable-wrapper">
@@ -5890,12 +5897,12 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 				<!-- PWA Meta Tags -->
 				<link rel="manifest" href="<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/manifest.json' ); ?>"> <!-- Escape output -->
-				<meta name="theme-color" content="#667eea">
+				<meta name="theme-color" content="#0D7377">
 
 				<style>
 					:root {
-						--mosque-primary: #667eea;
-						--mosque-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+						--mosque-primary: #0D7377;
+						--mosque-gradient: linear-gradient(135deg, #0D7377 0%, #1A3A5C 100%);
 						--text-primary: #1f2937;
 						--text-secondary: #6b7280;
 						--bg-card: #ffffff;
@@ -6002,7 +6009,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 					.btn:hover {
 						transform: translateY(-1px);
-						box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+						box-shadow: 0 4px 12px rgba(13, 115, 119, 0.4);
 					}
 
 					.btn:disabled,
@@ -6109,7 +6116,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 										<div class="month-card <?php echo $has_data ? 'available' : 'unavailable'; ?>">
 											<h3><?php echo esc_html( $month_name ); ?></h3>
 											<p class="status">
-											<?php echo $has_data ? '✅ Available' : '⏳ No data'; ?>
+											<?php echo $has_data ? 'âœ… Available' : 'â³ No data'; ?>
 											</p>
 										<?php if ( $has_data ) : ?>
 												<a href="<?php echo esc_url( home_url( "/prayer-times/{$year}/{$month_slug}/" ) ); ?>" class="btn">
@@ -6126,13 +6133,13 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 								<div class="navigation">
 									<a href="<?php echo esc_url( home_url( '/prayer-times/' ) ); ?>" class="btn btn-secondary">
-										📚 All Years
+										ðŸ“š All Years
 									</a>
 									<a href="<?php echo esc_url( home_url( '/today' ) ); ?>" class="btn">
-										📱 Today's Prayers
+										ðŸ“± Today's Prayers
 									</a>
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-secondary">
-										🏠 Home
+										ðŸ  Home
 									</a>
 								</div>
 				</div>
@@ -6215,8 +6222,8 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			<?php wp_head(); ?>
 				<style>
 					:root {
-						--mosque-primary: #667eea;
-						--mosque-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+						--mosque-primary: #0D7377;
+						--mosque-gradient: linear-gradient(135deg, #0D7377 0%, #1A3A5C 100%);
 						--text-primary: #2c3e50;
 						--text-secondary: #6c757d;
 						--border-color: #ddd;
@@ -6240,7 +6247,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						color: white;
 						padding: 2rem 1rem;
 						text-align: center;
-						box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+						box-shadow: 0 4px 12px rgba(13, 115, 119, 0.2);
 					}
 
 					.header h1 {
@@ -6303,7 +6310,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 					.btn:hover {
 						transform: translateY(-1px);
-						box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+						box-shadow: 0 4px 12px rgba(13, 115, 119, 0.4);
 					}
 
 					.btn-secondary {
@@ -6336,7 +6343,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					select:focus {
 						outline: none;
 						border-color: var(--mosque-primary);
-						box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+						box-shadow: 0 0 0 3px rgba(13, 115, 119, 0.1);
 					}
 
 					table {
@@ -6461,17 +6468,17 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						<div class="controls-right">
 							<!-- Button 1: Print Timetable -->
 							<button class="btn btn-secondary" onclick="window.print()">
-								🖨️ Print
+								ðŸ–¨ï¸ Print
 							</button>
 
 							<!-- Button 2: Subscribe to Calendar -->
 							<a href="<?php echo esc_url( mt_get_subscribe_url() ); ?>" class="btn btn-secondary">
-								📱 Subscribe
+								ðŸ“± Subscribe
 							</a>
 
 							<!-- Button 3: Add to Calendar (opens export modal) -->
 							<button class="btn mosque-export-btn">
-								📅 Export
+								ðŸ“… Export
 							</button>
 						</div>
 					</div>
@@ -6544,13 +6551,13 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 					<div class="navigation">
 						<a href="<?php echo esc_url( home_url( "/prayer-times/{$year}/" ) ); ?>" class="btn btn-secondary">
-							📚 View All Months
+							ðŸ“š View All Months
 						</a>
 						<a href="<?php echo esc_url( home_url( '/today' ) ); ?>" class="btn">
-							📱 Today's Prayers
+							ðŸ“± Today's Prayers
 						</a>
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-secondary">
-							🏠 Home
+							ðŸ  Home
 						</a>
 					</div>
 				</div>
@@ -7424,7 +7431,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			// Extract times.
 			$times = array_slice( $data, $start );
 
-			// Accept either “date+times” or “times only”.
+			// Accept either â€œdate+timesâ€ or â€œtimes onlyâ€.
 			// For times-only we expect at least 12 fields (fajr start..jummah2).
 			// For date+times same expectation once start offset is applied.
 			if ( count( $times ) < 12 ) {
@@ -7560,7 +7567,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 							</select>
 
 							<button class="mosque-export-btn" data-month="<?php echo esc_attr( $year . '-' . $month ); ?>">
-								📅 Export Calendar
+								ðŸ“… Export Calendar
 							</button>
 
 							<?php
@@ -7572,13 +7579,13 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 									class="mosque-print-btn"
 									target="_blank"
 									title="Download printable PDF timetable">
-									📄 Download Timetable
+									ðŸ“„ Download Timetable
 								</a>
 							<?php else : ?>
 								<button class="mosque-print-btn"
 									onclick="window.print()"
 									title="Print this timetable">
-									🖨️ Print Timetable
+									ðŸ–¨ï¸ Print Timetable
 								</button>
 							<?php endif; ?>
 
@@ -7586,7 +7593,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								class="mosque-subscribe-btn"
 								target="_blank"
 								title="Click to add our prayer times to your calendar app">
-								🔗 Subscribe to Our Prayer Calendar
+								ðŸ”— Subscribe to Our Prayer Calendar
 							</a>
 						</div>
 					<?php endif; ?>
@@ -7866,7 +7873,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 				<div class="mosque-timetable-footer">
 					<div class="mosque-system-credit">
-						<p>🕌 Need a prayer timetable system or new website for your masjid?
+						<p>ðŸ•Œ Need a prayer timetable system or new website for your masjid?
 							<a href="mailto:ibraheem@mosquewebdesign.com">Contact us</a> or
 							<a href="https://mosquewebdesign.com" target="_blank">visit mosquewebdesign.com</a>
 							for professional mosque website solutions.
@@ -8022,55 +8029,88 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	public function shortcode_prayer_countdown( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'type' => 'next', // 'next' or specific prayer name.
+				'type'   => 'next',   // 'next' or specific prayer name.
+				'layout' => 'card',   // 'card' (default full widget) or 'header' (compact inline pill).
+				'size'   => 'normal', // 'small', 'normal', 'large' — applies to card layout only.
 			),
 			$atts,
 			'prayer_countdown'
 		);
 
-		$type = sanitize_text_field( $atts['type'] );
+		$type   = sanitize_text_field( $atts['type'] );
+		$layout = in_array( $atts['layout'], array( 'card', 'header' ), true ) ? $atts['layout'] : 'card';
+		$size   = in_array( $atts['size'], array( 'small', 'normal', 'large' ), true ) ? $atts['size'] : 'normal';
 
 		// Get next prayer data.
 		$next_prayer_data = $this->get_next_prayer_data();
 
+		$data_target  = isset( $next_prayer_data['datetime'] ) ? esc_attr( $next_prayer_data['datetime'] ) : '';
+		$data_prayer  = isset( $next_prayer_data['name'] ) ? esc_attr( $next_prayer_data['name'] ) : '';
+		$prayer_name  = isset( $next_prayer_data['name'] ) ? esc_html( $next_prayer_data['name'] ) : '';
+		$prayer_time  = isset( $next_prayer_data['time'] ) ? esc_html( $next_prayer_data['time'] ) : '';
+
 		ob_start();
-		?>
-			<div class="prayer-countdown-container">
-				<div class="countdown-header">
-					<div class="countdown-title">Next Prayer</div>
+
+		// ── Header layout: compact single-line pill for nav/header use ─────────
+		if ( 'header' === $layout ) :
+			?>
+			<span class="prayer-countdown-inline prayer-countdown"
+				data-target="<?php echo $data_target; ?>"
+				data-prayer="<?php echo $data_prayer; ?>"
+				data-layout="header">
 				<?php if ( $next_prayer_data ) : ?>
-						<div class="countdown-next-prayer"><?php echo esc_html( $next_prayer_data['name'] ); ?></div>
-						<div class="countdown-next-time"><?php echo esc_html( $next_prayer_data['time'] ); ?></div>
+					<span class="pci-icon" aria-hidden="true">&#127775;</span>
+					<span class="pci-name"><?php echo $prayer_name; ?></span>
+					<span class="pci-time"><?php echo $prayer_time; ?></span>
+					<span class="pci-divider" aria-hidden="true"></span>
+					<span class="pci-countdown">--:--</span>
+				<?php else : ?>
+					<span class="pci-name pci-error"><?php esc_html_e( 'No timetable data', 'mosque-timetable' ); ?></span>
+				<?php endif; ?>
+			</span>
+		<?php
+		// ── Card layout: full-size countdown widget ────────────────────────────
+		else :
+			$size_class = 'normal' !== $size ? ' size-' . $size : '';
+			?>
+			<div class="prayer-countdown-container<?php echo $size_class; ?>">
+				<div class="countdown-header">
+					<div class="countdown-title"><?php esc_html_e( 'Next Prayer', 'mosque-timetable' ); ?></div>
+					<?php if ( $next_prayer_data ) : ?>
+						<div class="countdown-next-prayer"><?php echo $prayer_name; ?></div>
+						<div class="countdown-next-time"><?php echo $prayer_time; ?></div>
 					<?php endif; ?>
 				</div>
 
 				<div class="prayer-countdown"
-					data-target="<?php echo esc_attr( isset( $next_prayer_data['datetime'] ) ? $next_prayer_data['datetime'] : '' ); ?>"
-					data-prayer="<?php echo esc_attr( isset( $next_prayer_data['name'] ) ? $next_prayer_data['name'] : '' ); ?>">
-				<?php if ( $next_prayer_data ) : ?>
+					data-target="<?php echo $data_target; ?>"
+					data-prayer="<?php echo $data_prayer; ?>">
+					<?php if ( $next_prayer_data ) : ?>
 						<div class="countdown-timer">
 							<div class="countdown-unit">
 								<span class="countdown-number">00</span>
-								<span class="countdown-label">Hours</span>
+								<span class="countdown-label"><?php esc_html_e( 'Hours', 'mosque-timetable' ); ?></span>
 							</div>
 							<div class="countdown-unit">
 								<span class="countdown-number">00</span>
-								<span class="countdown-label">Minutes</span>
+								<span class="countdown-label"><?php esc_html_e( 'Minutes', 'mosque-timetable' ); ?></span>
 							</div>
 							<div class="countdown-unit">
 								<span class="countdown-number">00</span>
-								<span class="countdown-label">Seconds</span>
+								<span class="countdown-label"><?php esc_html_e( 'Seconds', 'mosque-timetable' ); ?></span>
 							</div>
 						</div>
 					<?php else : ?>
 						<div class="mosque-error">
-							Unable to calculate next prayer time. Please check your timetable data.
+							<?php esc_html_e( 'Unable to calculate next prayer time. Please check your timetable data.', 'mosque-timetable' ); ?>
 						</div>
 					<?php endif; ?>
 				</div>
 			</div>
-			<?php
-			return ob_get_clean();
+		<?php
+		endif;
+
+		return ob_get_clean();
 	}
 
 	/**
@@ -8500,27 +8540,27 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					'type' => 'start',
 				);
 
-				// Add Jamāʿah times if requested.
+				// Add JamÄÊ¿ah times if requested.
 				if ( $options['include_jamah'] ) {
-					$prayers['Fajr Jamāʿah'] = array(
+					$prayers['Fajr JamÄÊ¿ah'] = array(
 						'time' => $day['fajr_jamaat'],
 						'type' => 'jamaat',
 					);
 					if ( ! $is_friday ) {
-						$prayers['Zuhr Jamāʿah'] = array(
+						$prayers['Zuhr JamÄÊ¿ah'] = array(
 							'time' => $day['zuhr_jamaat'],
 							'type' => 'jamaat',
 						);
 					}
-					$prayers['Asr Jamāʿah']     = array(
+					$prayers['Asr JamÄÊ¿ah']     = array(
 						'time' => $day['asr_jamaat'],
 						'type' => 'jamaat',
 					);
-					$prayers['Maghrib Jamāʿah'] = array(
+					$prayers['Maghrib JamÄÊ¿ah'] = array(
 						'time' => $day['maghrib_jamaat'],
 						'type' => 'jamaat',
 					);
-					$prayers['Isha Jamāʿah']    = array(
+					$prayers['Isha JamÄÊ¿ah']    = array(
 						'time' => $day['isha_jamaat'],
 						'type' => 'jamaat',
 					);
@@ -9029,11 +9069,11 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	}
 
 	/**
-	 * Calculate Jamāʿah time by adding offset to start time
+	 * Calculate JamÄÊ¿ah time by adding offset to start time
 	 *
 	 * @param string $start_time Start time (HH:MM format)
 	 * @param int    $offset_minutes Minutes to add
-	 * @return string Jamāʿah time (HH:MM format)
+	 * @return string JamÄÊ¿ah time (HH:MM format)
 	 */
 	private function calculate_jamaat_time( $start_time, $offset_minutes ) {
 		if ( empty( $start_time ) || $offset_minutes <= 0 ) {
@@ -9067,7 +9107,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			if ( ! is_wp_error( $api_response ) ) {
 				$api_data = $api_response;
 
-				// Get Jamāʿah offsets.
+				// Get JamÄÊ¿ah offsets.
 				$fajr_offset    = (int) mt_get_option( 'fajr_jamaat_offset', 10 );
 				$zuhr_offset    = (int) mt_get_option( 'zuhr_jamaat_offset', 15 );
 				$asr_offset     = (int) mt_get_option( 'asr_jamaat_offset', 15 );
@@ -9114,7 +9154,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				$day_data['maghrib_start'] = $this->parse_api_time( $timings['Maghrib'] ?? '' );
 				$day_data['isha_start']    = $this->parse_api_time( $timings['Isha'] ?? '' );
 
-				// Calculate Jamāʿah times.
+				// Calculate JamÄÊ¿ah times.
 				$day_data['fajr_jamaat']    = $this->calculate_jamaat_time( $day_data['fajr_start'], $fajr_offset );
 				$day_data['zuhr_jamaat']    = $this->calculate_jamaat_time( $day_data['zuhr_start'], $zuhr_offset );
 				$day_data['asr_jamaat']     = $this->calculate_jamaat_time( $day_data['asr_start'], $asr_offset );
@@ -9336,3 +9376,6 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		}
 	}
 }
+
+
+

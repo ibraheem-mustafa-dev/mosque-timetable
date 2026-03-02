@@ -1,69 +1,108 @@
-/**
+﻿/**
  * Mosque Timetable Frontend Styles
- * Version: 3.0.0
+ * Version: 3.2.0 â€” Islamic Design System
+ *
+ * Design language: Sacred Geometry meets Modern UI
+ * Colours rooted in Islamic architecture: mosque domes (teal),
+ * gilded calligraphy (gold), night sky (midnight blue), old parchment (cream).
+ *
+ * Fonts (loaded via PHP enqueue):
+ *   Headings  â€” El Messiri 600/700  (Arabic-inspired geometric sans)
+ *   Body      â€” DM Sans 400/500     (clean, modern, legible)
+ *   Times     â€” Space Mono 400      (monospaced â€” prayer times align perfectly)
  */
 
 /* ==========================================================================
-	CSS Custom Properties - Centralized Color & Sizing System
+	Google Fonts import (fallback if PHP enqueue fails)
+	========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=Space+Mono&family=Amiri:wght@400;700&display=swap');
+
+/* ==========================================================================
+	CSS Custom Properties â€” Islamic Design System
 	========================================================================== */
 
 :root {
-	/* Primary Theme Colors */
-	--mosque-primary: #667eea;
-	--mosque-primary-dark: #5a6fd8;
-	--mosque-primary-light: #7a8df0;
-	--mosque-secondary: #764ba2;
+	/* â”€â”€ Core palette â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-primary:       #0D7377;   /* Deep Teal  â€” mosque domes */
+	--mosque-primary-dark:  #0a5d61;
+	--mosque-primary-light: #13a4aa;
+	--mosque-secondary:     #C5A55A;   /* Warm Gold  â€” Islamic calligraphy */
+	--mosque-accent:        #1A3A5C;   /* Midnight Blue â€” night sky */
 
-	/* Generated Color Variations */
-	--mosque-primary-rgb: 102, 126, 234;
-	--mosque-gradient: linear-gradient(135deg, var(--mosque-primary) 0%, var(--mosque-secondary) 100%);
-	--mosque-gradient-alt: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+	/* â”€â”€ RGB versions for rgba() use â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-primary-rgb:   13, 115, 119;
+	--mosque-secondary-rgb: 197, 165, 90;
+	--mosque-accent-rgb:    26, 58, 92;
 
-	/* UI State Colors */
-	--mosque-success: #28a745;
-	--mosque-success-dark: #218838;
-	--mosque-warning: #ffc107;
-	--mosque-error: #dc3545;
-	--mosque-info: #17a2b8;
+	/* â”€â”€ Gradients â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-gradient:      linear-gradient(135deg, var(--mosque-primary) 0%, var(--mosque-accent) 100%);
+	--mosque-gradient-alt:  linear-gradient(135deg, var(--mosque-primary) 0%, var(--mosque-primary-light) 100%);
+	--mosque-gradient-gold: linear-gradient(135deg, #C5A55A 0%, #e8c97a 100%);
 
-	/* Background Colors */
-	--mosque-bg-light: #f8f9fa;
-	--mosque-bg-white: #fff;
-	--mosque-bg-alt: #e9ecef;
-	--mosque-today-bg: #fff3cd;
-	--mosque-friday-bg: #f8d7da;
-	--mosque-next-prayer-bg: #d4edda;
+	/* â”€â”€ UI State Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-success:       #2D8B4E;   /* Iftar green */
+	--mosque-success-dark:  #236e3d;
+	--mosque-warning:       #C5A55A;   /* Gold for warnings */
+	--mosque-error:         #c0392b;
+	--mosque-info:          #0D7377;   /* Teal for info */
 
-	/* Text Colors */
-	--mosque-text-primary: #2c3e50;
-	--mosque-text-secondary: #6c757d;
-	--mosque-text-muted: #495057;
-	--mosque-text-white: #fff;
+	/* â”€â”€ Backgrounds â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-bg-light:      #F5F1EB;   /* Warm cream â€” old parchment */
+	--mosque-bg-white:      #ffffff;
+	--mosque-bg-alt:        #ede8e0;   /* Slightly darker cream */
+	--mosque-bg-surface:    #ffffff;
 
-	/* Border Colors */
-	--mosque-border: #ddd;
-	--mosque-border-light: #e9ecef;
-	--mosque-border-dark: #495057;
+	/* â”€â”€ Row highlight colours â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-today-bg:      rgba(13, 115, 119, 0.10);   /* Teal tint â€” today */
+	--mosque-friday-bg:     rgba(197, 165, 90, 0.13);   /* Gold tint â€” Jummah */
+	--mosque-next-prayer-bg:rgba(13, 115, 119, 0.18);   /* Stronger teal â€” next prayer */
 
-	/* Widget Sizing */
-	--mosque-widget-padding: 20px;
-	--mosque-widget-margin: 15px;
-	--mosque-widget-border-radius: 8px;
-	--mosque-widget-shadow: 0 4px 15px rgb(var(--mosque-primary-rgb), 0.2);
-	--mosque-widget-shadow-hover: 0 6px 20px rgb(var(--mosque-primary-rgb), 0.3);
+	/* â”€â”€ Text â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-text-primary:  #1A2332;   /* Near-black, warm */
+	--mosque-text-secondary:#5A6978;
+	--mosque-text-muted:    #8a96a3;
+	--mosque-text-white:    #ffffff;
+	--mosque-text-gold:     #C5A55A;
 
-	/* Font Sizes */
-	--mosque-font-small: 12px;
-	--mosque-font-normal: 14px;
-	--mosque-font-medium: 16px;
-	--mosque-font-large: 18px;
-	--mosque-font-xl: 24px;
+	/* â”€â”€ Borders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-border:        #d8d2c8;   /* Warm border */
+	--mosque-border-light:  #ede8e0;
+	--mosque-border-dark:   #5A6978;
 
-	/* Component Sizes */
-	--mosque-btn-padding: 10px 20px;
-	--mosque-btn-border-radius: 25px;
-	--mosque-input-padding: 8px 12px;
-	--mosque-input-border-radius: 4px;
+	/* â”€â”€ Shadows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-widget-shadow:       0 4px 20px rgba(13, 115, 119, 0.15);
+	--mosque-widget-shadow-hover: 0 8px 30px rgba(13, 115, 119, 0.25);
+	--mosque-card-shadow:         0 2px 12px rgba(26, 58, 92, 0.10);
+
+	/* â”€â”€ Typography â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-font-heading:  'El Messiri', 'Segoe UI', Georgia, serif;
+	--mosque-font-body:     'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--mosque-font-mono:     'Space Mono', 'Courier New', monospace;
+	--mosque-font-arabic:   'Amiri', serif;
+
+	/* â”€â”€ Font sizes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-font-small:    12px;
+	--mosque-font-normal:   14px;
+	--mosque-font-medium:   16px;
+	--mosque-font-large:    18px;
+	--mosque-font-xl:       24px;
+	--mosque-font-xxl:      32px;
+
+	/* â”€â”€ Widget sizing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-widget-padding:        24px;
+	--mosque-widget-margin:         16px;
+	--mosque-widget-border-radius:  12px;
+	--mosque-card-border-radius:    10px;
+
+	/* â”€â”€ Buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-btn-padding:        10px 20px;
+	--mosque-btn-border-radius:  8px;
+	--mosque-input-padding:      10px 14px;
+	--mosque-input-border-radius:8px;
+
+	/* â”€â”€ Transitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+	--mosque-transition:     all 0.2s ease;
 }
 
 /* ==========================================================================
@@ -149,7 +188,7 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: var(--mosque-gradient);
 	color: white;
 	padding: 10px 20px;
 	border-radius: 25px;
@@ -222,7 +261,8 @@
 
 .mosque-timetable-container {
 	margin: 20px 0;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	font-family: var(--mosque-font-body);
+	color: var(--mosque-text-primary);
 }
 
 .mosque-timetable-header {
@@ -235,9 +275,10 @@
 }
 
 .mosque-timetable-title {
+	font-family: var(--mosque-font-heading);
 	font-size: 24px;
-	font-weight: 600;
-	color: #2c3e50;
+	font-weight: 700;
+	color: var(--mosque-primary);
 	margin: 0;
 }
 
@@ -335,49 +376,69 @@
 }
 
 .mosque-timetable th {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	background: var(--mosque-gradient);
 	color: white;
-	padding: 15px 8px;
+	padding: 14px 8px;
 	text-align: center;
+	font-family: var(--mosque-font-heading);
 	font-weight: 600;
-	font-size: 14px;
-	border-bottom: 2px solid #5a6fd8;
+	font-size: 13px;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	border-bottom: 2px solid var(--mosque-primary-dark);
 }
 
 .mosque-timetable td {
-	padding: 12px 8px;
+	padding: 11px 8px;
 	text-align: center;
-	border-bottom: 1px solid #e9ecef;
+	border-bottom: 1px solid var(--mosque-border-light);
 	font-size: 13px;
+	font-family: var(--mosque-font-body);
 	position: relative;
 }
 
+/* Prayer time values use monospace for perfect alignment */
+.mosque-timetable td .prayer-time-start,
+.mosque-timetable td .prayer-start-time,
+.mosque-timetable td .start-time {
+	font-family: var(--mosque-font-mono);
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--mosque-primary);
+}
+
+.mosque-timetable td .prayer-time-jamaat,
+.mosque-timetable td .jamaat-time {
+	font-family: var(--mosque-font-mono);
+	font-size: 12px;
+	color: var(--mosque-secondary);
+	font-weight: 600;
+}
+
 .mosque-timetable tbody tr:nth-child(even) {
-	background-color: var(--mosque-row-alt-bg, #f0f3f7);
+	background-color: #faf8f5;
 }
 
 .mosque-timetable tbody tr:nth-child(odd) {
 	background-color: #ffffff;
 }
 
-/* Special row highlighting - WCAG AA compliant */
+/* Special row highlighting — Islamic design colours */
 .mosque-timetable tr.today {
-	background-color: var(--mosque-today-color, #FFF9C4) !important;
-	border-left: 5px solid #F57F17;
+	background-color: var(--mosque-today-bg) !important;
+	border-left: 4px solid var(--mosque-primary);
 	font-weight: 600;
-	box-shadow: inset 0 0 0 1px rgba(245, 127, 23, 0.3);
 }
 
 .mosque-timetable tr.friday {
-	background-color: var(--mosque-friday-color, #E8F5E9) !important;
-	border-left: 5px solid #2E7D32;
-	box-shadow: inset 0 0 0 1px rgba(46, 125, 50, 0.2);
+	background-color: var(--mosque-friday-bg) !important;
+	border-left: 4px solid var(--mosque-secondary);
 }
 
 .mosque-timetable tr.today.friday {
-	background: linear-gradient(90deg, var(--mosque-today-color, #FFF9C4) 0%, var(--mosque-friday-color, #E8F5E9) 100%);
-	border-left: 5px solid #F57F17;
-	border-right: 5px solid #2E7D32;
+	background: linear-gradient(90deg, var(--mosque-today-bg) 0%, var(--mosque-friday-bg) 100%) !important;
+	border-left: 4px solid var(--mosque-primary);
+	border-right: 4px solid var(--mosque-secondary);
 	font-weight: 700;
 }
 
@@ -496,14 +557,18 @@
 }
 
 .todays-prayers-date {
+	font-family: var(--mosque-font-heading);
 	font-size: var(--mosque-font-large);
-	font-weight: 600;
+	font-weight: 700;
 	margin-bottom: 5px;
+	letter-spacing: 0.01em;
 }
 
 .todays-prayers-hijri {
+	font-family: var(--mosque-font-arabic);
 	font-size: var(--mosque-font-normal);
 	opacity: 0.9;
+	direction: rtl;
 }
 
 .todays-prayers-grid {
@@ -538,27 +603,33 @@
 }
 
 .prayer-name {
-	font-size: 14px;
+	font-family: var(--mosque-font-heading);
+	font-size: 13px;
 	font-weight: 600;
 	margin-bottom: 8px;
 	text-transform: uppercase;
-	letter-spacing: 0.5px;
+	letter-spacing: 0.08em;
+	opacity: 0.85;
 }
 
 .prayer-times {
 	display: flex;
 	flex-direction: column;
-	gap: 3px;
+	gap: 4px;
 }
 
 .prayer-start-time {
-	font-size: 16px;
-	font-weight: 700;
+	font-family: var(--mosque-font-mono);
+	font-size: 18px;
+	font-weight: 400;
+	letter-spacing: 0.03em;
 }
 
 .prayer-jamaat-time {
-	font-size: 13px;
-	opacity: 0.9;
+	font-family: var(--mosque-font-mono);
+	font-size: 12px;
+	opacity: 0.85;
+	font-weight: 400;
 }
 
 /* ==========================================================================
@@ -601,20 +672,24 @@
 }
 
 .countdown-title {
+	font-family: var(--mosque-font-heading);
 	font-size: var(--mosque-font-large);
-	font-weight: 600;
+	font-weight: 700;
 	margin-bottom: 10px;
 }
 
 .countdown-next-prayer {
+	font-family: var(--mosque-font-heading);
 	font-size: var(--mosque-font-medium);
 	opacity: 0.9;
 	margin-bottom: 5px;
 }
 
 .countdown-next-time {
+	font-family: var(--mosque-font-mono);
 	font-size: var(--mosque-font-xl);
-	font-weight: 700;
+	font-weight: 400;
+	letter-spacing: 0.05em;
 	margin-bottom: 20px;
 }
 
@@ -626,25 +701,109 @@
 }
 
 .countdown-unit {
-	background: rgb(255 255 255 / 10%);
+	background: rgb(255 255 255 / 12%);
 	border-radius: 8px;
-	padding: 15px;
-	min-width: 80px;
+	padding: 14px 12px;
+	min-width: 72px;
 	backdrop-filter: blur(10px);
 }
 
 .countdown-number {
+	font-family: var(--mosque-font-mono);
 	font-size: 28px;
-	font-weight: 700;
+	font-weight: 400;
 	display: block;
+	letter-spacing: 0.02em;
 	margin-bottom: 5px;
 }
 
 .countdown-label {
-	font-size: 12px;
+	font-size: 11px;
 	text-transform: uppercase;
-	letter-spacing: 1px;
-	opacity: 0.9;
+	letter-spacing: 0.08em;
+	opacity: 0.8;
+}
+
+/* ==========================================================================
+	Prayer Countdown — Header / Inline Pill Layout
+	Usage: [prayer_countdown layout="header"]
+	Sits flush inside nav bars, Elementor headers, widget areas.
+	========================================================================== */
+
+.prayer-countdown-inline {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 999px;
+	padding: 5px 14px 5px 10px;
+	font-family: var(--mosque-font-body);
+	font-size: 13px;
+	color: inherit;
+	white-space: nowrap;
+	vertical-align: middle;
+	backdrop-filter: blur(6px);
+	transition: background 0.2s;
+}
+
+/* On light backgrounds — switch to teal-outlined pill */
+.prayer-countdown-inline.on-light,
+.light-header .prayer-countdown-inline,
+.white-header .prayer-countdown-inline {
+	background: rgba(13, 115, 119, 0.08);
+	border-color: rgba(13, 115, 119, 0.25);
+	color: var(--mosque-primary);
+}
+
+.prayer-countdown-inline:hover {
+	background: rgba(255, 255, 255, 0.22);
+}
+
+.pci-icon {
+	font-size: 14px;
+	line-height: 1;
+}
+
+.pci-name {
+	font-family: var(--mosque-font-heading);
+	font-weight: 600;
+	font-size: 13px;
+}
+
+.pci-time {
+	font-family: var(--mosque-font-mono);
+	font-size: 13px;
+	opacity: 0.85;
+}
+
+.pci-divider {
+	width: 1px;
+	height: 12px;
+	background: currentColor;
+	opacity: 0.3;
+	flex-shrink: 0;
+}
+
+.pci-countdown {
+	font-family: var(--mosque-font-mono);
+	font-size: 13px;
+	font-weight: 600;
+	min-width: 36px;   /* prevents layout shift as digits change */
+	text-align: right;
+}
+
+.pci-error {
+	opacity: 0.7;
+	font-style: italic;
+}
+
+/* Responsive: hide countdown digits on very small screens to keep pill tiny */
+@media (width <= 380px) {
+	.pci-divider,
+	.pci-countdown {
+		display: none;
+	}
 }
 
 /* ==========================================================================
@@ -1033,7 +1192,7 @@ button,
 }
 
 /* ==========================================================================
-	Mobile Pattern A Transform (≤ 480px)
+	Mobile Pattern A Transform (â‰¤ 480px)
 	========================================================================== */
 
 @media (width <= 480px) {
@@ -1188,7 +1347,7 @@ button,
 	}
 
 	.mosque-prayer-time-jamaat::before {
-		content: "Jamāʿah: ";
+		content: "JamÄÊ¿ah: ";
 		opacity: 0.8;
 	}
 
@@ -1708,7 +1867,7 @@ html[dir="rtl"] .mosque-date-info {
 }
 
 .mosque-notification-success {
-	background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+	background: var(--mosque-gradient-alt);
 }
 
 .mosque-notification-error {

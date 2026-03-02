@@ -34,32 +34,52 @@
 
     // Prayer countdown functionality for shortcodes
     initPrayerCountdown() {
-      const countdownElements = $('.prayer-countdown');
-      if (countdownElements.length > 0) {
+      if ( $('.prayer-countdown').length > 0 ) {
         this.updateCountdowns();
-        setInterval(() => this.updateCountdowns(), 1000);
+        setInterval( () => this.updateCountdowns(), 1000 );
       }
     },
 
     updateCountdowns() {
-      $('.prayer-countdown').each(function() {
-        const $this = $(this);
-        const targetTime = $this.data('target-time');
+      const pad = n => String( n ).padStart( 2, '0' );
 
-        if (targetTime) {
-          const now = new Date().getTime();
-          const target = new Date(targetTime).getTime();
-          const difference = target - now;
+      $('.prayer-countdown').each( function() {
+        const $el     = $( this );
+        const target  = $el.data( 'target' );  // data-target="YYYY-MM-DD HH:MM:SS"
+        const layout  = $el.data( 'layout' );  // 'header' or undefined (card)
 
-          if (difference > 0) {
-            const hours = Math.floor(difference / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        if ( ! target ) return;
 
-            $this.html(`${hours}h ${minutes}m ${seconds}s`);
+        const now  = Date.now();
+        const end  = new Date( target ).getTime();
+        const diff = end - now;
+
+        if ( diff <= 0 ) {
+          // Prayer time reached — show zeros and let PHP re-render on next page load.
+          if ( layout === 'header' ) {
+            $el.find( '.pci-countdown' ).text( '00:00' );
           } else {
-            $this.html('Time reached');
+            $el.find( '.countdown-number' ).text( '00' );
           }
+          return;
+        }
+
+        const h = Math.floor( diff / 3600000 );
+        const m = Math.floor( ( diff % 3600000 ) / 60000 );
+        const s = Math.floor( ( diff % 60000 ) / 1000 );
+
+        if ( layout === 'header' ) {
+          // Compact: H:MM or HH:MM (no seconds to keep pill tight; add :ss only if <1 h)
+          const display = h > 0
+            ? pad(h) + ':' + pad(m)
+            : pad(m) + ':' + pad(s);
+          $el.find( '.pci-countdown' ).text( display );
+        } else {
+          // Card: update each countdown-number span in order (h, m, s)
+          const $nums = $el.find( '.countdown-number' );
+          $nums.eq(0).text( pad(h) );
+          $nums.eq(1).text( pad(m) );
+          $nums.eq(2).text( pad(s) );
         }
       });
     },
