@@ -5843,7 +5843,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						<div id="timetable-content">
 						<?php
 						if ( ! empty( $prayer_data ) && ! empty( $prayer_data['days'] ) ) {
-							echo do_shortcode( '[mosque_timetable month="' . $display_month . '" year="' . $display_year . '"]' );
+							echo do_shortcode( '[mosque_timetable month="' . $display_month . '" year="' . $display_year . '" show_controls="false"]' );
 						} else {
 							echo '<div style="padding:3rem;text-align:center;color:#6c757d"><p style="font-size:1.2rem;margin-bottom:1rem">No prayer times available for ' . esc_html( $month_name . ' ' . $display_year ) . '</p><p>Please check back later or contact the mosque administration.</p></div>';
 						}
@@ -8227,7 +8227,9 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		}
 
 		foreach ( $month_data['days'] as $day_data ) {
-			if ( $day_data['day_number'] === $day ) {
+			// Support both 'day' and legacy 'day_number' field names.
+			$day_num = isset( $day_data['day'] ) ? (int) $day_data['day'] : ( isset( $day_data['day_number'] ) ? (int) $day_data['day_number'] : 0 );
+			if ( $day_num === $day ) {
 				return $day_data;
 			}
 		}
