@@ -1,5 +1,8 @@
 # WordPress files
 public_html/wp-config.php
+public_html/core/wp-config.php
+**/wp-config.php
+!**/wp-config-sample.php
 public_html/wp-content/uploads/
 public_html/wp-content/cache/
 public_html/wp-content/backup-db/
