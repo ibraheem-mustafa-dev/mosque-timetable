@@ -27,9 +27,41 @@
     // Initialize frontend functionality
     init() {
       this.initPrayerCountdown();
+      this.initPrayerBar();
       this.initPWAInstallPrompt();
       this.initPushNotifications();
       this.initServiceWorker();
+    },
+
+    // ── Prayer Bar — [mosque_prayer_bar] ────────────────────────────────────
+    initPrayerBar() {
+      // Restore dismissed state for each bar on page load.
+      $('.mosque-prayer-bar').each( function() {
+        const barId      = this.id;
+        const storageKey = 'mpb-dismissed-' + barId;
+        const dismissed  = localStorage.getItem( storageKey );
+
+        if ( dismissed ) {
+          // Respect 24-hour dismissal window.
+          if ( Date.now() - parseInt( dismissed, 10 ) < 86400000 ) {
+            $( this ).addClass( 'mpb-hidden' );
+          } else {
+            localStorage.removeItem( storageKey );
+          }
+        }
+      });
+
+      // Dismiss on click.
+      $( document ).on( 'click', '.mpb-dismiss', function() {
+        const barId = $( this ).data( 'bar-id' ) || $( this ).closest( '.mosque-prayer-bar' ).attr( 'id' );
+        const $bar  = barId ? $( '#' + barId ) : $( this ).closest( '.mosque-prayer-bar' );
+
+        $bar.addClass( 'mpb-hidden' );
+
+        if ( barId ) {
+          localStorage.setItem( 'mpb-dismissed-' + barId, Date.now() );
+        }
+      });
     },
 
     // Prayer countdown functionality for shortcodes

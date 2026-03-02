@@ -1784,6 +1784,148 @@ endforeach;
 		add_shortcode( 'mosque_timetable', array( $this, 'shortcode_mosque_timetable' ) );
 		add_shortcode( 'todays_prayers', array( $this, 'shortcode_todays_prayers' ) );
 		add_shortcode( 'prayer_countdown', array( $this, 'shortcode_prayer_countdown' ) );
+		add_shortcode( 'mosque_prayer_bar', array( $this, 'shortcode_mosque_prayer_bar' ) );
+	}
+
+	/**
+	 * Shortcode: [mosque_prayer_bar]
+	 *
+	 * A thin sticky hello-bar strip showing today's prayer times.
+	 * Can also carry an optional charity/appeal CTA button.
+	 *
+	 * Attributes:
+	 *   position     = top | bottom           (default: top)
+	 *   dismissible  = true | false           (default: true  — shows × close button)
+	 *   show_jamaat  = true | false           (default: false — show jamaat below start time)
+	 *   pulse_next   = true | false           (default: true  — highlight next prayer)
+	 *   cta_text     = "Support Our Appeal"   (optional CTA label)
+	 *   cta_url      = "https://..."          (optional CTA link)
+	 *   cta_target   = _self | _blank         (default: _self)
+	 *   bg           = teal | midnight | gold | custom (default: teal)
+	 *   bg_color     = "#0D7377"              (only used when bg="custom")
+	 *   offset_top   = "80px"                 (CSS top when position=top, useful below sticky navs)
+	 *
+	 * Usage examples:
+	 *   [mosque_prayer_bar]
+	 *   [mosque_prayer_bar position="bottom" dismissible="false"]
+	 *   [mosque_prayer_bar cta_text="Support Gaza" cta_url="/donate" cta_target="_blank"]
+	 *   [mosque_prayer_bar bg="midnight" position="top" offset_top="90px"]
+	 */
+	public function shortcode_mosque_prayer_bar( $atts ) {
+		$atts = shortcode_atts(
+			array(
+				'position'    => 'top',
+				'dismissible' => 'true',
+				'show_jamaat' => 'false',
+				'pulse_next'  => 'true',
+				'cta_text'    => '',
+				'cta_url'     => '',
+				'cta_target'  => '_self',
+				'bg'          => 'teal',
+				'bg_color'    => '',
+				'offset_top'  => '',
+			),
+			$atts,
+			'mosque_prayer_bar'
+		);
+
+		$position    = in_array( $atts['position'], array( 'top', 'bottom' ), true ) ? $atts['position'] : 'top';
+		$dismissible = filter_var( $atts['dismissible'], FILTER_VALIDATE_BOOLEAN );
+		$show_jamaat = filter_var( $atts['show_jamaat'], FILTER_VALIDATE_BOOLEAN );
+		$pulse_next  = filter_var( $atts['pulse_next'], FILTER_VALIDATE_BOOLEAN );
+		$cta_text    = sanitize_text_field( $atts['cta_text'] );
+		$cta_url     = esc_url( $atts['cta_url'] );
+		$cta_target  = in_array( $atts['cta_target'], array( '_self', '_blank' ), true ) ? $atts['cta_target'] : '_self';
+		$bg          = in_array( $atts['bg'], array( 'teal', 'midnight', 'gold', 'custom' ), true ) ? $atts['bg'] : 'teal';
+		$bg_color    = sanitize_hex_color( $atts['bg_color'] );
+		$offset_top  = preg_match( '/^[0-9]+(px|em|rem|vh|%)$/', $atts['offset_top'] ) ? $atts['offset_top'] : '';
+
+		// Unique ID per shortcode instance (supports multiple bars).
+		static $bar_count = 0;
+		++$bar_count;
+		$bar_id = 'mpb-' . $bar_count;
+
+		// Get today's prayer data.
+		$today_data   = $this->get_today_prayer_data();
+		$next_prayer  = $this->get_next_prayer_data();
+		$next_name    = isset( $next_prayer['name'] ) ? strtolower( $next_prayer['name'] ) : '';
+
+		// Prayer slots to display (order: Fajr, Sunrise, Zuhr, Asr, Maghrib, Isha).
+		$slots = array(
+			'fajr'    => array( 'label' => __( 'Fajr', 'mosque-timetable' ),    'start' => 'fajr_start',    'jamaat' => 'fajr_jamaat' ),
+			'sunrise' => array( 'label' => __( 'Sunrise', 'mosque-timetable' ), 'start' => 'sunrise',       'jamaat' => '' ),
+			'zuhr'    => array( 'label' => __( 'Zuhr', 'mosque-timetable' ),    'start' => 'zuhr_start',    'jamaat' => 'zuhr_jamaat' ),
+			'asr'     => array( 'label' => __( 'Asr', 'mosque-timetable' ),     'start' => 'asr_start',     'jamaat' => 'asr_jamaat' ),
+			'maghrib' => array( 'label' => __( 'Maghrib', 'mosque-timetable' ), 'start' => 'maghrib_start', 'jamaat' => 'maghrib_jamaat' ),
+			'isha'    => array( 'label' => __( 'Isha', 'mosque-timetable' ),    'start' => 'isha_start',    'jamaat' => 'isha_jamaat' ),
+		);
+
+		// Inline style overrides.
+		$bar_style  = '';
+		if ( 'custom' === $bg && $bg_color ) {
+			$bar_style .= 'background:' . $bg_color . ';';
+		}
+		if ( $offset_top && 'top' === $position ) {
+			$bar_style .= '--mpb-offset:' . $offset_top . ';';
+		}
+
+		ob_start();
+		?>
+		<div id="<?php echo esc_attr( $bar_id ); ?>"
+			class="mosque-prayer-bar mpb-pos-<?php echo esc_attr( $position ); ?> mpb-bg-<?php echo esc_attr( $bg ); ?><?php echo $dismissible ? ' mpb-dismissible' : ''; ?>"
+			style="<?php echo esc_attr( $bar_style ); ?>"
+			role="complementary"
+			aria-label="<?php esc_attr_e( 'Today\'s Prayer Times', 'mosque-timetable' ); ?>">
+
+			<div class="mpb-inner">
+
+				<!-- Prayer times list -->
+				<ul class="mpb-times" aria-label="<?php esc_attr_e( 'Prayer times', 'mosque-timetable' ); ?>">
+					<?php foreach ( $slots as $key => $slot ) : ?>
+						<?php
+						$start  = $today_data ? ( $today_data[ $slot['start'] ] ?? '' ) : '';
+						$jamaat = $today_data && $slot['jamaat'] ? ( $today_data[ $slot['jamaat'] ] ?? '' ) : '';
+						if ( ! $start ) {
+							continue;
+						}
+						$is_next = $pulse_next && ( strtolower( $slot['label'] ) === $next_name || $key === $next_name );
+						?>
+						<li class="mpb-prayer<?php echo $is_next ? ' mpb-next' : ''; ?>">
+							<span class="mpb-prayer-name"><?php echo esc_html( $slot['label'] ); ?></span>
+							<span class="mpb-prayer-times">
+								<span class="mpb-start"><?php echo esc_html( $start ); ?></span>
+								<?php if ( $show_jamaat && $jamaat ) : ?>
+									<span class="mpb-jamaat"><?php echo esc_html( $jamaat ); ?></span>
+								<?php endif; ?>
+							</span>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+
+				<!-- Optional CTA -->
+				<?php if ( $cta_text && $cta_url ) : ?>
+					<a href="<?php echo $cta_url; ?>"
+						class="mpb-cta"
+						target="<?php echo esc_attr( $cta_target ); ?>"
+						<?php echo '_blank' === $cta_target ? 'rel="noopener noreferrer"' : ''; ?>>
+						<?php echo esc_html( $cta_text ); ?>
+						<span class="mpb-cta-arrow" aria-hidden="true">&#8250;</span>
+					</a>
+				<?php endif; ?>
+
+				<!-- Dismiss button -->
+				<?php if ( $dismissible ) : ?>
+					<button class="mpb-dismiss"
+						aria-label="<?php esc_attr_e( 'Close prayer times bar', 'mosque-timetable' ); ?>"
+						data-bar-id="<?php echo esc_attr( $bar_id ); ?>">
+						<span aria-hidden="true">&#10005;</span>
+					</button>
+				<?php endif; ?>
+
+			</div><!-- .mpb-inner -->
+		</div><!-- #bar_id -->
+		<?php
+		return ob_get_clean();
 	}
 
 	/**
