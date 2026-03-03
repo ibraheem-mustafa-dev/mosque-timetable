@@ -13,7 +13,7 @@ declare(strict_types=1);
  * Plugin Name: Mosque Timetable - Prayer Times for Mosques
  * Plugin URI:  https: //mosquewebdesign.com/mosque-timetable.
  * Description: The most complete prayer times plugin for mosques. Auto-calculation, PWA, push notifications, offline mode, REST API, ICS calendar export, digital screen display, and 150+ features.
- * Version:     3.3.3
+ * Version:     3.3.4
  * Author:      Ibraheem Mustafa
  * Author URI:  https: //mosquewebdesign.com.
  * License:     GPL-2.0+
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants.
-define( 'MOSQUE_TIMETABLE_VERSION', '3.3.3' );
+define( 'MOSQUE_TIMETABLE_VERSION', '3.3.4' );
 define( 'MOSQUE_TIMETABLE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MOSQUE_TIMETABLE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'MOSQUE_TIMETABLE_ASSETS_URL', MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/' );

@@ -5892,6 +5892,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			</head>
 
 			<body>
+				<main id="main-content">
 				<div class="today-container">
 					<div class="mosque-icon"></div>
 					<h1><?php echo esc_html( $page_title . ' ' . $today_label ); ?></h1>
@@ -5973,6 +5974,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						</a>
 					</div>
 				</div>
+				</main>
 
 				<?php if ( $countdown_data ) : ?>
 					<script>
