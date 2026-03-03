@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Mosque Timetable - Main Plugin Class
  *
@@ -292,7 +292,7 @@ class MosqueTimetablePlugin {
 						<div class="mosque-admin-title-wrapper">
 							<h1 class="mosque-admin-title">
 								<span class="dashicons dashicons-calendar-alt" style="font-size: 32px; width: 32px; height: 32px;"></span>
-							<?php echo esc_html( $mosque_name ); ?> â€” Prayer Timetables
+							<?php echo esc_html( $mosque_name ); ?> — Prayer Timetables
 							</h1>
 							<p class="mosque-admin-subtitle">
 								Managing <?php echo esc_html( (string) $default_year ); ?> Prayer Times
@@ -305,7 +305,7 @@ class MosqueTimetablePlugin {
 						<!-- Year Archive Browser Card -->
 						<div class="mt-control-card">
 							<div class="mt-card-header">
-								<h2>ðŸ“… Year Archive Browser</h2>
+								<h2> Year Archive Browser</h2>
 							</div>
 							<div class="mt-card-body">
 								<p class="mt-card-description">Browse and manage prayer times across different years</p>
@@ -347,7 +347,7 @@ class MosqueTimetablePlugin {
 						<!-- Import Tools Card -->
 						<div class="mt-control-card">
 							<div class="mt-card-header">
-								<h2>ðŸ“¥ Import Tools</h2>
+								<h2> Import Tools</h2>
 							</div>
 							<div class="mt-card-body">
 								<p class="mt-card-description">Import prayer times from various sources</p>
@@ -365,7 +365,7 @@ class MosqueTimetablePlugin {
 								</div>
 
 								<p class="mt-help-text">
-									ðŸ’¡ <strong>Need examples?</strong>
+									 <strong>Need examples?</strong>
 									<a href="admin.php?page=mosque-import-export">Download sample templates</a>
 								</p>
 							</div>
@@ -436,7 +436,7 @@ class MosqueTimetablePlugin {
 										data-year="<?php echo esc_attr( (string) $default_year ); ?>">
 									<span class="dashicons dashicons-update"></span> Recalculate Hijri
 								</button>
-								<span class="mt-help-text">Adjust Hijri dates by Â±2 days if needed</span>
+								<span class="mt-help-text">Adjust Hijri dates by 2 days if needed</span>
 							</div>
 
 							<!-- PDF Upload Section -->
@@ -634,8 +634,8 @@ endforeach;
 					'generateMonthSuccess' => __( 'Month dates generated.', 'mosque-timetable' ),
 					'yearCreated'          => __( 'Year created.', 'mosque-timetable' ),
 					'yearCreateError'      => __( 'Failed to create year.', 'mosque-timetable' ),
-					'loadingYear'          => __( 'Loading data for yearâ€¦', 'mosque-timetable' ),
-					'exportingCsv'         => __( 'CSV export startedâ€¦', 'mosque-timetable' ),
+					'loadingYear'          => __( 'Loading data for year...', 'mosque-timetable' ),
+					'exportingCsv'         => __( 'CSV export started...', 'mosque-timetable' ),
 					'pdfUploadSuccess'     => __( 'PDF uploaded successfully!', 'mosque-timetable' ),
 					'pdfRemoveSuccess'     => __( 'PDF removed successfully!', 'mosque-timetable' ),
 					'pdfUploadError'       => __( 'PDF upload failed', 'mosque-timetable' ),
@@ -662,7 +662,7 @@ endforeach;
 	}
 
 	// â† next thing here must be ANOTHER method of the class,.
-	// e.g. private function register_mosque_settings_fields() { â€¦ }.
+	// e.g. private function register_mosque_settings_fields() { ... }.
 	// Do NOT put global functions here.
 
 	/**
@@ -1984,7 +1984,7 @@ endforeach;
 		add_submenu_page(
 			'mosque-main',
 			'Debug Timetables',
-			'ðŸ”§ Debug',
+			' Debug',
 			'edit_posts',
 			'mosque-debug',
 			array( $this, 'render_debug_page' )
@@ -2042,19 +2042,19 @@ endforeach;
 						</div>
 
 						<div class="action-card">
-							<h3>ðŸ“… Manage Timetables</h3>
+							<h3> Manage Timetables</h3>
 							<p>Add and edit prayer times for <?php echo esc_html( (string) $default_year ); ?>. <?php echo count( $available_months ); ?> months configured.</p>
 							<a href="admin.php?page=mosque-timetables" class="button button-primary">Edit Timetables</a>
 						</div>
 
 						<div class="action-card">
-							<h3>ðŸŽ¨ Customize Look</h3>
+							<h3> Customize Look</h3>
 							<p>Change colors, enable PWA features, and customize the appearance.</p>
 							<a href="admin.php?page=mosque-appearance" class="button">Customize Appearance</a>
 						</div>
 
 						<div class="action-card">
-							<h3>ðŸ“¥ðŸ“¤ Import/Export</h3>
+							<h3> Import/Export</h3>
 							<p>Import CSV data or export calendars for sharing.</p>
 							<a href="admin.php?page=mosque-import-export" class="button">Import/Export Tools</a>
 						</div>
@@ -2211,7 +2211,7 @@ endforeach;
 			</style>
 
 			<div class="mosque-support-footer">
-				<h3>ðŸ¤² Supporting the Muslim Community</h3>
+				<h3> Supporting the Muslim Community</h3>
 				<p>We're dedicated to empowering mosques and Islamic centres worldwide with professional digital solutions. Our team provides comprehensive support for website development, digital marketing, and technology solutions to help strengthen your community's online presence.</p>
 				<p>Need assistance with your mosque's digital needs? We're here to help with everything from prayer time systems to complete website solutions.</p>
 				<p><strong>Contact us:</strong> <a href="mailto:ibraheem@mosquewebdesign.com">ibraheem@mosquewebdesign.com</a> | <a href="https://mosquewebdesign.com" target="_blank">mosquewebdesign.com</a></p>
@@ -2530,7 +2530,7 @@ endforeach;
 				<tr>
 					<th><label>Mosque Address</label></th>
 					<td>
-						<div style="margin-bottom:15px"><label for="mosque_street_address" style="display:block;font-weight:600;margin-bottom:5px">Street Address</label><input type="text" id="mosque_street_address" name="mosque_street_address" value="<?php echo esc_attr( $street_address ); ?>" class="regular-text" placeholder="e.g., 123 High Street" style="margin-bottom:10px"/><label for="mosque_city" style="display:block;font-weight:600;margin-bottom:5px">City/Town</label><input type="text" id="mosque_city" name="mosque_city" value="<?php echo esc_attr( $city ); ?>" class="regular-text" placeholder="e.g., Birmingham" style="margin-bottom:10px"/><label for="mosque_postcode" style="display:block;font-weight:600;margin-bottom:5px">Postcode/ZIP</label><input type="text" id="mosque_postcode" name="mosque_postcode" value="<?php echo esc_attr( $postcode ); ?>" class="regular-text" placeholder="e.g., B11 4EA" style="margin-bottom:10px"/><label for="mosque_country" style="display:block;font-weight:600;margin-bottom:5px">Country</label><select id="mosque_country" name="mosque_country" class="regular-text" style="margin-bottom:10px"><option value="United Kingdom" <?php selected( $country, 'United Kingdom' ); ?>>United Kingdom</option><option value="United States" <?php selected( $country, 'United States' ); ?>>United States</option><option value="Canada" <?php selected( $country, 'Canada' ); ?>>Canada</option><option value="Australia" <?php selected( $country, 'Australia' ); ?>>Australia</option><option value="Pakistan" <?php selected( $country, 'Pakistan' ); ?>>Pakistan</option><option value="India" <?php selected( $country, 'India' ); ?>>India</option><option value="Bangladesh" <?php selected( $country, 'Bangladesh' ); ?>>Bangladesh</option><option value="South Africa" <?php selected( $country, 'South Africa' ); ?>>South Africa</option><option value="United Arab Emirates" <?php selected( $country, 'United Arab Emirates' ); ?>>United Arab Emirates</option><option value="Saudi Arabia" <?php selected( $country, 'Saudi Arabia' ); ?>>Saudi Arabia</option><option value="Malaysia" <?php selected( $country, 'Malaysia' ); ?>>Malaysia</option><option value="Indonesia" <?php selected( $country, 'Indonesia' ); ?>>Indonesia</option><option value="Turkey" <?php selected( $country, 'Turkey' ); ?>>Turkey</option><option value="Egypt" <?php selected( $country, 'Egypt' ); ?>>Egypt</option><option value="Morocco" <?php selected( $country, 'Morocco' ); ?>>Morocco</option><option value="Nigeria" <?php selected( $country, 'Nigeria' ); ?>>Nigeria</option><option value="Other" <?php selected( $country, 'Other' ); ?>>Other</option></select><div style="margin-top:15px"><button type="button" id="find-coordinates-btn" class="button button-primary" style="margin-bottom:10px"><span class="dashicons dashicons-location" style="margin-top:3px"></span> Find My Coordinates</button><span id="geocode-status" style="margin-left:10px;font-weight:600"></span></div></div><div style="background:#f0f0f1;padding:15px;border-radius:4px;border-left:4px solid #667eea"><label for="mosque_latitude" style="display:block;font-weight:600;margin-bottom:5px">Latitude</label><input type="text" id="mosque_latitude" name="mosque_latitude" value="<?php echo esc_attr( $latitude ); ?>" class="regular-text" placeholder="e.g., 52.4862" style="margin-bottom:10px"/><label for="mosque_longitude" style="display:block;font-weight:600;margin-bottom:5px">Longitude</label><input type="text" id="mosque_longitude" name="mosque_longitude" value="<?php echo esc_attr( $longitude ); ?>" class="regular-text" placeholder="e.g., -1.8904"/><p class="description" style="margin-top:10px"><strong>ðŸ“ Coordinates are used for automatic prayer time calculation.</strong><br>Click "Find My Coordinates" above to automatically populate these fields, or enter them manually.<br>Find coordinates at <a href="https://www.latlong.net/" target="_blank">latlong.net</a></p></div><input type="hidden" id="mosque_address" name="mosque_address" value="<?php echo esc_attr( $mosque_address ); ?>"/>
+						<div style="margin-bottom:15px"><label for="mosque_street_address" style="display:block;font-weight:600;margin-bottom:5px">Street Address</label><input type="text" id="mosque_street_address" name="mosque_street_address" value="<?php echo esc_attr( $street_address ); ?>" class="regular-text" placeholder="e.g., 123 High Street" style="margin-bottom:10px"/><label for="mosque_city" style="display:block;font-weight:600;margin-bottom:5px">City/Town</label><input type="text" id="mosque_city" name="mosque_city" value="<?php echo esc_attr( $city ); ?>" class="regular-text" placeholder="e.g., Birmingham" style="margin-bottom:10px"/><label for="mosque_postcode" style="display:block;font-weight:600;margin-bottom:5px">Postcode/ZIP</label><input type="text" id="mosque_postcode" name="mosque_postcode" value="<?php echo esc_attr( $postcode ); ?>" class="regular-text" placeholder="e.g., B11 4EA" style="margin-bottom:10px"/><label for="mosque_country" style="display:block;font-weight:600;margin-bottom:5px">Country</label><select id="mosque_country" name="mosque_country" class="regular-text" style="margin-bottom:10px"><option value="United Kingdom" <?php selected( $country, 'United Kingdom' ); ?>>United Kingdom</option><option value="United States" <?php selected( $country, 'United States' ); ?>>United States</option><option value="Canada" <?php selected( $country, 'Canada' ); ?>>Canada</option><option value="Australia" <?php selected( $country, 'Australia' ); ?>>Australia</option><option value="Pakistan" <?php selected( $country, 'Pakistan' ); ?>>Pakistan</option><option value="India" <?php selected( $country, 'India' ); ?>>India</option><option value="Bangladesh" <?php selected( $country, 'Bangladesh' ); ?>>Bangladesh</option><option value="South Africa" <?php selected( $country, 'South Africa' ); ?>>South Africa</option><option value="United Arab Emirates" <?php selected( $country, 'United Arab Emirates' ); ?>>United Arab Emirates</option><option value="Saudi Arabia" <?php selected( $country, 'Saudi Arabia' ); ?>>Saudi Arabia</option><option value="Malaysia" <?php selected( $country, 'Malaysia' ); ?>>Malaysia</option><option value="Indonesia" <?php selected( $country, 'Indonesia' ); ?>>Indonesia</option><option value="Turkey" <?php selected( $country, 'Turkey' ); ?>>Turkey</option><option value="Egypt" <?php selected( $country, 'Egypt' ); ?>>Egypt</option><option value="Morocco" <?php selected( $country, 'Morocco' ); ?>>Morocco</option><option value="Nigeria" <?php selected( $country, 'Nigeria' ); ?>>Nigeria</option><option value="Other" <?php selected( $country, 'Other' ); ?>>Other</option></select><div style="margin-top:15px"><button type="button" id="find-coordinates-btn" class="button button-primary" style="margin-bottom:10px"><span class="dashicons dashicons-location" style="margin-top:3px"></span> Find My Coordinates</button><span id="geocode-status" style="margin-left:10px;font-weight:600"></span></div></div><div style="background:#f0f0f1;padding:15px;border-radius:4px;border-left:4px solid #667eea"><label for="mosque_latitude" style="display:block;font-weight:600;margin-bottom:5px">Latitude</label><input type="text" id="mosque_latitude" name="mosque_latitude" value="<?php echo esc_attr( $latitude ); ?>" class="regular-text" placeholder="e.g., 52.4862" style="margin-bottom:10px"/><label for="mosque_longitude" style="display:block;font-weight:600;margin-bottom:5px">Longitude</label><input type="text" id="mosque_longitude" name="mosque_longitude" value="<?php echo esc_attr( $longitude ); ?>" class="regular-text" placeholder="e.g., -1.8904"/><p class="description" style="margin-top:10px"><strong> Coordinates are used for automatic prayer time calculation.</strong><br>Click "Find My Coordinates" above to automatically populate these fields, or enter them manually.<br>Find coordinates at <a href="https://www.latlong.net/" target="_blank">latlong.net</a></p></div><input type="hidden" id="mosque_address" name="mosque_address" value="<?php echo esc_attr( $mosque_address ); ?>"/>
 					</td>
 				</tr>
 				<tr>
@@ -2837,24 +2837,24 @@ endforeach;
 
 				<div class="mosque-import-export-container">
 					<div class="card">
-						<h2>ðŸ“¥ Import Prayer Times</h2>
+						<h2> Import Prayer Times</h2>
 						<p>Import prayer times from various sources:</p>
 						<ul>
-							<li>ðŸ“„ <strong>CSV Files</strong> - Standard comma-separated values</li>
-							<li>ðŸ“Š <strong>XLSX Files</strong> - Excel spreadsheets</li>
-							<li>ðŸ“‹ <strong>Copy/Paste</strong> - Direct from Google Sheets</li>
+							<li> <strong>CSV Files</strong> - Standard comma-separated values</li>
+							<li> <strong>XLSX Files</strong> - Excel spreadsheets</li>
+							<li> <strong>Copy/Paste</strong> - Direct from Google Sheets</li>
 						</ul>
 
-						<h3>ðŸ“‹ Sample Templates</h3>
+						<h3> Sample Templates</h3>
 						<p>Download example files to see the correct format for your prayer time data:</p>
 						<div class="sample-downloads">
 							<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=download_sample_csv&nonce=' . wp_create_nonce( 'mosque_sample_download' ) ) ); ?>" // Escape output.
 								class="button button-secondary" target="_blank">
-								ðŸ“„ Download Sample CSV
+								 Download Sample CSV
 							</a>
 							<a href="<?php echo esc_url( admin_url( 'admin-ajax.php?action=download_sample_xlsx&nonce=' . wp_create_nonce( 'mosque_sample_download' ) ) ); ?>" // Escape output.
 								class="button button-secondary" target="_blank">
-								ðŸ“Š Download Sample XLSX
+								 Download Sample XLSX
 							</a>
 						</div>
 						<p class="description">These templates show the exact column headers and data format required for successful imports. Fill in your mosque's prayer times using the same structure.</p>
@@ -2863,10 +2863,10 @@ endforeach;
 					</div>
 
 					<div class="card">
-						<h2>ðŸ“¤ Export Prayer Times</h2>
+						<h2> Export Prayer Times</h2>
 						<p>Export your prayer times in various formats:</p>
 
-						<h3>ðŸ“… ICS Calendar Export</h3>
+						<h3> ICS Calendar Export</h3>
 						<form method="post" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>"> <!-- Escape output -->
 							<input type="hidden" name="action" value="export_ics_calendar">
 							<input type="hidden" name="nonce" value="<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>"> <!-- Escape output -->
@@ -2937,37 +2937,37 @@ endforeach;
 								</tr>
 							</table>
 
-							<p><input type="submit" class="button button-primary" value="ðŸ“… Export ICS Calendar"></p>
+							<p><input type="submit" class="button button-primary" value=" Export ICS Calendar"></p>
 						</form>
 
-						<h3>ðŸ“Š CSV Export</h3>
+						<h3> CSV Export</h3>
 						<p>Export prayer times as CSV for use in spreadsheets.</p>
-						<button class="button" id="export-csv-btn">ðŸ“Š Export CSV</button>
+						<button class="button" id="export-csv-btn"> Export CSV</button>
 
-						<h3>ðŸ”— Auto-Generated Calendar Subscription</h3>
+						<h3> Auto-Generated Calendar Subscription</h3>
 						<?php $auto_calendar_url = mt_get_subscribe_url(); ?>
 						<p><strong>Your automatic prayer calendar URL:</strong><br>
 							<code><?php echo esc_url( $auto_calendar_url ); ?></code>
 						</p>
-						<p><a href="<?php echo esc_url( $auto_calendar_url ); ?>" target="_blank" class="button">ðŸ“… Download Prayer Calendar</a></p>
+						<p><a href="<?php echo esc_url( $auto_calendar_url ); ?>" target="_blank" class="button"> Download Prayer Calendar</a></p>
 						<p class="description">This calendar is automatically generated from your prayer timetables and updates whenever you change prayer times. Share this URL with your congregation so they can subscribe to prayer times in their calendar apps.</p>
 					</div>
 
 					<div class="card">
-						<h2>ðŸ”„ Data Management</h2>
+						<h2> Data Management</h2>
 						<p>Manage your prayer time data:</p>
 
-						<h3>ðŸ—‘ï¸ Clear All Data</h3>
+						<h3> Clear All Data</h3>
 						<p><strong>Warning:</strong> This will remove all prayer times from all months.</p>
-						<button class="button button-secondary" id="clear-all-data-btn" onclick="if(confirm('Are you sure you want to delete ALL prayer time data? This cannot be undone!')) { clearAllData(); }">ðŸ—‘ï¸ Clear All Prayer Times</button>
+						<button class="button button-secondary" id="clear-all-data-btn" onclick="if(confirm('Are you sure you want to delete ALL prayer time data? This cannot be undone!')) { clearAllData(); }"> Clear All Prayer Times</button>
 
-						<h3>ðŸ”„ Reset to Empty Structure</h3>
+						<h3> Reset to Empty Structure</h3>
 						<p>Keep the date structure but remove all prayer times.</p>
-						<button class="button" id="reset-structure-btn" onclick="if(confirm('Reset all months to empty date structure?')) { resetToEmptyStructure(); }">ðŸ”„ Reset Prayer Times</button>
+						<button class="button" id="reset-structure-btn" onclick="if(confirm('Reset all months to empty date structure?')) { resetToEmptyStructure(); }"> Reset Prayer Times</button>
 
-						<h3>ðŸ“… Regenerate Dates</h3>
+						<h3> Regenerate Dates</h3>
 						<p>Regenerate all dates based on current default year setting.</p>
-						<button class="button" id="regenerate-dates-btn" onclick="if(confirm('Regenerate all dates? This will update Hijri dates too.')) { regenerateAllDates(); }">ðŸ“… Regenerate All Dates</button>
+						<button class="button" id="regenerate-dates-btn" onclick="if(confirm('Regenerate all dates? This will update Hijri dates too.')) { regenerateAllDates(); }"> Regenerate All Dates</button>
 					</div>
 				</div>
 			</div>
@@ -3126,7 +3126,7 @@ endforeach;
 	public function render_debug_page() {
 		?>
 			<div class="wrap">
-				<h1>ðŸ”§ Timetables Debug Report</h1>
+				<h1> Timetables Debug Report</h1>
 
 				<div style="background: #f0f8ff; padding: 15px; margin: 10px 0; border-left: 4px solid #0073aa;">
 					<h3>Quick Test: Go to Timetables Page</h3>
@@ -3916,7 +3916,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 	public function admin_footer_credit( $text ) {
 		$screen = get_current_screen();
 		if ( strpos( $screen->base, 'mosque' ) !== false ) {
-			return '<em>ðŸ•Œ Mosque Prayer Timetable System v3.0 - Enhanced with <a href="https://claude.ai/code" target="_blank">Claude Code</a></em>';
+			return '<em> Mosque Prayer Timetable System v3.0 - Enhanced with <a href="https://claude.ai/code" target="_blank">Claude Code</a></em>';
 		}
 		return $text;
 	}
@@ -4326,7 +4326,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						const banner = document.createElement('div');
 						banner.className = 'mosque-pwa-banner';
 						banner.innerHTML = `
-						<div class="icon">ðŸ•Œ</div>
+						<div class="icon"></div>
 						<div class="content">
 							<div class="title">Install Prayer Times App</div>
 							<div class="subtitle">Get quick access to prayer times offline</div>
@@ -4384,7 +4384,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							const fallbackBanner = document.createElement('div');
 							fallbackBanner.className = 'mosque-pwa-banner';
 							fallbackBanner.innerHTML = `
-							<div class="icon">ðŸ•Œ</div>
+							<div class="icon"></div>
 							<div class="content">
 								<div class="title">Add to Home Screen</div>
 								<div class="subtitle">Access prayer times quickly from your home screen</div>
@@ -5558,7 +5558,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 			<body>
 				<div class="today-container">
-					<div class="mosque-icon">ðŸ•Œ</div>
+					<div class="mosque-icon"></div>
 					<h1><?php echo esc_html( $page_title . ' ' . $today_label ); ?></h1>
 
 					<div class="date-info">
@@ -5631,10 +5631,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 					<div class="actions">
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-primary">
-							ðŸ“… Full Timetable
+							 Full Timetable
 						</a>
 						<a href="<?php echo esc_url( home_url( '/prayer-times/calendar.ics' ) ); ?>" class="btn btn-secondary">
-							ðŸ“± Subscribe
+							 Subscribe
 						</a>
 					</div>
 				</div>
@@ -5880,7 +5880,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						<h2>Current Year - <?php echo esc_html( (string) $current_year ); ?></h2>
 						<p>View this year's complete prayer timetable with monthly breakdowns.</p>
 						<a href="<?php echo esc_url( home_url( "/prayer-times/{$current_year}/" ) ); ?>" class="btn">
-							ðŸ“… View <?php echo esc_html( (string) $current_year ); ?> Timetable
+							 View <?php echo esc_html( (string) $current_year ); ?> Timetable
 						</a>
 					</div>
 
@@ -5902,10 +5902,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 					<div class="navigation">
 						<a href="<?php echo esc_url( home_url( '/today' ) ); ?>" class="btn">
-							ðŸ“± Today's Prayers
+							 Today's Prayers
 						</a>
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-secondary">
-							ðŸ  Home
+							 Home
 						</a>
 					</div>
 				</div>
@@ -5989,8 +5989,8 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							</select>
 						</div>
 						<div class="controls-right">
-							<a href="#" id="download-btn" class="btn btn-primary">ðŸ“¥ Download Timetable</a>
-							<a href="<?php echo esc_url( home_url( '/prayer-times/calendar.ics' ) ); ?>" class="btn btn-secondary">ðŸ“… Subscribe to Calendar</a>
+							<a href="#" id="download-btn" class="btn btn-primary"> Download Timetable</a>
+							<a href="<?php echo esc_url( home_url( '/prayer-times/calendar.ics' ) ); ?>" class="btn btn-secondary"> Subscribe to Calendar</a>
 							<a href="#" id="add-to-calendar-btn" class="btn btn-secondary">âž• Add to Calendar</a>
 						</div>
 					</div>
@@ -6282,13 +6282,13 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 								<div class="navigation">
 									<a href="<?php echo esc_url( home_url( '/prayer-times/' ) ); ?>" class="btn btn-secondary">
-										ðŸ“š All Years
+										 All Years
 									</a>
 									<a href="<?php echo esc_url( home_url( '/today' ) ); ?>" class="btn">
-										ðŸ“± Today's Prayers
+										 Today's Prayers
 									</a>
 									<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-secondary">
-										ðŸ  Home
+										 Home
 									</a>
 								</div>
 				</div>
@@ -6617,17 +6617,17 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						<div class="controls-right">
 							<!-- Button 1: Print Timetable -->
 							<button class="btn btn-secondary" onclick="window.print()">
-								ðŸ–¨ï¸ Print
+								 Print
 							</button>
 
 							<!-- Button 2: Subscribe to Calendar -->
 							<a href="<?php echo esc_url( mt_get_subscribe_url() ); ?>" class="btn btn-secondary">
-								ðŸ“± Subscribe
+								 Subscribe
 							</a>
 
 							<!-- Button 3: Add to Calendar (opens export modal) -->
 							<button class="btn mosque-export-btn">
-								ðŸ“… Export
+								 Export
 							</button>
 						</div>
 					</div>
@@ -6700,13 +6700,13 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 					<div class="navigation">
 						<a href="<?php echo esc_url( home_url( "/prayer-times/{$year}/" ) ); ?>" class="btn btn-secondary">
-							ðŸ“š View All Months
+							 View All Months
 						</a>
 						<a href="<?php echo esc_url( home_url( '/today' ) ); ?>" class="btn">
-							ðŸ“± Today's Prayers
+							 Today's Prayers
 						</a>
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-secondary">
-							ðŸ  Home
+							 Home
 						</a>
 					</div>
 				</div>
@@ -7580,7 +7580,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			// Extract times.
 			$times = array_slice( $data, $start );
 
-			// Accept either â€œdate+timesâ€ or â€œtimes onlyâ€.
+			// Accept either "date+timesâ€ or "times onlyâ€.
 			// For times-only we expect at least 12 fields (fajr start..jummah2).
 			// For date+times same expectation once start offset is applied.
 			if ( count( $times ) < 12 ) {
@@ -7716,7 +7716,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 							</select>
 
 							<button class="mosque-export-btn" data-month="<?php echo esc_attr( $year . '-' . $month ); ?>">
-								ðŸ“… Export Calendar
+								 Export Calendar
 							</button>
 
 							<?php
@@ -7728,13 +7728,13 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 									class="mosque-print-btn"
 									target="_blank"
 									title="Download printable PDF timetable">
-									ðŸ“„ Download Timetable
+									 Download Timetable
 								</a>
 							<?php else : ?>
 								<button class="mosque-print-btn"
 									onclick="window.print()"
 									title="Print this timetable">
-									ðŸ–¨ï¸ Print Timetable
+									 Print Timetable
 								</button>
 							<?php endif; ?>
 
@@ -7742,7 +7742,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								class="mosque-subscribe-btn"
 								target="_blank"
 								title="Click to add our prayer times to your calendar app">
-								ðŸ”— Subscribe to Our Prayer Calendar
+								 Subscribe to Our Prayer Calendar
 							</a>
 						</div>
 					<?php endif; ?>
@@ -8022,7 +8022,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 				<div class="mosque-timetable-footer">
 					<div class="mosque-system-credit">
-						<p>ðŸ•Œ Need a prayer timetable system or new website for your masjid?
+						<p> Need a prayer timetable system or new website for your masjid?
 							<a href="mailto:ibraheem@mosquewebdesign.com">Contact us</a> or
 							<a href="https://mosquewebdesign.com" target="_blank">visit mosquewebdesign.com</a>
 							for professional mosque website solutions.
