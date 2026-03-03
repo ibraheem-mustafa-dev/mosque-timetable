@@ -569,13 +569,13 @@ endforeach;
 		}
 
 		$is_mosque_page =
+			( 'toplevel_page_mosque-main' === $hook ) ||
 			( 'toplevel_page_mosque-timetables' === $hook ) ||
 			( 'mosque-timetable_page_mosque-import-export' === $hook ) ||
 			// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Read-only page detection, no data modification.
-			( isset( $_GET['page'] ) && in_array(
+			( isset( $_GET['page'] ) && str_starts_with(
 				sanitize_text_field( wp_unslash( $_GET['page'] ) ),
-				array( 'mosque-timetables', 'mosque-import-export', 'mosque-settings', 'mosque-appearance' ),
-				true
+				'mosque-'
 			) );
 			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
@@ -583,10 +583,18 @@ endforeach;
 			return;
 		}
 
+		// Islamic typography for admin — El Messiri headings, DM Sans body, Space Mono times.
+		wp_enqueue_style(
+			'mosque-timetable-admin-fonts',
+			'https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap',
+			array(),
+			null
+		);
+
 		wp_enqueue_style(
 			'mosque-timetable-admin-style',
 			MOSQUE_TIMETABLE_ASSETS_URL . 'mosque-timetable-admin.css',
-			array(),
+			array( 'mosque-timetable-admin-fonts' ),
 			MOSQUE_TIMETABLE_VERSION . '-' . wp_date( 'YmdHi' )
 		);
 
@@ -661,7 +669,7 @@ endforeach;
 		$this->register_appearance_settings_fields();
 	}
 
-	// â† next thing here must be ANOTHER method of the class,.
+	//  next thing here must be ANOTHER method of the class,.
 	// e.g. private function register_mosque_settings_fields() { ... }.
 	// Do NOT put global functions here.
 
@@ -833,7 +841,7 @@ endforeach;
 							'10' => __( 'Qatar', 'mosque-timetable' ),
 							'11' => __( 'Majlis Ugama Islam Singapura, Singapore', 'mosque-timetable' ),
 							'12' => __( 'Union Organization islamic de France', 'mosque-timetable' ),
-							'13' => __( 'Diyanet Ä°ÅŸleri BaÅŸkanlÄ±ÄŸÄ±, Turkey', 'mosque-timetable' ),
+							'13' => __( 'Diyanet Isleri Baskanligi, Turkey', 'mosque-timetable' ),
 							'14' => __( 'Spiritual Administration of Muslims of Russia', 'mosque-timetable' ),
 							'15' => __( 'Moonsighting Committee Worldwide', 'mosque-timetable' ),
 						),
@@ -842,11 +850,11 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_jamaat_offsets_message',
-						'label'             => __( 'JamÄÊ¿ah Time Offsets', 'mosque-timetable' ),
+						'label'             => __( 'Jamaah Time Offsets', 'mosque-timetable' ),
 						'name'              => '',
 						'type'              => 'message',
 						'instructions'      => '',
-						'message'           => __( 'Set how many minutes after the start time your mosque holds JamÄÊ¿ah (congregation). For example, if Zuhr starts at 12:00 and JamÄÊ¿ah is at 12:15, enter 15 minutes.', 'mosque-timetable' ),
+						'message'           => __( 'Set how many minutes after the start time your mosque holds Jamaah (congregation). For example, if Zuhr starts at 12:00 and Jamaah is at 12:15, enter 15 minutes.', 'mosque-timetable' ),
 						'conditional_logic' => array(
 							array(
 								array(
@@ -859,10 +867,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_fajr_jamaat_offset',
-						'label'             => __( 'Fajr JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Fajr Jamaah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'fajr_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Fajr start time for JamÄÊ¿ah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Fajr start time for Jamaah', 'mosque-timetable' ),
 						'default_value'     => 10,
 						'min'               => 0,
 						'max'               => 60,
@@ -879,10 +887,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_zuhr_jamaat_offset',
-						'label'             => __( 'Zuhr JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Zuhr Jamaah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'zuhr_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Zuhr start time for JamÄÊ¿ah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Zuhr start time for Jamaah', 'mosque-timetable' ),
 						'default_value'     => 15,
 						'min'               => 0,
 						'max'               => 60,
@@ -899,10 +907,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_asr_jamaat_offset',
-						'label'             => __( 'Asr JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Asr Jamaah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'asr_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Asr start time for JamÄÊ¿ah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Asr start time for Jamaah', 'mosque-timetable' ),
 						'default_value'     => 15,
 						'min'               => 0,
 						'max'               => 60,
@@ -919,10 +927,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_maghrib_jamaat_offset',
-						'label'             => __( 'Maghrib JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Maghrib Jamaah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'maghrib_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Maghrib start time for JamÄÊ¿ah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Maghrib start time for Jamaah', 'mosque-timetable' ),
 						'default_value'     => 5,
 						'min'               => 0,
 						'max'               => 30,
@@ -939,10 +947,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_isha_jamaat_offset',
-						'label'             => __( 'Isha JamÄÊ¿ah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Isha Jamaah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'isha_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Isha start time for JamÄÊ¿ah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Isha start time for Jamaah', 'mosque-timetable' ),
 						'default_value'     => 15,
 						'min'               => 0,
 						'max'               => 60,
@@ -962,7 +970,7 @@ endforeach;
 						'label'        => __( 'Terminology Overrides', 'mosque-timetable' ),
 						'name'         => 'terminology_overrides',
 						'type'         => 'repeater',
-						'instructions' => __( 'Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque" â†’ "Masjid", "Zuhr" â†’ "Dhuhr", "Maghrib" â†’ "Maghreb".', 'mosque-timetable' ),
+						'instructions' => __( 'Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque"  "Masjid", "Zuhr"  "Dhuhr", "Maghrib"  "Maghreb".', 'mosque-timetable' ),
 						'required'     => 0,
 						'layout'       => 'table',
 						'button_label' => __( 'Add Override', 'mosque-timetable' ),
@@ -2036,7 +2044,7 @@ endforeach;
 
 					<div class="mosque-quick-actions">
 						<div class="action-card">
-							<h3>âš™ï¸ Quick Setup</h3>
+							<h3> Quick Setup</h3>
 							<p>Configure your mosque details and select which months you need.</p>
 							<a href="admin.php?page=mosque-settings" class="button button-primary">Configure Settings</a>
 						</div>
@@ -2066,8 +2074,8 @@ endforeach;
 							<li><strong>Mosque:</strong> <?php echo esc_html( $mosque_name ); ?></li>
 							<li><strong>Current Year:</strong> <?php echo esc_html( (string) $default_year ); ?></li>
 							<li><strong>Active Months:</strong> <?php echo esc_html( (string) count( $available_months ) ); ?>/12</li>
-							<li><strong>ACF Pro:</strong> <?php echo function_exists( 'acf' ) ? 'âœ… Installed' : 'âŒ Missing'; ?></li>
-							<li><strong>PWA:</strong> <?php echo mt_get_option( 'enable_pwa', false ) ? 'âœ… Enabled' : 'âŒ Disabled'; ?></li>
+							<li><strong>ACF Pro:</strong> <?php echo function_exists( 'acf' ) ? ' Installed' : ' Missing'; ?></li>
+							<li><strong>PWA:</strong> <?php echo mt_get_option( 'enable_pwa', false ) ? ' Enabled' : ' Disabled'; ?></li>
 						</ul>
 					</div>
 
@@ -2084,23 +2092,39 @@ endforeach;
 			</div>
 
 			<style>
+				/* ---- Mosque Timetable Admin Dashboard — Islamic Design System ---- */
+				:root {
+					--mta-primary:   #0D7377;
+					--mta-dark:      #1A3A5C;
+					--mta-gold:      #C5A55A;
+					--mta-cream:     #F5F1EB;
+					--mta-border:    #e0dbd2;
+					--mta-text:      #2d2d2d;
+					--mta-font-h:    'El Messiri', 'Segoe UI', Georgia, serif;
+					--mta-font-b:    'DM Sans', -apple-system, 'Segoe UI', sans-serif;
+				}
+
 				.mosque-page-header {
 					display: flex;
 					align-items: center;
-					gap: 15px;
+					gap: 14px;
 					margin-bottom: 20px;
 				}
 
 				.mosque-logo {
 					width: 48px;
 					height: 48px;
-					border-radius: 8px;
-					box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+					border-radius: 10px;
+					box-shadow: 0 3px 10px rgba(13, 115, 119, 0.2);
 				}
 
 				.mosque-page-header h1 {
 					margin: 0;
-					color: #1976D2;
+					font-family: var(--mta-font-h);
+					color: var(--mta-primary);
+					font-size: 22px;
+					font-weight: 700;
+					letter-spacing: 0.01em;
 				}
 
 				.mosque-dashboard {
@@ -2112,16 +2136,32 @@ endforeach;
 
 				.mosque-welcome-panel {
 					grid-column: span 2;
-					background: linear-gradient(135deg, #1976D2, #1565C0);
+					background: linear-gradient(135deg, #0D7377 0%, #1A3A5C 100%);
+					background-image:
+						radial-gradient(circle at 15% 60%, rgba(197, 165, 90, 0.18) 0%, transparent 55%),
+						radial-gradient(circle at 85% 15%, rgba(255,255,255,0.06) 0%, transparent 40%),
+						linear-gradient(135deg, #0D7377 0%, #1A3A5C 100%);
 					color: white;
-					padding: 30px;
-					border-radius: 8px;
+					padding: 28px 32px;
+					border-radius: 10px;
 					margin-bottom: 20px;
+					box-shadow: 0 8px 28px rgba(13, 115, 119, 0.28);
+					position: relative;
+					overflow: hidden;
 				}
 
 				.mosque-welcome-panel h2 {
 					margin-top: 0;
-					font-size: 28px;
+					font-family: var(--mta-font-h);
+					font-size: 26px;
+					font-weight: 700;
+					letter-spacing: 0.01em;
+				}
+
+				.mosque-welcome-panel p {
+					margin-bottom: 0;
+					opacity: 0.88;
+					font-size: 14px;
 				}
 
 				.mosque-quick-actions {
@@ -2133,42 +2173,81 @@ endforeach;
 				.action-card {
 					background: white;
 					padding: 20px;
-					border: 1px solid #ddd;
-					border-radius: 6px;
-					box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+					border: 1px solid var(--mta-border);
+					border-left: 3px solid var(--mta-primary);
+					border-radius: 8px;
+					box-shadow: 0 2px 8px rgba(13, 115, 119, 0.07);
+					transition: box-shadow 0.2s, border-color 0.2s;
+				}
+
+				.action-card:hover {
+					box-shadow: 0 4px 16px rgba(13, 115, 119, 0.14);
+					border-left-color: var(--mta-gold);
 				}
 
 				.action-card h3 {
 					margin-top: 0;
-					color: #1976D2;
+					font-family: var(--mta-font-h);
+					font-size: 15px;
+					font-weight: 700;
+					color: var(--mta-primary);
+					letter-spacing: 0.01em;
+				}
+
+				.action-card .button-primary {
+					background: var(--mta-primary);
+					border-color: var(--mta-primary);
+				}
+
+				.action-card .button-primary:hover {
+					background: #0a5d61;
+					border-color: #0a5d61;
 				}
 
 				.mosque-status-panel,
 				.mosque-shortcodes-panel {
 					background: white;
 					padding: 20px;
-					border: 1px solid #ddd;
-					border-radius: 6px;
-					box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+					border: 1px solid var(--mta-border);
+					border-top: 3px solid var(--mta-gold);
+					border-radius: 8px;
+					box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 					margin-bottom: 15px;
+				}
+
+				.mosque-status-panel h3,
+				.mosque-shortcodes-panel h3 {
+					font-family: var(--mta-font-h);
+					color: var(--mta-dark);
+					font-size: 15px;
+					margin-top: 0;
+					margin-bottom: 14px;
 				}
 
 				.mosque-status-panel ul,
 				.mosque-shortcodes-panel ul {
 					list-style: none;
 					padding: 0;
+					margin: 0;
 				}
 
 				.mosque-status-panel li {
-					padding: 5px 0;
-					border-bottom: 1px solid #eee;
+					padding: 7px 0;
+					border-bottom: 1px solid #f0ede8;
+					font-size: 13px;
+					color: var(--mta-text);
 				}
 
+				.mosque-status-panel li:last-child { border-bottom: none; }
+
 				.mosque-shortcodes-panel code {
-					background: #f1f1f1;
-					padding: 2px 6px;
-					border-radius: 3px;
-					font-family: monospace;
+					background: #f0f8f8;
+					color: var(--mta-primary);
+					padding: 2px 7px;
+					border-radius: 4px;
+					font-family: 'Space Mono', monospace;
+					font-size: 12px;
+					border: 1px solid rgba(13, 115, 119, 0.15);
 				}
 
 				@media (max-width: 1200px) {
@@ -2187,25 +2266,31 @@ endforeach;
 
 				.mosque-support-footer {
 					margin-top: 40px;
-					padding: 20px;
-					background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-					border: 1px solid #dee2e6;
+					padding: 22px 24px;
+					background: var(--mta-cream);
+					border: 1px solid var(--mta-border);
+					border-top: 3px solid var(--mta-gold);
 					border-radius: 8px;
 					text-align: center;
-					color: #6c757d;
+					color: #5a5347;
+					grid-column: span 2;
 				}
 
 				.mosque-support-footer h3 {
-					color: #1976D2;
+					font-family: var(--mta-font-h);
+					color: var(--mta-primary);
 					margin-top: 0;
+					font-size: 16px;
 				}
 
 				.mosque-support-footer a {
-					color: #1976D2;
+					color: var(--mta-primary);
 					text-decoration: none;
+					font-weight: 500;
 				}
 
 				.mosque-support-footer a:hover {
+					color: var(--mta-dark);
 					text-decoration: underline;
 				}
 			</style>
@@ -2318,7 +2403,7 @@ endforeach;
 			$method = sanitize_text_field( wp_unslash( $_POST['calculation_method'] ) );
 			update_option( 'calculation_method', $method );
 		}
-		// JamÄÊ¿ah offsets.
+		// Jamaah offsets.
 		if ( isset( $_POST['fajr_jamaat_offset'] ) ) {
 			update_option( 'fajr_jamaat_offset', intval( wp_unslash( $_POST['fajr_jamaat_offset'] ) ) );
 		}
@@ -2536,7 +2621,7 @@ endforeach;
 				<tr>
 					<th><label>Automatic Prayer Times</label></th>
 					<td>
-						<fieldset><label><input type="checkbox" name="enable_auto_times" value="1" <?php checked( $enable_auto_times, 1 ); ?>/> <strong>Enable automatic prayer time generation</strong></label><p class="description">When enabled, the "Generate Dates" button will automatically fetch prayer times from Aladhan API based on your mosque coordinates.</p><div style="margin-top:15px"><label for="calculation_method" style="display:block;font-weight:600;margin-bottom:5px">Calculation Method</label><select id="calculation_method" name="calculation_method" class="regular-text"><option value="0" <?php selected( $calculation_method, '0' ); ?>>Shia Ithna-Ansari</option><option value="1" <?php selected( $calculation_method, '1' ); ?>>University of Islamic Sciences, Karachi</option><option value="2" <?php selected( $calculation_method, '2' ); ?>>Islamic Society of North America (ISNA)</option><option value="3" <?php selected( $calculation_method, '3' ); ?>>Muslim World League (MWL)</option><option value="4" <?php selected( $calculation_method, '4' ); ?>>Umm Al-Qura University, Makkah</option><option value="5" <?php selected( $calculation_method, '5' ); ?>>Egyptian General Authority of Survey</option><option value="7" <?php selected( $calculation_method, '7' ); ?>>Institute of Geophysics, University of Tehran</option><option value="8" <?php selected( $calculation_method, '8' ); ?>>Gulf Region</option><option value="9" <?php selected( $calculation_method, '9' ); ?>>Kuwait</option><option value="10" <?php selected( $calculation_method, '10' ); ?>>Qatar</option><option value="11" <?php selected( $calculation_method, '11' ); ?>>Majlis Ugama Islam Singapura, Singapore</option><option value="12" <?php selected( $calculation_method, '12' ); ?>>Union Organization islamic de France</option><option value="13" <?php selected( $calculation_method, '13' ); ?>>Diyanet Ä°ÅŸleri BaÅŸkanlÄ±ÄŸÄ±, Turkey</option><option value="14" <?php selected( $calculation_method, '14' ); ?>>Spiritual Administration of Muslims of Russia</option></select><p class="description">Select the calculation method appropriate for your region.</p></div></fieldset>
+						<fieldset><label><input type="checkbox" name="enable_auto_times" value="1" <?php checked( $enable_auto_times, 1 ); ?>/> <strong>Enable automatic prayer time generation</strong></label><p class="description">When enabled, the "Generate Dates" button will automatically fetch prayer times from Aladhan API based on your mosque coordinates.</p><div style="margin-top:15px"><label for="calculation_method" style="display:block;font-weight:600;margin-bottom:5px">Calculation Method</label><select id="calculation_method" name="calculation_method" class="regular-text"><option value="0" <?php selected( $calculation_method, '0' ); ?>>Shia Ithna-Ansari</option><option value="1" <?php selected( $calculation_method, '1' ); ?>>University of Islamic Sciences, Karachi</option><option value="2" <?php selected( $calculation_method, '2' ); ?>>Islamic Society of North America (ISNA)</option><option value="3" <?php selected( $calculation_method, '3' ); ?>>Muslim World League (MWL)</option><option value="4" <?php selected( $calculation_method, '4' ); ?>>Umm Al-Qura University, Makkah</option><option value="5" <?php selected( $calculation_method, '5' ); ?>>Egyptian General Authority of Survey</option><option value="7" <?php selected( $calculation_method, '7' ); ?>>Institute of Geophysics, University of Tehran</option><option value="8" <?php selected( $calculation_method, '8' ); ?>>Gulf Region</option><option value="9" <?php selected( $calculation_method, '9' ); ?>>Kuwait</option><option value="10" <?php selected( $calculation_method, '10' ); ?>>Qatar</option><option value="11" <?php selected( $calculation_method, '11' ); ?>>Majlis Ugama Islam Singapura, Singapore</option><option value="12" <?php selected( $calculation_method, '12' ); ?>>Union Organization islamic de France</option><option value="13" <?php selected( $calculation_method, '13' ); ?>>Diyanet Isleri Baskanligi, Turkey</option><option value="14" <?php selected( $calculation_method, '14' ); ?>>Spiritual Administration of Muslims of Russia</option></select><p class="description">Select the calculation method appropriate for your region.</p></div></fieldset>
 					</td>
 				</tr>
 				<tr>
@@ -2580,7 +2665,7 @@ endforeach;
 							?>
 								<div class="terminology-override-row" style="margin-bottom: 10px; display: flex; gap: 10px; align-items: center;">
 									<input type="text" name="terminology_overrides[<?php echo esc_attr( $index ); ?>][from]" value="<?php echo esc_attr( $override['from'] ?? '' ); ?>" placeholder="From (e.g., Mosque)" style="width: 150px;" />
-									<span>â†’</span>
+									<span></span>
 									<input type="text" name="terminology_overrides[<?php echo esc_attr( $index ); ?>][to]" value="<?php echo esc_attr( $override['to'] ?? '' ); ?>" placeholder="To (e.g., Masjid)" style="width: 150px;" />
 									<label>
 										<input type="checkbox" name="terminology_overrides[<?php echo esc_attr( $index ); ?>][enabled]" value="1" <?php checked( $override['enabled'] ?? 1, 1 ); ?> />
@@ -2591,7 +2676,7 @@ endforeach;
 							<?php endforeach; ?>
 						</div>
 						<button type="button" class="button" id="add-terminology-override">Add Override</button>
-						<p class="description">Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque" â†’ "Masjid", "Zuhr" â†’ "Dhuhr".</p>
+						<p class="description">Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque"  "Masjid", "Zuhr"  "Dhuhr".</p>
 						<script>
 							document.getElementById('add-terminology-override').addEventListener('click', function() {
 								const container = document.getElementById('terminology-overrides');
@@ -2601,7 +2686,7 @@ endforeach;
 								newRow.style.cssText = 'margin-bottom: 10px; display: flex; gap: 10px; align-items: center;';
 								newRow.innerHTML = `
 							<input type="text" name="terminology_overrides[${index}][from]" placeholder="From (e.g., Mosque)" style="width: 150px;" />
-							<span>â†’</span>
+							<span></span>
 							<input type="text" name="terminology_overrides[${index}][to]" placeholder="To (e.g., Masjid)" style="width: 150px;" />
 							<label>
 								<input type="checkbox" name="terminology_overrides[${index}][enabled]" value="1" checked />
@@ -2665,7 +2750,7 @@ endforeach;
 
 					// Validation.
 					if (!street && !city && !postcode) {
-						status.css('color', '#d63638').text('âš ï¸ Please enter at least street, city, or postcode');
+						status.css('color', '#d63638').text(' Please enter at least street, city, or postcode');
 						return;
 					}
 
@@ -2700,7 +2785,7 @@ endforeach;
 								$('#mosque_longitude').val(lon);
 
 								// Show success.
-								status.css('color', '#00a32a').html('âœ… Coordinates found! <small>(' + lat + ', ' + lon + ')</small>');
+								status.css('color', '#00a32a').html(' Coordinates found! <small>(' + lat + ', ' + lon + ')</small>');
 
 								// Highlight the coordinate fields briefly.
 								$('#mosque_latitude, #mosque_longitude').css({
@@ -2712,11 +2797,11 @@ endforeach;
 								}, 2000);
 
 							} else {
-								status.css('color', '#d63638').text('âš ï¸ No results found. Try a different address or enter coordinates manually.');
+								status.css('color', '#d63638').text(' No results found. Try a different address or enter coordinates manually.');
 							}
 						},
 						error: function() {
-							status.css('color', '#d63638').text('âŒ Geocoding failed. Please check your internet connection or enter coordinates manually.');
+							status.css('color', '#d63638').text(' Geocoding failed. Please check your internet connection or enter coordinates manually.');
 						},
 						complete: function() {
 							button.prop('disabled', false);
@@ -3074,9 +3159,9 @@ endforeach;
 						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output.
 					}, function(response) {
 						if (response.success) {
-							alert('âœ… All prayer data cleared successfully!');
+							alert(' All prayer data cleared successfully!');
 						} else {
-							alert('âŒ Error: ' + response.data);
+							alert(' Error: ' + response.data);
 						}
 					});
 				}
@@ -3087,9 +3172,9 @@ endforeach;
 						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output.
 					}, function(response) {
 						if (response.success) {
-							alert('âœ… Prayer times reset to empty structure!');
+							alert(' Prayer times reset to empty structure!');
 						} else {
-							alert('âŒ Error: ' + response.data);
+							alert(' Error: ' + response.data);
 						}
 					});
 				}
@@ -3100,9 +3185,9 @@ endforeach;
 						nonce: '<?php echo esc_attr( wp_create_nonce( 'mosque_timetable_nonce' ) ); ?>' // Escape output.
 					}, function(response) {
 						if (response.success) {
-							alert('âœ… All dates regenerated successfully!');
+							alert(' All dates regenerated successfully!');
 						} else {
-							alert('âŒ Error: ' + response.data);
+							alert(' Error: ' + response.data);
 						}
 					});
 				}
@@ -3149,9 +3234,9 @@ endforeach;
 
 			foreach ( $critical_ajax_actions as $action => $description ) {
 				if ( has_action( "wp_ajax_$action" ) ) {
-					echo '<p style="color: green;">âœ… ' . esc_html( $description ) . ' (' . esc_html( $action ) . ')</p>'; // Escape output.
+					echo '<p style="color: green;"> ' . esc_html( $description ) . ' (' . esc_html( $action ) . ')</p>'; // Escape output.
 				} else {
-					echo '<p style="color: red;">âŒ ' . esc_html( $description ) . ' (' . esc_html( $action ) . ') - MISSING!</p>'; // Escape output.
+					echo '<p style="color: red;"> ' . esc_html( $description ) . ' (' . esc_html( $action ) . ') - MISSING!</p>'; // Escape output.
 				}
 			}
 			echo '</div>';
@@ -3162,16 +3247,16 @@ endforeach;
 
 			$admin_js_file = MOSQUE_TIMETABLE_PLUGIN_DIR . 'assets/mosque-timetable-admin.js';
 			if ( file_exists( $admin_js_file ) ) {
-				echo '<p style="color: green;">âœ… Admin JS file exists (' . number_format( filesize( $admin_js_file ) ) . ' bytes)</p>';
+				echo '<p style="color: green;"> Admin JS file exists (' . number_format( filesize( $admin_js_file ) ) . ' bytes)</p>';
 			} else {
-				echo '<p style="color: red;">âŒ Admin JS file missing</p>';
+				echo '<p style="color: red;"> Admin JS file missing</p>';
 			}
 
 			$admin_css_file = MOSQUE_TIMETABLE_PLUGIN_DIR . 'assets/mosque-timetable-admin.css';
 			if ( file_exists( $admin_css_file ) ) {
-				echo '<p style="color: green;">âœ… Admin CSS file exists (' . number_format( filesize( $admin_css_file ) ) . ' bytes)</p>';
+				echo '<p style="color: green;"> Admin CSS file exists (' . number_format( filesize( $admin_css_file ) ) . ' bytes)</p>';
 			} else {
-				echo '<p style="color: red;">âŒ Admin CSS file missing</p>';
+				echo '<p style="color: red;"> Admin CSS file missing</p>';
 			}
 			echo '</div>';
 
@@ -3199,9 +3284,9 @@ endforeach;
 				$month_data = get_field( $field_name, 'option' );
 
 				if ( $month_data && is_array( $month_data ) ) {
-					echo '<p style="color: green;">âœ… ' . esc_html( $months[ $month - 1 ] ) . ': ' . esc_html( count( $month_data ) ) . ' days</p>'; // Escape output.
+					echo '<p style="color: green;"> ' . esc_html( $months[ $month - 1 ] ) . ': ' . esc_html( count( $month_data ) ) . ' days</p>'; // Escape output.
 				} else {
-					echo '<p style="color: orange;">âš ï¸ ' . esc_html( $months[ $month - 1 ] ) . ': No data</p>'; // Escape output.
+					echo '<p style="color: orange;"> ' . esc_html( $months[ $month - 1 ] ) . ': No data</p>'; // Escape output.
 				}
 			}
 			echo '</div>';
@@ -3215,15 +3300,15 @@ endforeach;
 
 // Check main objects.
 if (typeof MosqueTimetableAdmin !== 'undefined') {
-	console.log('âœ… MosqueTimetableAdmin exists:', MosqueTimetableAdmin);
+	console.log(' MosqueTimetableAdmin exists:', MosqueTimetableAdmin);
 } else {
-	console.error('âŒ MosqueTimetableAdmin missing');
+	console.error(' MosqueTimetableAdmin missing');
 }
 
 if (typeof mosqueTimetableAdmin !== 'undefined') {
-	console.log('âœ… mosqueTimetableAdmin config:', mosqueTimetableAdmin);
+	console.log(' mosqueTimetableAdmin config:', mosqueTimetableAdmin);
 } else {
-	console.error('âŒ mosqueTimetableAdmin config missing');
+	console.error(' mosqueTimetableAdmin config missing');
 }
 
 // Test AJAX.
@@ -3234,9 +3319,9 @@ if (typeof jQuery !== 'undefined' && mosqueTimetableAdmin?.ajaxUrl) {
 		year: 2024,
 		nonce: mosqueTimetableAdmin.nonce
 	}).done(function(response) {
-		console.log('âœ… AJAX test successful:', response);
+		console.log(' AJAX test successful:', response);
 	}).fail(function(xhr) {
-		console.error('âŒ AJAX test failed:', xhr.responseText);
+		console.error(' AJAX test failed:', xhr.responseText);
 	});
 }
 
@@ -3255,7 +3340,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 
 				<div style="background: #fff3cd; padding: 15px; margin: 10px 0; border-left: 4px solid #ffc107;">
 					<h3>What to Do Next</h3>
-					<p><strong>If you see red âŒ errors above:</strong></p>
+					<p><strong>If you see red  errors above:</strong></p>
 					<ul>
 						<li>Missing AJAX actions = Backend problem</li>
 						<li>Missing asset files = File upload problem</li>
@@ -5622,7 +5707,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 									<h3><?php echo esc_html( $prayer_labels[ $prayer ] ); ?></h3>
 									<div class="time"><?php echo esc_html( $times['start'] ?: 'N/A' ); ?></div>
 									<?php if ( $times['jamaah'] ) : ?>
-										<div class="jamaah">JamÄÊ¿ah: <?php echo esc_html( $times['jamaah'] ); ?></div>
+										<div class="jamaah">Jamaah: <?php echo esc_html( $times['jamaah'] ); ?></div>
 									<?php endif; ?>
 								</div>
 							<?php endforeach; ?>
@@ -5991,7 +6076,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						<div class="controls-right">
 							<a href="#" id="download-btn" class="btn btn-primary"> Download Timetable</a>
 							<a href="<?php echo esc_url( home_url( '/prayer-times/calendar.ics' ) ); ?>" class="btn btn-secondary"> Subscribe to Calendar</a>
-							<a href="#" id="add-to-calendar-btn" class="btn btn-secondary">âž• Add to Calendar</a>
+							<a href="#" id="add-to-calendar-btn" class="btn btn-secondary"> Add to Calendar</a>
 						</div>
 					</div>
 					<div class="timetable-wrapper">
@@ -6265,7 +6350,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 										<div class="month-card <?php echo $has_data ? 'available' : 'unavailable'; ?>">
 											<h3><?php echo esc_html( $month_name ); ?></h3>
 											<p class="status">
-											<?php echo $has_data ? 'âœ… Available' : 'â³ No data'; ?>
+											<?php echo $has_data ? ' Available' : ' No data'; ?>
 											</p>
 										<?php if ( $has_data ) : ?>
 												<a href="<?php echo esc_url( home_url( "/prayer-times/{$year}/{$month_slug}/" ) ); ?>" class="btn">
@@ -7580,7 +7665,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			// Extract times.
 			$times = array_slice( $data, $start );
 
-			// Accept either "date+timesâ€ or "times onlyâ€.
+			// Accept either "date+times or "times only.
 			// For times-only we expect at least 12 fields (fajr start..jummah2).
 			// For date+times same expectation once start offset is applied.
 			if ( count( $times ) < 12 ) {
@@ -8689,27 +8774,27 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					'type' => 'start',
 				);
 
-				// Add JamÄÊ¿ah times if requested.
+				// Add Jamaah times if requested.
 				if ( $options['include_jamah'] ) {
-					$prayers['Fajr JamÄÊ¿ah'] = array(
+					$prayers['Fajr Jamaah'] = array(
 						'time' => $day['fajr_jamaat'],
 						'type' => 'jamaat',
 					);
 					if ( ! $is_friday ) {
-						$prayers['Zuhr JamÄÊ¿ah'] = array(
+						$prayers['Zuhr Jamaah'] = array(
 							'time' => $day['zuhr_jamaat'],
 							'type' => 'jamaat',
 						);
 					}
-					$prayers['Asr JamÄÊ¿ah']     = array(
+					$prayers['Asr Jamaah']     = array(
 						'time' => $day['asr_jamaat'],
 						'type' => 'jamaat',
 					);
-					$prayers['Maghrib JamÄÊ¿ah'] = array(
+					$prayers['Maghrib Jamaah'] = array(
 						'time' => $day['maghrib_jamaat'],
 						'type' => 'jamaat',
 					);
-					$prayers['Isha JamÄÊ¿ah']    = array(
+					$prayers['Isha Jamaah']    = array(
 						'time' => $day['isha_jamaat'],
 						'type' => 'jamaat',
 					);
@@ -9218,11 +9303,11 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	}
 
 	/**
-	 * Calculate JamÄÊ¿ah time by adding offset to start time
+	 * Calculate Jamaah time by adding offset to start time
 	 *
 	 * @param string $start_time Start time (HH:MM format)
 	 * @param int    $offset_minutes Minutes to add
-	 * @return string JamÄÊ¿ah time (HH:MM format)
+	 * @return string Jamaah time (HH:MM format)
 	 */
 	private function calculate_jamaat_time( $start_time, $offset_minutes ) {
 		if ( empty( $start_time ) || $offset_minutes <= 0 ) {
@@ -9256,7 +9341,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			if ( ! is_wp_error( $api_response ) ) {
 				$api_data = $api_response;
 
-				// Get JamÄÊ¿ah offsets.
+				// Get Jamaah offsets.
 				$fajr_offset    = (int) mt_get_option( 'fajr_jamaat_offset', 10 );
 				$zuhr_offset    = (int) mt_get_option( 'zuhr_jamaat_offset', 15 );
 				$asr_offset     = (int) mt_get_option( 'asr_jamaat_offset', 15 );
@@ -9303,7 +9388,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				$day_data['maghrib_start'] = $this->parse_api_time( $timings['Maghrib'] ?? '' );
 				$day_data['isha_start']    = $this->parse_api_time( $timings['Isha'] ?? '' );
 
-				// Calculate JamÄÊ¿ah times.
+				// Calculate Jamaah times.
 				$day_data['fajr_jamaat']    = $this->calculate_jamaat_time( $day_data['fajr_start'], $fajr_offset );
 				$day_data['zuhr_jamaat']    = $this->calculate_jamaat_time( $day_data['zuhr_start'], $zuhr_offset );
 				$day_data['asr_jamaat']     = $this->calculate_jamaat_time( $day_data['asr_start'], $asr_offset );

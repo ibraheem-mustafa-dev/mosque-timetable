@@ -66,9 +66,16 @@
 	========================================================================== */
 
 .mosque-timetable-admin {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-family: var(--mt-font-body);
 	color: var(--mt-gray-800);
 	line-height: 1.6;
+}
+
+.mosque-timetable-admin h1,
+.mosque-timetable-admin h2,
+.mosque-timetable-admin h3,
+.mosque-timetable-admin h4 {
+	font-family: var(--mt-font-heading);
 }
 
 .mosque-admin-container {
