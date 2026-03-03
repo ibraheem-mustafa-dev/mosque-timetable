@@ -464,7 +464,7 @@
 
 .prayer-jamaat {
 	font-size: 12px;
-	color: #6c757d;
+	color: #5c636a; /* WCAG AA: 5.4:1 on #faf8f5, 4.9:1 on tinted today-row */
 	font-style: italic;
 }
 
@@ -1072,7 +1072,7 @@ button,
 	align-items: center;
 	height: 200px;
 	font-size: 16px;
-	color: #6c757d;
+	color: #5c636a; /* WCAG AA compliant */
 }
 
 .mosque-spinner {

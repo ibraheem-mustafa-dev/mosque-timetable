@@ -4656,6 +4656,8 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					function showPWABanner() {
 						const banner = document.createElement('div');
 						banner.className = 'mosque-pwa-banner';
+						banner.setAttribute('role', 'complementary');
+						banner.setAttribute('aria-label', 'Install Prayer Times App');
 						banner.innerHTML = `
 						<div class="icon"></div>
 						<div class="content">
@@ -4714,6 +4716,8 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							// Create a simpler banner for browsers that don't support beforeinstallprompt.
 							const fallbackBanner = document.createElement('div');
 							fallbackBanner.className = 'mosque-pwa-banner';
+							fallbackBanner.setAttribute('role', 'complementary');
+							fallbackBanner.setAttribute('aria-label', 'Add to Home Screen');
 							fallbackBanner.innerHTML = `
 							<div class="icon"></div>
 							<div class="content">
@@ -6298,10 +6302,11 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				<title><?php echo esc_html( $mosque_name ); ?> - Prayer Times</title>
 			<?php wp_head(); ?>
 				<style>
-					:root{--mosque-primary:#0D7377;--mosque-gradient:linear-gradient(135deg,#0D7377 0%,#1A3A5C 100%);--text-primary:#2c3e50;--text-secondary:#6c757d;--border-color:#ddd}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:var(--text-primary);background:#f8f9fa}.header{background:var(--mosque-gradient);color:white;padding:2rem 1rem;text-align:center;box-shadow:0 4px 12px rgba(102,126,234,0.2)}.header h1{font-size:2.5rem;margin-bottom:0.5rem}.header p{font-size:1.2rem;opacity:0.95}.container{max-width:1200px;margin:2rem auto;padding:0 1rem}.controls{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:2rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}.controls-left{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.controls-left label{font-weight:600;color:var(--text-primary)}.controls-left select{padding:0.5rem 1rem;border:2px solid var(--border-color);border-radius:8px;font-size:1rem;cursor:pointer;transition:border-color 0.2s}.controls-left select:focus{outline:none;border-color:var(--mosque-primary)}.controls-right{display:flex;gap:0.75rem;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;text-decoration:none;cursor:pointer;transition:all 0.2s}.btn-primary{background:var(--mosque-gradient);color:white;box-shadow:0 2px 8px rgba(102,126,234,0.3)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(102,126,234,0.4)}.btn-secondary{background:white;color:var(--mosque-primary);border:2px solid var(--mosque-primary)}.btn-secondary:hover{background:var(--mosque-primary);color:white}.timetable-wrapper{background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden}.timetable-header{background:var(--mosque-gradient);color:white;padding:1.5rem;text-align:center}.timetable-header h2{font-size:1.8rem;margin:0}.footer{text-align:center;padding:2rem 1rem;color:var(--text-secondary)}.footer a{color:var(--mosque-primary);text-decoration:none;font-weight:600}.footer a:hover{text-decoration:underline}@media (max-width:768px){.header h1{font-size:1.8rem}.controls{flex-direction:column;align-items:stretch}.controls-left,.controls-right{width:100%;justify-content:center}.controls-right{flex-direction:column}.btn{width:100%;justify-content:center}}
+					:root{--mosque-primary:#0D7377;--mosque-gradient:linear-gradient(135deg,#0D7377 0%,#1A3A5C 100%);--text-primary:#2c3e50;--text-secondary:#5c636a;--border-color:#ddd}*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:var(--text-primary);background:#f8f9fa}.header{background:var(--mosque-gradient);color:white;padding:2rem 1rem;text-align:center;box-shadow:0 4px 12px rgba(102,126,234,0.2)}.header h1{font-size:2.5rem;margin-bottom:0.5rem}.header p{font-size:1.2rem;opacity:0.95}.container{max-width:1200px;margin:2rem auto;padding:0 1rem}.controls{background:white;padding:1.5rem;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:2rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}.controls-left{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}.controls-left label{font-weight:600;color:var(--text-primary)}.controls-left select{padding:0.5rem 1rem;border:2px solid var(--border-color);border-radius:8px;font-size:1rem;cursor:pointer;transition:border-color 0.2s}.controls-left select:focus{outline:none;border-color:var(--mosque-primary)}.controls-right{display:flex;gap:0.75rem;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;text-decoration:none;cursor:pointer;transition:all 0.2s}.btn-primary{background:var(--mosque-gradient);color:white;box-shadow:0 2px 8px rgba(102,126,234,0.3)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(102,126,234,0.4)}.btn-secondary{background:white;color:var(--mosque-primary);border:2px solid var(--mosque-primary)}.btn-secondary:hover{background:var(--mosque-primary);color:white}.timetable-wrapper{background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);overflow:hidden}.timetable-header{background:var(--mosque-gradient);color:white;padding:1.5rem;text-align:center}.timetable-header h2{font-size:1.8rem;margin:0}.footer{text-align:center;padding:2rem 1rem;color:var(--text-secondary)}.footer a{color:var(--mosque-primary);text-decoration:none;font-weight:600}.footer a:hover{text-decoration:underline}@media (max-width:768px){.header h1{font-size:1.8rem}.controls{flex-direction:column;align-items:stretch}.controls-left,.controls-right{width:100%;justify-content:center}.controls-right{flex-direction:column}.btn{width:100%;justify-content:center}}
 				</style>
 			</head>
 			<body>
+				<main id="main-content">
 				<div class="header"><h1><?php echo esc_html( $mosque_name ); ?></h1><p>Prayer Times</p></div>
 				<div class="container">
 					<div class="controls">
@@ -6341,6 +6346,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						<p><a href="<?php echo esc_url( home_url( '/prayer-times/archive/' ) ); ?>">View Archive</a> | <a href="<?php echo esc_url( home_url( '/today' ) ); ?>">Today's Prayers</a> | <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a></p>
 					</div>
 				</div>
+				</main>
 				<script>
 					const monthSelect=document.getElementById('month-select'),yearSelect=document.getElementById('year-select');function updateTimetable(){const month=monthSelect.value,year=yearSelect.value;window.location.href='<?php echo esc_js( home_url( '/prayer-times/' ) ); ?>?month='+month+'&year='+year}monthSelect.addEventListener('change',updateTimetable);yearSelect.addEventListener('change',updateTimetable);document.getElementById('download-btn').addEventListener('click',function(e){e.preventDefault();const month=monthSelect.value,year=yearSelect.value;window.location.href='<?php echo esc_js( rest_url( 'mosque/v1/export-pdf' ) ); ?>?month='+month+'&year='+year});document.getElementById('add-to-calendar-btn').addEventListener('click',function(e){e.preventDefault();const month=monthSelect.value,year=yearSelect.value;window.location.href='<?php echo esc_js( rest_url( 'mosque/v1/export-ics' ) ); ?>?month='+month+'&year='+year});
 				</script>
@@ -8026,7 +8032,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 		ob_start();
 		?>
-			<div class="mosque-timetable-container">
+			<div class="mosque-timetable-container" role="region" aria-label="<?php echo esc_attr( mt_apply_terminology( 'Prayer Timetable' ) ); ?>">
 				<div class="mosque-timetable-header">
 					<h2 class="mosque-timetable-title">
 					<?php echo esc_html( $mosque_name . ( $mosque_address ? ' - ' . $mosque_address : '' ) ); ?>

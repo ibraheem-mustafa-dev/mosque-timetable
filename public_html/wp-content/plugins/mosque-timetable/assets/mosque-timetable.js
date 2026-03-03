@@ -186,7 +186,7 @@
 
       if ($('.mosque-pwa-banner').length === 0) {
         const banner = `
-          <div class="mosque-pwa-banner">
+          <div class="mosque-pwa-banner" role="complementary" aria-label="Install Prayer Times App">
             <div class="mosque-pwa-content">
               <span class="mosque-pwa-icon">ðŸ•Œ</span>
               <div class="mosque-pwa-text">
