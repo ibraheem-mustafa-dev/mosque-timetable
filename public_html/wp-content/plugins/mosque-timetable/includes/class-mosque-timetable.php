@@ -8144,11 +8144,21 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					</div>
 
 					<?php
-					$is_ramadan = $this->is_ramadan();
-					if ( $is_ramadan ) {
+					// Banner: only show when TODAY is in Ramadan (shows live suhoor/iftar countdown).
+					$is_ramadan_today = $this->is_ramadan();
+					if ( $is_ramadan_today ) {
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- shortcode_ramadan_info returns pre-escaped HTML
 						echo $this->shortcode_ramadan_info( array( 'layout' => 'banner', 'show_day' => 'true', 'show_countdown' => 'true' ) );
 					}
+
+					// Column: show Suhoor column whenever the *displayed month* overlaps Ramadan.
+					$ramadan_col_start = mt_get_option( 'ramadan_start_date', '' );
+					$ramadan_col_end   = mt_get_option( 'ramadan_end_date', '' );
+					$month_first_day   = sprintf( '%04d-%02d-01', $year, $month );
+					$month_last_day    = wp_date( 'Y-m-t', mktime( 0, 0, 0, $month, 1, $year ) );
+					$is_ramadan        = $ramadan_col_start && $ramadan_col_end
+						&& $month_first_day <= $ramadan_col_end
+						&& $month_last_day  >= $ramadan_col_start;
 					?>
 
 					<table class="mosque-timetable">
@@ -8202,8 +8212,16 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 									?>
 
 									<?php if ( $is_ramadan ) : ?>
+									<?php
+									$rdstart        = mt_get_option( 'ramadan_start_date', '' );
+									$rdend          = mt_get_option( 'ramadan_end_date', '' );
+									$row_date_str   = $day['date_full'] ?? '';
+									$row_in_ramadan = $rdstart && $rdend && $row_date_str >= $rdstart && $row_date_str <= $rdend;
+									?>
 									<td class="suhoor-col">
+										<?php if ( $row_in_ramadan ) : ?>
 										<div class="prayer-single"><?php echo esc_html( $this->calc_suhoor( $day['fajr_start'] ?? '' ) ); ?></div>
+										<?php endif; ?>
 									</td>
 									<?php endif; ?>
 
@@ -8291,7 +8309,13 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 											<?php endif; ?>
 
 											<?php if ( $is_ramadan ) : ?>
-												<?php $suhoor_card = $this->calc_suhoor( $day['fajr_start'] ?? '' ); ?>
+												<?php
+												$rdstart_c      = mt_get_option( 'ramadan_start_date', '' );
+												$rdend_c        = mt_get_option( 'ramadan_end_date', '' );
+												$row_date_c     = $day['date_full'] ?? '';
+												$card_in_ramadan = $rdstart_c && $rdend_c && $row_date_c >= $rdstart_c && $row_date_c <= $rdend_c;
+												$suhoor_card    = $card_in_ramadan ? $this->calc_suhoor( $day['fajr_start'] ?? '' ) : '';
+												?>
 												<?php if ( $suhoor_card ) : ?>
 												<div class="mosque-prayer-time-item suhoor-item">
 													<div class="mosque-prayer-time-name">Suhoor</div>
