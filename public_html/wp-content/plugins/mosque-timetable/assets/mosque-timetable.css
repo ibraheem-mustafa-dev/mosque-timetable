@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Mosque Timetable Frontend Styles
  * Version: 3.2.0  Islamic Design System
  *
@@ -1361,7 +1361,7 @@ button,
 	}
 
 	.mosque-prayer-time-jamaat::before {
-		content: "JamÄ�ah: ";
+		content: "Jama'ah: ";
 		opacity: 0.8;
 	}
 

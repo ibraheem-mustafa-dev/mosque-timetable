@@ -3,7 +3,7 @@ Contributors: ibraheemmustafa
 Tags: mosque, prayer times, islamic, salah, masjid, muslim, pwa, timetable, ramadan, qibla
 Requires at least: 6.0
 Tested up to: 6.7
-Stable tag: 3.3.5
+Stable tag: 3.3.6
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
