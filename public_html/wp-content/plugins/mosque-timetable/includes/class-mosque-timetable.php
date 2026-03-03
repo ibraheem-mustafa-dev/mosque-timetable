@@ -1793,6 +1793,184 @@ endforeach;
 		add_shortcode( 'todays_prayers', array( $this, 'shortcode_todays_prayers' ) );
 		add_shortcode( 'prayer_countdown', array( $this, 'shortcode_prayer_countdown' ) );
 		add_shortcode( 'mosque_prayer_bar', array( $this, 'shortcode_mosque_prayer_bar' ) );
+		add_shortcode( 'ramadan_info', array( $this, 'shortcode_ramadan_info' ) );
+	}
+
+	// -------------------------------------------------------------------------
+	// Ramadan Mode Helpers
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Returns true if today falls within the configured Ramadan period.
+	 * Falls back to a rough Hijri-based heuristic when no dates set.
+	 */
+	private function is_ramadan() {
+		$start = mt_get_option( 'ramadan_start_date', '' );
+		$end   = mt_get_option( 'ramadan_end_date', '' );
+
+		if ( $start && $end ) {
+			$today = wp_date( 'Y-m-d' );
+			return $today >= $start && $today <= $end;
+		}
+
+		// Heuristic: skip — return false when not configured.
+		return false;
+	}
+
+	/**
+	 * Calculate suhoor time = Fajr start minus configured margin (default 15 min).
+	 *
+	 * @param string $fajr_start  Time string like "05:14".
+	 * @return string             Suhoor time string or empty string.
+	 */
+	private function calc_suhoor( $fajr_start ) {
+		if ( empty( $fajr_start ) ) {
+			return '';
+		}
+		$margin = (int) mt_get_option( 'ramadan_suhoor_margin', 15 );
+		$parts  = explode( ':', $fajr_start );
+		if ( count( $parts ) < 2 ) {
+			return '';
+		}
+		$total_min = ( (int) $parts[0] * 60 ) + (int) $parts[1] - $margin;
+		if ( $total_min < 0 ) {
+			$total_min += 1440;
+		}
+		return sprintf( '%02d:%02d', intdiv( $total_min, 60 ), $total_min % 60 );
+	}
+
+	/**
+	 * Shortcode: [ramadan_info]
+	 *
+	 * Attributes:
+	 *   layout      card (default) | banner | compact
+	 *   show_day    true|false — show Ramadan day number
+	 *   show_countdown true|false — JS iftar/suhoor countdown
+	 */
+	public function shortcode_ramadan_info( $atts ) {
+		$atts = shortcode_atts(
+			array(
+				'layout'         => 'card',
+				'show_day'       => 'true',
+				'show_countdown' => 'true',
+			),
+			$atts,
+			'ramadan_info'
+		);
+
+		$today_data    = $this->get_today_prayer_data();
+		$fajr          = $today_data['fajr_start'] ?? '';
+		$maghrib       = $today_data['maghrib_start'] ?? '';
+		$suhoor        = $this->calc_suhoor( $fajr );
+		$mosque_name   = mt_get_option( 'mosque_name', get_bloginfo( 'name' ) );
+
+		// Ramadan day number.
+		$ramadan_day   = '';
+		$start_date    = mt_get_option( 'ramadan_start_date', '' );
+		if ( $start_date ) {
+			$start = new DateTime( $start_date );
+			$today = new DateTime( wp_date( 'Y-m-d' ) );
+			$diff  = $start->diff( $today );
+			if ( ! $diff->invert && $diff->days < 32 ) {
+				$ramadan_day = $diff->days + 1;
+			}
+		}
+
+		$show_countdown = ( 'true' === $atts['show_countdown'] );
+		$show_day       = ( 'true' === $atts['show_day'] && $ramadan_day );
+		$layout         = sanitize_text_field( $atts['layout'] );
+
+		// Build UTC timestamp strings for JS countdown targets.
+		$today_str      = wp_date( 'Y-m-d' );
+		$iftar_ts       = $maghrib ? esc_attr( $today_str . 'T' . $maghrib . ':00' ) : '';
+		$suhoor_next    = '';  // suhoor tomorrow — keep simple for now.
+
+		ob_start();
+		?>
+		<div class="mt-ramadan-info mt-ramadan-<?php echo esc_attr( $layout ); ?>">
+
+			<?php if ( 'banner' === $layout ) : ?>
+
+				<div class="mt-ramadan-banner">
+					<div class="mt-ramadan-banner-left">
+						<span class="mt-ramadan-moon">&#9790;</span>
+						<?php if ( $show_day ) : ?>
+							<span class="mt-ramadan-day-label">Day <?php echo esc_html( (string) $ramadan_day ); ?></span>
+						<?php endif; ?>
+						<span class="mt-ramadan-title">Ramadan Mubarak</span>
+					</div>
+					<div class="mt-ramadan-banner-times">
+						<div class="mt-ramadan-time-block">
+							<span class="mt-ramadan-time-label">Suhoor ends</span>
+							<span class="mt-ramadan-time-value"><?php echo esc_html( $suhoor ); ?></span>
+						</div>
+						<div class="mt-ramadan-divider">|</div>
+						<div class="mt-ramadan-time-block">
+							<span class="mt-ramadan-time-label">Iftar</span>
+							<span class="mt-ramadan-time-value mt-iftar-time"><?php echo esc_html( $maghrib ); ?></span>
+						</div>
+						<?php if ( $show_countdown && $iftar_ts ) : ?>
+							<div class="mt-ramadan-divider">|</div>
+							<div class="mt-ramadan-countdown-block">
+								<span class="mt-ramadan-time-label">Until Iftar</span>
+								<span class="mt-ramadan-countdown" data-target="<?php echo $iftar_ts; ?>" data-label="Iftar">--:--:--</span>
+							</div>
+						<?php endif; ?>
+					</div>
+				</div>
+
+			<?php elseif ( 'compact' === $layout ) : ?>
+
+				<div class="mt-ramadan-compact">
+					<span class="mt-ramadan-moon">&#9790;</span>
+					<?php if ( $show_day ) : ?>
+						<span class="mt-ramadan-day-label">Day <?php echo esc_html( (string) $ramadan_day ); ?></span>
+						<span class="mt-ramadan-compact-sep">&bull;</span>
+					<?php endif; ?>
+					<span>Suhoor: <strong><?php echo esc_html( $suhoor ); ?></strong></span>
+					<span class="mt-ramadan-compact-sep">&bull;</span>
+					<span>Iftar: <strong><?php echo esc_html( $maghrib ); ?></strong></span>
+					<?php if ( $show_countdown && $iftar_ts ) : ?>
+						<span class="mt-ramadan-compact-sep">&bull;</span>
+						<span class="mt-ramadan-countdown" data-target="<?php echo $iftar_ts; ?>" data-label="Iftar">--:--</span>
+					<?php endif; ?>
+				</div>
+
+			<?php else : // card layout (default) ?>
+
+				<div class="mt-ramadan-card">
+					<div class="mt-ramadan-card-header">
+						<span class="mt-ramadan-moon">&#9790;</span>
+						<div class="mt-ramadan-card-title">
+							<strong>Ramadan Mubarak</strong>
+							<?php if ( $show_day ) : ?>
+								<span class="mt-ramadan-day-badge">Day <?php echo esc_html( (string) $ramadan_day ); ?></span>
+							<?php endif; ?>
+						</div>
+					</div>
+					<div class="mt-ramadan-card-times">
+						<div class="mt-ramadan-time-col">
+							<div class="mt-ramadan-time-col-label">Suhoor ends</div>
+							<div class="mt-ramadan-time-col-value"><?php echo esc_html( $suhoor ); ?></div>
+						</div>
+						<div class="mt-ramadan-time-col mt-ramadan-iftar-col">
+							<div class="mt-ramadan-time-col-label">Iftar (Maghrib)</div>
+							<div class="mt-ramadan-time-col-value"><?php echo esc_html( $maghrib ); ?></div>
+						</div>
+						<?php if ( $show_countdown && $iftar_ts ) : ?>
+							<div class="mt-ramadan-time-col">
+								<div class="mt-ramadan-time-col-label">Countdown</div>
+								<div class="mt-ramadan-countdown mt-ramadan-time-col-value" data-target="<?php echo $iftar_ts; ?>" data-label="Iftar">--:--:--</div>
+							</div>
+						<?php endif; ?>
+					</div>
+				</div>
+
+			<?php endif; ?>
+
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 
 	/**
@@ -2308,6 +2486,29 @@ endforeach;
 	/**
 	 * Render settings page with ACF fields
 	 */
+	/**
+	 * Output the standard teal admin page header used across all plugin pages.
+	 *
+	 * @param string $title    Page title.
+	 * @param string $subtitle Subtitle/description.
+	 * @param string $icon     Dashicon name (without dashicons- prefix).
+	 */
+	private function admin_page_header( $title, $subtitle = '', $icon = 'calendar-alt' ) {
+		?>
+		<div class="mosque-admin-header" style="background:linear-gradient(135deg,#0D7377 0%,#1A3A5C 100%);color:#fff;padding:24px 30px;border-radius:8px;margin-bottom:20px;box-shadow:0 6px 24px rgba(13,115,119,.28);position:relative;overflow:hidden;">
+			<div style="display:flex;align-items:center;gap:14px;">
+				<span class="dashicons dashicons-<?php echo esc_attr( $icon ); ?>" style="font-size:32px;width:32px;height:32px;flex-shrink:0;"></span>
+				<div>
+					<h1 style="margin:0;font-family:'El Messiri','Segoe UI',Georgia,serif;font-size:22px;font-weight:700;letter-spacing:.01em;color:#fff;"><?php echo esc_html( $title ); ?></h1>
+					<?php if ( $subtitle ) : ?>
+						<p style="margin:4px 0 0;font-size:13px;opacity:.85;color:#fff;"><?php echo esc_html( $subtitle ); ?></p>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
 	public function render_settings_page() {
 		// Handle form submission first.
 		if ( isset( $_POST['submit'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['mosque_timetable_nonce'] ?? '' ) ), 'mosque_timetable_action' ) ) {
@@ -2321,12 +2522,8 @@ endforeach;
 		}
 
 		?>
-			<div class="wrap">
-				<div class="mosque-page-header">
-					<img src="<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/icon-192.png' ); ?>" alt="Mosque Logo" class="mosque-logo">
-					<h1>Mosque Configuration</h1>
-				</div>
-				<p>Configure your mosque details and system settings.</p>
+			<div class="wrap mosque-timetable-admin">
+				<?php $this->admin_page_header( 'Mosque Configuration', 'Configure your mosque details and system settings.', 'admin-settings' ); ?>
 
 			<?php if ( isset( $message ) ) : ?>
 					<div class="notice notice-success">
@@ -2452,6 +2649,23 @@ endforeach;
 		if ( isset( $_POST['privacy_note_text'] ) ) {
 			update_option( 'privacy_note_text', sanitize_textarea_field( wp_unslash( $_POST['privacy_note_text'] ) ) );
 		}
+		// Ramadan Mode settings.
+		if ( isset( $_POST['ramadan_start_date'] ) ) {
+			$rsd = sanitize_text_field( wp_unslash( $_POST['ramadan_start_date'] ) );
+			if ( preg_match( '/^\d{4}-\d{2}-\d{2}$/', $rsd ) ) {
+				update_option( 'ramadan_start_date', $rsd );
+			}
+		}
+		if ( isset( $_POST['ramadan_end_date'] ) ) {
+			$red = sanitize_text_field( wp_unslash( $_POST['ramadan_end_date'] ) );
+			if ( preg_match( '/^\d{4}-\d{2}-\d{2}$/', $red ) ) {
+				update_option( 'ramadan_end_date', $red );
+			}
+		}
+		if ( isset( $_POST['ramadan_suhoor_margin'] ) ) {
+			$margin = max( 0, min( 60, intval( wp_unslash( $_POST['ramadan_suhoor_margin'] ) ) ) );
+			update_option( 'ramadan_suhoor_margin', $margin );
+		}
 	}
 
 	/**
@@ -2511,12 +2725,8 @@ endforeach;
 		}
 
 		?>
-			<div class="wrap">
-				<div class="mosque-page-header">
-					<img src="<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/icon-192.png' ); ?>" alt="Mosque Logo" class="mosque-logo">
-					<h1>Appearance & PWA Settings</h1>
-				</div>
-				<p>Customize colors, fonts, and Progressive Web App features.</p>
+			<div class="wrap mosque-timetable-admin">
+				<?php $this->admin_page_header( 'Appearance & PWA Settings', 'Customize colors, fonts, and Progressive Web App features.', 'art' ); ?>
 
 			<?php if ( isset( $message ) ) : ?>
 					<div class="notice notice-success">
@@ -2734,6 +2944,45 @@ endforeach;
 				</tr>
 			</table>
 
+			<!-- ====== Ramadan Mode ====== -->
+			<div style="background:linear-gradient(135deg,#0D7377,#1A3A5C);color:#fff;padding:20px 24px;border-radius:8px;margin:24px 0 20px;">
+				<h2 style="margin:0 0 6px;font-family:'El Messiri',Georgia,serif;font-size:18px;font-weight:700;">&#9790; Ramadan Mode</h2>
+				<p style="margin:0;font-size:13px;opacity:.85;">Set Ramadan dates to enable the <code style="background:rgba(255,255,255,.15);border-radius:3px;padding:1px 5px;">[ramadan_info]</code> shortcode and automatic Suhoor/Iftar display.</p>
+			</div>
+			<table class="form-table">
+				<tr>
+					<th><label for="ramadan_start_date">Ramadan Start Date</label></th>
+					<td>
+						<input type="date" id="ramadan_start_date" name="ramadan_start_date"
+							value="<?php echo esc_attr( mt_get_option( 'ramadan_start_date', '' ) ); ?>" />
+						<p class="description">First day of Ramadan <?php echo esc_html( wp_date( 'Y' ) ); ?> (e.g. 2026-03-01)</p>
+					</td>
+				</tr>
+				<tr>
+					<th><label for="ramadan_end_date">Ramadan End Date</label></th>
+					<td>
+						<input type="date" id="ramadan_end_date" name="ramadan_end_date"
+							value="<?php echo esc_attr( mt_get_option( 'ramadan_end_date', '' ) ); ?>" />
+						<p class="description">Last day of Ramadan / Eid al-Fitr eve</p>
+					</td>
+				</tr>
+				<tr>
+					<th><label for="ramadan_suhoor_margin">Suhoor Ends Before Fajr</label></th>
+					<td>
+						<input type="number" id="ramadan_suhoor_margin" name="ramadan_suhoor_margin" min="0" max="60"
+							value="<?php echo esc_attr( (string) mt_get_option( 'ramadan_suhoor_margin', 15 ) ); ?>" style="width:80px;" />
+						<span>minutes before Fajr</span>
+						<p class="description">Suhoor end time = Fajr - this margin (default 15 min). Adjust to match your local practice.</p>
+					</td>
+				</tr>
+			</table>
+			<p style="background:#f0f8f8;padding:12px 16px;border-left:4px solid #0D7377;border-radius:0 6px 6px 0;font-size:13px;">
+				<strong>Usage:</strong>
+				<code>[ramadan_info]</code> &mdash; card layout &nbsp;|&nbsp;
+				<code>[ramadan_info layout="banner"]</code> &mdash; full-width banner &nbsp;|&nbsp;
+				<code>[ramadan_info layout="compact"]</code> &mdash; inline pill
+			</p>
+
 			<?php submit_button( 'Save Configuration' ); ?>
 
 			<script>
@@ -2914,11 +3163,8 @@ endforeach;
 	 */
 	public function render_import_export_page() {
 		?>
-			<div class="wrap">
-				<div class="mosque-page-header">
-					<img src="<?php echo esc_url( MOSQUE_TIMETABLE_PLUGIN_URL . 'assets/icon-192.png' ); ?>" alt="Mosque Logo" class="mosque-logo">
-					<h1>Import/Export Tools</h1>
-				</div>
+			<div class="wrap mosque-timetable-admin">
+				<?php $this->admin_page_header( 'Import / Export Tools', 'Import CSV/XLSX prayer times or export ICS calendars.', 'upload' ); ?>
 
 				<div class="mosque-import-export-container">
 					<div class="card">
@@ -3210,10 +3456,10 @@ endforeach;
 	 */
 	public function render_debug_page() {
 		?>
-			<div class="wrap">
-				<h1> Timetables Debug Report</h1>
+			<div class="wrap mosque-timetable-admin">
+				<?php $this->admin_page_header( 'Debug Report', 'Diagnostic information for your timetable system.', 'search' ); ?>
 
-				<div style="background: #f0f8ff; padding: 15px; margin: 10px 0; border-left: 4px solid #0073aa;">
+				<div style="background:#f0f8f8;padding:15px;margin:10px 0;border-left:4px solid #0D7377;border-radius:0 6px 6px 0;">
 					<h3>Quick Test: Go to Timetables Page</h3>
 					<p><a href="<?php echo esc_url( admin_url( 'admin.php?page=mosque-timetables' ) ); ?>" class="button button-primary" target="_blank">Open Timetables Page</a></p> <!-- Escape output -->
 					<p>Then come back here to see the diagnostic results below.</p>

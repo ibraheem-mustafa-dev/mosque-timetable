@@ -64,12 +64,43 @@
       });
     },
 
-    // Prayer countdown functionality for shortcodes
+    // Prayer countdown functionality for shortcodes + Ramadan countdowns
     initPrayerCountdown() {
-      if ( $('.prayer-countdown').length > 0 ) {
+      const hasPrayer  = $( '.prayer-countdown' ).length > 0;
+      const hasRamadan = $( '.mt-ramadan-countdown' ).length > 0;
+      if ( hasPrayer || hasRamadan ) {
         this.updateCountdowns();
-        setInterval( () => this.updateCountdowns(), 1000 );
+        this.updateRamadanCountdowns();
+        setInterval( () => {
+          this.updateCountdowns();
+          this.updateRamadanCountdowns();
+        }, 1000 );
       }
+    },
+
+    updateRamadanCountdowns() {
+      const pad = n => String( n ).padStart( 2, '0' );
+
+      $( '.mt-ramadan-countdown' ).each( function() {
+        const $el    = $( this );
+        const target = $el.data( 'target' );
+        if ( ! target ) return;
+
+        const now    = Date.now();
+        const end    = new Date( target ).getTime();
+        const diff   = end - now;
+
+        if ( diff <= 0 ) {
+          $el.text( 'Iftar!' );
+          $el.css( 'color', 'var(--mosque-secondary)' );
+          return;
+        }
+
+        const h = Math.floor( diff / 3600000 );
+        const m = Math.floor( ( diff % 3600000 ) / 60000 );
+        const s = Math.floor( ( diff % 60000 ) / 1000 );
+        $el.text( pad(h) + ':' + pad(m) + ':' + pad(s) );
+      });
     },
 
     updateCountdowns() {
