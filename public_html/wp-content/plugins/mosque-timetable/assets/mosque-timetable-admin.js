@@ -120,7 +120,7 @@
       const rows = (data && data.days) || [];
       for (let day = 1; day <= daysInMonth; day++) {
         const iso = this.formatDateForInput(this.config.currentYear, monthNumber, day);
-        const rowData = rows.find(d => parseInt(d.day_number, 10) === day) || {};
+        const rowData = rows.find(d => parseInt(d.day_number || d.day, 10) === day) || {};
         const isFriday = this.isFriday(this.config.currentYear, monthNumber, day);
 
         html += `<tr class="${isFriday ? 'friday-row' : ''}" data-day="${day}">`;
