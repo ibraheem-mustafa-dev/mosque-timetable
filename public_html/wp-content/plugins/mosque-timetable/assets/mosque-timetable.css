@@ -2033,14 +2033,14 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 /* ── Base bar ─────────────────────────────────────────────────────────── */
 
 .mpb-hello-bar {
-	position: fixed;
-	left: 0;
-	right: 0;
-	height: var(--mpb-height);
-	min-height: var(--mpb-height);
-	z-index: var(--mpb-z);
+	position: fixed !important;
+	left: 0 !important;
+	right: 0 !important;
+	height: 44px !important;
+	min-height: 44px !important;
+	z-index: 99999 !important;
 	font-family: var(--mosque-font-body);
-	font-size: var(--mpb-font-size);
+	font-size: 13px;
 	line-height: 1;
 	overflow: hidden;
 	transition: transform 0.3s ease, opacity 0.3s ease;
@@ -2072,18 +2072,18 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 /* ── Colour themes ────────────────────────────────────────────────────── */
 
 .mpb-hello-bar.mpb-bg-teal {
-	background: var(--mosque-primary);
-	color: #ffffff;
+	background: #0D7377 !important;
+	color: #ffffff !important;
 }
 
 .mpb-hello-bar.mpb-bg-midnight {
-	background: var(--mosque-accent);
-	color: #ffffff;
+	background: #1A3A5C !important;
+	color: #ffffff !important;
 }
 
 .mpb-hello-bar.mpb-bg-gold {
-	background: var(--mosque-gradient-gold);
-	color: var(--mosque-accent);
+	background: #C5A55A !important;
+	color: #1A3A5C !important;
 }
 
 /* custom bg set via inline style — text colour inherits white by default */
@@ -2293,5 +2293,7 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 		display: none;
 	}
 }
+
+
 
 

@@ -1860,10 +1860,17 @@ endforeach;
 			'isha'    => array( 'label' => __( 'Isha', 'mosque-timetable' ),    'start' => 'isha_start',    'jamaat' => 'isha_jamaat' ),
 		);
 
-		// Inline style overrides.
-		$bar_style  = '';
+		// Inline style overrides — hardcode background to beat theme CSS specificity.
+		$bg_map = array(
+			'teal'     => array( 'bg' => '#0D7377', 'color' => '#ffffff' ),
+			'midnight' => array( 'bg' => '#1A3A5C', 'color' => '#ffffff' ),
+			'gold'     => array( 'bg' => '#C5A55A', 'color' => '#1A3A5C' ),
+		);
+		$bar_style = '';
 		if ( 'custom' === $bg && $bg_color ) {
-			$bar_style .= 'background:' . $bg_color . ';';
+			$bar_style .= 'background:' . $bg_color . ';color:#fff;';
+		} elseif ( isset( $bg_map[ $bg ] ) ) {
+			$bar_style .= 'background:' . $bg_map[ $bg ]['bg'] . ';color:' . $bg_map[ $bg ]['color'] . ';';
 		}
 		if ( $offset_top && 'top' === $position ) {
 			$bar_style .= '--mpb-offset:' . $offset_top . ';';
