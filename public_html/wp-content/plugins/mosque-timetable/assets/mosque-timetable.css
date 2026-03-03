@@ -1101,20 +1101,20 @@ button,
 }
 
 /* ==========================================================================
-	Sticky Next Prayer Bar (Hidden - redundant if site has global prayer times)
+	Sticky Next Prayer Bar (Legacy — hidden, superseded by [mosque_prayer_bar])
 	========================================================================== */
 
-.mosque-prayer-bar {
+.mosque-prayer-bar-compact {
 	display: none; /* Hidden to avoid duplication with site-wide prayer times */
 	position: sticky;
 	top: 0;
 	z-index: 100;
 	background: var(--mosque-gradient);
 	color: white;
-	padding: 6px 12px; /* Reduced from 12px 15px - thin announcement bar style */
+	padding: 6px 12px;
 	margin-bottom: 20px;
-	border-radius: 4px; /* Reduced from 8px for slimmer look */
-	box-shadow: 0 2px 8px rgb(102 126 234 / 15%);
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgb(13 115 119 / 15%);
 }
 
 .mosque-prayer-bar-date {
@@ -1362,8 +1362,8 @@ button,
 		display: none;
 	}
 
-	/* Adjust prayer bar for mobile */
-	.mosque-prayer-bar {
+	/* Adjust legacy compact prayer bar for mobile */
+	.mosque-prayer-bar-compact {
 		margin: 0 -10px 15px;
 		border-radius: 0;
 		position: sticky;
@@ -2027,12 +2027,12 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 	--mpb-height:       44px;
 	--mpb-font-size:    13px;
 	--mpb-offset:       0px;   /* override via shortcode offset_top attr */
-	--mpb-z:            9990;
+	--mpb-z:            99999;
 }
 
 /* ── Base bar ─────────────────────────────────────────────────────────── */
 
-.mosque-prayer-bar {
+.mpb-hello-bar {
 	position: fixed;
 	left: 0;
 	right: 0;
@@ -2046,48 +2046,48 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 	transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.mosque-prayer-bar.mpb-pos-top {
+.mpb-hello-bar.mpb-pos-top {
 	top: var(--mpb-offset);
 }
 
-.mosque-prayer-bar.mpb-pos-bottom {
+.mpb-hello-bar.mpb-pos-bottom {
 	bottom: 0;
 }
 
 /* Animate out when dismissed */
-.mosque-prayer-bar.mpb-hidden {
+.mpb-hello-bar.mpb-hidden {
 	pointer-events: none;
 }
 
-.mosque-prayer-bar.mpb-pos-top.mpb-hidden {
+.mpb-hello-bar.mpb-pos-top.mpb-hidden {
 	transform: translateY(-110%);
 	opacity: 0;
 }
 
-.mosque-prayer-bar.mpb-pos-bottom.mpb-hidden {
+.mpb-hello-bar.mpb-pos-bottom.mpb-hidden {
 	transform: translateY(110%);
 	opacity: 0;
 }
 
 /* ── Colour themes ────────────────────────────────────────────────────── */
 
-.mosque-prayer-bar.mpb-bg-teal {
+.mpb-hello-bar.mpb-bg-teal {
 	background: var(--mosque-primary);
 	color: #ffffff;
 }
 
-.mosque-prayer-bar.mpb-bg-midnight {
+.mpb-hello-bar.mpb-bg-midnight {
 	background: var(--mosque-accent);
 	color: #ffffff;
 }
 
-.mosque-prayer-bar.mpb-bg-gold {
+.mpb-hello-bar.mpb-bg-gold {
 	background: var(--mosque-gradient-gold);
 	color: var(--mosque-accent);
 }
 
 /* custom bg set via inline style — text colour inherits white by default */
-.mosque-prayer-bar[style*="background"] {
+.mpb-hello-bar[style*="background"] {
 	color: #ffffff;
 }
 
@@ -2293,3 +2293,5 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 		display: none;
 	}
 }
+
+

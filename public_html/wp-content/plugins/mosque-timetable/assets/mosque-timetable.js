@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Mosque Timetable Frontend JavaScript
  * For public-facing pages, shortcodes, PWA, and push notifications
  * Version: 3.1.0-frontend
@@ -33,10 +33,10 @@
       this.initServiceWorker();
     },
 
-    // ── Prayer Bar — [mosque_prayer_bar] ────────────────────────────────────
+    // â”€â”€ Prayer Bar â€” [mosque_prayer_bar] â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     initPrayerBar() {
       // Restore dismissed state for each bar on page load.
-      $('.mosque-prayer-bar').each( function() {
+      $('.mpb-hello-bar').each( function() {
         const barId      = this.id;
         const storageKey = 'mpb-dismissed-' + barId;
         const dismissed  = localStorage.getItem( storageKey );
@@ -53,8 +53,8 @@
 
       // Dismiss on click.
       $( document ).on( 'click', '.mpb-dismiss', function() {
-        const barId = $( this ).data( 'bar-id' ) || $( this ).closest( '.mosque-prayer-bar' ).attr( 'id' );
-        const $bar  = barId ? $( '#' + barId ) : $( this ).closest( '.mosque-prayer-bar' );
+        const barId = $( this ).data( 'bar-id' ) || $( this ).closest( '.mpb-hello-bar' ).attr( 'id' );
+        const $bar  = barId ? $( '#' + barId ) : $( this ).closest( '.mpb-hello-bar' );
 
         $bar.addClass( 'mpb-hidden' );
 
@@ -87,7 +87,7 @@
         const diff = end - now;
 
         if ( diff <= 0 ) {
-          // Prayer time reached — show zeros and let PHP re-render on next page load.
+          // Prayer time reached â€” show zeros and let PHP re-render on next page load.
           if ( layout === 'header' ) {
             $el.find( '.pci-countdown' ).text( '00:00' );
           } else {
@@ -157,7 +157,7 @@
         const banner = `
           <div class="mosque-pwa-banner">
             <div class="mosque-pwa-content">
-              <span class="mosque-pwa-icon">🕌</span>
+              <span class="mosque-pwa-icon">ðŸ•Œ</span>
               <div class="mosque-pwa-text">
                 <strong>Install Prayer Times App</strong>
                 <p>Get quick access to prayer times on your device</p>

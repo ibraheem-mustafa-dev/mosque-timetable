@@ -1872,7 +1872,7 @@ endforeach;
 		ob_start();
 		?>
 		<div id="<?php echo esc_attr( $bar_id ); ?>"
-			class="mosque-prayer-bar mpb-pos-<?php echo esc_attr( $position ); ?> mpb-bg-<?php echo esc_attr( $bg ); ?><?php echo $dismissible ? ' mpb-dismissible' : ''; ?>"
+			class="mpb-hello-bar mpb-pos-<?php echo esc_attr( $position ); ?> mpb-bg-<?php echo esc_attr( $bg ); ?><?php echo $dismissible ? ' mpb-dismissible' : ''; ?>"
 			style="<?php echo esc_attr( $bar_style ); ?>"
 			role="complementary"
 			aria-label="<?php esc_attr_e( 'Today\'s Prayer Times', 'mosque-timetable' ); ?>">
