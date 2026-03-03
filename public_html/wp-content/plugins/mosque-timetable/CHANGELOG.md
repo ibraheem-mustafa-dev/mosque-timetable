@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.3.0] — 2026-03-03
+
+### Added
+- **Ramadan Mode — Suhoor column in main timetable**: When Ramadan dates are configured in Settings, a tinted "Suhoor" column is automatically inserted between Fajr and Sunrise showing the suhoor end time (Fajr − configurable margin, default 15 min) for every day of the month.
+- **Ramadan Mode — Auto-injected banner above timetable**: When Ramadan is active, the `[ramadan_info layout="banner"]` banner auto-renders above the main prayer table showing today's day number, Suhoor end time, Iftar time (Maghrib), and a live countdown to Iftar.
+- **Ramadan Mode — Suhoor in mobile prayer cards**: Mobile card layout now shows a styled Suhoor time item (tinted, accent border) after Fajr, only during Ramadan.
+- **CSS — `.suhoor-item` mobile card style**: Accent left-border and background tint distinguishes Suhoor from other prayer times in mobile view.
+
 ## [Unreleased]
 
 ### Added
