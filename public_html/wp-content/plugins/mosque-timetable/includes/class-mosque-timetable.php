@@ -2523,13 +2523,12 @@ endforeach;
 
 		?>
 			<div class="wrap mosque-timetable-admin">
-				<?php $this->admin_page_header( 'Mosque Configuration', 'Configure your mosque details and system settings.', 'admin-settings' ); ?>
-
 			<?php if ( isset( $message ) ) : ?>
-					<div class="notice notice-success">
-						<p><?php echo esc_html( $message ); ?></p>
-					</div>
-				<?php endif; ?>
+				<div class="notice notice-success mt-admin-notice">
+					<p><?php echo esc_html( $message ); ?></p>
+				</div>
+			<?php endif; ?>
+				<?php $this->admin_page_header( 'Mosque Configuration', 'Configure your mosque details and system settings.', 'admin-settings' ); ?>
 
 		<form method="post" action="">
 			<?php wp_nonce_field( 'mosque_timetable_action', 'mosque_timetable_nonce' ); ?>
@@ -2726,13 +2725,12 @@ endforeach;
 
 		?>
 			<div class="wrap mosque-timetable-admin">
-				<?php $this->admin_page_header( 'Appearance & PWA Settings', 'Customize colors, fonts, and Progressive Web App features.', 'art' ); ?>
-
 			<?php if ( isset( $message ) ) : ?>
-					<div class="notice notice-success">
-						<p><?php echo esc_html( $message ); ?></p>
-					</div>
-				<?php endif; ?>
+				<div class="notice notice-success mt-admin-notice">
+					<p><?php echo esc_html( $message ); ?></p>
+				</div>
+			<?php endif; ?>
+				<?php $this->admin_page_header( 'Appearance & PWA Settings', 'Customize colors, fonts, and Progressive Web App features.', 'art' ); ?>
 
 			<?php if ( is_acf_pro_available() ) : ?>
 					<?php acf_form_head(); ?>

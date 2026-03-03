@@ -78,6 +78,31 @@
 	font-family: var(--mt-font-heading);
 }
 
+/* Fix: ensure admin notices always use readable colours regardless of surrounding context */
+.mosque-timetable-admin .notice,
+.mosque-timetable-admin .notice-success,
+.mosque-timetable-admin .notice-error,
+.mosque-timetable-admin .notice-warning,
+.mosque-timetable-admin .notice-info,
+.mosque-timetable-admin .mt-admin-notice {
+	color: #1d2327 !important;
+	background: #fff !important;
+}
+
+.mosque-timetable-admin .notice p,
+.mosque-timetable-admin .notice-success p,
+.mosque-timetable-admin .mt-admin-notice p {
+	color: #1d2327 !important;
+}
+
+.mosque-timetable-admin .notice-success {
+	border-left: 4px solid #00a32a !important;
+}
+
+.mosque-timetable-admin .notice-error {
+	border-left: 4px solid #d63638 !important;
+}
+
 .mosque-admin-container {
 	max-width: 1400px;
 	margin: var(--mt-space-lg) var(--mt-space-md);
