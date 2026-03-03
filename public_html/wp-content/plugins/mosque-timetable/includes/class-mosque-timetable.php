@@ -1732,7 +1732,7 @@ endforeach;
 
 		$hijri_month = floor( ( 24 * $l ) / 709 );
 		$hijri_day   = $l - floor( ( 709 * $hijri_month ) / 24 );
-		$hijri_year  = 30 * $n + $j - 30;
+		$hijri_year  = 30 * $n + $j;
 
 		// Adjust for proper ranges.
 		if ( $hijri_day <= 0 ) {
@@ -5571,8 +5571,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$year  = (int) $today->format( 'Y' );
 		$day   = (int) $today->format( 'j' );
 
-		$prayer_data   = $this->get_month_prayer_data( $year, $month );
-		$today_prayers = isset( $prayer_data[ $day ] ) ? $prayer_data[ $day ] : null;
+		$today_prayers = $this->get_today_prayer_data();
 
 		$mosque_name    = get_field( 'mosque_name', 'option' ) ?: get_bloginfo( 'name' );
 		$mosque_address = get_field( 'mosque_address', 'option' ) ?: '';
@@ -5628,15 +5627,21 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				$tomorrow_year  = (int) $tomorrow->format( 'Y' );
 				$tomorrow_day   = (int) $tomorrow->format( 'j' );
 
-				$tomorrow_data = $this->get_month_prayer_data( $tomorrow_year, $tomorrow_month );
-				if ( isset( $tomorrow_data[ $tomorrow_day ]['fajr_start'] ) ) {
-					$next_prayer      = 'fajr';
-					$next_prayer_time = $tomorrow_data[ $tomorrow_day ]['fajr_start'];
-					$countdown_data   = array(
-						'is_tomorrow' => true,
-						'date'        => $tomorrow->format( 'Y-m-d' ),
-						'time'        => $next_prayer_time,
-					);
+				$tomorrow_date_str = $tomorrow->format( 'Y-m-d' );
+				$tomorrow_month_data = $this->get_month_prayer_data( $tomorrow_year, $tomorrow_month );
+				if ( ! empty( $tomorrow_month_data['days'] ) ) {
+					foreach ( $tomorrow_month_data['days'] as $td ) {
+						if ( isset( $td['date_full'] ) && $td['date_full'] === $tomorrow_date_str && ! empty( $td['fajr_start'] ) ) {
+							$next_prayer      = 'fajr';
+							$next_prayer_time = $td['fajr_start'];
+							$countdown_data   = array(
+								'is_tomorrow' => true,
+								'date'        => $tomorrow_date_str,
+								'time'        => $next_prayer_time,
+							);
+							break;
+						}
+					}
 				}
 			} else {
 				$countdown_data = array(
@@ -8207,7 +8212,10 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 										<div class="date-gregorian"><?php echo $date ? esc_html( $date->format( 'd' ) ) : ''; ?></div>
 									</td>
 									<td>
-										<div class="date-hijri"><?php echo esc_html( $day['hijri_date'] ?? '' ); ?></div>
+										<div class="date-hijri"><?php
+								$hijri_display = ! empty( $day['hijri_date'] ) ? $day['hijri_date'] : ( ! empty( $date_str ) ? $this->calculate_hijri_date( $date_str ) : '' );
+								echo esc_html( $hijri_display );
+								?></div>
 									</td>
 									<td>
 										<div class="day-name <?php echo esc_attr( $is_friday ? 'friday' : '' ); ?>">
@@ -8297,7 +8305,10 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 												<?php echo $date ? esc_html( $date->format( 'd M' ) ) : ''; ?>
 											</div>
 											<div class="mosque-prayer-card-date-hijri">
-												<?php echo esc_html( $day['hijri_date'] ?? '' ); ?>
+												<?php
+												$hijri_card = ! empty( $day['hijri_date'] ) ? $day['hijri_date'] : ( ! empty( $date_str ) ? $this->calculate_hijri_date( $date_str ) : '' );
+												echo esc_html( $hijri_card );
+												?>
 											</div>
 										</div>
 										<div class="mosque-prayer-card-day <?php echo esc_attr( $is_friday ? 'friday' : '' ); ?>">
