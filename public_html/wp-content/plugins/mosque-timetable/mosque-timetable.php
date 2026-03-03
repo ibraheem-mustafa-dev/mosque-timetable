@@ -657,17 +657,12 @@ require_once MOSQUE_TIMETABLE_PLUGIN_DIR . 'includes/class-mosque-timetable.php'
 						// @phpstan-ignore-line
 						$xlsx = SimpleXLSXGen::fromArray( $xlsx_data );
 
-						// Set headers and output the file.
-						header( 'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' );
-						header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
-						header( 'Cache-Control: no-cache, must-revalidate' );
-
-						// SimpleXLSXGen::download() doesn't take parameters - it outputs directly.
-						$xlsx->saveToFile( 'php://output' );
+						// downloadAs() handles all headers (Content-Type, Content-Disposition, Content-Length).
+						$xlsx->downloadAs( $filename );
 						exit;
 					} catch ( Exception $e ) {
 						error_log( 'Mosque Timetable error: ' . $e->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Exception logging in catch block.
-						echo esc_html__( 'Something went wrong. Please try again.', 'mosque-timetable' ); // safe UI.
+						wp_die( esc_html__( 'Something went wrong generating the XLSX file. Please try again.', 'mosque-timetable' ) );
 					}
 				}
 			);
