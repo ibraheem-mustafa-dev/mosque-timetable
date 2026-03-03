@@ -2526,6 +2526,19 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 
 .mosque-timetable th.suhoor-col {
 	background: linear-gradient(135deg, rgba(26, 58, 92, 0.85), rgba(13, 115, 119, 0.85));
+	color: #fff;
+}
+
+/* Suhoor item in mobile prayer cards */
+.mosque-prayer-time-item.suhoor-item {
+	background: rgba(26, 58, 92, 0.06);
+	border-left: 3px solid var(--mosque-accent);
+	border-radius: 6px;
+}
+
+.mosque-prayer-time-item.suhoor-item .mosque-prayer-time-name {
+	color: var(--mosque-accent);
+	font-weight: 600;
 }
 
 @media (width <= 640px) {

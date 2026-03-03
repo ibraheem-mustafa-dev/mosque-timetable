@@ -8143,6 +8143,14 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 						</div>
 					</div>
 
+					<?php
+					$is_ramadan = $this->is_ramadan();
+					if ( $is_ramadan ) {
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- shortcode_ramadan_info returns pre-escaped HTML
+						echo $this->shortcode_ramadan_info( array( 'layout' => 'banner', 'show_day' => 'true', 'show_countdown' => 'true' ) );
+					}
+					?>
+
 					<table class="mosque-timetable">
 						<thead>
 							<tr>
@@ -8150,6 +8158,9 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								<th><?php echo esc_html( mt_apply_terminology( 'Hijri' ) ); ?></th>
 								<th><?php echo esc_html( mt_apply_terminology( 'Day' ) ); ?></th>
 								<th><?php echo esc_html( mt_apply_terminology( 'Fajr' ) ); ?></th>
+								<?php if ( $is_ramadan ) : ?>
+								<th class="suhoor-col"><?php esc_html_e( 'Suhoor', 'mosque-timetable' ); ?></th>
+								<?php endif; ?>
 								<th><?php echo esc_html( mt_apply_terminology( 'Sunrise' ) ); ?></th>
 								<th><?php echo esc_html( mt_apply_terminology( 'Zuhr/Jummah' ) ); ?></th>
 								<th><?php echo esc_html( mt_apply_terminology( 'Asr' ) ); ?></th>
@@ -8189,6 +8200,12 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 									<?php
 									echo $this->render_prayer_cell( $day['fajr_start'] ?? '', $day['fajr_jamaat'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_prayer_cell returns pre-escaped HTML
 									?>
+
+									<?php if ( $is_ramadan ) : ?>
+									<td class="suhoor-col">
+										<div class="prayer-single"><?php echo esc_html( $this->calc_suhoor( $day['fajr_start'] ?? '' ) ); ?></div>
+									</td>
+									<?php endif; ?>
 
 									<td>
 										<div class="prayer-single"><?php echo esc_html( $day['sunrise'] ?? '' ); ?></div>
@@ -8271,6 +8288,16 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 														<div class="mosque-prayer-time-jamaat"><?php echo esc_html( $day['fajr_jamaat'] ); ?></div>
 													<?php endif; ?>
 												</div>
+											<?php endif; ?>
+
+											<?php if ( $is_ramadan ) : ?>
+												<?php $suhoor_card = $this->calc_suhoor( $day['fajr_start'] ?? '' ); ?>
+												<?php if ( $suhoor_card ) : ?>
+												<div class="mosque-prayer-time-item suhoor-item">
+													<div class="mosque-prayer-time-name">Suhoor</div>
+													<div class="mosque-prayer-time-start"><?php echo esc_html( $suhoor_card ); ?></div>
+												</div>
+												<?php endif; ?>
 											<?php endif; ?>
 
 											<?php if ( ! empty( $day['sunrise'] ) ) : ?>
