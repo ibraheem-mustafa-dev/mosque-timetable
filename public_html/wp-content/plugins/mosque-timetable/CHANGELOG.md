@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.4.0] — 2026-03-17
+
+### Added
+- **Ramadan Mode v2 enhancements**:
+  - **Algorithmic Hijri auto-detection**: Approximate Ramadan start/end dates are now automatically detected via a Kuwaiti/tabular Hijri algorithm when manual dates aren't set.
+  - **Dual countdown**: The Ramadan countdown now automatically switches from "Until Iftar" to "Until Suhoor" after Maghrib, guiding users to the next day's fast.
+  - **Last 10 Nights indicators**: Added glowing visual badges and unique banner/card styling for the final 10 nights of Ramadan.
+  - **Taraweeh support**: Added a "Taraweeh Time" field in settings, displayed in all Ramadan components when configured.
+  - **Internationalisation**: Full i18n support for all Ramadan-related strings.
+
 ## [3.3.0] — 2026-03-03
 
 ### Added

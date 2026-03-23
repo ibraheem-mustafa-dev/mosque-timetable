@@ -82,16 +82,32 @@
       const pad = n => String( n ).padStart( 2, '0' );
 
       $( '.mt-ramadan-countdown' ).each( function() {
-        const $el    = $( this );
-        const target = $el.data( 'target' );
+        const $el          = $( this );
+        const target       = $el.data( 'target' );
+        const suhoorNext   = $el.data( 'suhoor-next' );
+        const $label       = $el.siblings( '.mt-ramadan-time-label' ).length ? $el.siblings( '.mt-ramadan-time-label' ) : $el.closest( 'div' ).find( '.mt-ramadan-time-label' );
+        const $parentLabel = $el.closest( '.mt-ramadan-countdown-block, .mt-ramadan-time-col' ).find( '.mt-ramadan-time-label, .mt-ramadan-time-col-label' );
+
         if ( ! target ) return;
 
         const now    = Date.now();
-        const end    = new Date( target ).getTime();
-        const diff   = end - now;
+        let end      = new Date( target ).getTime();
+        let diff     = end - now;
+        let isSuhoor = false;
+
+        // If Iftar reached, switch to next Suhoor countdown.
+        if ( diff <= 0 && suhoorNext ) {
+          end      = new Date( suhoorNext ).getTime();
+          diff     = end - now;
+          isSuhoor = true;
+
+          if ( $parentLabel.length ) {
+            $parentLabel.text( 'Until Suhoor' );
+          }
+        }
 
         if ( diff <= 0 ) {
-          $el.text( 'Iftar!' );
+          $el.text( isSuhoor ? 'Suhoor!' : 'Iftar!' );
           $el.css( 'color', 'var(--mosque-secondary)' );
           return;
         }

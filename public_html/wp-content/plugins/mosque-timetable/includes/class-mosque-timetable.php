@@ -1801,20 +1801,180 @@ endforeach;
 	// -------------------------------------------------------------------------
 
 	/**
-	 * Returns true if today falls within the configured Ramadan period.
-	 * Falls back to a rough Hijri-based heuristic when no dates set.
+	 * Convert a Gregorian date to an approximate Hijri (Islamic civil) date.
+	 *
+	 * Uses the Kuwaiti/tabular algorithm (30-year cycle). Accuracy is +/-1 day
+	 * which is acceptable for auto-detection; mosques can override with manual dates.
+	 *
+	 * @param int $gy Gregorian year.
+	 * @param int $gm Gregorian month.
+	 * @param int $gd Gregorian day.
+	 * @return array{year: int, month: int, day: int} Hijri date components.
 	 */
-	private function is_ramadan() {
+	private function gregorian_to_hijri( int $gy, int $gm, int $gd ): array {
+		// Julian Day Number from Gregorian.
+		$a   = intdiv( 14 - $gm, 12 );
+		$y   = $gy + 4800 - $a;
+		$m   = $gm + 12 * $a - 3;
+		$jdn = $gd + intdiv( 153 * $m + 2, 5 ) + 365 * $y + intdiv( $y, 4 ) - intdiv( $y, 100 ) + intdiv( $y, 400 ) - 32045;
+
+		// Hijri from JDN (Kuwaiti/tabular algorithm).
+		$l = $jdn - 1948440 + 10632;
+		$n = intdiv( $l - 1, 10631 );
+		$l = $l - 10631 * $n + 354;
+		$j = intdiv( 10985 - $l, 5316 ) * intdiv( 50 * $l, 17719 ) + intdiv( $l, 5670 ) * intdiv( 43 * $l, 15238 );
+		$l = $l - intdiv( 30 - $j, 15 ) * intdiv( 17719 * $j, 50 ) - intdiv( $j, 16 ) * intdiv( 15238 * $j, 43 ) + 29;
+
+		$hi_month = intdiv( 24 * $l, 709 );
+		$hi_day   = $l - intdiv( 709 * $hi_month, 24 );
+		$hi_year  = 30 * $n + $j - 30;
+
+		return array(
+			'year'  => $hi_year,
+			'month' => $hi_month,
+			'day'   => $hi_day,
+		);
+	}
+
+	/**
+	 * Convert a Hijri (Islamic civil) date to Gregorian.
+	 *
+	 * @param int $hy Hijri year.
+	 * @param int $hm Hijri month.
+	 * @param int $hd Hijri day.
+	 * @return array{year: int, month: int, day: int} Gregorian date components.
+	 */
+	private function hijri_to_gregorian( int $hy, int $hm, int $hd ): array {
+		// JDN from Hijri.
+		$jdn = intdiv( 11 * $hy + 3, 30 ) + 354 * $hy + 30 * $hm - intdiv( $hm - 1, 2 ) + $hd + 1948440 - 385;
+
+		// Gregorian from JDN.
+		$a = $jdn + 68569;
+		$b = intdiv( 4 * $a, 146097 );
+		$a = $a - intdiv( 146097 * $b + 3, 4 );
+		$c = intdiv( 4000 * ( $a + 1 ), 1461001 );
+		$a = $a - intdiv( 1461 * $c, 4 ) + 31;
+		$d = intdiv( 80 * $a, 2447 );
+
+		$gd = $a - intdiv( 2447 * $d, 80 );
+		$a  = intdiv( $d, 11 );
+		$gm = $d + 2 - 12 * $a;
+		$gy = 100 * ( $b - 49 ) + $c + $a;
+
+		return array(
+			'year'  => $gy,
+			'month' => $gm,
+			'day'   => $gd,
+		);
+	}
+
+	/**
+	 * Auto-detect Ramadan start and end dates for a given Gregorian year.
+	 *
+	 * Finds the Hijri year whose Ramadan (month 9) overlaps the given Gregorian year,
+	 * then converts Ramadan 1 and Ramadan 30 to Gregorian dates.
+	 *
+	 * @param int $year Gregorian year (e.g. 2026).
+	 * @return array{start: string, end: string} Dates in Y-m-d format.
+	 */
+	private function auto_detect_ramadan_dates( int $year ): array {
+		// Approximate the Hijri year for March of the Gregorian year.
+		$hijri = $this->gregorian_to_hijri( $year, 3, 1 );
+		$hy    = $hijri['year'];
+
+		// Ramadan is month 9 in the Hijri calendar. Check if Ramadan of $hy
+		// falls in the target Gregorian year; if not, try $hy + 1.
+		$start_greg = $this->hijri_to_gregorian( $hy, 9, 1 );
+		if ( $start_greg['year'] < $year ) {
+			++$hy;
+			$start_greg = $this->hijri_to_gregorian( $hy, 9, 1 );
+		}
+
+		// Ramadan is 30 days in the tabular calendar.
+		$end_greg = $this->hijri_to_gregorian( $hy, 9, 30 );
+
+		return array(
+			'start' => sprintf( '%04d-%02d-%02d', $start_greg['year'], $start_greg['month'], $start_greg['day'] ),
+			'end'   => sprintf( '%04d-%02d-%02d', $end_greg['year'], $end_greg['month'], $end_greg['day'] ),
+		);
+	}
+
+	/**
+	 * Get the effective Ramadan date range.
+	 *
+	 * Returns manually set dates if available, otherwise auto-detects from
+	 * the Hijri calendar. Results are cached in a transient for 24 hours.
+	 *
+	 * @return array{start: string, end: string} Dates in Y-m-d format, or empty strings if unavailable.
+	 */
+	private function get_ramadan_dates(): array {
 		$start = mt_get_option( 'ramadan_start_date', '' );
 		$end   = mt_get_option( 'ramadan_end_date', '' );
 
 		if ( $start && $end ) {
-			$today = wp_date( 'Y-m-d' );
-			return $today >= $start && $today <= $end;
+			return array(
+				'start' => $start,
+				'end'   => $end,
+			);
 		}
 
-		// Heuristic: skip — return false when not configured.
-		return false;
+		// Auto-detect with 24-hour cache.
+		$cache_key = 'mt_ramadan_dates_' . wp_date( 'Y' );
+		$cached    = get_transient( $cache_key );
+		if ( false !== $cached && is_array( $cached ) ) {
+			return $cached;
+		}
+
+		$year   = (int) wp_date( 'Y' );
+		$result = $this->auto_detect_ramadan_dates( $year );
+		set_transient( $cache_key, $result, DAY_IN_SECONDS );
+
+		return $result;
+	}
+
+	/**
+	 * Get the current Ramadan day number (1-30) or 0 if not Ramadan.
+	 *
+	 * @return int Day number (1-30) or 0.
+	 */
+	private function get_ramadan_day_number(): int {
+		$dates = $this->get_ramadan_dates();
+		if ( empty( $dates['start'] ) || empty( $dates['end'] ) ) {
+			return 0;
+		}
+
+		$today = wp_date( 'Y-m-d' );
+		if ( $today < $dates['start'] || $today > $dates['end'] ) {
+			return 0;
+		}
+
+		$start = new DateTime( $dates['start'] );
+		$now   = new DateTime( $today );
+		return $start->diff( $now )->days + 1;
+	}
+
+	/**
+	 * Check if today is in the last 10 nights of Ramadan.
+	 *
+	 * @return bool
+	 */
+	private function is_last_ten_nights(): bool {
+		$day = $this->get_ramadan_day_number();
+		return $day >= 21 && $day <= 30;
+	}
+
+	/**
+	 * Returns true if today falls within the configured Ramadan period.
+	 * Falls back to auto-detection from the Hijri calendar when no dates are set.
+	 */
+	private function is_ramadan() {
+		$dates = $this->get_ramadan_dates();
+		if ( empty( $dates['start'] ) || empty( $dates['end'] ) ) {
+			return false;
+		}
+
+		$today = wp_date( 'Y-m-d' );
+		return $today >= $dates['start'] && $today <= $dates['end'];
 	}
 
 	/**
@@ -1843,9 +2003,9 @@ endforeach;
 	 * Shortcode: [ramadan_info]
 	 *
 	 * Attributes:
-	 *   layout      card (default) | banner | compact
-	 *   show_day    true|false — show Ramadan day number
-	 *   show_countdown true|false — JS iftar/suhoor countdown
+	 *   layout         card (default) | banner | compact
+	 *   show_day       true|false - show Ramadan day number
+	 *   show_countdown true|false - JS iftar/suhoor dual countdown
 	 */
 	public function shortcode_ramadan_info( $atts ) {
 		$atts = shortcode_atts(
@@ -1864,30 +2024,37 @@ endforeach;
 		$suhoor        = $this->calc_suhoor( $fajr );
 		$mosque_name   = mt_get_option( 'mosque_name', get_bloginfo( 'name' ) );
 
-		// Ramadan day number.
-		$ramadan_day   = '';
-		$start_date    = mt_get_option( 'ramadan_start_date', '' );
-		if ( $start_date ) {
-			$start = new DateTime( $start_date );
-			$today = new DateTime( wp_date( 'Y-m-d' ) );
-			$diff  = $start->diff( $today );
-			if ( ! $diff->invert && $diff->days < 32 ) {
-				$ramadan_day = $diff->days + 1;
-			}
-		}
+		// Ramadan day number via centralised helper.
+		$ramadan_day    = $this->get_ramadan_day_number();
+		$last_ten       = $this->is_last_ten_nights();
+		$taraweeh       = mt_get_option( 'ramadan_taraweeh_time', '' );
+
+		// Tomorrow's suhoor for dual countdown.
+		$tomorrow_data  = $this->get_tomorrow_prayer_data();
+		$tomorrow_fajr  = $tomorrow_data['fajr_start'] ?? '';
+		$suhoor_next    = $this->calc_suhoor( $tomorrow_fajr );
 
 		$show_countdown = ( 'true' === $atts['show_countdown'] );
 		$show_day       = ( 'true' === $atts['show_day'] && $ramadan_day );
 		$layout         = sanitize_text_field( $atts['layout'] );
 
-		// Build UTC timestamp strings for JS countdown targets.
+		// Build timestamp strings for JS countdown targets.
 		$today_str      = wp_date( 'Y-m-d' );
 		$iftar_ts       = $maghrib ? esc_attr( $today_str . 'T' . $maghrib . ':00' ) : '';
-		$suhoor_next    = '';  // suhoor tomorrow — keep simple for now.
+
+		// Suhoor-next is tomorrow's date + suhoor time.
+		$tomorrow_str   = wp_date( 'Y-m-d', strtotime( '+1 day' ) );
+		$suhoor_next_ts = $suhoor_next ? esc_attr( $tomorrow_str . 'T' . $suhoor_next . ':00' ) : '';
+
+		// CSS classes for last 10 nights.
+		$wrapper_class  = 'mt-ramadan-info mt-ramadan-' . esc_attr( $layout );
+		if ( $last_ten ) {
+			$wrapper_class .= ' mt-ramadan-last-ten';
+		}
 
 		ob_start();
 		?>
-		<div class="mt-ramadan-info mt-ramadan-<?php echo esc_attr( $layout ); ?>">
+		<div class="<?php echo esc_attr( $wrapper_class ); ?>">
 
 			<?php if ( 'banner' === $layout ) : ?>
 
@@ -1895,25 +2062,38 @@ endforeach;
 					<div class="mt-ramadan-banner-left">
 						<span class="mt-ramadan-moon">&#9790;</span>
 						<?php if ( $show_day ) : ?>
-							<span class="mt-ramadan-day-label">Day <?php echo esc_html( (string) $ramadan_day ); ?></span>
+							<span class="mt-ramadan-day-label"><?php
+								/* translators: %d: Ramadan day number */
+								printf( esc_html__( 'Day %d', 'mosque-timetable' ), $ramadan_day );
+							?></span>
 						<?php endif; ?>
-						<span class="mt-ramadan-title">Ramadan Mubarak</span>
+						<?php if ( $last_ten ) : ?>
+							<span class="mt-ramadan-last-ten-badge"><?php esc_html_e( 'Last 10 Nights', 'mosque-timetable' ); ?></span>
+						<?php endif; ?>
+						<span class="mt-ramadan-title"><?php esc_html_e( 'Ramadan Mubarak', 'mosque-timetable' ); ?></span>
 					</div>
 					<div class="mt-ramadan-banner-times">
 						<div class="mt-ramadan-time-block">
-							<span class="mt-ramadan-time-label">Suhoor ends</span>
+							<span class="mt-ramadan-time-label"><?php esc_html_e( 'Suhoor ends', 'mosque-timetable' ); ?></span>
 							<span class="mt-ramadan-time-value"><?php echo esc_html( $suhoor ); ?></span>
 						</div>
 						<div class="mt-ramadan-divider">|</div>
 						<div class="mt-ramadan-time-block">
-							<span class="mt-ramadan-time-label">Iftar</span>
+							<span class="mt-ramadan-time-label"><?php esc_html_e( 'Iftar', 'mosque-timetable' ); ?></span>
 							<span class="mt-ramadan-time-value mt-iftar-time"><?php echo esc_html( $maghrib ); ?></span>
 						</div>
+						<?php if ( $taraweeh ) : ?>
+							<div class="mt-ramadan-divider">|</div>
+							<div class="mt-ramadan-time-block mt-ramadan-taraweeh-block">
+								<span class="mt-ramadan-time-label"><?php esc_html_e( 'Taraweeh', 'mosque-timetable' ); ?></span>
+								<span class="mt-ramadan-time-value"><?php echo esc_html( $taraweeh ); ?></span>
+							</div>
+						<?php endif; ?>
 						<?php if ( $show_countdown && $iftar_ts ) : ?>
 							<div class="mt-ramadan-divider">|</div>
 							<div class="mt-ramadan-countdown-block">
-								<span class="mt-ramadan-time-label">Until Iftar</span>
-								<span class="mt-ramadan-countdown" data-target="<?php echo $iftar_ts; ?>" data-label="Iftar">--:--:--</span>
+								<span class="mt-ramadan-time-label mt-ramadan-countdown-label"><?php esc_html_e( 'Until Iftar', 'mosque-timetable' ); ?></span>
+								<span class="mt-ramadan-countdown" data-target="<?php echo $iftar_ts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped above ?>" data-suhoor-next="<?php echo $suhoor_next_ts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped above ?>" data-label="<?php esc_attr_e( 'Iftar', 'mosque-timetable' ); ?>">--:--:--</span>
 							</div>
 						<?php endif; ?>
 					</div>
@@ -1924,15 +2104,26 @@ endforeach;
 				<div class="mt-ramadan-compact">
 					<span class="mt-ramadan-moon">&#9790;</span>
 					<?php if ( $show_day ) : ?>
-						<span class="mt-ramadan-day-label">Day <?php echo esc_html( (string) $ramadan_day ); ?></span>
+						<span class="mt-ramadan-day-label"><?php
+							/* translators: %d: Ramadan day number */
+							printf( esc_html__( 'Day %d', 'mosque-timetable' ), $ramadan_day );
+						?></span>
 						<span class="mt-ramadan-compact-sep">&bull;</span>
 					<?php endif; ?>
-					<span>Suhoor: <strong><?php echo esc_html( $suhoor ); ?></strong></span>
+					<?php if ( $last_ten ) : ?>
+						<span class="mt-ramadan-last-ten-badge"><?php esc_html_e( 'Last 10 Nights', 'mosque-timetable' ); ?></span>
+						<span class="mt-ramadan-compact-sep">&bull;</span>
+					<?php endif; ?>
+					<span><?php esc_html_e( 'Suhoor:', 'mosque-timetable' ); ?> <strong><?php echo esc_html( $suhoor ); ?></strong></span>
 					<span class="mt-ramadan-compact-sep">&bull;</span>
-					<span>Iftar: <strong><?php echo esc_html( $maghrib ); ?></strong></span>
+					<span><?php esc_html_e( 'Iftar:', 'mosque-timetable' ); ?> <strong><?php echo esc_html( $maghrib ); ?></strong></span>
+					<?php if ( $taraweeh ) : ?>
+						<span class="mt-ramadan-compact-sep">&bull;</span>
+						<span><?php esc_html_e( 'Taraweeh:', 'mosque-timetable' ); ?> <strong><?php echo esc_html( $taraweeh ); ?></strong></span>
+					<?php endif; ?>
 					<?php if ( $show_countdown && $iftar_ts ) : ?>
 						<span class="mt-ramadan-compact-sep">&bull;</span>
-						<span class="mt-ramadan-countdown" data-target="<?php echo $iftar_ts; ?>" data-label="Iftar">--:--</span>
+						<span class="mt-ramadan-countdown" data-target="<?php echo $iftar_ts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" data-suhoor-next="<?php echo $suhoor_next_ts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" data-label="<?php esc_attr_e( 'Iftar', 'mosque-timetable' ); ?>">--:--</span>
 					<?php endif; ?>
 				</div>
 
@@ -1942,25 +2133,37 @@ endforeach;
 					<div class="mt-ramadan-card-header">
 						<span class="mt-ramadan-moon">&#9790;</span>
 						<div class="mt-ramadan-card-title">
-							<strong>Ramadan Mubarak</strong>
+							<strong><?php esc_html_e( 'Ramadan Mubarak', 'mosque-timetable' ); ?></strong>
 							<?php if ( $show_day ) : ?>
-								<span class="mt-ramadan-day-badge">Day <?php echo esc_html( (string) $ramadan_day ); ?></span>
+								<span class="mt-ramadan-day-badge"><?php
+									/* translators: %d: Ramadan day number */
+									printf( esc_html__( 'Day %d', 'mosque-timetable' ), $ramadan_day );
+								?></span>
+							<?php endif; ?>
+							<?php if ( $last_ten ) : ?>
+								<span class="mt-ramadan-last-ten-badge"><?php esc_html_e( 'Last 10 Nights', 'mosque-timetable' ); ?></span>
 							<?php endif; ?>
 						</div>
 					</div>
 					<div class="mt-ramadan-card-times">
 						<div class="mt-ramadan-time-col">
-							<div class="mt-ramadan-time-col-label">Suhoor ends</div>
+							<div class="mt-ramadan-time-col-label"><?php esc_html_e( 'Suhoor ends', 'mosque-timetable' ); ?></div>
 							<div class="mt-ramadan-time-col-value"><?php echo esc_html( $suhoor ); ?></div>
 						</div>
 						<div class="mt-ramadan-time-col mt-ramadan-iftar-col">
-							<div class="mt-ramadan-time-col-label">Iftar (Maghrib)</div>
+							<div class="mt-ramadan-time-col-label"><?php esc_html_e( 'Iftar (Maghrib)', 'mosque-timetable' ); ?></div>
 							<div class="mt-ramadan-time-col-value"><?php echo esc_html( $maghrib ); ?></div>
 						</div>
+						<?php if ( $taraweeh ) : ?>
+							<div class="mt-ramadan-time-col mt-ramadan-taraweeh-col">
+								<div class="mt-ramadan-time-col-label"><?php esc_html_e( 'Taraweeh', 'mosque-timetable' ); ?></div>
+								<div class="mt-ramadan-time-col-value"><?php echo esc_html( $taraweeh ); ?></div>
+							</div>
+						<?php endif; ?>
 						<?php if ( $show_countdown && $iftar_ts ) : ?>
 							<div class="mt-ramadan-time-col">
-								<div class="mt-ramadan-time-col-label">Countdown</div>
-								<div class="mt-ramadan-countdown mt-ramadan-time-col-value" data-target="<?php echo $iftar_ts; ?>" data-label="Iftar">--:--:--</div>
+								<div class="mt-ramadan-time-col-label"><?php esc_html_e( 'Countdown', 'mosque-timetable' ); ?></div>
+								<div class="mt-ramadan-countdown mt-ramadan-time-col-value" data-target="<?php echo $iftar_ts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" data-suhoor-next="<?php echo $suhoor_next_ts; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" data-label="<?php esc_attr_e( 'Iftar', 'mosque-timetable' ); ?>">--:--:--</div>
 							</div>
 						<?php endif; ?>
 					</div>
@@ -2665,6 +2868,9 @@ endforeach;
 			$margin = max( 0, min( 60, intval( wp_unslash( $_POST['ramadan_suhoor_margin'] ) ) ) );
 			update_option( 'ramadan_suhoor_margin', $margin );
 		}
+		if ( isset( $_POST['ramadan_taraweeh_time'] ) ) {
+			update_option( 'ramadan_taraweeh_time', sanitize_text_field( wp_unslash( $_POST['ramadan_taraweeh_time'] ) ) );
+		}
 	}
 
 	/**
@@ -2965,21 +3171,38 @@ endforeach;
 					</td>
 				</tr>
 				<tr>
-					<th><label for="ramadan_suhoor_margin">Suhoor Ends Before Fajr</label></th>
+					<th><label for="ramadan_suhoor_margin"><?php esc_html_e( 'Suhoor Ends Before Fajr', 'mosque-timetable' ); ?></label></th>
 					<td>
 						<input type="number" id="ramadan_suhoor_margin" name="ramadan_suhoor_margin" min="0" max="60"
 							value="<?php echo esc_attr( (string) mt_get_option( 'ramadan_suhoor_margin', 15 ) ); ?>" style="width:80px;" />
-						<span>minutes before Fajr</span>
-						<p class="description">Suhoor end time = Fajr - this margin (default 15 min). Adjust to match your local practice.</p>
+						<span><?php esc_html_e( 'minutes before Fajr', 'mosque-timetable' ); ?></span>
+						<p class="description"><?php esc_html_e( 'Suhoor end time = Fajr - this margin (default 15 min). Adjust to match your local practice.', 'mosque-timetable' ); ?></p>
+					</td>
+				</tr>
+				<tr>
+					<th><label for="ramadan_taraweeh_time"><?php esc_html_e( 'Taraweeh Time', 'mosque-timetable' ); ?></label></th>
+					<td>
+						<input type="time" id="ramadan_taraweeh_time" name="ramadan_taraweeh_time"
+							value="<?php echo esc_attr( mt_get_option( 'ramadan_taraweeh_time', '' ) ); ?>" />
+						<p class="description"><?php esc_html_e( 'Optional: Display Taraweeh prayer time in Ramadan components.', 'mosque-timetable' ); ?></p>
 					</td>
 				</tr>
 			</table>
 			<p style="background:#f0f8f8;padding:12px 16px;border-left:4px solid #0D7377;border-radius:0 6px 6px 0;font-size:13px;">
-				<strong>Usage:</strong>
-				<code>[ramadan_info]</code> &mdash; card layout &nbsp;|&nbsp;
-				<code>[ramadan_info layout="banner"]</code> &mdash; full-width banner &nbsp;|&nbsp;
-				<code>[ramadan_info layout="compact"]</code> &mdash; inline pill
+				<strong><?php esc_html_e( 'Usage:', 'mosque-timetable' ); ?></strong>
+				<code>[ramadan_info]</code> &mdash; <?php esc_html_e( 'card layout', 'mosque-timetable' ); ?> &nbsp;|&nbsp;
+				<code>[ramadan_info layout="banner"]</code> &mdash; <?php esc_html_e( 'full-width banner', 'mosque-timetable' ); ?> &nbsp;|&nbsp;
+				<code>[ramadan_info layout="compact"]</code> &mdash; <?php esc_html_e( 'inline pill', 'mosque-timetable' ); ?>
 			</p>
+			<div style="margin-top:10px;font-size:12px;opacity:.8;">
+				<?php
+				$dates = $this->get_ramadan_dates();
+				if ( ! mt_get_option( 'ramadan_start_date' ) ) {
+					/* translators: 1: Gregorian year, 2: start date, 3: end date */
+					printf( esc_html__( 'Auto-detected dates for %1$s: %2$s to %3$s', 'mosque-timetable' ), esc_html( wp_date( 'Y' ) ), esc_html( $dates['start'] ), esc_html( $dates['end'] ) );
+				}
+				?>
+			</div>
 
 			<?php submit_button( 'Save Configuration' ); ?>
 
@@ -8227,12 +8450,22 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 									<?php if ( $is_ramadan ) : ?>
 									<?php
-									$rdstart        = mt_get_option( 'ramadan_start_date', '' );
-									$rdend          = mt_get_option( 'ramadan_end_date', '' );
+									$dates          = $this->get_ramadan_dates();
 									$row_date_str   = $day['date_full'] ?? '';
-									$row_in_ramadan = $rdstart && $rdend && $row_date_str >= $rdstart && $row_date_str <= $rdend;
+									$row_in_ramadan = $dates['start'] && $dates['end'] && $row_date_str >= $dates['start'] && $row_date_str <= $dates['end'];
+									$row_class      = $row_in_ramadan ? 'mt-in-ramadan' : '';
+									
+									// Identify last 10 nights.
+									if ( $row_in_ramadan ) {
+										$start_dt = new DateTime( $dates['start'] );
+										$row_dt   = new DateTime( $row_date_str );
+										$day_num  = $start_dt->diff( $row_dt )->days + 1;
+										if ( $day_num >= 21 ) {
+											$row_class .= ' mt-last-ten';
+										}
+									}
 									?>
-									<td class="suhoor-col">
+									<td class="suhoor-col <?php echo esc_attr( $row_class ); ?>">
 										<?php if ( $row_in_ramadan ) : ?>
 										<div class="prayer-single"><?php echo esc_html( $this->calc_suhoor( $day['fajr_start'] ?? '' ) ); ?></div>
 										<?php endif; ?>
@@ -8325,17 +8558,16 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 												</div>
 											<?php endif; ?>
 
-											<?php if ( $is_ramadan ) : ?>
+									<?php if ( $is_ramadan ) : ?>
 												<?php
-												$rdstart_c      = mt_get_option( 'ramadan_start_date', '' );
-												$rdend_c        = mt_get_option( 'ramadan_end_date', '' );
-												$row_date_c     = $day['date_full'] ?? '';
-												$card_in_ramadan = $rdstart_c && $rdend_c && $row_date_c >= $rdstart_c && $row_date_c <= $rdend_c;
-												$suhoor_card    = $card_in_ramadan ? $this->calc_suhoor( $day['fajr_start'] ?? '' ) : '';
+												$dates_c         = $this->get_ramadan_dates();
+												$row_date_c      = $day['date_full'] ?? '';
+												$card_in_ramadan = $dates_c['start'] && $dates_c['end'] && $row_date_c >= $dates_c['start'] && $row_date_c <= $dates_c['end'];
+												$suhoor_card     = $card_in_ramadan ? $this->calc_suhoor( $day['fajr_start'] ?? '' ) : '';
 												?>
 												<?php if ( $suhoor_card ) : ?>
 												<div class="mosque-prayer-time-item suhoor-item">
-													<div class="mosque-prayer-time-name">Suhoor</div>
+													<div class="mosque-prayer-time-name"><?php esc_html_e( 'Suhoor', 'mosque-timetable' ); ?></div>
 													<div class="mosque-prayer-time-start"><?php echo esc_html( $suhoor_card ); ?></div>
 												</div>
 												<?php endif; ?>
@@ -8727,6 +8959,36 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 		foreach ( $month_data['days'] as $day ) {
 			if ( $day['date_full'] === $today ) {
+				return $day;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get prayer data for tomorrow.
+	 *
+	 * Handles month boundaries by loading the next month's data when today
+	 * is the last day of the current month.
+	 *
+	 * @return array|null Prayer data array or null if unavailable.
+	 */
+	public function get_tomorrow_prayer_data() {
+		$tomorrow = new DateTime( wp_date( 'Y-m-d' ) );
+		$tomorrow->modify( '+1 day' );
+		$tom_str = $tomorrow->format( 'Y-m-d' );
+		$year    = (int) $tomorrow->format( 'Y' );
+		$month   = (int) $tomorrow->format( 'n' );
+
+		$month_data = $this->get_month_prayer_data( $year, $month );
+
+		if ( ! $month_data || ! $month_data['days'] ) {
+			return null;
+		}
+
+		foreach ( $month_data['days'] as $day ) {
+			if ( $day['date_full'] === $tom_str ) {
 				return $day;
 			}
 		}
