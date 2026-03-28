@@ -232,7 +232,7 @@
         const banner = `
           <div class="mosque-pwa-banner" role="complementary" aria-label="Install Prayer Times App">
             <div class="mosque-pwa-content">
-              <span class="mosque-pwa-icon">ðŸ•Œ</span>
+              <span class="mosque-pwa-icon">&#128332;</span>
               <div class="mosque-pwa-text">
                 <strong>Install Prayer Times App</strong>
                 <p>Get quick access to prayer times on your device</p>

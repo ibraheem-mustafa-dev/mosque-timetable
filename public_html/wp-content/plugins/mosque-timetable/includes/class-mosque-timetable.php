@@ -4891,10 +4891,10 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 						banner.setAttribute('role', 'complementary');
 						banner.setAttribute('aria-label', 'Install Prayer Times App');
 						banner.innerHTML = `
-						<div class="icon"></div>
+						<div class="icon">&#128332;</div>
 						<div class="content">
-							<div class="title">Install Prayer Times App</div>
-							<div class="subtitle">Get quick access to prayer times offline</div>
+							<div class="title"><?php esc_html_e( 'Install Prayer Times App', 'mosque-timetable' ); ?></div>
+							<div class="subtitle"><?php esc_html_e( 'Get quick access to prayer times offline', 'mosque-timetable' ); ?></div>
 						</div>
 						<div class="actions">
 							<button type="button" class="dismiss">Later</button>

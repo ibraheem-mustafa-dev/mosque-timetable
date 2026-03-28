@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mosque Timetable v3.4.0 - Visual QA</title>
+<link rel="stylesheet" href="public_html/wp-content/plugins/mosque-timetable/assets/mosque-timetable.css">
+<style>
+body { margin: 0; padding: 20px; background: #f5f1eb; font-family: 'DM Sans', sans-serif; }
+.section { margin: 40px 0; }
+.section-title { font-family: 'El Messiri', serif; font-size: 20px; font-weight: 700; color: #1A3A5C; margin-bottom: 16px; border-bottom: 2px solid #d8d2c8; padding-bottom: 8px; }
+.breakpoint-label { position: fixed; top: 0; right: 0; background: #c0392b; color: #fff; padding: 4px 12px; font-size: 12px; z-index: 9999; font-family: monospace; }
+</style>
+</head>
+<body>
+
+<div class="breakpoint-label" id="bp"></div>
+<script>
+function updateBP() {
+  var w = window.innerWidth;
+  document.getElementById('bp').textContent = w + 'px - ' + (w <= 375 ? 'MOBILE' : w <= 768 ? 'TABLET' : 'DESKTOP');
+}
+window.addEventListener('resize', updateBP);
+updateBP();
+</script>
+
+<!-- 1. Header Pill Widget -->
+<div class="section">
+<div class="section-title">1. Header Pill [prayer_countdown layout="header"]</div>
+<div style="background: #1A3A5C; padding: 12px 20px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+  <span style="color: #fff; font-family: 'El Messiri', serif; font-size: 18px;">Stechford Mosque</span>
+  <a href="/prayer-times" class="prayer-countdown-inline prayer-countdown" aria-label="View Full Timetable" data-layout="header">
+    <span class="pci-icon" aria-hidden="true">&#127775;</span>
+    <span class="pci-name">Dhuhr</span>
+    <span class="pci-time">12:11 PM</span>
+    <span class="pci-divider" aria-hidden="true"></span>
+    <span class="pci-countdown">02:34</span>
+  </a>
+</div>
+<!-- On dark variant -->
+<div style="background: #0D7377; padding: 12px 20px; border-radius: 8px; margin-top: 8px; display: flex; align-items: center; justify-content: space-between;">
+  <span style="color: #fff; font-family: 'El Messiri', serif; font-size: 18px;">On Teal Header</span>
+  <a href="/prayer-times" class="prayer-countdown-inline prayer-countdown on-dark" aria-label="View Full Timetable" data-layout="header">
+    <span class="pci-icon" aria-hidden="true">&#127775;</span>
+    <span class="pci-name">Asr</span>
+    <span class="pci-time">3:43 PM</span>
+    <span class="pci-divider" aria-hidden="true"></span>
+    <span class="pci-countdown">05:12</span>
+  </a>
+</div>
+</div>
+
+<!-- 2. Desktop Bar Widget -->
+<div class="section">
+<div class="section-title">2. Desktop Bar [prayer_countdown layout="desktop-bar"]</div>
+<a href="/prayer-times" class="prayer-countdown-bar prayer-countdown" aria-label="View Full Timetable" data-layout="desktop-bar">
+  <div class="pcb-left">
+    <span class="pcb-icon" aria-hidden="true">&#127775;</span>
+    <span class="pcb-label">Next Prayer</span>
+    <span class="pcb-name">Dhuhr</span>
+    <span class="pcb-time">12:11 PM</span>
+  </div>
+  <div class="pcb-right">
+    <span class="pcb-countdown-label">Starts in</span>
+    <span class="pcb-countdown">02:34:18</span>
+  </div>
+</a>
+</div>
+
+<!-- 3. Card Widget -->
+<div class="section">
+<div class="section-title">3. Card Widget [prayer_countdown layout="card"]</div>
+<a href="/prayer-times" class="prayer-countdown-container" aria-label="View Full Timetable">
+  <div class="countdown-header">
+    <div class="countdown-title">Next Prayer</div>
+    <div class="countdown-next-prayer">Dhuhr</div>
+    <div class="countdown-next-time">12:11 PM</div>
+  </div>
+  <div class="prayer-countdown">
+    <div class="countdown-timer">
+      <div class="countdown-unit"><span class="countdown-number">02</span><span class="countdown-label">Hours</span></div>
+      <div class="countdown-unit"><span class="countdown-number">34</span><span class="countdown-label">Minutes</span></div>
+      <div class="countdown-unit"><span class="countdown-number">18</span><span class="countdown-label">Seconds</span></div>
+    </div>
+  </div>
+</a>
+</div>
+
+<!-- 4. Ramadan Banner -->
+<div class="section">
+<div class="section-title">4. Ramadan Banner [ramadan_info layout="banner"] - Day 28</div>
+<div class="mt-ramadan-info mt-ramadan-banner-layout mt-ramadan-last-ten">
+  <div class="mt-ramadan-banner">
+    <div class="mt-ramadan-banner-left">
+      <span class="mt-ramadan-moon">&#9790;</span>
+      <span class="mt-ramadan-day-label">Day 28</span>
+      <span class="mt-ramadan-last-ten-badge">Last 10 Nights</span>
+      <span class="mt-ramadan-title">Ramadan Mubarak</span>
+    </div>
+    <div class="mt-ramadan-banner-times">
+      <div class="mt-ramadan-time-block">
+        <span class="mt-ramadan-time-label">Suhoor ends</span>
+        <span class="mt-ramadan-time-value">04:25</span>
+      </div>
+      <div class="mt-ramadan-divider">|</div>
+      <div class="mt-ramadan-time-block">
+        <span class="mt-ramadan-time-label">Iftar</span>
+        <span class="mt-ramadan-time-value mt-iftar-time">18:34</span>
+      </div>
+      <div class="mt-ramadan-divider">|</div>
+      <div class="mt-ramadan-time-block mt-ramadan-taraweeh-block">
+        <span class="mt-ramadan-time-label">Taraweeh</span>
+        <span class="mt-ramadan-time-value">20:30</span>
+      </div>
+      <div class="mt-ramadan-divider">|</div>
+      <div class="mt-ramadan-countdown-block">
+        <span class="mt-ramadan-time-label mt-ramadan-countdown-label">Until Iftar</span>
+        <span class="mt-ramadan-countdown">04:22:15</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 5. Ramadan Card -->
+<div class="section">
+<div class="section-title">5. Ramadan Card [ramadan_info layout="card"] - Last 10 Nights</div>
+<div class="mt-ramadan-info mt-ramadan-card-layout mt-ramadan-last-ten">
+  <div class="mt-ramadan-card">
+    <div class="mt-ramadan-card-header">
+      <span class="mt-ramadan-moon">&#9790;</span>
+      <div class="mt-ramadan-card-title">
+        <strong>Ramadan Mubarak</strong>
+        <span class="mt-ramadan-day-badge">Day 28</span>
+        <span class="mt-ramadan-last-ten-badge">Last 10 Nights</span>
+      </div>
+    </div>
+    <div class="mt-ramadan-card-times">
+      <div class="mt-ramadan-time-col">
+        <div class="mt-ramadan-time-col-label">Suhoor ends</div>
+        <div class="mt-ramadan-time-col-value">04:25</div>
+      </div>
+      <div class="mt-ramadan-time-col mt-ramadan-iftar-col">
+        <div class="mt-ramadan-time-col-label">Iftar (Maghrib)</div>
+        <div class="mt-ramadan-time-col-value">18:34</div>
+      </div>
+      <div class="mt-ramadan-time-col mt-ramadan-taraweeh-col">
+        <div class="mt-ramadan-time-col-label">Taraweeh</div>
+        <div class="mt-ramadan-time-col-value">20:30</div>
+      </div>
+      <div class="mt-ramadan-time-col">
+        <div class="mt-ramadan-time-col-label">Countdown</div>
+        <div class="mt-ramadan-countdown mt-ramadan-time-col-value">04:22:15</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 6. Ramadan Compact -->
+<div class="section">
+<div class="section-title">6. Ramadan Compact [ramadan_info layout="compact"]</div>
+<div class="mt-ramadan-info mt-ramadan-compact-layout mt-ramadan-last-ten">
+  <div class="mt-ramadan-compact">
+    <span class="mt-ramadan-moon">&#9790;</span>
+    <span class="mt-ramadan-day-label">Day 28</span>
+    <span class="mt-ramadan-compact-sep">&bull;</span>
+    <span class="mt-ramadan-last-ten-badge">Last 10 Nights</span>
+    <span class="mt-ramadan-compact-sep">&bull;</span>
+    <span>Suhoor: <strong>04:25</strong></span>
+    <span class="mt-ramadan-compact-sep">&bull;</span>
+    <span>Iftar: <strong>18:34</strong></span>
+    <span class="mt-ramadan-compact-sep">&bull;</span>
+    <span>Taraweeh: <strong>20:30</strong></span>
+    <span class="mt-ramadan-compact-sep">&bull;</span>
+    <span class="mt-ramadan-countdown">04:22</span>
+  </div>
+</div>
+</div>
+
+<!-- 7. Card sizes -->
+<div class="section">
+<div class="section-title">7. Card Size Variants</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+  <a href="#" class="prayer-countdown-container size-small" style="display:block;">
+    <div class="countdown-header"><div class="countdown-title">Small</div><div class="countdown-next-prayer">Maghrib</div><div class="countdown-next-time">6:34 PM</div></div>
+    <div class="prayer-countdown"><div class="countdown-timer"><div class="countdown-unit"><span class="countdown-number">04</span><span class="countdown-label">Hours</span></div><div class="countdown-unit"><span class="countdown-number">12</span><span class="countdown-label">Minutes</span></div><div class="countdown-unit"><span class="countdown-number">05</span><span class="countdown-label">Seconds</span></div></div></div>
+  </a>
+  <a href="#" class="prayer-countdown-container size-large" style="display:block;">
+    <div class="countdown-header"><div class="countdown-title">Large</div><div class="countdown-next-prayer">Maghrib</div><div class="countdown-next-time">6:34 PM</div></div>
+    <div class="prayer-countdown"><div class="countdown-timer"><div class="countdown-unit"><span class="countdown-number">04</span><span class="countdown-label">Hours</span></div><div class="countdown-unit"><span class="countdown-number">12</span><span class="countdown-label">Minutes</span></div><div class="countdown-unit"><span class="countdown-number">05</span><span class="countdown-label">Seconds</span></div></div></div>
+  </a>
+</div>
+</div>
+
+</body>
+</html>

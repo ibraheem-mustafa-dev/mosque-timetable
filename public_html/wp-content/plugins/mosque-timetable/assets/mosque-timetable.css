@@ -54,9 +54,9 @@
 	--mosque-bg-surface:    #ffffff;
 
 	/*  Row highlight colours  */
-	--mosque-today-bg:      rgba(13, 115, 119, 0.10);   /* Teal tint  today */
-	--mosque-friday-bg:     rgba(197, 165, 90, 0.13);   /* Gold tint  Jummah */
-	--mosque-next-prayer-bg:rgba(13, 115, 119, 0.18);   /* Stronger teal  next prayer */
+	--mosque-today-bg:      rgba(13, 115, 119, 0.18);   /* Teal tint  today (stronger for visibility) */
+	--mosque-friday-bg:     rgba(197, 165, 90, 0.18);   /* Gold tint  Jummah */
+	--mosque-next-prayer-bg:rgba(13, 115, 119, 0.25);   /* Stronger teal  next prayer */
 
 	/*  Text  */
 	--mosque-text-primary:  #1A2332;   /* Near-black, warm */
@@ -1146,6 +1146,16 @@ button,
 	Sticky Next Prayer Bar (Legacy  - hidden, superseded by [mosque_prayer_bar])
 	========================================================================== */
 
+/* Today's prayer strip above the table */
+.mosque-prayer-bar {
+	background: var(--mosque-gradient);
+	color: var(--mosque-text-white);
+	padding: 12px 16px;
+	border-radius: 10px;
+	margin-bottom: 16px;
+	box-shadow: 0 2px 8px rgba(var(--mosque-primary-rgb), 0.2);
+}
+
 .mosque-prayer-bar-compact {
 	display: none; /* Hidden to avoid duplication with site-wide prayer times */
 	position: sticky;
@@ -1163,9 +1173,11 @@ button,
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 4px; /* Reduced from 8px for compact layout */
-	font-size: 11px; /* Reduced from 13px */
+	margin-bottom: 8px;
+	font-size: 13px;
 	font-weight: 500;
+	color: var(--mosque-text-white);
+	opacity: 0.9;
 }
 
 .mosque-prayer-bar-prayers {
@@ -1184,16 +1196,14 @@ button,
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 4px 10px; /* Reduced from 8px 12px for slimmer chips */
+	padding: 8px 12px;
 	background: rgb(255 255 255 / 10%);
-	border-radius: 8px; /* Reduced from 12px */
-	min-width: 65px; /* Reduced from 70px */
+	border-radius: 10px;
+	min-width: 70px;
 	white-space: nowrap;
 	transition: all 0.3s ease;
 	cursor: pointer;
 	flex-shrink: 0;
-
-	/* Note: role and tabindex should be in HTML, not CSS */
 }
 
 .mosque-prayer-chip.active {
@@ -1209,15 +1219,18 @@ button,
 }
 
 .mosque-prayer-chip-name {
-	font-size: 10px; /* Reduced from 11px */
+	font-size: 11px;
 	font-weight: 600;
-	margin-bottom: 1px; /* Reduced from 2px */
+	margin-bottom: 2px;
 	opacity: 0.9;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
 }
 
 .mosque-prayer-chip-time {
-	font-size: 12px; /* Reduced from 13px */
-	font-weight: 500;
+	font-size: 14px;
+	font-weight: 700;
+	font-family: var(--mosque-font-mono);
 }
 
 /* Desktop prayer bar styling */
@@ -1360,6 +1373,7 @@ button,
 		background: var(--mosque-bg-light);
 		border-radius: 8px;
 		text-align: center;
+		border: 1px solid var(--mosque-border-light);
 	}
 
 	.mosque-prayer-time-item.jummah {
