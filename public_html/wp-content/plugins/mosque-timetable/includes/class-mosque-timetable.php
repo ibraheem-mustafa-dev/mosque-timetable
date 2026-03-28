@@ -8769,28 +8769,28 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 						<?php
 						$prayers = array(
 							'Fajr'    => array(
-								'start'  => $today_data['fajr_start'],
-								'jamaat' => $today_data['fajr_jamaat'],
+								'start'  => $today_data['fajr_start'] ?? '',
+								'jamaat' => $today_data['fajr_jamaat'] ?? '',
 							),
 							'Sunrise' => array(
-								'start'  => $today_data['sunrise'],
+								'start'  => $today_data['sunrise'] ?? '',
 								'jamaat' => null,
 							),
 							'Dhuhr'    => array(
-								'start'  => $today_data['zuhr_start'],
-								'jamaat' => $today_data['zuhr_jamaat'],
+								'start'  => $today_data['zuhr_start'] ?? '',
+								'jamaat' => $today_data['zuhr_jamaat'] ?? '',
 							),
 							'Asr'     => array(
-								'start'  => $today_data['asr_start'],
-								'jamaat' => $today_data['asr_jamaat'],
+								'start'  => $today_data['asr_start'] ?? '',
+								'jamaat' => $today_data['asr_jamaat'] ?? '',
 							),
 							'Maghrib' => array(
-								'start'  => $today_data['maghrib_start'],
-								'jamaat' => $today_data['maghrib_jamaat'],
+								'start'  => $today_data['maghrib_start'] ?? '',
+								'jamaat' => $today_data['maghrib_jamaat'] ?? '',
 							),
 							'Isha'    => array(
-								'start'  => $today_data['isha_start'],
-								'jamaat' => $today_data['isha_jamaat'],
+								'start'  => $today_data['isha_start'] ?? '',
+								'jamaat' => $today_data['isha_jamaat'] ?? '',
 							),
 						);
 
