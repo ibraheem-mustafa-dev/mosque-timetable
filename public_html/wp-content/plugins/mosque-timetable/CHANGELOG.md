@@ -2,15 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
-## [3.4.0] — 2026-03-17
+## [3.4.0] — 2026-03-28
 
 ### Added
 - **Ramadan Mode v2 enhancements**:
-  - **Algorithmic Hijri auto-detection**: Approximate Ramadan start/end dates are now automatically detected via a Kuwaiti/tabular Hijri algorithm when manual dates aren't set.
-  - **Dual countdown**: The Ramadan countdown now automatically switches from "Until Iftar" to "Until Suhoor" after Maghrib, guiding users to the next day's fast.
-  - **Last 10 Nights indicators**: Added glowing visual badges and unique banner/card styling for the final 10 nights of Ramadan.
-  - **Taraweeh support**: Added a "Taraweeh Time" field in settings, displayed in all Ramadan components when configured.
-  - **Internationalisation**: Full i18n support for all Ramadan-related strings.
+  - **Algorithmic Hijri auto-detection**: Approximate Ramadan start/end dates are now automatically detected via a Kuwaiti/tabular Hijri algorithm when manual dates are not set. Admin start/end date fields become optional overrides. Results cached in a 24-hour transient.
+  - **Dual countdown (Iftar to Suhoor)**: The Ramadan countdown now automatically switches from "Until Iftar" to "Until Suhoor" after Maghrib, using tomorrow's Fajr time to guide users to the next day's fast.
+  - **Last 10 Nights indicators**: Added glowing visual badges (`mt-glow` CSS animation), deeper navy banner theme with gold border, and `.mt-last-ten` class on table rows for the final 10 nights of Ramadan.
+  - **Taraweeh support**: Added a "Taraweeh Time" admin field (`ramadan_taraweeh_time`), displayed in banner, card, and compact layouts when configured.
+  - **Internationalisation**: Full i18n support for all Ramadan-related strings using `mosque-timetable` text domain.
+- **Desktop bar widget layout**: New `layout="desktop-bar"` option for the `[prayer_countdown]` shortcode. Renders a sleek horizontal bar with prayer name, time, and countdown - ideal for prominent desktop placement.
+- **Clickable widgets with configurable CTA**: All prayer countdown widgets (header, card, desktop-bar) are now wrapped in proper `<a>` tags linking to the timetable page. New `link_url` shortcode attribute allows customising the destination URL.
+
+### Changed
+- **Default spelling**: "Zuhr" renamed to "Dhuhr" across all user-facing labels, admin fields, CSV headers, structured data, and REST API output. Internal database keys (`zuhr_start`, `zuhr_jamaat`) remain unchanged for backward compatibility. Existing CSV imports continue to work (column-index based parsing).
+- **Widget accessibility**: Replaced `onclick` JavaScript handlers with semantic `<a>` anchor tags for proper keyboard navigation, screen reader support, and link behaviour. Added `aria-label` attributes to all widget layouts.
+- **UI polish**: Ensured vertical alignment of prayer names, times, and countdowns in header widget using flexbox `align-items: center` and consistent `line-height: 1`. Font loading uses CSS `@import` fallback with `var(--mosque-font-*)` custom properties.
+
+### Fixed
+- **JS timer rollover**: Prayer countdown no longer gets stuck at `00:00` when a prayer time passes. The widget now receives the full upcoming prayer schedule via `data-schedule` attribute, automatically advancing to the next prayer when the current one is reached.
+- **CSS selector typo**: Fixed a garbled selector (`aaaaaaaaaaabbbbb...`) in the credit section that was preventing `.mosque-system-credit a:hover` styles from applying.
 
 ## [3.3.0] — 2026-03-03
 

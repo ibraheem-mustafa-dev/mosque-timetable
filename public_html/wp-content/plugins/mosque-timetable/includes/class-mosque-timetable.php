@@ -228,6 +228,9 @@ class MosqueTimetablePlugin {
 					'nextPrayer'    => __( 'Next Prayer', 'mosque-timetable' ),
 					'timeRemaining' => __( 'Time Remaining', 'mosque-timetable' ),
 					'prayerTime'    => __( 'Prayer Time', 'mosque-timetable' ),
+					'untilSuhoor'   => __( 'Until Suhoor', 'mosque-timetable' ),
+					'suhoor'        => __( 'Suhoor!', 'mosque-timetable' ),
+					'iftar'         => __( 'Iftar!', 'mosque-timetable' ),
 				),
 			)
 		);
@@ -292,7 +295,7 @@ class MosqueTimetablePlugin {
 						<div class="mosque-admin-title-wrapper">
 							<h1 class="mosque-admin-title">
 								<span class="dashicons dashicons-calendar-alt" style="font-size: 32px; width: 32px; height: 32px;"></span>
-							<?php echo esc_html( $mosque_name ); ?> — Prayer Timetables
+							<?php echo esc_html( $mosque_name ); ?> - Prayer Timetables
 							</h1>
 							<p class="mosque-admin-subtitle">
 								Managing <?php echo esc_html( (string) $default_year ); ?> Prayer Times
@@ -540,7 +543,7 @@ endforeach;
 							<div class="import-format-info">
 								<h4>Expected Format:</h4>
 								<p><strong>Times-only import (dates will be auto-generated):</strong></p>
-								<code>Fajr_Start,Fajr_Jamaat,Sunrise,Zuhr_Start,Zuhr_Jamaat,Asr_Start,Asr_Jamaat,Maghrib_Start,Maghrib_Jamaat,Isha_Start,Isha_Jamaat,Jummah_1,Jummah_2</code>
+								<code>Fajr_Start,Fajr_Jamaat,Sunrise,Dhuhr_Start,Dhuhr_Jamaat,Asr_Start,Asr_Jamaat,Maghrib_Start,Maghrib_Jamaat,Isha_Start,Isha_Jamaat,Jummah_1,Jummah_2</code>
 							</div>
 						</div>
 
@@ -583,7 +586,7 @@ endforeach;
 			return;
 		}
 
-		// Islamic typography for admin — El Messiri headings, DM Sans body, Space Mono times.
+		// Islamic typography for admin  - El Messiri headings, DM Sans body, Space Mono times.
 		wp_enqueue_style(
 			'mosque-timetable-admin-fonts',
 			'https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap',
@@ -854,7 +857,7 @@ endforeach;
 						'name'              => '',
 						'type'              => 'message',
 						'instructions'      => '',
-						'message'           => __( 'Set how many minutes after the start time your mosque holds Jamaah (congregation). For example, if Zuhr starts at 12:00 and Jamaah is at 12:15, enter 15 minutes.', 'mosque-timetable' ),
+						'message'           => __( 'Set how many minutes after the start time your mosque holds Jamaah (congregation). For example, if Dhuhr starts at 12:00 and Jamaah is at 12:15, enter 15 minutes.', 'mosque-timetable' ),
 						'conditional_logic' => array(
 							array(
 								array(
@@ -887,10 +890,10 @@ endforeach;
 					),
 					array(
 						'key'               => 'field_zuhr_jamaat_offset',
-						'label'             => __( 'Zuhr Jamaah Offset (minutes)', 'mosque-timetable' ),
+						'label'             => __( 'Dhuhr Jamaah Offset (minutes)', 'mosque-timetable' ),
 						'name'              => 'zuhr_jamaat_offset',
 						'type'              => 'number',
-						'instructions'      => __( 'Minutes after Zuhr start time for Jamaah', 'mosque-timetable' ),
+						'instructions'      => __( 'Minutes after Dhuhr start time for Jamaah', 'mosque-timetable' ),
 						'default_value'     => 15,
 						'min'               => 0,
 						'max'               => 60,
@@ -970,7 +973,7 @@ endforeach;
 						'label'        => __( 'Terminology Overrides', 'mosque-timetable' ),
 						'name'         => 'terminology_overrides',
 						'type'         => 'repeater',
-						'instructions' => __( 'Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque"  "Masjid", "Zuhr"  "Dhuhr", "Maghrib"  "Maghreb".', 'mosque-timetable' ),
+						'instructions' => __( 'Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque"  "Masjid", "Dhuhr"  "Zuhr", "Maghrib"  "Maghreb".', 'mosque-timetable' ),
 						'required'     => 0,
 						'layout'       => 'table',
 						'button_label' => __( 'Add Override', 'mosque-timetable' ),
@@ -1237,7 +1240,7 @@ endforeach;
 								),
 								array(
 									'key'            => 'field_zuhr_start_' . $month_num,
-									'label'          => 'Zuhr Start',
+									'label'          => 'Dhuhr Start',
 									'name'           => 'zuhr_start',
 									'type'           => 'time_picker',
 									'display_format' => 'H:i',
@@ -1246,7 +1249,7 @@ endforeach;
 								),
 								array(
 									'key'            => 'field_zuhr_jamaat_' . $month_num,
-									'label'          => 'Zuhr Jamaat',
+									'label'          => 'Dhuhr Jamaat',
 									'name'           => 'zuhr_jamaat',
 									'type'           => 'time_picker',
 									'display_format' => 'H:i',
@@ -2008,6 +2011,11 @@ endforeach;
 	 *   show_countdown true|false - JS iftar/suhoor dual countdown
 	 */
 	public function shortcode_ramadan_info( $atts ) {
+		// Bail early outside Ramadan - render nothing.
+		if ( ! $this->is_ramadan() ) {
+			return '';
+		}
+
 		$atts = shortcode_atts(
 			array(
 				'layout'         => 'card',
@@ -2184,9 +2192,9 @@ endforeach;
 	 *
 	 * Attributes:
 	 *   position     = top | bottom           (default: top)
-	 *   dismissible  = true | false           (default: true  — shows × close button)
-	 *   show_jamaat  = true | false           (default: false — show jamaat below start time)
-	 *   pulse_next   = true | false           (default: true  — highlight next prayer)
+	 *   dismissible  = true | false           (default: true   - shows × close button)
+	 *   show_jamaat  = true | false           (default: false  - show jamaat below start time)
+	 *   pulse_next   = true | false           (default: true   - highlight next prayer)
 	 *   cta_text     = "Support Our Appeal"   (optional CTA label)
 	 *   cta_url      = "https://..."          (optional CTA link)
 	 *   cta_target   = _self | _blank         (default: _self)
@@ -2239,17 +2247,17 @@ endforeach;
 		$next_prayer  = $this->get_next_prayer_data();
 		$next_name    = isset( $next_prayer['name'] ) ? strtolower( $next_prayer['name'] ) : '';
 
-		// Prayer slots to display (order: Fajr, Sunrise, Zuhr, Asr, Maghrib, Isha).
+		// Prayer slots to display (order: Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha).
 		$slots = array(
 			'fajr'    => array( 'label' => __( 'Fajr', 'mosque-timetable' ),    'start' => 'fajr_start',    'jamaat' => 'fajr_jamaat' ),
 			'sunrise' => array( 'label' => __( 'Sunrise', 'mosque-timetable' ), 'start' => 'sunrise',       'jamaat' => '' ),
-			'zuhr'    => array( 'label' => __( 'Zuhr', 'mosque-timetable' ),    'start' => 'zuhr_start',    'jamaat' => 'zuhr_jamaat' ),
+			'zuhr'    => array( 'label' => __( 'Dhuhr', 'mosque-timetable' ),    'start' => 'zuhr_start',    'jamaat' => 'zuhr_jamaat' ),
 			'asr'     => array( 'label' => __( 'Asr', 'mosque-timetable' ),     'start' => 'asr_start',     'jamaat' => 'asr_jamaat' ),
 			'maghrib' => array( 'label' => __( 'Maghrib', 'mosque-timetable' ), 'start' => 'maghrib_start', 'jamaat' => 'maghrib_jamaat' ),
 			'isha'    => array( 'label' => __( 'Isha', 'mosque-timetable' ),    'start' => 'isha_start',    'jamaat' => 'isha_jamaat' ),
 		);
 
-		// Inline style overrides — hardcode background to beat theme CSS specificity.
+		// Inline style overrides  - hardcode background to beat theme CSS specificity.
 		$bg_map = array(
 			'teal'     => array( 'bg' => '#0D7377', 'color' => '#ffffff' ),
 			'midnight' => array( 'bg' => '#1A3A5C', 'color' => '#ffffff' ),
@@ -2473,7 +2481,7 @@ endforeach;
 			</div>
 
 			<style>
-				/* ---- Mosque Timetable Admin Dashboard — Islamic Design System ---- */
+				/* ---- Mosque Timetable Admin Dashboard  - Islamic Design System ---- */
 				:root {
 					--mta-primary:   #0D7377;
 					--mta-dark:      #1A3A5C;
@@ -3090,7 +3098,7 @@ endforeach;
 							<?php endforeach; ?>
 						</div>
 						<button type="button" class="button" id="add-terminology-override">Add Override</button>
-						<p class="description">Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque"  "Masjid", "Zuhr"  "Dhuhr".</p>
+						<p class="description"><?php esc_html_e( 'Customize terminology used throughout the plugin interface. Changes apply to labels only, not internal data. Examples: "Mosque"  "Masjid", "Dhuhr"  "Zuhr", "Maghrib"  "Maghreb".', 'mosque-timetable' ); ?></p>
 						<script>
 							document.getElementById('add-terminology-override').addEventListener('click', function() {
 								const container = document.getElementById('terminology-overrides');
@@ -3150,24 +3158,27 @@ endforeach;
 
 			<!-- ====== Ramadan Mode ====== -->
 			<div style="background:linear-gradient(135deg,#0D7377,#1A3A5C);color:#fff;padding:20px 24px;border-radius:8px;margin:24px 0 20px;">
-				<h2 style="margin:0 0 6px;font-family:'El Messiri',Georgia,serif;font-size:18px;font-weight:700;">&#9790; Ramadan Mode</h2>
-				<p style="margin:0;font-size:13px;opacity:.85;">Set Ramadan dates to enable the <code style="background:rgba(255,255,255,.15);border-radius:3px;padding:1px 5px;">[ramadan_info]</code> shortcode and automatic Suhoor/Iftar display.</p>
+				<h2 style="margin:0 0 6px;font-family:'El Messiri',Georgia,serif;font-size:18px;font-weight:700;">&#9790; <?php esc_html_e( 'Ramadan Mode', 'mosque-timetable' ); ?></h2>
+				<p style="margin:0;font-size:13px;opacity:.85;"><?php esc_html_e( 'Set Ramadan dates to enable the [ramadan_info] shortcode and automatic Suhoor/Iftar display.', 'mosque-timetable' ); ?></p>
 			</div>
 			<table class="form-table">
 				<tr>
-					<th><label for="ramadan_start_date">Ramadan Start Date</label></th>
+					<th><label for="ramadan_start_date"><?php esc_html_e( 'Ramadan Start Date', 'mosque-timetable' ); ?></label></th>
 					<td>
 						<input type="date" id="ramadan_start_date" name="ramadan_start_date"
 							value="<?php echo esc_attr( mt_get_option( 'ramadan_start_date', '' ) ); ?>" />
-						<p class="description">First day of Ramadan <?php echo esc_html( wp_date( 'Y' ) ); ?> (e.g. 2026-03-01)</p>
+						<p class="description"><?php
+							/* translators: %s: current year */
+							printf( esc_html__( 'First day of Ramadan %s (leave blank for auto-detection)', 'mosque-timetable' ), esc_html( wp_date( 'Y' ) ) );
+						?></p>
 					</td>
 				</tr>
 				<tr>
-					<th><label for="ramadan_end_date">Ramadan End Date</label></th>
+					<th><label for="ramadan_end_date"><?php esc_html_e( 'Ramadan End Date', 'mosque-timetable' ); ?></label></th>
 					<td>
 						<input type="date" id="ramadan_end_date" name="ramadan_end_date"
 							value="<?php echo esc_attr( mt_get_option( 'ramadan_end_date', '' ) ); ?>" />
-						<p class="description">Last day of Ramadan / Eid al-Fitr eve</p>
+						<p class="description"><?php esc_html_e( 'Last day of Ramadan / Eid al-Fitr eve (leave blank for auto-detection)', 'mosque-timetable' ); ?></p>
 					</td>
 				</tr>
 				<tr>
@@ -4259,7 +4270,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			$prayer_names = array(
 				'fajr'    => 'Fajr',
 				'sunrise' => 'Sunrise',
-				'zuhr'    => 'Zuhr',
+				'Dhuhr'    => 'Dhuhr',
 				'asr'     => 'Asr',
 				'maghrib' => 'Maghrib',
 				'isha'    => 'Isha',
@@ -4278,7 +4289,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			}
 
 			// Add Jummah if it's Friday.
-			if ( wp_date( 'w' ) === 5 ) {
+			if ( wp_date( 'w' ) === '5' ) {
 				if ( ! empty( $today_data['jummah_1'] ) ) {
 					$widget_data['today']['prayers'][] = array(
 						'name'           => 'Jummah 1',
@@ -4540,14 +4551,14 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$prayer_times = array(
 			'fajr'    => $today_data['fajr_start'],
 			'sunrise' => $today_data['sunrise'],
-			'zuhr'    => wp_date( 'w' ) === 5 ? null : $today_data['zuhr_start'], // Skip Zuhr on Friday.
+			'dhuhr'    => wp_date( 'w' ) === '5' ? null : $today_data['zuhr_start'], // Skip Dhuhr on Friday.
 			'asr'     => $today_data['asr_start'],
 			'maghrib' => $today_data['maghrib_start'],
 			'isha'    => $today_data['isha_start'],
 		);
 
 		// Add Jummah times on Friday.
-		if ( wp_date( 'w' ) === 5 ) {
+		if ( wp_date( 'w' ) === '5' ) {
 			if ( ! empty( $today_data['jummah_1'] ) ) {
 				$prayer_times['jummah_1'] = $today_data['jummah_1'];
 			}
@@ -5012,15 +5023,15 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				$prayers = array(
 					'Fajr'    => $today_data['fajr_start'],
 					'Sunrise' => $today_data['sunrise'],
-					'Zuhr'    => $today_data['zuhr_start'],
+					'Dhuhr'    => $today_data['zuhr_start'],
 					'Asr'     => $today_data['asr_start'],
 					'Maghrib' => $today_data['maghrib_start'],
 					'Isha'    => $today_data['isha_start'],
 				);
 
-				// Replace Zuhr with Jummah on Friday.
+				// Replace Dhuhr with Jummah on Friday.
 				if ( '5' === wp_date( 'N' ) && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
-					unset( $prayers['Zuhr'] );
+					unset( $prayers['Dhuhr'] );
 					$jummah_times = array();
 					if ( $today_data['jummah_1'] ) {
 						$jummah_times[] = $today_data['jummah_1'];
@@ -5196,7 +5207,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			'name'             => $mosque_name . ' Prayer Times Dataset',
 			'description'      => 'Comprehensive dataset of Islamic prayer times including daily prayers, Jummah times, and Hijri calendar dates',
 			'url'              => get_site_url() . '/prayer-times/',
-			'keywords'         => 'prayer times, Islamic prayers, mosque schedule, Fajr, Zuhr, Asr, Maghrib, Isha, Jummah, Hijri calendar',
+			'keywords'         => 'prayer times, Islamic prayers, mosque schedule, Fajr, Dhuhr, Asr, Maghrib, Isha, Jummah, Hijri calendar',
 			'creator'          => array( '@id' => get_site_url() . '#organization' ),
 			'publisher'        => array( '@id' => get_site_url() . '#organization' ),
 			'dateModified'     => wp_date( 'c' ),
@@ -5251,7 +5262,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 					'name'           => 'What are the prayer times at ' . $mosque_name . '?',
 					'acceptedAnswer' => array(
 						'@type' => 'Answer',
-						'text'  => 'Prayer times are updated daily and include Fajr, Sunrise, Zuhr, Asr, Maghrib, and Isha prayers. Friday prayers (Jummah) times are also available.',
+						'text'  => 'Prayer times are updated daily and include Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha prayers. Friday prayers (Jummah) times are also available.',
 					),
 				),
 				array(
@@ -5341,7 +5352,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				'Islamic prayers',
 				'mosque schedule',
 				'Fajr',
-				'Zuhr',
+				'Dhuhr',
 				'Asr',
 				'Maghrib',
 				'Isha',
@@ -5382,7 +5393,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				),
 				array(
 					'@type'       => 'PropertyValue',
-					'name'        => 'Zuhr Prayer Time',
+					'name'        => 'Dhuhr Prayer Time',
 					'description' => 'Noon prayer - second prayer of the day',
 				),
 				array(
@@ -5403,7 +5414,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 				array(
 					'@type'       => 'PropertyValue',
 					'name'        => 'Jummah Prayer Time',
-					'description' => 'Friday congregational prayer (replaces Zuhr on Fridays)',
+					'description' => 'Friday congregational prayer (replaces Dhuhr on Fridays)',
 				),
 				array(
 					'@type'       => 'PropertyValue',
@@ -5640,15 +5651,15 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			if ( $prayer_data && ! empty( $prayer_data['days'] ) ) {
 				foreach ( $prayer_data['days'] as $day ) {
 					$date      = new DateTime( $day['date_full'] );
-					$is_friday = $date->format( 'N' ) === 5;
+					$is_friday = $date->format( 'N' ) === '5';
 
 					// Create events for each prayer time.
 					$prayers = array(
 						'Fajr Start'     => $day['fajr_start'],
 						'Fajr Jamaat'    => $day['fajr_jamaat'],
 						'Sunrise'        => $day['sunrise'],
-						'Zuhr Start'     => $is_friday ? null : $day['zuhr_start'],
-						'Zuhr Jamaat'    => $is_friday ? null : $day['zuhr_jamaat'],
+						'Dhuhr Start'    => $is_friday ? null : $day['zuhr_start'],
+						'Dhuhr Jamaat'   => $is_friday ? null : $day['zuhr_jamaat'],
 						'Jummah 1'       => $is_friday ? $day['jummah_1'] : null,
 						'Jummah 2'       => $is_friday ? $day['jummah_2'] : null,
 						'Asr Start'      => $day['asr_start'],
@@ -5804,7 +5815,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 		$prayer_labels = array(
 			'fajr'    => isset( $terminology['Fajr'] ) ? $terminology['Fajr'] : 'Fajr',
 			'sunrise' => isset( $terminology['Sunrise'] ) ? $terminology['Sunrise'] : 'Sunrise',
-			'zuhr'    => isset( $terminology['Zuhr'] ) ? $terminology['Zuhr'] : 'Zuhr',
+			'zuhr'    => isset( $terminology['Dhuhr'] ) ? $terminology['Dhuhr'] : ( isset( $terminology['Zuhr'] ) ? $terminology['Zuhr'] : 'Dhuhr' ),
 			'asr'     => isset( $terminology['Asr'] ) ? $terminology['Asr'] : 'Asr',
 			'maghrib' => isset( $terminology['Maghrib'] ) ? $terminology['Maghrib'] : 'Maghrib',
 			'isha'    => isset( $terminology['Isha'] ) ? $terminology['Isha'] : 'Isha',
@@ -5826,7 +5837,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 			$prayers      = array(
 				'fajr'    => $today_prayers['fajr_start'],
 				'sunrise' => $today_prayers['sunrise'],
-				'zuhr'    => $today_prayers['zuhr_start'],
+				'Dhuhr'    => $today_prayers['zuhr_start'],
 				'asr'     => $today_prayers['asr_start'],
 				'maghrib' => $today_prayers['maghrib_start'],
 				'isha'    => $today_prayers['isha_start'],
@@ -6149,7 +6160,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 									'start'  => $today_prayers['sunrise'],
 									'jamaah' => null,
 								),
-								'zuhr'    => array(
+								'Dhuhr'    => array(
 									'start'  => $today_prayers['zuhr_start'],
 									'jamaah' => $today_prayers['zuhr_jamaah'],
 								),
@@ -6168,7 +6179,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 							);
 
 							// Handle Friday/Jummah display.
-							if ( $today->format( 'N' ) === 5 ) { // Friday.
+							if ( $today->format( 'N' ) === '5' ) { // Friday.
 								if ( $today_prayers['jummah1_start'] && $today_prayers['jummah2_start'] ) {
 									$prayers_display['zuhr'] = array(
 										'start'  => $today_prayers['jummah1_start'] . ' / ' . $today_prayers['jummah2_start'],
@@ -7206,7 +7217,7 @@ console.log("=== DEBUG COMPLETE ===");</textarea>
 								<th>Hijri</th>
 								<th>Fajr</th>
 								<th>Sunrise</th>
-								<th>Zuhr</th>
+								<th>Dhuhr</th>
 								<th>Asr</th>
 								<th>Maghrib</th>
 								<th>Isha</th>
@@ -7844,8 +7855,8 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				'Fajr Start',
 				'Fajr Jamaat',
 				'Sunrise',
-				'Zuhr Start',
-				'Zuhr Jamaat',
+				'Dhuhr Start',
+				'Dhuhr Jamaat',
 				'Asr Start',
 				'Asr Jamaat',
 				'Maghrib Start',
@@ -8329,15 +8340,15 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								$prayers = array(
 									'Fajr'    => $today_data['fajr_start'],
 									'Sunrise' => $today_data['sunrise'],
-									'Zuhr'    => $today_data['zuhr_start'],
+									'Dhuhr'    => $today_data['zuhr_start'],
 									'Asr'     => $today_data['asr_start'],
 									'Maghrib' => $today_data['maghrib_start'],
 									'Isha'    => $today_data['isha_start'],
 								);
 
-								// Replace Zuhr with Jummah on Friday.
-								if ( wp_date( 'N' ) === 5 && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
-									unset( $prayers['Zuhr'] );
+								// Replace Dhuhr with Jummah on Friday.
+								if ( wp_date( 'N' ) === '5' && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
+									unset( $prayers['Dhuhr'] );
 									$jummah_times = array();
 									if ( $today_data['jummah_1'] ) {
 										$jummah_times[] = $today_data['jummah_1'];
@@ -8386,8 +8397,9 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					}
 
 					// Column: show Suhoor column whenever the *displayed month* overlaps Ramadan.
-					$ramadan_col_start = mt_get_option( 'ramadan_start_date', '' );
-					$ramadan_col_end   = mt_get_option( 'ramadan_end_date', '' );
+					$ramadan_dates     = $this->get_ramadan_dates();
+					$ramadan_col_start = $ramadan_dates['start'] ?? '';
+					$ramadan_col_end   = $ramadan_dates['end'] ?? '';
 					$month_first_day   = sprintf( '%04d-%02d-01', $year, $month );
 					$month_last_day    = wp_date( 'Y-m-t', mktime( 0, 0, 0, $month, 1, $year ) );
 					$is_ramadan        = $ramadan_col_start && $ramadan_col_end
@@ -8406,7 +8418,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								<th class="suhoor-col"><?php esc_html_e( 'Suhoor', 'mosque-timetable' ); ?></th>
 								<?php endif; ?>
 								<th><?php echo esc_html( mt_apply_terminology( 'Sunrise' ) ); ?></th>
-								<th><?php echo esc_html( mt_apply_terminology( 'Zuhr/Jummah' ) ); ?></th>
+								<th><?php echo esc_html( mt_apply_terminology( 'Dhuhr/Jummah' ) ); ?></th>
 								<th><?php echo esc_html( mt_apply_terminology( 'Asr' ) ); ?></th>
 								<th><?php echo esc_html( mt_apply_terminology( 'Maghrib' ) ); ?></th>
 								<th><?php echo esc_html( mt_apply_terminology( 'Isha' ) ); ?></th>
@@ -8424,7 +8436,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								$date     = $date_str ? DateTime::createFromFormat( 'Y-m-d', $date_str ) : false;
 
 								$is_today  = $date && ( $date->format( 'Y-m-d' ) === wp_date( 'Y-m-d' ) );
-								$is_friday = $date && ( $date->format( 'N' ) === 5 );
+								$is_friday = $date && ( $date->format( 'N' ) === '5' );
 								$day_name  = $date ? $date->format( 'D' ) : '';
 								$row_class = trim( ( $is_today ? 'today ' : '' ) . ( $is_friday ? 'friday' : '' ) );
 								?>
@@ -8525,7 +8537,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								$date_str   = isset( $day['date_full'] ) ? (string) $day['date_full'] : '';
 								$date       = $date_str ? DateTime::createFromFormat( 'Y-m-d', $date_str ) : false;
 								$is_today   = $date && ( $date->format( 'Y-m-d' ) === wp_date( 'Y-m-d' ) );
-								$is_friday  = $date && ( $date->format( 'N' ) === 5 );
+								$is_friday  = $date && ( $date->format( 'N' ) === '5' );
 								$day_name   = $date ? $date->format( 'l' ) : '';
 								$card_class = trim( ( $is_today ? 'today ' : '' ) . ( $is_friday ? 'friday' : '' ) );
 								?>
@@ -8599,7 +8611,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 											<?php else : ?>
 												<?php if ( ! empty( $day['zuhr_start'] ) ) : ?>
 													<div class="mosque-prayer-time-item">
-														<div class="mosque-prayer-time-name"><?php echo esc_html( mt_apply_terminology( 'Zuhr' ) ); ?></div>
+														<div class="mosque-prayer-time-name"><?php echo esc_html( mt_apply_terminology( 'Dhuhr' ) ); ?></div>
 														<div class="mosque-prayer-time-start"><?php echo esc_html( $day['zuhr_start'] ); ?></div>
 														<?php if ( ! empty( $day['zuhr_jamaat'] ) ) : ?>
 															<div class="mosque-prayer-time-jamaat"><?php echo esc_html( $day['zuhr_jamaat'] ); ?></div>
@@ -8687,7 +8699,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					font-weight: 500;
 				}
 
-				aaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb .mosque-system-credit a:hover {
+				.mosque-system-credit a:hover {
 					text-decoration: underline;
 				}
 			</style>
@@ -8737,7 +8749,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								'start'  => $today_data['sunrise'],
 								'jamaat' => null,
 							),
-							'Zuhr'    => array(
+							'Dhuhr'    => array(
 								'start'  => $today_data['zuhr_start'],
 								'jamaat' => $today_data['zuhr_jamaat'],
 							),
@@ -8755,9 +8767,9 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 							),
 						);
 
-						// Replace Zuhr with Jummah if it's Friday.
-						if ( wp_date( 'N' ) === 5 && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
-							unset( $prayers['Zuhr'] ); // Remove Zuhr on Friday.
+						// Replace Dhuhr with Jummah if it's Friday.
+						if ( wp_date( 'N' ) === '5' && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
+							unset( $prayers['Dhuhr'] ); // Remove Dhuhr on Friday.
 
 							// Build Jummah time display.
 							$jummah_times = array();
@@ -8809,20 +8821,23 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	public function shortcode_prayer_countdown( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'type'   => 'next',   // 'next' or specific prayer name.
-				'layout' => 'card',   // 'card' (default full widget) or 'header' (compact inline pill).
-				'size'   => 'normal', // 'small', 'normal', 'large' — applies to card layout only.
+				'type'     => 'next',   // 'next' or specific prayer name.
+				'layout'   => 'card',   // 'card' | 'header' (compact inline pill) | 'desktop-bar' (sleek horizontal bar).
+				'size'     => 'normal', // 'small', 'normal', 'large' - applies to card layout only.
+				'link_url' => '',       // URL to link widget to (e.g. '/prayer-times'). Default: site /prayer-times.
 			),
 			$atts,
 			'prayer_countdown'
 		);
 
-		$type   = sanitize_text_field( $atts['type'] );
-		$layout = in_array( $atts['layout'], array( 'card', 'header' ), true ) ? $atts['layout'] : 'card';
-		$size   = in_array( $atts['size'], array( 'small', 'normal', 'large' ), true ) ? $atts['size'] : 'normal';
+		$type     = sanitize_text_field( $atts['type'] );
+		$layout   = in_array( $atts['layout'], array( 'card', 'header', 'desktop-bar' ), true ) ? $atts['layout'] : 'card';
+		$size     = in_array( $atts['size'], array( 'small', 'normal', 'large' ), true ) ? $atts['size'] : 'normal';
+		$link_url = ! empty( $atts['link_url'] ) ? esc_url( $atts['link_url'] ) : esc_url( get_site_url() . '/prayer-times' );
 
 		// Get next prayer data.
 		$next_prayer_data = $this->get_next_prayer_data();
+		$upcoming_schedule = esc_attr( wp_json_encode( $this->get_upcoming_schedule() ) );
 
 		$data_target  = isset( $next_prayer_data['datetime'] ) ? esc_attr( $next_prayer_data['datetime'] ) : '';
 		$data_prayer  = isset( $next_prayer_data['name'] ) ? esc_attr( $next_prayer_data['name'] ) : '';
@@ -8834,9 +8849,10 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		// ── Header layout: compact single-line pill for nav/header use ─────────
 		if ( 'header' === $layout ) :
 			?>
-			<span class="prayer-countdown-inline prayer-countdown"
+			<a href="<?php echo esc_url( $link_url ); ?>" class="prayer-countdown-inline prayer-countdown" aria-label="<?php esc_attr_e( 'View Full Timetable', 'mosque-timetable' ); ?>"
 				data-target="<?php echo $data_target; ?>"
 				data-prayer="<?php echo $data_prayer; ?>"
+				data-schedule="<?php echo $upcoming_schedule; ?>"
 				data-layout="header">
 				<?php if ( $next_prayer_data ) : ?>
 					<span class="pci-icon" aria-hidden="true">&#127775;</span>
@@ -8847,13 +8863,41 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				<?php else : ?>
 					<span class="pci-name pci-error"><?php esc_html_e( 'No timetable data', 'mosque-timetable' ); ?></span>
 				<?php endif; ?>
-			</span>
+			</a>
+		<?php
+		// ── Card layout: full-size countdown widget ────────────────────────────
+		// ── Desktop bar layout: sleek horizontal widget for wider screens ──────
+		elseif ( 'desktop-bar' === $layout ) :
+			?>
+			<a href="<?php echo esc_url( $link_url ); ?>" class="prayer-countdown-bar prayer-countdown" aria-label="<?php esc_attr_e( 'View Full Timetable', 'mosque-timetable' ); ?>"
+				data-target="<?php echo $data_target; ?>"
+				data-prayer="<?php echo $data_prayer; ?>"
+				data-schedule="<?php echo $upcoming_schedule; ?>"
+				data-layout="desktop-bar">
+				<?php if ( $next_prayer_data ) : ?>
+					<div class="pcb-left">
+						<span class="pcb-icon" aria-hidden="true">&#127775;</span>
+						<span class="pcb-label"><?php esc_html_e( 'Next Prayer', 'mosque-timetable' ); ?></span>
+						<span class="pcb-name"><?php echo $prayer_name; ?></span>
+						<span class="pcb-time"><?php echo $prayer_time; ?></span>
+					</div>
+					<div class="pcb-right">
+						<span class="pcb-countdown-label"><?php esc_html_e( 'Starts in', 'mosque-timetable' ); ?></span>
+						<span class="pcb-countdown">--:--:--</span>
+					</div>
+				<?php else : ?>
+					<div class="pcb-left">
+						<span class="pcb-icon" aria-hidden="true">&#127775;</span>
+						<span class="pcb-label"><?php esc_html_e( 'No timetable data', 'mosque-timetable' ); ?></span>
+					</div>
+				<?php endif; ?>
+			</a>
 		<?php
 		// ── Card layout: full-size countdown widget ────────────────────────────
 		else :
 			$size_class = 'normal' !== $size ? ' size-' . $size : '';
 			?>
-			<div class="prayer-countdown-container<?php echo $size_class; ?>">
+			<a href="<?php echo esc_url( $link_url ); ?>" class="prayer-countdown-container<?php echo $size_class; ?>" aria-label="<?php esc_attr_e( 'View Full Timetable', 'mosque-timetable' ); ?>">
 				<div class="countdown-header">
 					<div class="countdown-title"><?php esc_html_e( 'Next Prayer', 'mosque-timetable' ); ?></div>
 					<?php if ( $next_prayer_data ) : ?>
@@ -8864,7 +8908,8 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 				<div class="prayer-countdown"
 					data-target="<?php echo $data_target; ?>"
-					data-prayer="<?php echo $data_prayer; ?>">
+					data-prayer="<?php echo $data_prayer; ?>"
+					data-schedule="<?php echo $upcoming_schedule; ?>">
 					<?php if ( $next_prayer_data ) : ?>
 						<div class="countdown-timer">
 							<div class="countdown-unit">
@@ -8886,7 +8931,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 						</div>
 					<?php endif; ?>
 				</div>
-			</div>
+			</a>
 		<?php
 		endif;
 
@@ -8999,6 +9044,70 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	/**
 	 * Get next prayer data
 	 */
+		private function get_upcoming_schedule() {
+		$schedule = array();
+		$now = new DateTime();
+		
+		$today_data = $this->get_today_prayer_data();
+		if ( $today_data ) {
+			$today_date = $now->format( 'Y-m-d' );
+			$prayer_times = array(
+				'Fajr'    => $today_data['fajr_start'],
+				'Sunrise' => $today_data['sunrise'],
+				'Dhuhr'    => $today_data['zuhr_start'],
+				'Asr'     => $today_data['asr_start'],
+				'Maghrib' => $today_data['maghrib_start'],
+				'Isha'    => $today_data['isha_start'],
+			);
+			if ( $now->format( 'N' ) === '5' && ! empty( $today_data['jummah_1'] ) ) {
+				$prayer_times['Jummah'] = $today_data['jummah_1'];
+				unset( $prayer_times['Dhuhr'] );
+			}
+			foreach ( $prayer_times as $name => $time ) {
+				if ( ! $time ) continue;
+				$dt = new DateTime( $today_date . ' ' . $time );
+				if ( $dt > $now ) {
+					$schedule[] = array(
+						'name'           => mt_apply_terminology( $name ),
+						'time'           => $time,
+						'datetime'       => $dt->format( 'Y-m-d H:i:s' ),
+						'formatted_time' => wp_date( 'g:i A', $dt->getTimestamp() )
+					);
+				}
+			}
+		}
+
+		$tomorrow = clone $now;
+		$tomorrow->modify( '+1 day' );
+		$tomorrow_data = $this->get_day_prayer_data( $tomorrow->format( 'Y' ), $tomorrow->format( 'n' ), $tomorrow->format( 'j' ) );
+		if ( $tomorrow_data ) {
+			$tomorrow_date = $tomorrow->format( 'Y-m-d' );
+			$prayer_times = array(
+				'Fajr'    => $tomorrow_data['fajr_start'],
+				'Sunrise' => $tomorrow_data['sunrise'],
+				'Dhuhr'    => $tomorrow_data['zuhr_start'],
+				'Asr'     => $tomorrow_data['asr_start'],
+				'Maghrib' => $tomorrow_data['maghrib_start'],
+				'Isha'    => $tomorrow_data['isha_start'],
+			);
+			if ( $tomorrow->format( 'N' ) === '5' && ! empty( $tomorrow_data['jummah_1'] ) ) {
+				$prayer_times['Jummah'] = $tomorrow_data['jummah_1'];
+				unset( $prayer_times['Dhuhr'] );
+			}
+			foreach ( $prayer_times as $name => $time ) {
+				if ( ! $time ) continue;
+				$dt = new DateTime( $tomorrow_date . ' ' . $time );
+				$schedule[] = array(
+					'name'           => mt_apply_terminology( $name ),
+					'time'           => $time,
+					'datetime'       => $dt->format( 'Y-m-d H:i:s' ),
+					'formatted_time' => wp_date( 'g:i A', $dt->getTimestamp() )
+				);
+			}
+		}
+		return $schedule;
+	}
+
 	private function get_next_prayer_data() {
 		$today_data = $this->get_today_prayer_data();
 
@@ -9013,17 +9122,17 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 		$prayer_times = array(
 			'Fajr'    => $today_data['fajr_start'],
 			'Sunrise' => $today_data['sunrise'],
-			'Zuhr'    => $today_data['zuhr_start'],
+			'Dhuhr'    => $today_data['zuhr_start'],
 			'Asr'     => $today_data['asr_start'],
 			'Maghrib' => $today_data['maghrib_start'],
 			'Isha'    => $today_data['isha_start'],
 		);
 
-		// Replace Zuhr with Jummah on Friday.
-		if ( $now->format( 'N' ) === 5 ) { // Friday.
+		// Replace Dhuhr with Jummah on Friday.
+		if ( $now->format( 'N' ) === '5' ) { // Friday.
 			if ( $today_data['jummah_1'] ) {
 				$prayer_times['Jummah'] = $today_data['jummah_1'];
-				unset( $prayer_times['Zuhr'] );
+				unset( $prayer_times['Dhuhr'] );
 			}
 		}
 
@@ -9133,7 +9242,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 				$date_obj    = new DateTime( $day['date_full'] );
 				$date_string = $date_obj->format( 'Ymd' );
-				$is_friday   = $date_obj->format( 'N' ) === 5;
+				$is_friday   = $date_obj->format( 'N' ) === '5';
 
 				// Prayer times to include.
 				$prayers = array(
@@ -9145,7 +9254,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 						'start'  => $day['sunrise'],
 						'jamaat' => null,
 					),
-					'Zuhr'    => array(
+					'Dhuhr'    => array(
 						'start'  => $day['zuhr_start'],
 						'jamaat' => $day['zuhr_jamaat'],
 					),
@@ -9163,9 +9272,9 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					),
 				);
 
-				// Replace Zuhr with Jummah on Friday.
+				// Replace Dhuhr with Jummah on Friday.
 				if ( $is_friday && ( $day['jummah_1'] || $day['jummah_2'] ) ) {
-					unset( $prayers['Zuhr'] );
+					unset( $prayers['Dhuhr'] );
 					if ( $day['jummah_1'] ) {
 						$prayers['Jummah 1'] = array(
 							'start'  => $day['jummah_1'],
@@ -9300,7 +9409,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				}
 
 				$date_obj  = new DateTime( $day['date_full'] );
-				$is_friday = $date_obj->format( 'N' ) === 5;
+				$is_friday = $date_obj->format( 'N' ) === '5';
 
 				// Build prayer list.
 				$prayers = array();
@@ -9317,7 +9426,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 
 				// Handle Friday/Jummah logic.
 				if ( $is_friday ) {
-					// On Fridays, include Jummah instead of Zuhr based on selection.
+					// On Fridays, include Jummah instead of Dhuhr based on selection.
 					if ( 'both' === $options['jummah'] || '1st' === $options['jummah'] ) {
 						$prayers['Jummah 1'] = array(
 							'time' => $day['jummah_1'],
@@ -9331,7 +9440,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 						);
 					}
 				} else {
-					$prayers['Zuhr'] = array(
+					$prayers['Dhuhr'] = array(
 						'time' => $day['zuhr_start'],
 						'type' => 'start',
 					);
@@ -9357,7 +9466,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 						'type' => 'jamaat',
 					);
 					if ( ! $is_friday ) {
-						$prayers['Zuhr Jamaah'] = array(
+						$prayers['Dhuhr Jamaah'] = array(
 							'time' => $day['zuhr_jamaat'],
 							'type' => 'jamaat',
 						);
@@ -9532,8 +9641,8 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			'Fajr_Start',
 			'Fajr_Jamaat',
 			'Sunrise',
-			'Zuhr_Start',
-			'Zuhr_Jamaat',
+			'Dhuhr_Start',
+			'Dhuhr_Jamaat',
 			'Asr_Start',
 			'Asr_Jamaat',
 			'Maghrib_Start',
@@ -9707,7 +9816,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	private function generate_prayer_events_schema( $today_data, $mosque_name, $mosque_address ) {
 		$events     = array();
 		$today_date = wp_date( 'Y-m-d' );
-		$is_friday  = wp_date( 'N' ) === 5;
+		$is_friday  = wp_date( 'N' ) === '5';
 
 		$prayers = array(
 			'Fajr'    => array(
@@ -9718,7 +9827,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				'start'  => $today_data['sunrise'],
 				'jamaat' => null,
 			),
-			'Zuhr'    => array(
+			'Dhuhr'    => array(
 				'start'  => $today_data['zuhr_start'],
 				'jamaat' => $today_data['zuhr_jamaat'],
 			),
@@ -9736,9 +9845,9 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 			),
 		);
 
-		// Replace Zuhr with Jummah on Friday.
+		// Replace Dhuhr with Jummah on Friday.
 		if ( $is_friday && ( $today_data['jummah_1'] || $today_data['jummah_2'] ) ) {
-			unset( $prayers['Zuhr'] );
+			unset( $prayers['Dhuhr'] );
 			if ( $today_data['jummah_1'] ) {
 				$prayers['Jummah 1'] = array(
 					'start'  => $today_data['jummah_1'],
@@ -9971,7 +10080,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 				$day_data['maghrib_jamaat'] = $this->calculate_jamaat_time( $day_data['maghrib_start'], $maghrib_offset );
 				$day_data['isha_jamaat']    = $this->calculate_jamaat_time( $day_data['isha_start'], $isha_offset );
 
-				// For Friday, copy Zuhr time to Jummah 1 (admin can adjust manually).
+				// For Friday, copy Dhuhr time to Jummah 1 (admin can adjust manually).
 				if ( 'Friday' === $day_data['day_name'] && ! empty( $day_data['zuhr_jamaat'] ) ) {
 					$day_data['jummah_1'] = $day_data['zuhr_jamaat'];
 				}

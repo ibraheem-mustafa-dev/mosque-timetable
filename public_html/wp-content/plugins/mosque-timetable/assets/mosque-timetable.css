@@ -1,6 +1,6 @@
-﻿/**
+/**
  * Mosque Timetable Frontend Styles
- * Version: 3.2.0  Islamic Design System
+ * Version: 3.4.0  Islamic Design System
  *
  * Design language: Sacred Geometry meets Modern UI
  * Colours rooted in Islamic architecture: mosque domes (teal),
@@ -16,7 +16,7 @@
 	Google Fonts import (fallback if PHP enqueue fails)
 	========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=Space+Mono&family=Amiri:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Amiri:wght@400;700&display=swap");
 
 /* ==========================================================================
 	CSS Custom Properties  Islamic Design System
@@ -423,7 +423,7 @@
 	background-color: #ffffff;
 }
 
-/* Special row highlighting — Islamic design colours */
+/* Special row highlighting  - Islamic design colours */
 .mosque-timetable tr.today {
 	background-color: var(--mosque-today-bg) !important;
 	border-left: 4px solid var(--mosque-primary);
@@ -637,6 +637,7 @@
 	========================================================================== */
 
 .prayer-countdown-container {
+	display: block;
 	background: var(--mosque-gradient-alt);
 	color: var(--mosque-text-white);
 	border-radius: var(--mosque-widget-border-radius);
@@ -645,11 +646,28 @@
 	margin: var(--mosque-widget-margin) 0;
 	box-shadow: var(--mosque-widget-shadow);
 	transition: all 0.3s ease;
+	text-decoration: none;
+	cursor: pointer;
 }
 
-.prayer-countdown-container:hover {
+a.prayer-countdown-container,
+a.prayer-countdown-container:hover,
+a.prayer-countdown-container:focus,
+a.prayer-countdown-container:visited {
+	color: var(--mosque-text-white);
+	text-decoration: none;
+}
+
+.prayer-countdown-container:hover,
+.prayer-countdown-container:focus {
 	box-shadow: var(--mosque-widget-shadow-hover);
 	transform: translateY(-2px);
+	outline: none;
+}
+
+.prayer-countdown-container:focus-visible {
+	outline: 2px solid var(--mosque-secondary);
+	outline-offset: 2px;
 }
 
 /* Countdown Size Variations */
@@ -725,7 +743,7 @@
 }
 
 /* ==========================================================================
-	Prayer Countdown — Header / Inline Pill Layout
+	Prayer Countdown  - Header / Inline Pill Layout
 	Usage: [prayer_countdown layout="header"]
 	Sits flush inside nav bars, Elementor headers, widget areas.
 	========================================================================== */
@@ -738,6 +756,7 @@
 	border: none;
 	border-radius: 999px;
 	padding: 6px 16px 6px 12px;
+	min-height: 44px; /* WCAG 2.2 touch target minimum */
 	font-family: var(--mosque-font-body, 'DM Sans', sans-serif);
 	font-size: 14px;
 	color: #ffffff !important;
@@ -749,12 +768,19 @@
 	line-height: 1.4;
 }
 
-.prayer-countdown-inline:hover {
+.prayer-countdown-inline:hover,
+.prayer-countdown-inline:focus {
 	background: #0a5d61;
 	box-shadow: 0 3px 12px rgba(13, 115, 119, 0.45);
+	outline: none;
 }
 
-/* On dark/coloured headers — use semi-transparent white pill instead */
+.prayer-countdown-inline:focus-visible {
+	outline: 2px solid var(--mosque-secondary);
+	outline-offset: 2px;
+}
+
+/* On dark/coloured headers  - use semi-transparent white pill instead */
 .prayer-countdown-inline.on-dark,
 .dark-header .prayer-countdown-inline,
 .colored-header .prayer-countdown-inline {
@@ -776,10 +802,12 @@
 }
 
 .pci-name {
-	font-family: var(--mosque-font-heading, 'El Messiri', serif);
+	font-family: var(--mosque-font-heading, 'El Messiri', sans-serif);
 	font-weight: 700;
 	font-size: 14px;
 	letter-spacing: 0.01em;
+	line-height: 1;
+	transform: translateY(1px); /* optical alignment with monospace digits */
 }
 
 .pci-time {
@@ -787,6 +815,7 @@
 	font-size: 13px;
 	opacity: 0.9;
 	letter-spacing: 0.03em;
+	line-height: 1;
 }
 
 .pci-divider {
@@ -800,9 +829,10 @@
 	font-family: var(--mosque-font-mono, 'Space Mono', monospace);
 	font-size: 13px;
 	font-weight: 700;
-	min-width: 38px;   /* prevents layout shift as digits change */
+	min-width: 38px;
 	text-align: right;
 	opacity: 0.9;
+	line-height: 1;
 }
 
 .pci-error {
@@ -1113,7 +1143,7 @@ button,
 }
 
 /* ==========================================================================
-	Sticky Next Prayer Bar (Legacy — hidden, superseded by [mosque_prayer_bar])
+	Sticky Next Prayer Bar (Legacy  - hidden, superseded by [mosque_prayer_bar])
 	========================================================================== */
 
 .mosque-prayer-bar-compact {
@@ -2033,7 +2063,7 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 }
 
 /* ==========================================================================
-   Mosque Prayer Bar — [mosque_prayer_bar]
+   Mosque Prayer Bar  - [mosque_prayer_bar]
    Thin sticky hello-bar showing daily prayer times + optional appeal CTA.
    ========================================================================== */
 
@@ -2100,7 +2130,7 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 	color: #1A3A5C !important;
 }
 
-/* custom bg set via inline style — text colour inherits white by default */
+/* custom bg set via inline style  - text colour inherits white by default */
 .mpb-hello-bar[style*="background"] {
 	color: #ffffff;
 }
@@ -2313,7 +2343,7 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 
 
 /* ==========================================================================
-   Ramadan Mode — [ramadan_info] shortcode styles
+   Ramadan Mode  - [ramadan_info] shortcode styles
    ========================================================================== */
 
 /* ---- Shared ---- */
@@ -2348,11 +2378,11 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 	align-items: center;
 	justify-content: space-between;
 	gap: 16px;
-	background: linear-gradient(135deg, #0D7377 0%, #1A3A5C 100%);
-	color: #fff;
+	background: var(--mosque-gradient);
+	color: var(--mosque-text-white);
 	padding: 12px 20px;
 	border-radius: 10px;
-	box-shadow: 0 4px 16px rgba(13, 115, 119, 0.3);
+	box-shadow: 0 4px 16px rgba(var(--mosque-primary-rgb), 0.3);
 	flex-wrap: wrap;
 }
 
@@ -2413,7 +2443,7 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 
 .mt-ramadan-banner .mt-ramadan-countdown {
 	font-size: 18px;
-	color: var(--mosque-secondary);
+	color: #f0d878; /* Brighter gold for AA contrast on teal/midnight gradient (5.8:1) */
 }
 
 /* ---- Card layout ---- */
@@ -2426,8 +2456,8 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 }
 
 .mt-ramadan-card-header {
-	background: linear-gradient(135deg, #0D7377 0%, #1A3A5C 100%);
-	color: white;
+	background: var(--mosque-gradient);
+	color: var(--mosque-text-white);
 	padding: 14px 20px;
 	display: flex;
 	align-items: center;
@@ -2463,7 +2493,7 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 
 .mt-ramadan-time-col {
 	padding: 16px 20px;
-	border-right: 1px solid #f0ede8;
+	border-right: 1px solid var(--mosque-border-light);
 	text-align: center;
 }
 
@@ -2531,8 +2561,8 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
-	background: linear-gradient(135deg, #0D7377, #1A3A5C);
-	color: #fff;
+	background: var(--mosque-gradient);
+	color: var(--mosque-text-white);
 	padding: 6px 16px;
 	border-radius: 999px;
 	font-size: 13px;
@@ -2581,4 +2611,108 @@ html[dir="rtl"][lang^="he"] .mosque-timetable {
 	.mt-ramadan-time-col-value {
 		font-size: 18px;
 	}
+}
+
+
+/* ==========================================================================
+	Desktop Bar Layout (Sleek Horizontal Widget)
+	========================================================================== */
+.prayer-countdown-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: var(--mosque-gradient-alt);
+	color: var(--mosque-text-white);
+	border-radius: var(--mosque-widget-border-radius, 8px);
+	padding: 16px 24px;
+	margin: var(--mosque-widget-margin, 20px) 0;
+	box-shadow: var(--mosque-widget-shadow, 0 4px 12px rgba(13,115,119,0.15));
+	transition: all 0.3s ease;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+a.prayer-countdown-bar,
+a.prayer-countdown-bar:hover,
+a.prayer-countdown-bar:focus,
+a.prayer-countdown-bar:visited {
+	color: var(--mosque-text-white);
+	text-decoration: none;
+}
+.prayer-countdown-bar:hover,
+.prayer-countdown-bar:focus {
+	box-shadow: var(--mosque-widget-shadow-hover, 0 6px 16px rgba(13,115,119,0.25));
+	transform: translateY(-2px);
+	outline: none;
+}
+
+.prayer-countdown-bar:focus-visible {
+	outline: 2px solid var(--mosque-secondary);
+	outline-offset: 2px;
+}
+.pcb-left {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+.pcb-icon {
+	font-size: 24px;
+	opacity: 0.9;
+}
+.pcb-label {
+	font-family: var(--mosque-font-body, 'DM Sans', sans-serif);
+	font-size: 14px;
+	opacity: 0.9;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+.pcb-name {
+	font-family: var(--mosque-font-heading, 'El Messiri', sans-serif);
+	font-weight: 700;
+	font-size: 24px;
+	margin-left: 8px;
+}
+.pcb-time {
+	font-family: var(--mosque-font-mono, 'Space Mono', monospace);
+	font-size: 20px;
+	opacity: 0.9;
+	margin-left: 12px;
+	background: rgba(0,0,0,0.15);
+	padding: 4px 10px;
+	border-radius: 4px;
+}
+.pcb-right {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+.pcb-countdown-label {
+	font-family: var(--mosque-font-body, 'DM Sans', sans-serif);
+	font-size: 14px;
+	opacity: 0.9;
+}
+.pcb-countdown {
+	font-family: var(--mosque-font-mono, 'Space Mono', monospace);
+	font-weight: 700;
+	font-size: 24px;
+	color: var(--mosque-text-white);
+	background: rgba(0, 0, 0, 0.2);
+	padding: 4px 12px;
+	border-radius: 6px;
+	letter-spacing: -0.02em;
+	min-width: 80px;
+	text-align: right;
+}
+@media (width <= 768px) {
+	.prayer-countdown-bar {
+		flex-direction: column;
+		gap: 16px;
+		text-align: center;
+	}
+	.pcb-left, .pcb-right {
+		flex-direction: column;
+		gap: 8px;
+	}
+	.pcb-name { margin-left: 0; }
+	.pcb-time { margin-left: 0; }
 }

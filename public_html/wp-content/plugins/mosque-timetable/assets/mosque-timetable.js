@@ -1,7 +1,7 @@
 ﻿/**
  * Mosque Timetable Frontend JavaScript
  * For public-facing pages, shortcodes, PWA, and push notifications
- * Version: 3.1.0-frontend
+ * Version: 3.4.0
  */
 
 /* eslint-env browser, jquery */
@@ -102,12 +102,12 @@
           isSuhoor = true;
 
           if ( $parentLabel.length ) {
-            $parentLabel.text( 'Until Suhoor' );
+            $parentLabel.text( MosqueTimetableFrontend.t( 'untilSuhoor', 'Until Suhoor' ) );
           }
         }
 
         if ( diff <= 0 ) {
-          $el.text( isSuhoor ? 'Suhoor!' : 'Iftar!' );
+          $el.text( isSuhoor ? MosqueTimetableFrontend.t( 'suhoor', 'Suhoor!' ) : MosqueTimetableFrontend.t( 'iftar', 'Iftar!' ) );
           $el.css( 'color', 'var(--mosque-secondary)' );
           return;
         }
@@ -124,19 +124,47 @@
 
       $('.prayer-countdown').each( function() {
         const $el     = $( this );
-        const target  = $el.data( 'target' );  // data-target="YYYY-MM-DD HH:MM:SS"
-        const layout  = $el.data( 'layout' );  // 'header' or undefined (card)
+        let target    = $el.data( 'target' );  // data-target="YYYY-MM-DD HH:MM:SS"
+        const layout  = $el.data( 'layout' );  // 'header', 'desktop-bar', or undefined (card)
+        const schedule = $el.data( 'schedule' ); // Array of upcoming prayers
 
         if ( ! target ) return;
 
         const now  = Date.now();
-        const end  = new Date( target ).getTime();
-        const diff = end - now;
+        let end  = new Date( target.replace(/-/g, '/') ).getTime(); // Safari compat
+        let diff = end - now;
+
+        // If target reached and we have a schedule, roll over to the next prayer.
+        if ( diff <= 0 && schedule && schedule.length ) {
+          const nextPrayer = schedule.find(p => new Date(p.datetime.replace(/-/g, '/')).getTime() > now);
+
+          if ( nextPrayer ) {
+            $el.data( 'target', nextPrayer.datetime );
+            $el.data( 'prayer', nextPrayer.name );
+
+            // Update UI elements based on layout.
+            if ( layout === 'header' ) {
+              $el.find( '.pci-name' ).text( nextPrayer.name );
+              $el.find( '.pci-time' ).text( nextPrayer.formatted_time );
+            } else if ( layout === 'desktop-bar' ) {
+              $el.find( '.pcb-name' ).text( nextPrayer.name );
+              $el.find( '.pcb-time' ).text( nextPrayer.formatted_time );
+            } else {
+              $el.find( '.countdown-next-prayer' ).text( nextPrayer.name );
+              $el.find( '.countdown-next-time' ).text( nextPrayer.formatted_time );
+            }
+
+            target = nextPrayer.datetime;
+            end = new Date( target.replace(/-/g, '/') ).getTime();
+            diff = end - now;
+          }
+        }
 
         if ( diff <= 0 ) {
-          // Prayer time reached â€” show zeros and let PHP re-render on next page load.
           if ( layout === 'header' ) {
             $el.find( '.pci-countdown' ).text( '00:00' );
+          } else if ( layout === 'desktop-bar' ) {
+            $el.find( '.pcb-countdown' ).text( '00:00:00' );
           } else {
             $el.find( '.countdown-number' ).text( '00' );
           }
@@ -148,13 +176,13 @@
         const s = Math.floor( ( diff % 60000 ) / 1000 );
 
         if ( layout === 'header' ) {
-          // Compact: H:MM or HH:MM (no seconds to keep pill tight; add :ss only if <1 h)
           const display = h > 0
             ? pad(h) + ':' + pad(m)
             : pad(m) + ':' + pad(s);
           $el.find( '.pci-countdown' ).text( display );
+        } else if ( layout === 'desktop-bar' ) {
+          $el.find( '.pcb-countdown' ).text( pad(h) + ':' + pad(m) + ':' + pad(s) );
         } else {
-          // Card: update each countdown-number span in order (h, m, s)
           const $nums = $el.find( '.countdown-number' );
           $nums.eq(0).text( pad(h) );
           $nums.eq(1).text( pad(m) );
