@@ -28,9 +28,27 @@
     init() {
       this.initPrayerCountdown();
       this.initPrayerBar();
+      this.initNextPrayerHighlight();
       this.initPWAInstallPrompt();
       this.initPushNotifications();
       this.initServiceWorker();
+    },
+
+    // Highlight next prayer in today's mobile card
+    initNextPrayerHighlight() {
+      var todayCard = document.querySelector('.mosque-prayer-card[data-next-prayer]');
+      if ( ! todayCard ) return;
+      var nextKey = todayCard.getAttribute('data-next-prayer').toLowerCase();
+      // Map prayer keys to display names used in the card
+      var nameMap = { fajr: 'fajr', sunrise: 'sunrise', dhuhr: 'dhuhr', zuhr: 'dhuhr', asr: 'asr', maghrib: 'maghrib', isha: 'isha', jummah: 'jummah' };
+      var target = nameMap[nextKey] || nextKey;
+      var items = todayCard.querySelectorAll('.mosque-prayer-time-item');
+      items.forEach(function(item) {
+        var nameEl = item.querySelector('.mosque-prayer-time-name');
+        if ( nameEl && nameEl.textContent.trim().toLowerCase().indexOf(target) !== -1 ) {
+          item.classList.add('mt-next-prayer-item');
+        }
+      });
     },
 
     // â”€â”€ Prayer Bar â€” [mosque_prayer_bar] â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€

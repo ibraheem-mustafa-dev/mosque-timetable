@@ -8407,6 +8407,16 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 						&& $month_last_day  >= $ramadan_col_start;
 					?>
 
+					<?php
+					// Determine next prayer for today's row cell highlight.
+					$next_prayer_key = '';
+					if ( $today_data ) {
+						$np = $this->get_next_prayer_name();
+						if ( $np ) {
+							$next_prayer_key = strtolower( str_replace( ' ', '_', $np ) );
+						}
+					}
+					?>
 					<table class="mosque-timetable">
 						<thead>
 							<tr>
@@ -8457,7 +8467,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 									</td>
 
 									<?php
-									echo $this->render_prayer_cell( $day['fajr_start'] ?? '', $day['fajr_jamaat'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_prayer_cell returns pre-escaped HTML
+									echo $this->render_prayer_cell( $day['fajr_start'] ?? '', $day['fajr_jamaat'] ?? '', $is_today && 'fajr' === $next_prayer_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_prayer_cell returns pre-escaped HTML
 									?>
 
 									<?php if ( $is_ramadan ) : ?>
@@ -8488,8 +8498,11 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 										<div class="prayer-single"><?php echo esc_html( $day['sunrise'] ?? '' ); ?></div>
 									</td>
 
+									<?php
+									$is_dhuhr_next = $is_today && in_array( $next_prayer_key, array( 'dhuhr', 'jummah' ), true );
+									?>
 									<?php if ( $is_friday && ( ! empty( $day['jummah_1'] ) || ! empty( $day['jummah_2'] ) ) ) : ?>
-										<td>
+										<td<?php echo $is_dhuhr_next ? ' class="mt-next-prayer-cell"' : ''; ?>>
 											<div class="jummah-times">
 												<?php
 												$jummah_display = array();
@@ -8505,18 +8518,18 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 										</td>
 									<?php else : ?>
 										<?php
-										echo $this->render_prayer_cell( $day['zuhr_start'] ?? '', $day['zuhr_jamaat'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_prayer_cell returns pre-escaped HTML
+										echo $this->render_prayer_cell( $day['zuhr_start'] ?? '', $day['zuhr_jamaat'] ?? '', $is_dhuhr_next ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 										?>
 									<?php endif; ?>
 
 									<?php
-									echo $this->render_prayer_cell( $day['asr_start'] ?? '', $day['asr_jamaat'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_prayer_cell returns pre-escaped HTML
+									echo $this->render_prayer_cell( $day['asr_start'] ?? '', $day['asr_jamaat'] ?? '', $is_today && 'asr' === $next_prayer_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 									?>
 									<?php
-									echo $this->render_prayer_cell( $day['maghrib_start'] ?? '', $day['maghrib_jamaat'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_prayer_cell returns pre-escaped HTML
+									echo $this->render_prayer_cell( $day['maghrib_start'] ?? '', $day['maghrib_jamaat'] ?? '', $is_today && 'maghrib' === $next_prayer_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 									?>
 									<?php
-									echo $this->render_prayer_cell( $day['isha_start'] ?? '', $day['isha_jamaat'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- render_prayer_cell returns pre-escaped HTML
+									echo $this->render_prayer_cell( $day['isha_start'] ?? '', $day['isha_jamaat'] ?? '', $is_today && 'isha' === $next_prayer_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 									?>
 								</tr>
 							<?php endforeach; ?>
@@ -8541,7 +8554,7 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 								$day_name   = $date ? $date->format( 'l' ) : '';
 								$card_class = trim( ( $is_today ? 'today ' : '' ) . ( $is_friday ? 'friday' : '' ) );
 								?>
-								<div class="mosque-prayer-card <?php echo esc_attr( $card_class ); ?>" data-date="<?php echo esc_attr( $day['date_full'] ?? '' ); ?>">
+								<div class="mosque-prayer-card <?php echo esc_attr( $card_class ); ?>" data-date="<?php echo esc_attr( $day['date_full'] ?? '' ); ?>"<?php echo $is_today && $next_prayer_key ? ' data-next-prayer="' . esc_attr( $next_prayer_key ) . '"' : ''; ?>>
 									<div class="mosque-prayer-card-header">
 										<div class="mosque-prayer-card-date">
 											<div class="mosque-prayer-card-date-gregorian">
@@ -8703,6 +8716,20 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 					text-decoration: underline;
 				}
 			</style>
+
+			<?php // Auto-scroll to today's row on desktop, today's card on mobile. ?>
+			<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				var todayRow = document.querySelector('.mosque-timetable tr.today');
+				var todayCard = document.querySelector('.mosque-prayer-card.today');
+				var target = todayCard && todayCard.offsetParent !== null ? todayCard : todayRow;
+				if (target) {
+					setTimeout(function() {
+						target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					}, 300);
+				}
+			});
+			</script>
 			<?php
 			return ob_get_clean();
 	}
@@ -8941,12 +8968,13 @@ const CACHE_NAME = 'mosque-timetable-v3.0.0';
 	/**
 	 * Helper: Render prayer time cell
 	 */
-	private function render_prayer_cell( $start_time, $jamaat_time ) {
+	private function render_prayer_cell( $start_time, $jamaat_time, $is_next = false ) {
 		if ( ! $start_time ) {
 			return '<td></td>';
 		}
 
-		$html  = '<td><div class="prayer-time">';
+		$td_class = $is_next ? ' class="mt-next-prayer-cell"' : '';
+		$html  = '<td' . $td_class . '><div class="prayer-time">';
 		$html .= '<div class="prayer-start">' . esc_html( $start_time ) . '</div>';
 		if ( $jamaat_time ) {
 			$html .= '<div class="prayer-jamaat">' . esc_html( $jamaat_time ) . '</div>';

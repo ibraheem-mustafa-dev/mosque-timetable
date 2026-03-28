@@ -423,11 +423,26 @@
 	background-color: #ffffff;
 }
 
-/* Special row highlighting  - Islamic design colours */
+/* Special row highlighting - Islamic design colours */
 .mosque-timetable tr.today {
 	background-color: var(--mosque-today-bg) !important;
 	border-left: 4px solid var(--mosque-primary);
 	font-weight: 600;
+}
+
+/* "Today" badge on the date cell */
+.mosque-timetable tr.today td:first-child .date-gregorian::after {
+	content: 'Today';
+	display: block;
+	font-size: 9px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--mosque-text-white);
+	background: var(--mosque-primary);
+	padding: 1px 6px;
+	border-radius: 4px;
+	margin-top: 2px;
 }
 
 .mosque-timetable tr.friday {
@@ -444,6 +459,33 @@
 
 .mosque-timetable tr.next-prayer {
 	background-color: var(--mosque-next-prayer-bg, #d4edda) !important;
+}
+
+/* Next prayer cell highlight - teal pill behind the active prayer in today's row */
+.mosque-timetable td.mt-next-prayer-cell {
+	position: relative;
+}
+
+.mosque-timetable td.mt-next-prayer-cell::before {
+	content: '';
+	position: absolute;
+	inset: 4px 2px;
+	background: rgba(var(--mosque-primary-rgb), 0.15);
+	border: 2px solid var(--mosque-primary);
+	border-radius: 8px;
+	z-index: 0;
+	pointer-events: none;
+}
+
+.mosque-timetable td.mt-next-prayer-cell .prayer-time,
+.mosque-timetable td.mt-next-prayer-cell .prayer-single {
+	position: relative;
+	z-index: 1;
+}
+
+.mosque-timetable td.mt-next-prayer-cell .prayer-start {
+	color: var(--mosque-primary);
+	font-weight: 700;
 }
 
 /* Prayer time cells */
@@ -1380,6 +1422,26 @@ button,
 		grid-column: 1 / -1;
 		background: linear-gradient(135deg, rgba(197, 165, 90, 0.12) 0%, rgba(13, 115, 119, 0.08) 100%);
 		border: 1px solid rgba(197, 165, 90, 0.25);
+	}
+
+	/* Next prayer highlight on mobile card */
+	.mosque-prayer-time-item.mt-next-prayer-item {
+		background: rgba(var(--mosque-primary-rgb), 0.12);
+		border: 2px solid var(--mosque-primary);
+		border-radius: 8px;
+	}
+
+	.mosque-prayer-time-item.mt-next-prayer-item .mosque-prayer-time-name {
+		color: var(--mosque-primary);
+	}
+
+	.mosque-prayer-time-item.mt-next-prayer-item .mosque-prayer-time-name::after {
+		content: ' (Next)';
+		font-size: 9px;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		opacity: 0.8;
 	}
 
 	.mosque-prayer-time-name {
